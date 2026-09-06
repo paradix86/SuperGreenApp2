@@ -38,6 +38,10 @@ class SettingsRemoteControlBlocEventPair extends SettingsRemoteControlBlocEvent 
   List<Object> get props => [];
 }
 
+enum SettingsRemoteControlPairingStep { checkingLogin, sendingKey, confirmingController }
+
+enum SettingsRemoteControlPairingError { loginRequired, sendKeyFailed, notConfirmed }
+
 abstract class SettingsRemoteControlBlocState extends Equatable {}
 
 class SettingsRemoteControlBlocStateInit extends SettingsRemoteControlBlocState {
@@ -50,9 +54,10 @@ class SettingsRemoteControlBlocStateLoaded extends SettingsRemoteControlBlocStat
   final bool signingSetup;
   final bool loggedIn;
   final bool needsUpgrade;
+  final SettingsRemoteControlPairingError? pairingError;
 
   SettingsRemoteControlBlocStateLoaded(this.device,
-      {required this.signingSetup, required this.loggedIn, required this.needsUpgrade});
+      {required this.signingSetup, required this.loggedIn, required this.needsUpgrade, this.pairingError});
 
   @override
   List<Object?> get props => [
@@ -60,12 +65,17 @@ class SettingsRemoteControlBlocStateLoaded extends SettingsRemoteControlBlocStat
         signingSetup,
         loggedIn,
         needsUpgrade,
+        pairingError,
       ];
 }
 
 class SettingsRemoteControlBlocStateLoading extends SettingsRemoteControlBlocState {
+  final SettingsRemoteControlPairingStep step;
+
+  SettingsRemoteControlBlocStateLoading(this.step);
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [step];
 }
 
 class SettingsRemoteControlBlocStateDonePairing extends SettingsRemoteControlBlocState {
@@ -87,23 +97,44 @@ class SettingsRemoteControlBloc extends LegacyBloc<SettingsRemoteControlBlocEven
   @override
   Stream<SettingsRemoteControlBlocState> mapEventToState(SettingsRemoteControlBlocEvent event) async* {
     if (event is SettingsRemoteControlBlocEventInit) {
-      DeviceData deviceData = AppDB().getDeviceData(args.device.identifier);
-      Param otaTimestamp = await RelDB.get().devicesDAO.getParam(args.device.id, 'OTA_TIMESTAMP');
-      yield SettingsRemoteControlBlocStateLoaded(
-        args.device,
-        signingSetup: deviceData.signing != null,
-        loggedIn: AppDB().getAppData().jwt != null,
-        needsUpgrade: otaTimestamp.ivalue! <= BackendAPI.lastBeforeRemoteControlTimestamp,
-      );
+      yield await _buildLoadedState();
     } else if (event is SettingsRemoteControlBlocEventPair) {
-      yield SettingsRemoteControlBlocStateLoading();
+      yield SettingsRemoteControlBlocStateLoading(SettingsRemoteControlPairingStep.checkingLogin);
+      if (AppDB().getAppData().jwt == null) {
+        yield await _buildLoadedState(pairingError: SettingsRemoteControlPairingError.loginRequired);
+        return;
+      }
+
+      yield SettingsRemoteControlBlocStateLoading(SettingsRemoteControlPairingStep.sendingKey);
       try {
         await DeviceHelper.pairDevice(args.device);
       } catch (e, trace) {
         Logger.logError(e, trace);
+        yield await _buildLoadedState(pairingError: SettingsRemoteControlPairingError.sendKeyFailed);
+        return;
       }
-      await Future.delayed(Duration(seconds: 1));
+
+      yield SettingsRemoteControlBlocStateLoading(SettingsRemoteControlPairingStep.confirmingController);
+      DeviceData deviceData = AppDB().getDeviceData(args.device.identifier);
+      if (deviceData.signing == null || deviceData.signing!.isEmpty) {
+        yield await _buildLoadedState(pairingError: SettingsRemoteControlPairingError.notConfirmed);
+        return;
+      }
+      await Future.delayed(Duration(milliseconds: 700));
       yield SettingsRemoteControlBlocStateDonePairing(args.device);
     }
+  }
+
+  Future<SettingsRemoteControlBlocStateLoaded> _buildLoadedState(
+      {SettingsRemoteControlPairingError? pairingError}) async {
+    DeviceData deviceData = AppDB().getDeviceData(args.device.identifier);
+    Param otaTimestamp = await RelDB.get().devicesDAO.getParam(args.device.id, 'OTA_TIMESTAMP');
+    return SettingsRemoteControlBlocStateLoaded(
+      args.device,
+      signingSetup: deviceData.signing != null,
+      loggedIn: AppDB().getAppData().jwt != null,
+      needsUpgrade: otaTimestamp.ivalue! <= BackendAPI.lastBeforeRemoteControlTimestamp,
+      pairingError: pairingError,
+    );
   }
 }

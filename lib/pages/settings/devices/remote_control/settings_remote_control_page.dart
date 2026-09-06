@@ -79,6 +79,82 @@ class SettingsRemoteControlPage extends StatefulWidget {
     );
   }
 
+  static String get settingsRemoteControlPageStepCheckingLogin {
+    return Intl.message(
+      'Checking login..',
+      name: 'settingsRemoteControlPageStepCheckingLogin',
+      desc: 'Fullscreen loading step while pairing the controller',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get settingsRemoteControlPageStepSendingKey {
+    return Intl.message(
+      'Sending pairing key..',
+      name: 'settingsRemoteControlPageStepSendingKey',
+      desc: 'Fullscreen loading step while pairing the controller',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get settingsRemoteControlPageStepConfirmingController {
+    return Intl.message(
+      'Waiting for controller confirmation..',
+      name: 'settingsRemoteControlPageStepConfirmingController',
+      desc: 'Fullscreen loading step while pairing the controller',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get settingsRemoteControlPageErrorLoginRequired {
+    return Intl.message(
+      'Login required before pairing.',
+      name: 'settingsRemoteControlPageErrorLoginRequired',
+      desc: 'Pairing error snackbar',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get settingsRemoteControlPageErrorSendKeyFailed {
+    return Intl.message(
+      'Unable to send pairing key. Check Wi-Fi/device auth and retry.',
+      name: 'settingsRemoteControlPageErrorSendKeyFailed',
+      desc: 'Pairing error snackbar',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get settingsRemoteControlPageErrorNotConfirmed {
+    return Intl.message(
+      'Pairing not confirmed by controller. Please retry.',
+      name: 'settingsRemoteControlPageErrorNotConfirmed',
+      desc: 'Pairing error snackbar',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String pairingStepLabel(SettingsRemoteControlPairingStep step) {
+    switch (step) {
+      case SettingsRemoteControlPairingStep.checkingLogin:
+        return settingsRemoteControlPageStepCheckingLogin;
+      case SettingsRemoteControlPairingStep.sendingKey:
+        return settingsRemoteControlPageStepSendingKey;
+      case SettingsRemoteControlPairingStep.confirmingController:
+        return settingsRemoteControlPageStepConfirmingController;
+    }
+  }
+
+  static String pairingErrorLabel(SettingsRemoteControlPairingError error) {
+    switch (error) {
+      case SettingsRemoteControlPairingError.loginRequired:
+        return settingsRemoteControlPageErrorLoginRequired;
+      case SettingsRemoteControlPairingError.sendKeyFailed:
+        return settingsRemoteControlPageErrorSendKeyFailed;
+      case SettingsRemoteControlPairingError.notConfirmed:
+        return settingsRemoteControlPageErrorNotConfirmed;
+    }
+  }
+
   @override
   _SettingsRemoteControlPageState createState() => _SettingsRemoteControlPageState();
 }
@@ -93,6 +169,15 @@ class _SettingsRemoteControlPageState extends State<SettingsRemoteControlPage> {
       listener: (BuildContext context, SettingsRemoteControlBlocState state) async {
         if (state is SettingsRemoteControlBlocStateLoaded) {
           this.device = state.device;
+          if (state.pairingError != null) {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(SettingsRemoteControlPage.pairingErrorLabel(state.pairingError!)),
+                backgroundColor: Color(0xff8f2d2d),
+              ),
+            );
+          }
         } else if (state is SettingsRemoteControlBlocStateDonePairing) {
           await Future.delayed(Duration(seconds: 2));
           BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigatorActionPop(mustPop: true));
@@ -102,13 +187,13 @@ class _SettingsRemoteControlPageState extends State<SettingsRemoteControlPage> {
           bloc: BlocProvider.of<SettingsRemoteControlBloc>(context),
           builder: (BuildContext context, SettingsRemoteControlBlocState state) {
             Widget body = FullscreenLoading(
-              title: 'Loading..',
+              title: CommonL10N.loading,
             );
             if (state is SettingsRemoteControlBlocStateDonePairing) {
               body = _renderDonePairing();
             } else if (state is SettingsRemoteControlBlocStateLoading) {
               body = FullscreenLoading(
-                title: CommonL10N.loading,
+                title: SettingsRemoteControlPage.pairingStepLabel(state.step),
               );
             } else if (state is SettingsRemoteControlBlocStateLoaded) {
               body = _renderForm(context, state);

@@ -21,6 +21,7 @@ import 'dart:math';
 
 import 'package:super_green_app/data/api/device/device_params.dart';
 import 'package:super_green_app/data/logger/logger.dart';
+import 'package:super_green_app/l10n/common.dart';
 import 'package:super_green_app/misc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:drift/drift.dart';
@@ -200,13 +201,17 @@ class FeedVentilationFormBlocEventCreate extends FeedVentilationFormBlocEvent {
 
 class FeedVentilationFormBlocParamsChangedEvent extends FeedVentilationFormBlocEvent {
   final FeedVentilationParamsController paramsController;
+  final bool allowUndo;
+  final String? feedbackMessage;
 
   FeedVentilationFormBlocParamsChangedEvent({
     required this.paramsController,
+    this.allowUndo = true,
+    this.feedbackMessage,
   });
 
   @override
-  List<Object?> get props => [paramsController];
+  List<Object?> get props => [paramsController, allowUndo, feedbackMessage];
 }
 
 class FeedVentilationFormBlocEventCancelEvent extends FeedVentilationFormBlocEvent {
@@ -252,6 +257,7 @@ class FeedVentilationFormBlocStateLoaded extends FeedVentilationFormBlocState {
   late final Param humidity;
 
   final FeedVentilationParamsController paramsController;
+  final FeedVentilationCommandFeedback? commandFeedback;
 
   final int rand = Random().nextInt(1000000000);
 
@@ -261,6 +267,7 @@ class FeedVentilationFormBlocStateLoaded extends FeedVentilationFormBlocState {
     required this.temperature,
     required this.humidity,
     required this.paramsController,
+    this.commandFeedback,
   });
 
   @override
@@ -270,6 +277,7 @@ class FeedVentilationFormBlocStateLoaded extends FeedVentilationFormBlocState {
         temperature,
         humidity,
         paramsController,
+        commandFeedback,
         rand,
       ];
 }
@@ -292,6 +300,21 @@ class FeedVentilationFormBlocStateDone extends FeedVentilationFormBlocState {
   List<Object?> get props => [
         feedEntry,
       ];
+}
+
+class FeedVentilationCommandFeedback extends Equatable {
+  final bool success;
+  final String message;
+  final FeedVentilationParamsController? undoParamsController;
+
+  const FeedVentilationCommandFeedback({
+    required this.success,
+    required this.message,
+    this.undoParamsController,
+  });
+
+  @override
+  List<Object?> get props => [success, message, undoParamsController];
 }
 
 class FeedVentilationFormBloc extends LegacyBloc<FeedVentilationFormBlocEvent, FeedVentilationFormBlocState> {
@@ -337,14 +360,27 @@ class FeedVentilationFormBloc extends LegacyBloc<FeedVentilationFormBlocEvent, F
       if (box.device == null) {
         return;
       }
+      final FeedVentilationParamsController previousParamsController = paramsController;
       paramsController = event.paramsController;
+      late FeedVentilationCommandFeedback feedback;
       try {
         await syncParams();
+        final bool canUndo = event.allowUndo && previousParamsController != paramsController;
+        feedback = FeedVentilationCommandFeedback(
+          success: true,
+          message: event.feedbackMessage ?? (event.allowUndo ? CommonL10N.commandSent : CommonL10N.undoApplied),
+          undoParamsController: canUndo ? previousParamsController : null,
+        );
       } catch (e, trace) {
         Logger.logError(e, trace);
+        paramsController = previousParamsController;
+        feedback = FeedVentilationCommandFeedback(
+          success: false,
+          message: CommonL10N.commandFailed,
+        );
       }
 
-      yield loadedState();
+      yield loadedState(commandFeedback: feedback);
     } else if (event is FeedVentilationFormBlocEventCreate) {
       yield* saveParamsController(sendDone: true);
     } else if (event is FeedVentilationFormBlocEventCancelEvent) {
@@ -449,11 +485,12 @@ class FeedVentilationFormBloc extends LegacyBloc<FeedVentilationFormBlocEvent, F
     return super.close();
   }
 
-  FeedVentilationFormBlocStateLoaded loadedState() => FeedVentilationFormBlocStateLoaded(
+  FeedVentilationFormBlocStateLoaded loadedState({FeedVentilationCommandFeedback? commandFeedback}) => FeedVentilationFormBlocStateLoaded(
         device: device,
         box: box,
         temperature: temperature,
         humidity: humidity,
         paramsController: paramsController,
+        commandFeedback: commandFeedback,
       );
 }

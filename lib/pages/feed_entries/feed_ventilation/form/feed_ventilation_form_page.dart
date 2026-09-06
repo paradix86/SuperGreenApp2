@@ -25,6 +25,7 @@ import 'package:super_green_app/device_daemon/device_reachable_listener_bloc.dar
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/feed_entries/feed_ventilation/form/feed_ventilation_humidity_form_page.dart';
 import 'package:super_green_app/pages/feed_entries/feed_ventilation/form/feed_ventilation_manual_form_page.dart';
+import 'package:super_green_app/l10n/common.dart';
 import 'package:super_green_app/pages/feed_entries/feed_ventilation/form/feed_ventilation_form_bloc.dart';
 import 'package:super_green_app/pages/feed_entries/feed_ventilation/form/feed_ventilation_legacy_form_page.dart';
 import 'package:super_green_app/pages/feed_entries/feed_ventilation/form/feed_ventilation_temperature_form_page.dart';
@@ -53,6 +54,9 @@ class _FeedVentilationFormPageState extends State<FeedVentilationFormPage> {
               BlocProvider.of<DeviceReachableListenerBloc>(context)
                   .add(DeviceReachableListenerBlocEventLoadDevice(state.box.device!));
             });
+          }
+          if (state.commandFeedback != null) {
+            _onCommandFeedback(state.commandFeedback!);
           }
         } else if (state is FeedVentilationFormBlocStateDone) {
           BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigatorActionPop(param: state.feedEntry, mustPop: true));
@@ -311,5 +315,36 @@ class _FeedVentilationFormPageState extends State<FeedVentilationFormPage> {
       return;
     }
     BlocProvider.of<FeedVentilationFormBloc>(context).add(eventFactory[index](false));
+  }
+
+  void _onCommandFeedback(FeedVentilationCommandFeedback feedback) {
+    if (!mounted) {
+      return;
+    }
+    final messenger = ScaffoldMessenger.of(context);
+    messenger.hideCurrentSnackBar();
+    SnackBarAction? action;
+    if (feedback.success && feedback.undoParamsController != null) {
+      action = SnackBarAction(
+        label: CommonL10N.undoButton,
+        onPressed: () {
+          BlocProvider.of<FeedVentilationFormBloc>(context).add(
+            FeedVentilationFormBlocParamsChangedEvent(
+              paramsController: feedback.undoParamsController!,
+              allowUndo: false,
+              feedbackMessage: CommonL10N.undoApplied,
+            ),
+          );
+        },
+      );
+    }
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(feedback.message),
+        duration: Duration(seconds: feedback.success ? 10 : 4),
+        backgroundColor: feedback.success ? Color(0xff2f6f2f) : Color(0xff8f2d2d),
+        action: action,
+      ),
+    );
   }
 }

@@ -25,6 +25,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/device_daemon/device_reachable_listener_bloc.dart';
 import 'package:super_green_app/l10n.dart';
+import 'package:super_green_app/l10n/common.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/feed_entries/feed_light/form/feed_light_form_bloc.dart';
 import 'package:super_green_app/widgets/feed_form/feed_form_layout.dart';
@@ -96,6 +97,7 @@ class FeedLightFormPage extends StatefulWidget {
 class _FeedLightFormPageState extends State<FeedLightFormPage> {
   List<BoxLight> initialValues = [];
   List<BoxLight> values = [];
+  final Map<int, int> _pendingPreviousValues = {};
   int loading = -1;
   bool _reachable = true;
   bool _usingWifi = false;
@@ -121,6 +123,9 @@ class _FeedLightFormPageState extends State<FeedLightFormPage> {
           setState(() {
             loading = state.index;
           });
+          if (state.feedback != null) {
+            _onCommandFeedback(state.feedback!);
+          }
         } else if (state is FeedLightFormBlocStateDone) {
           BlocProvider.of<MainNavigatorBloc>(context)
               .add(MainNavigatorActionPop(mustPop: true, param: state.feedEntry));
@@ -311,11 +316,18 @@ class _FeedLightFormPageState extends State<FeedLightFormPage> {
           });
         },
         onChangeEnd: (double value) {
+          final List<BoxLight> previousValues = List.from(initialValues);
           for (int i = 0; i < values.length; i++) {
             BlocProvider.of<FeedLightFormBloc>(context).add(
-              FeedLightFormBlocValueChangedEvent(i, values[i].value.ivalue!),
+              FeedLightFormBlocValueChangedEvent(
+                i,
+                values[i].value.ivalue!,
+                previousValue: initialValues[i].value.ivalue!,
+                showFeedback: false,
+              ),
             );
           }
+          _showMasterUndo(previousValues);
           this._updateMasterValue();
         },
       ),
@@ -350,9 +362,103 @@ class _FeedLightFormPageState extends State<FeedLightFormPage> {
             _updateMasterValue();
           });
         },
-        onChangeEnd: (double value) {
-          BlocProvider.of<FeedLightFormBloc>(context).add(FeedLightFormBlocValueChangedEvent(i, value.round()));
+        onChangeStart: (double _) {
+          _pendingPreviousValues[i] = values[i].value.ivalue!;
         },
+        onChangeEnd: (double value) {
+          final int previousValue = _pendingPreviousValues.remove(i) ?? value.round();
+          BlocProvider.of<FeedLightFormBloc>(context).add(
+            FeedLightFormBlocValueChangedEvent(
+              i,
+              value.round(),
+              previousValue: previousValue,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  void _onCommandFeedback(FeedLightCommandFeedback feedback) {
+    if (!mounted) {
+      return;
+    }
+    if (!feedback.success && feedback.index >= 0 && feedback.index < values.length) {
+      setState(() {
+        values[feedback.index] = values[feedback.index]
+            .copyWith(value: values[feedback.index].value.copyWith(ivalue: drift.Value(feedback.previousValue)));
+        _updateMasterValue();
+      });
+    }
+    final messenger = ScaffoldMessenger.of(context);
+    messenger.hideCurrentSnackBar();
+    SnackBarAction? action;
+    if (feedback.success && feedback.canUndo) {
+      action = SnackBarAction(
+        label: CommonL10N.undoButton,
+        onPressed: () {
+          if (feedback.index >= values.length) {
+            return;
+          }
+          setState(() {
+            values[feedback.index] = values[feedback.index]
+                .copyWith(value: values[feedback.index].value.copyWith(ivalue: drift.Value(feedback.previousValue)));
+            _updateMasterValue();
+          });
+          BlocProvider.of<FeedLightFormBloc>(context).add(
+            FeedLightFormBlocValueChangedEvent(
+              feedback.index,
+              feedback.previousValue,
+              previousValue: feedback.attemptedValue,
+              allowUndo: false,
+            ),
+          );
+        },
+      );
+    }
+    messenger.showSnackBar(SnackBar(
+      content: Text(feedback.message),
+      duration: Duration(seconds: feedback.success ? 10 : 4),
+      backgroundColor: feedback.success ? Color(0xff2f6f2f) : Color(0xff8f2d2d),
+      action: action,
+    ));
+  }
+
+  void _showMasterUndo(List<BoxLight> previousValues) {
+    if (!mounted) {
+      return;
+    }
+    final messenger = ScaffoldMessenger.of(context);
+    messenger.hideCurrentSnackBar();
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(CommonL10N.commandSent),
+        duration: const Duration(seconds: 10),
+        backgroundColor: const Color(0xff2f6f2f),
+        action: SnackBarAction(
+          label: CommonL10N.undoButton,
+          onPressed: () {
+            if (previousValues.length != values.length) {
+              return;
+            }
+            final List<BoxLight> currentValues = List.from(values);
+            setState(() {
+              values = List.from(previousValues);
+              _updateMasterValue();
+            });
+            for (int i = 0; i < previousValues.length; i++) {
+              BlocProvider.of<FeedLightFormBloc>(context).add(
+                FeedLightFormBlocValueChangedEvent(
+                  i,
+                  previousValues[i].value.ivalue!,
+                  previousValue: currentValues[i].value.ivalue!,
+                  allowUndo: false,
+                  showFeedback: false,
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }

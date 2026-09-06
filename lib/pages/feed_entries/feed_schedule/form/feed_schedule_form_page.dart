@@ -25,6 +25,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/device_daemon/device_reachable_listener_bloc.dart';
 import 'package:super_green_app/l10n.dart';
+import 'package:super_green_app/l10n/common.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/feed_entries/feed_schedule/form/feed_schedule_form_bloc.dart';
 import 'package:super_green_app/widgets/feed_form/feed_form_layout.dart';
@@ -88,7 +89,11 @@ class _FeedScheduleFormPageState extends State<FeedScheduleFormPage> {
                   .add(DeviceReachableListenerBlocEventLoadDevice(state.box.device!));
             });
           }
+          if (state.commandFeedback != null) {
+            _showCommandFeedback(state.commandFeedback!);
+          }
         } else if (state is FeedScheduleFormBlocStateDone) {
+          _showCommandFeedback(FeedScheduleCommandFeedback(true, CommonL10N.commandSent));
           BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigatorActionPop(param: state.feedEntry, mustPop: true));
         }
       },
@@ -433,5 +438,20 @@ class _FeedScheduleFormPageState extends State<FeedScheduleFormPage> {
     onMinEditingController = TextEditingController(text: state.schedules[scheduleChange]['ON_MIN'].toString());
     offHourEditingController = TextEditingController(text: state.schedules[scheduleChange]['OFF_HOUR'].toString());
     offMinEditingController = TextEditingController(text: state.schedules[scheduleChange]['OFF_MIN'].toString());
+  }
+
+  void _showCommandFeedback(FeedScheduleCommandFeedback feedback) {
+    if (!mounted) {
+      return;
+    }
+    final messenger = ScaffoldMessenger.of(context);
+    messenger.hideCurrentSnackBar();
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(feedback.message),
+        duration: Duration(seconds: feedback.success ? 3 : 4),
+        backgroundColor: feedback.success ? Color(0xff2f6f2f) : Color(0xff8f2d2d),
+      ),
+    );
   }
 }

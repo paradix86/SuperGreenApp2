@@ -138,8 +138,9 @@ class BoxControlsBlocStateLoaded extends BoxControlsBlocState {
   final Plant? plant;
   final Box box;
   final BoxControlParamsController metrics;
+  final DateTime updatedAt;
 
-  BoxControlsBlocStateLoaded(this.device, this.plant, this.box, this.metrics);
+  BoxControlsBlocStateLoaded(this.device, this.plant, this.box, this.metrics, this.updatedAt);
 
   @override
   List<Object?> get props => [
@@ -147,6 +148,7 @@ class BoxControlsBlocStateLoaded extends BoxControlsBlocState {
         this.plant,
         this.box,
         metrics,
+        updatedAt,
       ];
 }
 
@@ -155,8 +157,10 @@ class BoxControlsBloc extends LegacyBloc<BoxControlsBlocEvent, BoxControlsBlocSt
   Box box;
   Device? device;
   BoxControlParamsController? metrics;
+  DateTime lastUpdatedAt = DateTime.now();
 
   late List<StreamSubscription<Param>> subscriptions;
+  StreamSubscription<Device>? deviceSubscription;
 
   BoxControlsBloc(this.plant, this.box) : super(BoxControlsBlocStateInit()) {
     add(BoxControlsBlocEventInit());
@@ -166,14 +170,20 @@ class BoxControlsBloc extends LegacyBloc<BoxControlsBlocEvent, BoxControlsBlocSt
   Stream<BoxControlsBlocState> mapEventToState(BoxControlsBlocEvent event) async* {
     if (event is BoxControlsBlocEventInit) {
       final db = RelDB.get();
+      await deviceSubscription?.cancel();
+      if (metrics != null) {
+        await metrics!.closeSubscriptions(subscriptions);
+      }
       if (box.device == null) {
         yield BoxControlsBlocStateNoDevice(plant, box);
         return;
       }
       device = await db.devicesDAO.getDevice(box.device!);
       metrics = await BoxControlParamsController.load(device!, box);
+      lastUpdatedAt = DateTime.now();
+      deviceSubscription = db.devicesDAO.watchDevice(device!.id).listen(onDeviceUpdate);
       subscriptions = metrics!.listenParams(device!, onParamUpdate);
-      yield BoxControlsBlocStateLoaded(device!, plant, box, metrics!);
+      yield _loadedState();
       metrics!.refreshParams(device!);
     } else if (event is BoxControlsBlocEventLoaded) {
       yield event.state;
@@ -192,11 +202,23 @@ class BoxControlsBloc extends LegacyBloc<BoxControlsBlocEvent, BoxControlsBlocSt
 
   void onParamUpdate(ParamsController newValue) {
     metrics = newValue as BoxControlParamsController;
-    add(BoxControlsBlocEventLoaded(BoxControlsBlocStateLoaded(device!, plant, box, metrics!)));
+    lastUpdatedAt = DateTime.now();
+    add(BoxControlsBlocEventLoaded(_loadedState()));
+  }
+
+  void onDeviceUpdate(Device newDevice) {
+    device = newDevice;
+    lastUpdatedAt = DateTime.now();
+    add(BoxControlsBlocEventLoaded(_loadedState()));
+  }
+
+  BoxControlsBlocStateLoaded _loadedState() {
+    return BoxControlsBlocStateLoaded(device!, plant, box, metrics!, lastUpdatedAt);
   }
 
   @override
   Future<void> close() async {
+    await deviceSubscription?.cancel();
     if (metrics != null) {
       await metrics!.closeSubscriptions(subscriptions);
     }

@@ -163,4 +163,113 @@ class CommonL10N {
       locale: SGLLocalizations.current?.localeName,
     );
   }
+
+  static String get commandSent {
+    return Intl.message(
+      'Command sent.',
+      name: 'commandSent',
+      desc: 'Snackbar shown after a controller command succeeded',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get commandFailed {
+    return Intl.message(
+      'Command failed. Please retry.',
+      name: 'commandFailed',
+      desc: 'Snackbar shown after a controller command failed',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get undoApplied {
+    return Intl.message(
+      'Undo applied.',
+      name: 'undoApplied',
+      desc: 'Snackbar shown after a controller command was reverted',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get unableToCancelChanges {
+    return Intl.message(
+      'Unable to cancel changes. Please retry.',
+      name: 'unableToCancelChanges',
+      desc: 'Snackbar shown when reverting controller changes failed',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get undoButton {
+    return Intl.message(
+      'UNDO 10s',
+      name: 'undoButton',
+      desc: 'Snackbar action label to revert a controller command within 10 seconds',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get connectionBadgeOffline {
+    return Intl.message(
+      'OFFLINE',
+      name: 'connectionBadgeOffline',
+      desc: 'Controller connection badge: not reachable',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get connectionBadgeStale {
+    return Intl.message(
+      'STALE',
+      name: 'connectionBadgeStale',
+      desc: 'Controller connection badge: last data older than 30 seconds',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get connectionBadgeRemote {
+    return Intl.message(
+      'REMOTE',
+      name: 'connectionBadgeRemote',
+      desc: 'Controller connection badge: reached through the cloud',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get connectionBadgeLocal {
+    return Intl.message(
+      'LOCAL',
+      name: 'connectionBadgeLocal',
+      desc: 'Controller connection badge: reached on the local network',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get connectionBadgeNoController {
+    return Intl.message(
+      'OFFLINE - no controller linked',
+      name: 'connectionBadgeNoController',
+      desc: 'Controller connection badge: the box has no controller',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String updatedAgo(String age) {
+    return Intl.message(
+      'Updated $age ago',
+      args: [age],
+      name: 'updatedAgo',
+      desc: 'Age of the last controller data, e.g. "Updated 12s ago"',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get justNow {
+    return Intl.message(
+      'just now',
+      name: 'justNow',
+      desc: 'Age label when the last controller data is less than 5 seconds old',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
 }

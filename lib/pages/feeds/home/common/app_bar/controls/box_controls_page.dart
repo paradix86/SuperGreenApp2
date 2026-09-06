@@ -16,6 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,9 +36,10 @@ import 'package:super_green_app/pages/feeds/home/common/app_bar/controls/box_con
 import 'package:super_green_app/pages/feeds/home/common/app_bar/common/widgets/app_bar_action.dart';
 import 'package:super_green_app/pages/feeds/home/common/app_bar/common/metrics/app_bar_metrics_page.dart';
 import 'package:super_green_app/pages/feeds/home/common/app_bar/common/widgets/app_bar_tab.dart';
+import 'package:super_green_app/l10n/common.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
 
-class BoxControlsPage extends StatelessWidget {
+class BoxControlsPage extends StatefulWidget {
   static String get boxControlPageLoadingPlantData {
     return Intl.message(
       'Loading plant data',
@@ -49,6 +52,33 @@ class BoxControlsPage extends StatelessWidget {
   final void Function(Future<dynamic>?)? futureFn;
 
   const BoxControlsPage({Key? key, this.futureFn}) : super(key: key);
+
+  @override
+  _BoxControlsPageState createState() => _BoxControlsPageState();
+}
+
+class _BoxControlsPageState extends State<BoxControlsPage> {
+  Timer? _clock;
+  DateTime _now = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    _clock = Timer.periodic(const Duration(seconds: 5), (_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _now = DateTime.now();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _clock?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +107,7 @@ class BoxControlsPage extends StatelessWidget {
           context,
           state.plant,
         ),
+        _renderNoDeviceConnectionBadge(),
         Expanded(
           child: Stack(
             fit: StackFit.expand,
@@ -112,6 +143,7 @@ class BoxControlsPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _renderStatus(context, state.plant),
+        _renderConnectionBadge(state),
         _renderActions(context, state),
       ],
     );
@@ -123,6 +155,102 @@ class BoxControlsPage extends StatelessWidget {
       plant: plant,
       body: AppBarBoxMetricsPage(),
     );
+  }
+
+  Widget _renderNoDeviceConnectionBadge() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 6.0, bottom: 4.0),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: const Color(0xfff5d7d7),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Text(
+          CommonL10N.connectionBadgeNoController,
+          style: const TextStyle(color: Color(0xff8f2d2d), fontWeight: FontWeight.bold, fontSize: 12),
+        ),
+      ),
+    );
+  }
+
+  Widget _renderConnectionBadge(BoxControlsBlocStateLoaded state) {
+    final _ConnectionBadgeData badge = _buildConnectionBadgeData(state);
+    final Duration age = _now.difference(state.updatedAt);
+    return Padding(
+      padding: const EdgeInsets.only(top: 6.0, bottom: 4.0),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: badge.backgroundColor,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(badge.icon, color: badge.textColor, size: 16),
+            const SizedBox(width: 8),
+            Text(
+              badge.label,
+              style: TextStyle(color: badge.textColor, fontWeight: FontWeight.bold, fontSize: 12),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              CommonL10N.updatedAgo(_renderAge(age)),
+              style: TextStyle(color: badge.textColor.withOpacity(0.9), fontSize: 11),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _ConnectionBadgeData _buildConnectionBadgeData(BoxControlsBlocStateLoaded state) {
+    final bool isOffline = !state.device.isReachable && !state.device.isRemote;
+    if (isOffline) {
+      return _ConnectionBadgeData(
+        label: CommonL10N.connectionBadgeOffline,
+        icon: Icons.cloud_off,
+        textColor: const Color(0xff8f2d2d),
+        backgroundColor: const Color(0xfff5d7d7),
+      );
+    }
+    if (_now.difference(state.updatedAt) > const Duration(seconds: 30)) {
+      return _ConnectionBadgeData(
+        label: CommonL10N.connectionBadgeStale,
+        icon: Icons.schedule,
+        textColor: const Color(0xff8a5a00),
+        backgroundColor: const Color(0xfffff0cc),
+      );
+    }
+    if (state.device.isRemote) {
+      return _ConnectionBadgeData(
+        label: CommonL10N.connectionBadgeRemote,
+        icon: Icons.cloud_done,
+        textColor: const Color(0xff0b5ea8),
+        backgroundColor: const Color(0xffd8eafc),
+      );
+    }
+    return _ConnectionBadgeData(
+      label: CommonL10N.connectionBadgeLocal,
+      icon: Icons.wifi,
+      textColor: const Color(0xff2f6f2f),
+      backgroundColor: const Color(0xffdcf4dc),
+    );
+  }
+
+  String _renderAge(Duration age) {
+    if (age.isNegative || age.inSeconds < 5) {
+      return CommonL10N.justNow;
+    }
+    if (age.inSeconds < 60) {
+      return '${age.inSeconds}s';
+    }
+    if (age.inMinutes < 60) {
+      return '${age.inMinutes}m';
+    }
+    return '${age.inHours}h';
   }
 
   Widget _renderActions(BuildContext context, BoxControlsBlocStateLoaded state) {
@@ -243,7 +371,7 @@ class BoxControlsPage extends StatelessWidget {
                       : _onEnvironmentControlTapped(
                           context,
                           ({pushAsReplacement = false}) => MainNavigateToFeedVentilationFormEvent(box,
-                              pushAsReplacement: pushAsReplacement, futureFn: futureFn)),
+                              pushAsReplacement: pushAsReplacement, futureFn: widget.futureFn)),
                 ),
               ),
               Padding(
@@ -264,7 +392,7 @@ class BoxControlsPage extends StatelessWidget {
                         : _onEnvironmentControlTapped(
                             context,
                             ({pushAsReplacement = false}) => MainNavigateToFeedScheduleFormEvent(box,
-                                pushAsReplacement: pushAsReplacement, futureFn: futureFn),
+                                pushAsReplacement: pushAsReplacement, futureFn: widget.futureFn),
                             tipID: 'TIP_BLOOM',
                             tipPaths: ['t/supergreenlab/SuperGreenTips/master/s/when_to_switch_to_bloom/l/en']),
                   )),
@@ -290,9 +418,9 @@ class BoxControlsPage extends StatelessWidget {
                       action: !lightAvailable
                           ? null
                           : _onEnvironmentControlTapped(
-                              context,
-                              ({pushAsReplacement = false}) => MainNavigateToFeedLightFormEvent(box,
-                                  pushAsReplacement: pushAsReplacement, futureFn: futureFn),
+                               context,
+                               ({pushAsReplacement = false}) => MainNavigateToFeedLightFormEvent(box,
+                                   pushAsReplacement: pushAsReplacement, futureFn: widget.futureFn),
                               tipID: 'TIP_STRETCH',
                               tipPaths: [
                                   't/supergreenlab/SuperGreenTips/master/s/when_to_control_stretch_in_seedling/l/en',
@@ -315,7 +443,7 @@ class BoxControlsPage extends StatelessWidget {
                               color: plant.alerts ? Color(0xFF3BB28B) : Color(0xFFD7352B)),
                         ),
                         action: () => BlocProvider.of<MainNavigatorBloc>(context).add(
-                          MainNavigateToSettingsPlantAlerts(plant, futureFn: futureFn),
+                          MainNavigateToSettingsPlantAlerts(plant, futureFn: widget.futureFn),
                         ),
                       ))
                   : Container(),
@@ -339,4 +467,18 @@ class BoxControlsPage extends StatelessWidget {
       }
     };
   }
+}
+
+class _ConnectionBadgeData {
+  final String label;
+  final IconData icon;
+  final Color textColor;
+  final Color backgroundColor;
+
+  const _ConnectionBadgeData({
+    required this.label,
+    required this.icon,
+    required this.textColor,
+    required this.backgroundColor,
+  });
 }

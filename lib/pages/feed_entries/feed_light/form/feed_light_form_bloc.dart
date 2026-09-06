@@ -24,6 +24,7 @@ import 'package:drift/drift.dart';
 import 'package:super_green_app/data/api/backend/feeds/feed_helper.dart';
 import 'package:super_green_app/data/api/device/device_helper.dart';
 import 'package:super_green_app/data/logger/logger.dart';
+import 'package:super_green_app/l10n/common.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/feed_entries/entry_params/feed_light.dart';
@@ -58,11 +59,20 @@ class FeedLightFormBlocEventCreate extends FeedLightFormBlocEvent {
 class FeedLightFormBlocValueChangedEvent extends FeedLightFormBlocEvent {
   final int i;
   final int value;
+  final int previousValue;
+  final bool allowUndo;
+  final bool showFeedback;
 
-  FeedLightFormBlocValueChangedEvent(this.i, this.value);
+  FeedLightFormBlocValueChangedEvent(
+    this.i,
+    this.value, {
+    required this.previousValue,
+    this.allowUndo = true,
+    this.showFeedback = true,
+  });
 
   @override
-  List<Object> get props => [i, value];
+  List<Object> get props => [i, value, previousValue, allowUndo, showFeedback];
 }
 
 class FeedLightFormBlocLightSettingsChangedEvent extends FeedLightFormBlocEvent {
@@ -92,11 +102,12 @@ class FeedLightFormBlocStateLightsLoaded extends FeedLightFormBlocState {
 
 class FeedLightFormBlocStateLightsLoading extends FeedLightFormBlocState {
   final int index;
+  final FeedLightCommandFeedback? feedback;
 
-  FeedLightFormBlocStateLightsLoading(this.index);
+  FeedLightFormBlocStateLightsLoading(this.index, {this.feedback});
 
   @override
-  List<Object> get props => [index];
+  List<Object?> get props => [index, feedback];
 }
 
 class FeedLightFormBlocStateNoDevice extends FeedLightFormBlocStateLightsLoaded {
@@ -134,6 +145,27 @@ class BoxLight extends Equatable {
   BoxLight copyWith({Param? value, LightSettings? lightSettings}) {
     return BoxLight(value: value ?? this.value, lightSettings: lightSettings ?? this.lightSettings);
   }
+}
+
+class FeedLightCommandFeedback extends Equatable {
+  final bool success;
+  final String message;
+  final int index;
+  final int previousValue;
+  final int attemptedValue;
+  final bool canUndo;
+
+  const FeedLightCommandFeedback({
+    required this.success,
+    required this.message,
+    required this.index,
+    required this.previousValue,
+    required this.attemptedValue,
+    this.canUndo = false,
+  });
+
+  @override
+  List<Object?> get props => [success, message, index, previousValue, attemptedValue, canUndo];
 }
 
 class FeedLightFormBloc extends LegacyBloc<FeedLightFormBlocEvent, FeedLightFormBlocState> {
@@ -199,13 +231,33 @@ class FeedLightFormBloc extends LegacyBloc<FeedLightFormBlocEvent, FeedLightForm
       return;
     }
     yield FeedLightFormBlocStateLightsLoading(event.i);
+    FeedLightCommandFeedback? feedback;
     try {
       await DeviceHelper.updateIntParam(device, lightParams[event.i], (event.value).toInt());
       lightParams[event.i] = lightParams[event.i].copyWith(ivalue: Value(event.value.toInt()));
+      if (event.showFeedback) {
+        feedback = FeedLightCommandFeedback(
+          success: true,
+          message: CommonL10N.commandSent,
+          index: event.i,
+          previousValue: event.previousValue,
+          attemptedValue: event.value,
+          canUndo: event.allowUndo,
+        );
+      }
     } catch (e, trace) {
       Logger.logError(e, trace);
+      if (event.showFeedback) {
+        feedback = FeedLightCommandFeedback(
+          success: false,
+          message: CommonL10N.commandFailed,
+          index: event.i,
+          previousValue: event.previousValue,
+          attemptedValue: event.value,
+        );
+      }
     }
-    yield FeedLightFormBlocStateLightsLoading(-1);
+    yield FeedLightFormBlocStateLightsLoading(-1, feedback: feedback);
   }
 
   Stream<FeedLightFormBlocState> _handleLightSettingsChanged(FeedLightFormBlocLightSettingsChangedEvent event) async* {
@@ -264,6 +316,17 @@ class FeedLightFormBloc extends LegacyBloc<FeedLightFormBlocEvent, FeedLightForm
       await Future.wait(futures);
     } catch (e, trace) {
       Logger.logError(e, trace);
+      yield* _handleLoadLights();
+      yield FeedLightFormBlocStateLightsLoading(
+        -1,
+        feedback: FeedLightCommandFeedback(
+          success: false,
+          message: CommonL10N.unableToCancelChanges,
+          index: -1,
+          previousValue: 0,
+          attemptedValue: 0,
+        ),
+      );
       return;
     }
     yield FeedLightFormBlocStateDone(null);

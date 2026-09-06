@@ -23,6 +23,8 @@ import 'package:equatable/equatable.dart';
 import 'package:drift/drift.dart';
 import 'package:super_green_app/data/api/backend/feeds/feed_helper.dart';
 import 'package:super_green_app/data/api/device/device_helper.dart';
+import 'package:super_green_app/data/logger/logger.dart';
+import 'package:super_green_app/l10n/common.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/feed_entries/entry_params/feed_schedule.dart';
@@ -70,11 +72,19 @@ class FeedScheduleFormBlocStateLoaded extends FeedScheduleFormBlocState {
   final Map<String, dynamic> initialSchedules;
 
   final Box box;
+  final FeedScheduleCommandFeedback? commandFeedback;
 
-  FeedScheduleFormBlocStateLoaded(this.schedule, this.schedules, this.initialSchedule, this.initialSchedules, this.box);
+  FeedScheduleFormBlocStateLoaded(
+    this.schedule,
+    this.schedules,
+    this.initialSchedule,
+    this.initialSchedules,
+    this.box, {
+    this.commandFeedback,
+  });
 
   @override
-  List<Object> get props => [schedule, schedules, this.initialSchedule, this.initialSchedules, box];
+  List<Object?> get props => [schedule, schedules, this.initialSchedule, this.initialSchedules, box, commandFeedback];
 }
 
 class FeedScheduleFormBlocStateUnInitialized extends FeedScheduleFormBlocState {
@@ -98,6 +108,16 @@ class FeedScheduleFormBlocStateDone extends FeedScheduleFormBlocState {
 
   @override
   List<Object?> get props => [feedEntry];
+}
+
+class FeedScheduleCommandFeedback extends Equatable {
+  final bool success;
+  final String message;
+
+  const FeedScheduleCommandFeedback(this.success, this.message);
+
+  @override
+  List<Object?> get props => [success, message];
 }
 
 class FeedScheduleFormBloc extends LegacyBloc<FeedScheduleFormBlocEvent, FeedScheduleFormBlocState> {
@@ -128,54 +148,70 @@ class FeedScheduleFormBloc extends LegacyBloc<FeedScheduleFormBlocEvent, FeedSch
       BoxSettings boxSettings = BoxSettings.fromJSON(box.settings);
       initialSchedule = schedule = boxSettings.schedule;
       initialSchedules = schedules = boxSettings.schedules;
-      yield FeedScheduleFormBlocStateLoaded(schedule, schedules, initialSchedule, initialSchedules, box);
+      yield loadedState();
     } else if (event is FeedScheduleFormBlocEventSetSchedule) {
       schedule = event.schedule;
-      yield FeedScheduleFormBlocStateLoaded(schedule, schedules, initialSchedule, initialSchedules, box);
+      yield loadedState();
     } else if (event is FeedScheduleFormBlocEventUpdatePreset) {
       schedules[event.schedule] = event.values;
-      yield FeedScheduleFormBlocStateLoaded(schedule, schedules, initialSchedule, initialSchedules, box);
+      yield loadedState();
     } else if (event is FeedScheduleFormBlocEventCreate) {
       yield FeedScheduleFormBlocStateLoading();
-      final db = RelDB.get();
-      Box box = await db.plantsDAO.getBox(args.box.id);
+      try {
+        final db = RelDB.get();
+        Box box = await db.plantsDAO.getBox(args.box.id);
 
-      if (device != null) {
-        device = await db.devicesDAO.getDevice(box.device!);
-        Param onHour = await db.devicesDAO.getParam(device!.id, 'BOX_${box.deviceBox}_ON_HOUR');
-        Param onMin = await db.devicesDAO.getParam(device!.id, 'BOX_${box.deviceBox}_ON_MIN');
-        await DeviceHelper.updateHourMinParams(
-            device!, onHour, onMin, schedules[schedule]['ON_HOUR'], schedules[schedule]['ON_MIN']);
+        if (device != null) {
+          device = await db.devicesDAO.getDevice(box.device!);
+          Param onHour = await db.devicesDAO.getParam(device!.id, 'BOX_${box.deviceBox}_ON_HOUR');
+          Param onMin = await db.devicesDAO.getParam(device!.id, 'BOX_${box.deviceBox}_ON_MIN');
+          await DeviceHelper.updateHourMinParams(
+              device!, onHour, onMin, schedules[schedule]['ON_HOUR'], schedules[schedule]['ON_MIN']);
 
-        Param offHour = await db.devicesDAO.getParam(device!.id, 'BOX_${box.deviceBox}_OFF_HOUR');
-        Param offMin = await db.devicesDAO.getParam(device!.id, 'BOX_${box.deviceBox}_OFF_MIN');
-        await DeviceHelper.updateHourMinParams(
-            device!, offHour, offMin, schedules[schedule]['OFF_HOUR'], schedules[schedule]['OFF_MIN']);
-      }
+          Param offHour = await db.devicesDAO.getParam(device!.id, 'BOX_${box.deviceBox}_OFF_HOUR');
+          Param offMin = await db.devicesDAO.getParam(device!.id, 'BOX_${box.deviceBox}_OFF_MIN');
+          await DeviceHelper.updateHourMinParams(
+              device!, offHour, offMin, schedules[schedule]['OFF_HOUR'], schedules[schedule]['OFF_MIN']);
+        }
 
-      BoxSettings boxSettings = BoxSettings.fromJSON(box.settings).copyWith(schedule: schedule, schedules: schedules);
-      await db.plantsDAO
-          .updateBox(BoxesCompanion(id: Value(box.id), synced: Value(false), settings: Value(boxSettings.toJSON())));
-      FeedEntry? feedEntry;
-      if (schedule == 'BLOOM') {
-        List<Plant> plants = await db.plantsDAO.getPlantsInBox(args.box.id);
-        for (int i = 0; i < plants.length; ++i) {
-          PlantSettings plantSettings = PlantSettings.fromJSON(plants[i].settings);
-          if (plantSettings.dryingStart != null || plantSettings.curingStart != null) {
-            continue;
-          }
-          int feedEntryID = await FeedEntryHelper.addFeedEntry(FeedEntriesCompanion.insert(
-            type: 'FE_SCHEDULE',
-            feed: plants[i].feed,
-            date: DateTime.now(),
-            params: Value(FeedScheduleParams(schedule, schedules, initialSchedule, initialSchedules).toJSON()),
-          ));
-          if (i == 0) {
-            feedEntry = await db.feedsDAO.getFeedEntry(feedEntryID);
+        BoxSettings boxSettings = BoxSettings.fromJSON(box.settings).copyWith(schedule: schedule, schedules: schedules);
+        await db.plantsDAO.updateBox(
+            BoxesCompanion(id: Value(box.id), synced: Value(false), settings: Value(boxSettings.toJSON())));
+        FeedEntry? feedEntry;
+        if (schedule == 'BLOOM') {
+          List<Plant> plants = await db.plantsDAO.getPlantsInBox(args.box.id);
+          for (int i = 0; i < plants.length; ++i) {
+            PlantSettings plantSettings = PlantSettings.fromJSON(plants[i].settings);
+            if (plantSettings.dryingStart != null || plantSettings.curingStart != null) {
+              continue;
+            }
+            int feedEntryID = await FeedEntryHelper.addFeedEntry(FeedEntriesCompanion.insert(
+              type: 'FE_SCHEDULE',
+              feed: plants[i].feed,
+              date: DateTime.now(),
+              params: Value(FeedScheduleParams(schedule, schedules, initialSchedule, initialSchedules).toJSON()),
+            ));
+            if (i == 0) {
+              feedEntry = await db.feedsDAO.getFeedEntry(feedEntryID);
+            }
           }
         }
+        yield FeedScheduleFormBlocStateDone(feedEntry);
+      } catch (e, t) {
+        Logger.logError(e, t);
+        yield loadedState(commandFeedback: FeedScheduleCommandFeedback(false, CommonL10N.commandFailed));
       }
-      yield FeedScheduleFormBlocStateDone(feedEntry);
     }
+  }
+
+  FeedScheduleFormBlocStateLoaded loadedState({FeedScheduleCommandFeedback? commandFeedback}) {
+    return FeedScheduleFormBlocStateLoaded(
+      schedule,
+      schedules,
+      initialSchedule,
+      initialSchedules,
+      box,
+      commandFeedback: commandFeedback,
+    );
   }
 }
