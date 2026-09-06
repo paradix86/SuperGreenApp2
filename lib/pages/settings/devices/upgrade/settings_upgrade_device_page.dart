@@ -21,6 +21,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
+import 'package:super_green_app/l10n.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/settings/devices/edit_config/settings_device_bloc.dart';
 import 'package:super_green_app/pages/settings/devices/upgrade/settings_upgrade_device_bloc.dart';
@@ -30,6 +32,42 @@ import 'package:super_green_app/widgets/fullscreen_loading.dart';
 import 'package:super_green_app/widgets/section_title.dart';
 
 class SettingsUpgradeDevicePage extends StatelessWidget {
+  static String get settingsUpgradeDevicePageErrorUnreachable {
+    return Intl.message(
+      'Couldn\'t find the controller on the network, wait a bit then try to do a "Refresh parameter" from the settings.',
+      name: 'settingsUpgradeDevicePageErrorUnreachable',
+      desc: 'Firmware upgrade error: controller never came back after the upload',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get settingsUpgradeDevicePageErrorFailed {
+    return Intl.message(
+      'The controller rejected or aborted the update (corrupted download, or too many recent attempts). Wait a few minutes and retry.',
+      name: 'settingsUpgradeDevicePageErrorFailed',
+      desc: 'Firmware upgrade error: controller reported OTA_STATUS failed',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get settingsUpgradeDevicePageErrorDisabled {
+    return Intl.message(
+      'Firmware updates are disabled on this controller (OTA_ENABLED). Enable them from the controller settings and retry.',
+      name: 'settingsUpgradeDevicePageErrorDisabled',
+      desc: 'Firmware upgrade error: controller reported OTA_STATUS disabled',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get settingsUpgradeDevicePageErrorSetup {
+    return Intl.message(
+      'Couldn\'t prepare the update (web app upload or OTA settings failed). Check the controller is reachable and retry.',
+      name: 'settingsUpgradeDevicePageErrorSetup',
+      desc: 'Firmware upgrade error: preparation step failed',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<SettingsUpgradeDeviceBloc, SettingsUpgradeDeviceBlocState>(
@@ -116,7 +154,22 @@ class SettingsUpgradeDevicePage extends StatelessWidget {
   }
 
   Widget renderError(BuildContext context, SettingsUpgradeDeviceBlocStateUpgradeError state) {
-    String subtitle = 'Couldn\'t find the controller on the network, wait a bit then try to do a "Refresh parameter" from the settings.';
-    return Fullscreen(title: 'Error', subtitle: subtitle, child: Icon(Icons.error, color: Color(0xff3bb30b), size: 100));
+    String subtitle;
+    switch (state.kind) {
+      case UpgradeErrorKind.failed:
+        subtitle = SettingsUpgradeDevicePage.settingsUpgradeDevicePageErrorFailed;
+        break;
+      case UpgradeErrorKind.disabled:
+        subtitle = SettingsUpgradeDevicePage.settingsUpgradeDevicePageErrorDisabled;
+        break;
+      case UpgradeErrorKind.setup:
+        subtitle = SettingsUpgradeDevicePage.settingsUpgradeDevicePageErrorSetup;
+        break;
+      case UpgradeErrorKind.unreachable:
+        subtitle = SettingsUpgradeDevicePage.settingsUpgradeDevicePageErrorUnreachable;
+        break;
+    }
+    return Fullscreen(
+        title: 'Error', subtitle: subtitle, child: Icon(Icons.error, color: Color(0xff3bb30b), size: 100));
   }
 }

@@ -19,12 +19,14 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:crypto/crypto.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:super_green_app/data/logger/logger.dart';
 import 'package:super_green_app/misc/bloc.dart';
 import 'package:super_green_app/data/api/device/device_api.dart';
 import 'package:super_green_app/data/api/device/device_helper.dart';
+import 'package:super_green_app/data/api/device/ota_wait.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
@@ -91,14 +93,45 @@ class SettingsUpgradeDeviceBlocStateUpgradeDone extends SettingsUpgradeDeviceBlo
   List<Object> get props => [];
 }
 
+enum UpgradeErrorKind {
+  /// Never got a reply from the controller after the upload.
+  unreachable,
+
+  /// The controller reported OTA_STATUS=3 (bad download, sha256 mismatch,
+  /// or a rejected request while backing off after earlier failures).
+  failed,
+
+  /// The controller reported OTA_STATUS=2.
+  disabled,
+
+  /// Preparing the upgrade (uploading web app, setting OTA_* params) failed.
+  setup,
+}
+
 class SettingsUpgradeDeviceBlocStateUpgradeError extends SettingsUpgradeDeviceBlocState {
-  SettingsUpgradeDeviceBlocStateUpgradeError();
+  final UpgradeErrorKind kind;
+
+  SettingsUpgradeDeviceBlocStateUpgradeError(this.kind);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [kind];
+}
+
+class UpgradeException implements Exception {
+  final UpgradeErrorKind kind;
+
+  UpgradeException(this.kind);
+
+  @override
+  String toString() => 'UpgradeException($kind)';
 }
 
 class SettingsUpgradeDeviceBloc extends LegacyBloc<SettingsUpgradeDeviceBlocEvent, SettingsUpgradeDeviceBlocState> {
+  /// After firmware.bin is served: 24 polls x 5 s. Flashing 1 MB over WiFi,
+  /// rebooting and coming back on the network fits well inside that.
+  static const int waitPolls = 24;
+  static const Duration waitPollInterval = Duration(seconds: 5);
+
   final MainNavigateToSettingsUpgradeDevice args;
 
   HttpServer? server;
@@ -119,47 +152,14 @@ class SettingsUpgradeDeviceBloc extends LegacyBloc<SettingsUpgradeDeviceBlocEven
       yield SettingsUpgradeDeviceBlocStateLoaded(int.parse(localOTATimestamp) > otaTimestamp.ivalue!);
     } else if (event is SettingsUpgradeDeviceBlocEventUpgrade) {
       yield SettingsUpgradeDeviceBlocStateUpgrading('Setting parameters..');
-      String? auth = AppDB().getDeviceAuth(args.device.identifier);
-      Param otaServerIP = await RelDB.get().devicesDAO.getParam(args.device.id, 'OTA_SERVER_IP');
-      Param otaServerPort = await RelDB.get().devicesDAO.getParam(args.device.id, 'OTA_SERVER_PORT');
-      String myip = await DeviceAPI.fetchString('http://${args.device.ip}/myip', auth: auth);
-
-      Param otaBaseDir = await RelDB.get().devicesDAO.getParam(args.device.id, 'OTA_BASEDIR');
-      ByteData config = await rootBundle.load('assets/firmware${otaBaseDir.svalue}/html_app/config.json');
-      await DeviceAPI.uploadFile(args.device.ip, 'config.json', config, auth: auth);
-      ByteData htmlApp = await rootBundle.load('assets/firmware${otaBaseDir.svalue}/html_app/app.html');
-      await DeviceAPI.uploadFile(args.device.ip, 'app.html', htmlApp, auth: auth);
-
-      server = await HttpServer.bind(InternetAddress.anyIPv6, 0);
-      server!.listen(listenRequest);
-
-      await Future.delayed(Duration(seconds: 1));
-      await DeviceHelper.updateStringParam(args.device, otaServerIP, myip, forceLocal: true);
-      await DeviceHelper.updateIntParam(args.device, otaServerPort, server!.port, forceLocal: true);
-
-      bool hasStart = true;
-      late Param start;
       try {
-        start = await RelDB.get().devicesDAO.getParam(args.device.id, 'OTA_START');
-      } catch (e) {
-        hasStart = false;
+        yield* _startUpgrade();
+      } on UpgradeException catch (e) {
+        yield SettingsUpgradeDeviceBlocStateUpgradeError(e.kind);
+      } catch (e, trace) {
+        Logger.logError(e, trace, data: {"ip": args.device.ip, "deviceID": args.device.identifier});
+        yield SettingsUpgradeDeviceBlocStateUpgradeError(UpgradeErrorKind.setup);
       }
-      if (hasStart) {
-        try {
-          await DeviceHelper.updateIntParam(args.device, start, 1, nRetries: 1, forceLocal: true);
-        } catch (e) {
-          print(e);
-        }
-      } else {
-        Param reboot = await RelDB.get().devicesDAO.getParam(args.device.id, 'REBOOT');
-        yield SettingsUpgradeDeviceBlocStateUpgrading('Rebooting controller..');
-        try {
-          await DeviceHelper.updateIntParam(args.device, reboot, 1, nRetries: 1, forceLocal: true);
-        } catch (e) {
-          print(e);
-        }
-      }
-      yield SettingsUpgradeDeviceBlocStateUpgrading('Waiting controller connection..');
     } else if (event is SettingsUpgradeDeviceBlocEventUpgrading) {
       yield SettingsUpgradeDeviceBlocStateUpgrading(event.progressMessage);
     } else if (event is SettingsUpgradeDeviceBlocEventCheckUpgradeDone) {
@@ -167,14 +167,68 @@ class SettingsUpgradeDeviceBloc extends LegacyBloc<SettingsUpgradeDeviceBlocEven
       try {
         await waitFirmwareUpgraded();
         yield SettingsUpgradeDeviceBlocStateUpgradeDone();
-      } catch (e) {
-        yield SettingsUpgradeDeviceBlocStateUpgradeError();
+      } on UpgradeException catch (e) {
+        yield SettingsUpgradeDeviceBlocStateUpgradeError(e.kind);
+      } catch (e, trace) {
+        Logger.logError(e, trace, data: {"ip": args.device.ip, "deviceID": args.device.identifier});
+        yield SettingsUpgradeDeviceBlocStateUpgradeError(UpgradeErrorKind.unreachable);
       }
     }
   }
 
+  Stream<SettingsUpgradeDeviceBlocState> _startUpgrade() async* {
+    String? auth = AppDB().getDeviceAuth(args.device.identifier);
+    Param otaServerIP = await RelDB.get().devicesDAO.getParam(args.device.id, 'OTA_SERVER_IP');
+    Param otaServerPort = await RelDB.get().devicesDAO.getParam(args.device.id, 'OTA_SERVER_PORT');
+    String myip = await DeviceAPI.fetchString('http://${args.device.ip}/myip', auth: auth);
+
+    Param otaBaseDir = await RelDB.get().devicesDAO.getParam(args.device.id, 'OTA_BASEDIR');
+    ByteData config = await rootBundle.load('assets/firmware${otaBaseDir.svalue}/html_app/config.json');
+    await DeviceAPI.uploadFile(args.device.ip, 'config.json', config, auth: auth);
+    ByteData htmlApp = await rootBundle.load('assets/firmware${otaBaseDir.svalue}/html_app/app.html');
+    await DeviceAPI.uploadFile(args.device.ip, 'app.html', htmlApp, auth: auth);
+
+    server = await HttpServer.bind(InternetAddress.anyIPv6, 0);
+    server!.listen(listenRequest);
+
+    await Future.delayed(Duration(seconds: 1));
+    await DeviceHelper.updateStringParam(args.device, otaServerIP, myip, forceLocal: true);
+    await DeviceHelper.updateIntParam(args.device, otaServerPort, server!.port, forceLocal: true);
+
+    Param? start;
+    try {
+      start = await RelDB.get().devicesDAO.getParam(args.device.id, 'OTA_START');
+    } catch (e) {
+      // older firmware without OTA_START: fall back to a reboot, the
+      // controller checks the OTA server at boot
+    }
+    if (start != null) {
+      await DeviceHelper.updateIntParam(args.device, start, 1, nRetries: 1, forceLocal: true);
+      // OTA_STATUS=3 right after OTA_START=1 means the request itself was
+      // rejected (backoff after earlier failures): no point waiting for a
+      // download that will not start.
+      int? status = await _readOtaStatus(auth);
+      if (status == OtaStatus.failed) {
+        throw UpgradeException(UpgradeErrorKind.failed);
+      } else if (status == OtaStatus.disabled) {
+        throw UpgradeException(UpgradeErrorKind.disabled);
+      }
+    } else {
+      Param reboot = await RelDB.get().devicesDAO.getParam(args.device.id, 'REBOOT');
+      yield SettingsUpgradeDeviceBlocStateUpgrading('Rebooting controller..');
+      try {
+        await DeviceHelper.updateIntParam(args.device, reboot, 1, nRetries: 1, forceLocal: true);
+      } catch (e, trace) {
+        // the controller usually drops the connection while rebooting
+        Logger.logError(e, trace, data: {"ip": args.device.ip, "step": "REBOOT"});
+      }
+    }
+    yield SettingsUpgradeDeviceBlocStateUpgrading('Waiting controller connection..');
+  }
+
   void listenRequest(HttpRequest request) async {
-    if (request.requestedUri.pathSegments.last == 'last_timestamp') {
+    final String path = request.requestedUri.pathSegments.last;
+    if (path == 'last_timestamp') {
       add(SettingsUpgradeDeviceBlocEventUpgrading('Controller connected'));
       Param otaBaseDir = await RelDB.get().devicesDAO.getParam(args.device.id, 'OTA_BASEDIR');
       String localOTATimestamp = await rootBundle.loadString('assets/firmware${otaBaseDir.svalue}/timestamp');
@@ -183,7 +237,18 @@ class SettingsUpgradeDeviceBloc extends LegacyBloc<SettingsUpgradeDeviceBlocEven
       await request.response.flush();
       await request.response.close();
       return;
-    } else if (request.requestedUri.pathSegments.last == 'firmware.bin') {
+    } else if (path == 'firmware.bin.sha256') {
+      // The controller fetches this before firmware.bin and refuses to boot a
+      // download whose hash does not match; without it the flash is unverified.
+      Param otaBaseDir = await RelDB.get().devicesDAO.getParam(args.device.id, 'OTA_BASEDIR');
+      ByteData firmwareBin = await rootBundle.load('assets/firmware${otaBaseDir.svalue}/firmware.bin');
+      String hash = sha256.convert(firmwareBin.buffer.asUint8List()).toString();
+      request.response.statusCode = 200;
+      request.response.write('$hash\n');
+      await request.response.flush();
+      await request.response.close();
+      return;
+    } else if (path == 'firmware.bin') {
       add(SettingsUpgradeDeviceBlocEventUpgrading('Downloading firmware..'));
       Param otaBaseDir = await RelDB.get().devicesDAO.getParam(args.device.id, 'OTA_BASEDIR');
       ByteData firmwareBin = await rootBundle.load('assets/firmware${otaBaseDir.svalue}/firmware.bin');
@@ -200,25 +265,49 @@ class SettingsUpgradeDeviceBloc extends LegacyBloc<SettingsUpgradeDeviceBlocEven
     await request.response.close();
   }
 
+  /// null when the controller is unreachable (rebooting) or predates OTA_STATUS.
+  Future<int?> _readOtaStatus(String? auth) async {
+    try {
+      return await DeviceAPI.fetchIntParam(args.device.ip, 'OTA_STATUS', timeout: 5, nRetries: 1, auth: auth);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<int?> _readOtaTimestamp(String? auth) async {
+    try {
+      return await DeviceAPI.fetchIntParam(args.device.ip, 'OTA_TIMESTAMP', timeout: 5, nRetries: 1, auth: auth);
+    } catch (e) {
+      return null;
+    }
+  }
+
   Future<void> waitFirmwareUpgraded() async {
     Param otaBaseDir = await RelDB.get().devicesDAO.getParam(args.device.id, 'OTA_BASEDIR');
     String localOTATimestamp = await rootBundle.loadString('assets/firmware${otaBaseDir.svalue}/timestamp');
     int ts = int.parse(localOTATimestamp);
     String? auth = AppDB().getDeviceAuth(args.device.identifier);
-    int nRetries = 10;
-    for (int i = 0; i < nRetries; ++i) {
-      await Future.delayed(Duration(seconds: 5));
-      try {
-        int value = await DeviceAPI.fetchIntParam(args.device.ip, 'OTA_TIMESTAMP', timeout: 5, nRetries: 1, auth: auth);
-        if (value == ts) {
+    for (int i = 0; i < waitPolls; ++i) {
+      await Future.delayed(waitPollInterval);
+      int? status = await _readOtaStatus(auth);
+      int? timestamp = await _readOtaTimestamp(auth);
+      switch (evaluateOtaWait(otaStatus: status, otaTimestamp: timestamp, targetTimestamp: ts)) {
+        case OtaWaitDecision.done:
+          return;
+        case OtaWaitDecision.failed:
+          throw UpgradeException(UpgradeErrorKind.failed);
+        case OtaWaitDecision.disabled:
+          throw UpgradeException(UpgradeErrorKind.disabled);
+        case OtaWaitDecision.keepWaiting:
+          if (status == OtaStatus.inProgress) {
+            add(SettingsUpgradeDeviceBlocEventUpgrading('Controller is flashing the firmware..'));
+          }
           break;
-        }
-      } catch (e, trace) {
-        if (i == nRetries-1) {
-          Logger.logError(e, trace, data: {"ip": args.device.ip, "deviceID": args.device.identifier}, fwdThrow: true);
-        }
       }
     }
+    Logger.logError('OTA_TIMESTAMP never reached $ts', null,
+        data: {"ip": args.device.ip, "deviceID": args.device.identifier});
+    throw UpgradeException(UpgradeErrorKind.unreachable);
   }
 
   @override
