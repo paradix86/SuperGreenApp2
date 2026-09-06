@@ -82,6 +82,34 @@ class DeviceWebsocket {
 
   Map<String, Completer> commandCompleters = {};
   bool _closed = false;
+  int _reconnectAttempts = 0;
+
+  static const Duration _reconnectBase = Duration(seconds: 5);
+  static const Duration _reconnectMax = Duration(minutes: 1);
+
+  /// 5s, 10s, 20s, 40s, then 60s: a long backend outage no longer hammers the
+  /// server every few seconds from every open app.
+  Duration _nextReconnectDelay() {
+    int seconds = _reconnectBase.inSeconds << _reconnectAttempts;
+    if (seconds > _reconnectMax.inSeconds) {
+      seconds = _reconnectMax.inSeconds;
+    }
+    if (_reconnectAttempts < 10) {
+      ++_reconnectAttempts;
+    }
+    return Duration(seconds: seconds);
+  }
+
+  Future<void> _reconnectLater() async {
+    if (_closed) {
+      return;
+    }
+    await Future.delayed(_nextReconnectDelay());
+    if (_closed) {
+      return;
+    }
+    connect();
+  }
 
   DeviceWebsocket(this.device) {
     deviceSub = RelDB.get().devicesDAO.watchDevice(device.id).listen((Device newDevice) {
@@ -124,16 +152,10 @@ class DeviceWebsocket {
       }));
     } catch (e, trace) {
       Logger.logError(e, trace);
-      if (_closed) {
-        return;
-      }
-      await Future.delayed(Duration(seconds: 5));
-      if (_closed) {
-        return;
-      }
-      connect();
+      await _reconnectLater();
       return;
     }
+    _reconnectAttempts = 0;
 
     sub = channel.stream.listen((message) async {
       //Logger.log(message);
@@ -206,22 +228,14 @@ class DeviceWebsocket {
       }
       await RelDB.get().devicesDAO.updateDevice(DevicesCompanion(id: Value(device.id), isRemote: Value(false)));
       Logger.logError(e, null);
-      await Future.delayed(Duration(seconds: 3));
-      if (_closed) {
-        return;
-      }
-      connect();
+      await _reconnectLater();
     }, onDone: () async {
       _cancelHeartbeat();
       if (_closed) {
         return;
       }
       await RelDB.get().devicesDAO.updateDevice(DevicesCompanion(id: Value(device.id), isRemote: Value(false)));
-      await Future.delayed(Duration(seconds: 3));
-      if (_closed) {
-        return;
-      }
-      connect();
+      await _reconnectLater();
     });
     bool remoteEnabled = AppDB().getDeviceSigning(device.identifier) != null;
     if (remoteEnabled) {
