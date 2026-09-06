@@ -20,7 +20,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:super_green_app/data/api/backend/checklist/checklist_helper.dart';
 import 'package:super_green_app/data/api/backend/userend/userend_helper.dart';

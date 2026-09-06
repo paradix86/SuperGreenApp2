@@ -81,7 +81,7 @@ dependencies:
   youtube_player_flutter:
   matrix_gesture_detector:
     path: ./vendor/matrix_gesture_detector
-  connectivity:
+  connectivity_plus: ^4.0.0
   firebase_messaging:
   firebase_core:
   flutter_local_notifications:
@@ -100,7 +100,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons:
-  package_info:
+  package_info_plus: ^3.0.0
   shared_preferences:
   flutter_screen_lock: ^9.0.1
   intl_translation:
