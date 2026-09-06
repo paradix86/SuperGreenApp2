@@ -122,8 +122,6 @@ import 'package:super_green_app/pages/image_capture/capture/capture_bloc.dart';
 import 'package:super_green_app/pages/image_capture/capture/capture_page.dart';
 import 'package:super_green_app/pages/image_capture/playback/playback_bloc.dart';
 import 'package:super_green_app/pages/image_capture/playback/playback_page.dart';
-import 'package:super_green_app/pages/notification/notification_request_bloc.dart';
-import 'package:super_green_app/pages/notification/notification_request_page.dart';
 import 'package:super_green_app/pages/plant_picker/plant_picker_bloc.dart';
 import 'package:super_green_app/pages/plant_picker/plant_picker_page.dart';
 import 'package:super_green_app/pages/products/product/product_category/product_category_bloc.dart';
@@ -179,6 +177,7 @@ import 'package:super_green_app/syncer/syncer_bloc.dart';
 import 'package:super_green_app/towelie/helpers/misc/towelie_action_help_notification.dart';
 import 'package:super_green_app/towelie/towelie_bloc.dart';
 import 'package:super_green_app/towelie/towelie_helper.dart';
+import 'package:super_green_app/widgets/permissions_banner.dart';
 
 final GlobalKey<NavigatorState> _homeNavigatorKey = GlobalKey();
 
@@ -214,7 +213,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
-  bool _showingNotificationRequest = false;
   bool _showingDeviceAuth = false;
   Queue<BuildContext> lastRouteContextsStack = Queue<BuildContext>();
   BuildContext? lastRouteContext;
@@ -239,7 +237,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         BlocProvider.of<PinLockBloc>(context).add(PinLockBlocEventShow());
         break;
 
-      case AppLifecycleState.hidden:
       case AppLifecycleState.paused:
       case AppLifecycleState.detached:
         break;
@@ -249,17 +246,28 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Portal(
-        child: GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-
-        if (!currentFocus.hasPrimaryFocus) {
-          FocusManager.instance.primaryFocus!.unfocus();
-        }
+        child: Listener(
+      behavior: HitTestBehavior.translucent,
+      onPointerDown: (_) {
+        FocusManager.instance.primaryFocus?.unfocus();
       },
       child: wrapListeners(
         MaterialApp(
           useInheritedMediaQuery: true,
+          builder: (BuildContext context, Widget? child) {
+            return Stack(
+              alignment: Alignment.topLeft,
+              children: [
+                if (child != null) child,
+                const Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: PermissionsBanner(),
+                ),
+              ],
+            );
+          },
           //navigatorObservers: [_analyticsObserver,],
           localizationsDelegates: [
             const SGLLocalizationsDelegate(),
@@ -310,10 +318,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       listener: (BuildContext context, PinLockBlocState state) {},
       child: BlocListener<NotificationsBloc, NotificationsBlocState>(
           listener: (BuildContext context, NotificationsBlocState state) {
+            // NotificationsBlocStateRequestPermission is handled by PermissionsBanner.
             if (state is NotificationsBlocStateMainNavigation) {
               BlocProvider.of<MainNavigatorBloc>(context).add(state.mainNavigatorEvent);
-            } else if (state is NotificationsBlocStateRequestPermission) {
-              _requestNotificationPermissions(lastRouteContext!);
             } else if (state is NotificationsBlocStateNotification) {
               BlocProvider.of<TowelieBloc>(context).add(TowelieBlocEventTrigger(
                   TowelieActionHelpNotification.id, state, ModalRoute.of(context)!.settings.name!));
@@ -400,6 +407,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
               )));
         }
         return Stack(
+          alignment: Alignment.topLeft,
           children: content,
         );
       },
@@ -811,23 +819,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         return true;
       },
     );
-  }
-
-  void _requestNotificationPermissions(BuildContext context) async {
-    if (_showingNotificationRequest == true) return;
-    _showingNotificationRequest = true;
-    await showModalBottomSheet<bool>(
-      context: context,
-      builder: (BuildContext c) {
-        return BlocProvider<NotificationRequestBloc>(
-          create: (BuildContext context) => NotificationRequestBloc(onClose: () {
-            Navigator.pop(context);
-          }),
-          child: NotificationRequestPage(),
-        );
-      },
-    );
-    _showingNotificationRequest = false;
   }
 
   void _promptDeviceAuth(BuildContext context, Device device) async {
