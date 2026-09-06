@@ -124,6 +124,29 @@ void main() {
     });
   });
 
+  group('concurrency limit', () {
+    test('keeps at most maxInFlightPerController requests open on the controller', () async {
+      int open = 0;
+      int peak = 0;
+      controller.handler = (HttpRequest req) async {
+        ++open;
+        peak = open > peak ? open : peak;
+        await Future.delayed(const Duration(milliseconds: 40));
+        --open;
+        req.response.write('1');
+        await req.response.close();
+      };
+
+      final List<int> values =
+          await Future.wait(List.generate(6, (int i) => DeviceAPI.fetchIntParam(controller.ip, 'P$i', nRetries: 1)));
+
+      expect(values, everyElement(1));
+      expect(controller.requestedPaths.length, 6);
+      expect(peak, DeviceAPI.maxInFlightPerController);
+      expect(DeviceAPI.limiterFor('127.0.0.1').inFlight, 0);
+    });
+  });
+
   group('fetchString', () {
     test('joins a chunked body instead of returning the first chunk', () async {
       controller.handler = (HttpRequest req) async {

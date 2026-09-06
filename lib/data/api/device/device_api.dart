@@ -23,6 +23,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:drift/drift.dart';
 import 'package:multicast_dns/multicast_dns.dart';
+import 'package:super_green_app/data/api/device/request_limiter.dart';
 import 'package:super_green_app/data/logger/logger.dart';
 import 'package:super_green_app/data/rel/device/devices.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
@@ -50,6 +51,17 @@ class DeviceAPI {
   /// Retries used to wait a fixed [wait] seconds between attempts; a controller
   /// that is rebooting or busy with an OTA is better served by backing off.
   static const int maxBackoffSeconds = 8;
+
+  /// Requests in flight per controller host. Every open socket costs the ESP32
+  /// ~3-4 KB of heap, and pages, the daemon and fetchAllParams all talk to it
+  /// independently: 4 concurrent requests measured a 17 KB heap dip.
+  static const int maxInFlightPerController = 2;
+
+  static final Map<String, RequestLimiter> _limiters = {};
+
+  static RequestLimiter limiterFor(String host) {
+    return _limiters.putIfAbsent(host, () => RequestLimiter(maxInFlightPerController));
+  }
 
   static Duration backoffDelay(int attempt, int baseSeconds) {
     if (attempt < 1 || baseSeconds <= 0) {
@@ -137,8 +149,8 @@ class DeviceAPI {
     if (timeout != null) {
       httpClient.connectionTimeout = Duration(seconds: timeout);
     }
+    final Uri uri = Uri.parse(url);
     Future<String> run() async {
-      final Uri uri = Uri.parse(url);
       final HttpClientRequest req = await (method == 'POST' ? httpClient.postUrl(uri) : httpClient.getUrl(uri));
       if (auth != null) {
         req.headers.set('Authorization', 'Basic $auth');
@@ -157,11 +169,15 @@ class DeviceAPI {
       return resp.transform(utf8.decoder).join();
     }
 
+    // the timeout starts once a slot is granted: queueing behind other
+    // requests must not count as the controller being unresponsive
     try {
-      if (timeout == null) {
-        return await run();
-      }
-      return await run().timeout(Duration(seconds: timeout));
+      return await limiterFor(uri.host).run(() {
+        if (timeout == null) {
+          return run();
+        }
+        return run().timeout(Duration(seconds: timeout));
+      });
     } finally {
       if (ownsClient) {
         httpClient.close(force: true);
