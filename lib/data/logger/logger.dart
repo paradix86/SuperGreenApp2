@@ -16,12 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
 
 class Logger {
   static late File logFile;
+
+  static bool _isExpectedConnectivityIssue(dynamic error) {
+    if (error is SocketException || error is TimeoutException || error is HttpException || error is HandshakeException) {
+      return true;
+    }
+    final String message = error.toString().toLowerCase();
+    return message.contains('failed host lookup') ||
+        message.contains('connection timed out') ||
+        message.contains('socketexception') ||
+        message.contains('clientexception with socketexception') ||
+        message.contains("couldn't connect to device") ||
+        message.contains('device request error: 404') ||
+        message.contains('device request error: 500');
+  }
 
   static Future init() async {
     String logFilePath = await Logger.logFilePath();
@@ -52,11 +67,14 @@ class Logger {
     String dataStr = data.keys.map<String>((String key) {
       return "$key=${data![key]}";
     }).join("\n");
-    print(error);
-    if (stackTrace != null) {
-      print(stackTrace);
+    final bool suppressConsole = _isExpectedConnectivityIssue(error);
+    if (!suppressConsole) {
+      print(error);
+      if (stackTrace != null) {
+        print(stackTrace);
+      }
+      print(dataStr);
     }
-    print(dataStr);
     try {
       logFile.writeAsStringSync(
           '===============\nError:\n${DateTime.now().toIso8601String()} - $error\nData:\n$dataStr\nTrace:\n$stackTrace\n===============\n',
