@@ -126,15 +126,20 @@ class DeviceAPI {
   /// exchange (connect + headers + body), not just the TCP connect: a
   /// controller that accepts the socket and then hangs used to leave the
   /// caller waiting forever.
+  ///
+  /// When [client] is given the connection is reused (HTTP keep-alive) and the
+  /// caller owns its lifetime; otherwise a throw-away client is created and
+  /// force-closed after the exchange.
   static Future<String> _exchange(String method, String url,
-      {int? timeout, String? auth, void Function(HttpClientRequest req)? writeBody}) async {
-    final client = HttpClient();
+      {int? timeout, String? auth, void Function(HttpClientRequest req)? writeBody, HttpClient? client}) async {
+    final bool ownsClient = client == null;
+    final HttpClient httpClient = client ?? HttpClient();
     if (timeout != null) {
-      client.connectionTimeout = Duration(seconds: timeout);
+      httpClient.connectionTimeout = Duration(seconds: timeout);
     }
     Future<String> run() async {
       final Uri uri = Uri.parse(url);
-      final HttpClientRequest req = await (method == 'POST' ? client.postUrl(uri) : client.getUrl(uri));
+      final HttpClientRequest req = await (method == 'POST' ? httpClient.postUrl(uri) : httpClient.getUrl(uri));
       if (auth != null) {
         req.headers.set('Authorization', 'Basic $auth');
       }
@@ -158,13 +163,15 @@ class DeviceAPI {
       }
       return await run().timeout(Duration(seconds: timeout));
     } finally {
-      client.close(force: true);
+      if (ownsClient) {
+        httpClient.close(force: true);
+      }
     }
   }
 
-  static Future<String> fetchConfig(String controllerIP, {String? auth}) async {
+  static Future<String> fetchConfig(String controllerIP, {String? auth, HttpClient? client}) async {
     final String url = 'http://$controllerIP/fs/config.json';
-    final String contents = await _exchange('GET', url, timeout: 10, auth: auth);
+    final String contents = await _exchange('GET', url, timeout: 10, auth: auth, client: client);
     if (contents.isEmpty) {
       throw DeviceRequestException(url, cause: 'empty config.json');
     }
@@ -172,22 +179,22 @@ class DeviceAPI {
   }
 
   static Future<String> fetchStringParam(String controllerIP, String paramName,
-      {int? timeout = 5, int nRetries = 4, int wait = 1, String? auth}) async {
+      {int? timeout = 5, int nRetries = 4, int wait = 1, String? auth, HttpClient? client}) async {
     return fetchString('http://$controllerIP/s?k=${paramName.toUpperCase()}',
-        timeout: timeout, nRetries: nRetries, wait: wait, auth: auth);
+        timeout: timeout, nRetries: nRetries, wait: wait, auth: auth, client: client);
   }
 
   static Future<String> fetchString(String url,
-      {int? timeout = 5, int nRetries = 4, int wait = 0, String? auth}) async {
-    return _withRetries(() => _exchange('GET', url, timeout: timeout, auth: auth),
+      {int? timeout = 5, int nRetries = 4, int wait = 0, String? auth, HttpClient? client}) async {
+    return _withRetries(() => _exchange('GET', url, timeout: timeout, auth: auth, client: client),
         nRetries: nRetries, wait: wait, logData: {"url": url});
   }
 
   static Future<int> fetchIntParam(String controllerIP, String paramName,
-      {int? timeout = 5, int nRetries = 4, int wait = 1, String? auth}) async {
+      {int? timeout = 5, int nRetries = 4, int wait = 1, String? auth, HttpClient? client}) async {
     final String url = 'http://$controllerIP/i?k=${paramName.toUpperCase()}';
     return _withRetries(() async {
-      final String contents = await _exchange('GET', url, timeout: timeout, auth: auth);
+      final String contents = await _exchange('GET', url, timeout: timeout, auth: auth, client: client);
       try {
         return int.parse(contents.trim());
       } on FormatException catch (e) {
@@ -236,11 +243,15 @@ class DeviceAPI {
       return;
     }
     DeviceAPI.fetchingAllParams[deviceID] = true;
+    // A few hundred parameters are read one by one: reuse a single keep-alive
+    // connection instead of opening (and making the ESP32 tear down) a TCP
+    // socket per parameter, which drove its free heap down to ~3 KB.
+    final HttpClient client = HttpClient()..maxConnectionsPerHost = 1;
     try {
       final db = RelDB.get().devicesDAO;
       final Map<String, int> modules = Map();
 
-      final config = await DeviceAPI.fetchConfig(ip, auth: auth);
+      final config = await DeviceAPI.fetchConfig(ip, auth: auth, client: client);
 
       Map<String, dynamic> keys = json.decode(config);
 
@@ -279,7 +290,7 @@ class DeviceAPI {
         }
         if (type == INTEGER_TYPE) {
           try {
-            final value = await DeviceAPI.fetchIntParam(ip, k['caps_name'], auth: auth);
+            final value = await DeviceAPI.fetchIntParam(ip, k['caps_name'], auth: auth, client: client);
             if (exists == null) {
               ParamsCompanion param = ParamsCompanion.insert(
                   device: deviceID,
@@ -296,7 +307,7 @@ class DeviceAPI {
           }
         } else {
           try {
-            final value = await DeviceAPI.fetchStringParam(ip, k['caps_name'], auth: auth);
+            final value = await DeviceAPI.fetchStringParam(ip, k['caps_name'], auth: auth, client: client);
             if (exists == null) {
               ParamsCompanion param = ParamsCompanion.insert(
                   device: deviceID,
@@ -342,6 +353,7 @@ class DeviceAPI {
     } catch (e, trace) {
       Logger.logError(e, trace, data: {"ip": ip, "deviceID": deviceID}, fwdThrow: true);
     } finally {
+      client.close(force: true);
       DeviceAPI.fetchingAllParams[deviceID] = false;
     }
   }

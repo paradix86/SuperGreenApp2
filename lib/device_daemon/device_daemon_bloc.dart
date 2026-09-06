@@ -118,6 +118,12 @@ class DeviceDaemonBloc extends LegacyBloc<DeviceDaemonBlocEvent, DeviceDaemonBlo
     if (_deviceWorker[device.id] == true) {
       return;
     }
+    // fetchAllParams already hammers the controller with a few hundred
+    // sequential requests; polling on top of it pushed the ESP32 heap to
+    // ~3 KB free (heap_min_free in /mqttdiag).
+    if (DeviceAPI.fetchingAllParams[device.id] == true) {
+      return;
+    }
     _deviceWorker[device.id] = true;
     try {
       String? auth = AppDB().getDeviceAuth(device.identifier);

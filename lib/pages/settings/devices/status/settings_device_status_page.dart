@@ -249,6 +249,24 @@ class SettingsDeviceStatusPage extends StatelessWidget {
     );
   }
 
+  static String get settingsDeviceStatusPageHeapMinFreeAt {
+    return Intl.message(
+      'Min heap reached at uptime',
+      name: 'settingsDeviceStatusPageHeapMinFreeAt',
+      desc: 'Controller status row label: uptime at which the heap minimum was observed',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get settingsDeviceStatusPageHeapLowEvents {
+    return Intl.message(
+      'Low heap events (< 8 KB)',
+      name: 'settingsDeviceStatusPageHeapLowEvents',
+      desc: 'Controller status row label: times free heap dropped under the 8 KB floor',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
   static String get settingsDeviceStatusPageNvs {
     return Intl.message(
       'NVS entries (used / free)',
@@ -417,6 +435,8 @@ class SettingsDeviceStatusPage extends StatelessWidget {
         _renderRow(settingsDeviceStatusPageUptime, _renderValue(formatUptime(status.uptimeS))),
         _renderRow(settingsDeviceStatusPageHeapFree, _renderValue(formatKb(status.heapFree))),
         _renderRow(settingsDeviceStatusPageHeapMinFree, _renderValue(formatKb(status.heapMinFree))),
+        _renderRow(settingsDeviceStatusPageHeapMinFreeAt, _renderValue(formatUptime(status.heapMinFreeAt))),
+        _renderRow(settingsDeviceStatusPageHeapLowEvents, _renderHeapLowEvents(status.heapLowEvents)),
         _renderRow(settingsDeviceStatusPageNvs,
             _renderValue('${_orNa(status.nvsUsed?.toString())} / ${_orNa(status.nvsFree?.toString())}')),
         _renderRow(settingsDeviceStatusPageClock, _renderClockBadge(status)),
@@ -490,6 +510,13 @@ class SettingsDeviceStatusPage extends StatelessWidget {
       return _renderValue(null);
     }
     return _renderChip(formatResetReason(reason), ok: !DeviceStatus.isAbnormalResetReason(reason));
+  }
+
+  Widget _renderHeapLowEvents(int? events) {
+    if (events == null) {
+      return _renderValue(null);
+    }
+    return _renderChip(events.toString(), ok: events == 0);
   }
 
   Widget _renderOtaBadge(int? otaStatus) {

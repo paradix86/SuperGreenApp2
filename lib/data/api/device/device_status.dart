@@ -51,6 +51,12 @@ class DeviceStatus extends Equatable {
   final List<int> resetHistory;
   final int? heapFree;
   final int? heapMinFree;
+
+  /// Uptime (s) at which [heapMinFree] was reached; null on firmwares without the heap watch.
+  final int? heapMinFreeAt;
+
+  /// Number of times free heap dipped below the firmware's 8 KB floor since boot.
+  final int? heapLowEvents;
   final int? uptimeS;
   final int? nvsUsed;
   final int? nvsFree;
@@ -71,6 +77,8 @@ class DeviceStatus extends Equatable {
     this.resetHistory = const [],
     this.heapFree,
     this.heapMinFree,
+    this.heapMinFreeAt,
+    this.heapLowEvents,
     this.uptimeS,
     this.nvsUsed,
     this.nvsFree,
@@ -93,6 +101,8 @@ class DeviceStatus extends Equatable {
       resetHistory: parseIntList(json['reset_history']),
       heapFree: parseInt(json['heap_free']),
       heapMinFree: parseInt(json['heap_min_free']),
+      heapMinFreeAt: parseInt(json['heap_min_free_at']),
+      heapLowEvents: parseInt(json['heap_low_events']),
       uptimeS: parseInt(json['uptime_s']),
       nvsUsed: parseInt(json['nvs_used']),
       nvsFree: parseInt(json['nvs_free']),
@@ -215,6 +225,8 @@ class DeviceStatus extends Equatable {
         resetHistory,
         heapFree,
         heapMinFree,
+        heapMinFreeAt,
+        heapLowEvents,
         uptimeS,
         nvsUsed,
         nvsFree,
