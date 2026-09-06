@@ -5,7 +5,8 @@
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/alan_splash</item>
         <item name="android:windowSplashScreenIconBackgroundColor">#FF000000</item>
         <item name="android:windowSplashScreenAnimationDuration">150</item>
-        <item name="android:postSplashScreenTheme">@style/NormalTheme</item>
+        <!-- postSplashScreenTheme belongs to androidx.core:core-splashscreen, which this
+             app does not use; Flutter switches to NormalTheme via the manifest meta-data. -->
     </style>
 
     <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
