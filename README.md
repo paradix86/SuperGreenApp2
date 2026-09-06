@@ -10,7 +10,44 @@ This application is not yet ready for end-user usage.
 
 ### Prerequisites
 
-- [`flutter`]
+- [`flutter`] 3.7.12 (Dart 2.19.x)
+- Android Studio + Android SDK (for Android builds)
+- Xcode (for iOS builds on macOS)
+
+This repository contains an `.fvmrc` file to pin the Flutter version.
+If you use `fvm`, run commands with `fvm flutter ...`.
+
+### First-time setup
+
+1. Create local environment file:
+
+```shell
+cp .env.example .env
+# Windows PowerShell alternative:
+Copy-Item .env.example .env
+```
+
+2. Fill required values in `.env`:
+- `RECAPTCHA_KEY`
+- `SKIP_CAPTCHA_TOKEN`
+
+3. Add Firebase config files (not committed):
+- `android/app/google-services.json`
+- `ios/Runner/GoogleService-Info.plist`
+
+4. Install dependencies and generate code:
+
+```shell
+flutter pub get
+flutter pub run build_runner build --delete-conflicting-outputs
+```
+
+### Bootstrap scripts
+
+If you prefer, run:
+
+- PowerShell: `./tools/bootstrap.ps1`
+- Bash: `./tools/bootstrap.sh`
 
 ### Running the app on a connected mobile device
 

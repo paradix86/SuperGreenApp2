@@ -46,3 +46,8 @@ ios/Runner/GoogleService-Info.plist
 
 .env
 lib/data/config.g.dart
+
+# Local reverse-engineering / debugging artifacts
+tools/apk_extract/
+tools/ui.xml
+assets/firmware/**/*.decoded.*

@@ -1,0 +1,35 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.7.12"
+          cache: true
+
+      - name: Create CI .env
+        run: |
+          cat > .env << 'EOF'
+          RECAPTCHA_KEY=ci-dummy-key
+          SKIP_CAPTCHA_TOKEN=ci-dummy-token
+          EOF
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate code
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Static analysis
+        run: flutter analyze
