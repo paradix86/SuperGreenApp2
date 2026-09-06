@@ -19,7 +19,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:super_green_app/data/api/backend/checklist/checklist_api.dart';
@@ -56,7 +55,7 @@ class BackendAPI {
 
   factory BackendAPI() => _instance;
 
-  static bool forceProduction = false;
+  static bool forceProduction = true;
 
   BackendAPI._newInstance() {
     if (BackendAPI.forceProduction || kReleaseMode || Platform.isIOS) {
@@ -72,20 +71,22 @@ class BackendAPI {
     }
   }
 
-  void initAndroidDevUrls() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    if (true || (await deviceInfo.androidInfo).isPhysicalDevice) {
-      bool local = true;
-      serverHost = local ? 'http://192.168.1.53:8090' : 'https://devapi2.supergreenlab.com';
-      websocketServerHost = local ? 'ws://192.168.1.53:8090' : 'wss://devapi2.supergreenlab.com';
-      storageServerHost = local ? 'http://192.168.1.53:9000' : 'https://devstorage.supergreenlab.com';
-      storageServerHostHeader = local ? 'minio:9000' : 'devstorage.supergreenlab.com';
-    } else {
-      serverHost = 'http://10.0.2.2:8090';
-      websocketServerHost = 'ws://10.0.2.2:8090';
-      storageServerHost = 'http://10.0.2.2:9000';
+  void initAndroidDevUrls() {
+    const bool useLocalBackend = bool.fromEnvironment('SGL_USE_LOCAL_BACKEND', defaultValue: false);
+    if (useLocalBackend) {
+      const String localBackendHost = String.fromEnvironment('SGL_LOCAL_BACKEND_HOST', defaultValue: '10.0.2.2');
+      serverHost = 'http://$localBackendHost:8090';
+      websocketServerHost = 'ws://$localBackendHost:8090';
+      storageServerHost = 'http://$localBackendHost:9000';
       storageServerHostHeader = 'minio:9000';
+      return;
     }
+
+    // Fallback for debug builds when no local backend is provided.
+    serverHost = 'https://api2.supergreenlab.com';
+    websocketServerHost = 'wss://api2.supergreenlab.com';
+    storageServerHost = 'https://storage.supergreenlab.com';
+    storageServerHostHeader = 'storage.supergreenlab.com';
   }
 
   Future<String?> postPut(String path, Map<String, dynamic> obj, {bool forcePut = false}) async {
