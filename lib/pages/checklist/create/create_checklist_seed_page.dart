@@ -91,6 +91,9 @@ class _CreateChecklistSeedPageState extends State<CreateChecklistSeedPage> {
             this.public = state.checklistSeed.public.value;
             this.repeat = state.checklistSeed.repeat.value;
 
+            this.conditions.clear();
+            this.exitConditions.clear();
+            this.actions.clear();
             this.conditions.addAll(ChecklistCondition.fromMapArray(json.decode(state.checklistSeed.conditions.value)));
             this
                 .exitConditions

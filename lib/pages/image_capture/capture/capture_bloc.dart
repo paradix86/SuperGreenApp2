@@ -129,6 +129,9 @@ class CaptureBloc extends LegacyBloc<CaptureBlocEvent, CaptureBlocState> {
           } else if (ext == 'heic') {
             yield loadingEvent('Converting heic to jpg ${i + 1}/${files.length}', (i + 0.5) / (files.length));
             String? jpegPath = await HeicToJpg.convert(file.path);
+            if (jpegPath == null) {
+              throw Exception('HEIC conversion failed for ${file.path}');
+            }
             yield loadingEvent('Optimizing pic ${i + 1}/${files.length}', (i + 0.75) / (files.length));
             filePath = '$fileName.jpg';
             await File(jpegPath).copy(FeedMedias.makeAbsoluteFilePath(filePath));

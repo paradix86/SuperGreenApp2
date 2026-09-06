@@ -31,6 +31,7 @@ import 'package:super_green_app/notifications/notifications.dart';
 class RemoteNotifications {
   final Function(NotificationData) onNotificationData;
   final Function(NotificationsBlocEvent) add;
+  StreamSubscription<String>? _tokenRefreshSub;
 
   RemoteNotifications(this.add, this.onNotificationData);
 
@@ -45,7 +46,7 @@ class RemoteNotifications {
       } catch (e, trace) {
         Logger.logError(e, trace);
       }
-      FirebaseMessaging.instance.onTokenRefresh.listen(saveToken);
+      _ensureTokenRefreshListener();
     } else if (BackendAPI().usersAPI.loggedIn && AppDB().getAppData().notificationOnStartAsked != true) {
       Timer(Duration(milliseconds: 1000), () {
         add(NotificationsBlocEventRequestPermission());
@@ -77,7 +78,7 @@ class RemoteNotifications {
     if (AppDB().getAppData().notificationToken != token) {
       AppDB().setNotificationToken(token);
       AppDB().setNotificationTokenSent(false);
-      sendToken();
+      await sendToken();
     }
   }
 
@@ -103,11 +104,22 @@ class RemoteNotifications {
     if (settings.authorizationStatus == AuthorizationStatus.authorized ||
         settings.authorizationStatus == AuthorizationStatus.provisional) {
       String token = (await FirebaseMessaging.instance.getToken())!;
-      FirebaseMessaging.instance.onTokenRefresh.listen(saveToken);
-      saveToken(token);
+      _ensureTokenRefreshListener();
+      await saveToken(token);
       return true;
     }
     return false;
+  }
+
+  void _ensureTokenRefreshListener() {
+    _tokenRefreshSub?.cancel();
+    _tokenRefreshSub = FirebaseMessaging.instance.onTokenRefresh.listen((token) async {
+      try {
+        await saveToken(token);
+      } catch (e, trace) {
+        Logger.logError(e, trace);
+      }
+    });
   }
 
   static Future<bool> checkPermissions() async {

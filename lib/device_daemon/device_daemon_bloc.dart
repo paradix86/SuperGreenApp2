@@ -194,7 +194,7 @@ class DeviceDaemonBloc extends LegacyBloc<DeviceDaemonBlocEvent, DeviceDaemonBlo
         DeviceWebsocket.createIfNotAlready(d);
       }
     });
-    for (String key in DeviceWebsocket.websockets.keys) {
+    for (String key in List<String>.from(DeviceWebsocket.websockets.keys)) {
       if (devices.firstWhereOrNull((de) => de.serverID == key) == null) {
         DeviceWebsocket.deleteIfExists(key);
       }

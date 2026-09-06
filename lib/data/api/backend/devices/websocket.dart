@@ -81,6 +81,7 @@ class DeviceWebsocket {
   Timer? timeout;
 
   Map<String, Completer> commandCompleters = {};
+  bool _closed = false;
 
   DeviceWebsocket(this.device) {
     deviceSub = RelDB.get().devicesDAO.watchDevice(device.id).listen((Device newDevice) {
@@ -108,10 +109,13 @@ class DeviceWebsocket {
       return;
     }
     dw.close();
-    websockets.remove(dw);
+    websockets.remove(serverID);
   }
 
   void connect() async {
+    if (_closed) {
+      return;
+    }
     await RelDB.get().devicesDAO.updateDevice(DevicesCompanion(id: Value(device.id), isRemote: Value(false)));
     String url = '${BackendAPI().websocketServerHost}/device/${device.serverID}/stream';
     try {
@@ -120,7 +124,13 @@ class DeviceWebsocket {
       }));
     } catch (e, trace) {
       Logger.logError(e, trace);
+      if (_closed) {
+        return;
+      }
       await Future.delayed(Duration(seconds: 5));
+      if (_closed) {
+        return;
+      }
       connect();
       return;
     }
@@ -135,6 +145,10 @@ class DeviceWebsocket {
       if (remoteEnabled) {
         if (pingTimer == null) {
           pingTimer = Timer.periodic(Duration(seconds: 5), (Timer timer) async {
+            if (_closed) {
+              timer.cancel();
+              return;
+            }
             // This needs testing, added the line below instead of the line 133
             try {
               await sendRemoteCommand('geti -k TIME', nRetries: 0);
@@ -147,6 +161,9 @@ class DeviceWebsocket {
         }
         timeout?.cancel();
         timeout = Timer(Duration(seconds: 10), () {
+          if (_closed) {
+            return;
+          }
           RelDB.get().devicesDAO.updateDevice(DevicesCompanion(id: Value(device.id), isRemote: Value(false)));
           timeout = null;
           pingTimer?.cancel();
@@ -183,13 +200,27 @@ class DeviceWebsocket {
         }
       }
     }, onError: (e) async {
+      _cancelHeartbeat();
+      if (_closed) {
+        return;
+      }
       await RelDB.get().devicesDAO.updateDevice(DevicesCompanion(id: Value(device.id), isRemote: Value(false)));
       Logger.logError(e, null);
       await Future.delayed(Duration(seconds: 3));
+      if (_closed) {
+        return;
+      }
       connect();
     }, onDone: () async {
+      _cancelHeartbeat();
+      if (_closed) {
+        return;
+      }
       await RelDB.get().devicesDAO.updateDevice(DevicesCompanion(id: Value(device.id), isRemote: Value(false)));
       await Future.delayed(Duration(seconds: 3));
+      if (_closed) {
+        return;
+      }
       connect();
     });
     bool remoteEnabled = AppDB().getDeviceSigning(device.identifier) != null;
@@ -199,6 +230,9 @@ class DeviceWebsocket {
   }
 
   Future sendRemoteCommand(String cmd, {int nRetries = 5, int tryN = 0, Completer? completer, String? uuid}) async {
+    if (_closed) {
+      throw StateError('Websocket closed for device ${device.identifier}');
+    }
     String signing = AppDB().getDeviceSigning(device.identifier)!;
     if (uuid == null) {
       uuid = Uuid().v4();
@@ -214,7 +248,9 @@ class DeviceWebsocket {
     channel.sink.add(signedCmd);
     Timer(Duration(seconds: 2), () {
       if (!completer!.isCompleted) {
-        if (tryN < nRetries) {
+        if (_closed) {
+          completer.completeError(StateError('Websocket closed'));
+        } else if (tryN < nRetries) {
           Logger.log("Retrying $cmd");
           sendRemoteCommand(cmd, nRetries: nRetries, tryN: tryN + 1, completer: completer, uuid: uuid);
           return;
@@ -227,9 +263,29 @@ class DeviceWebsocket {
     return completer.future;
   }
 
+  void _cancelHeartbeat() {
+    timeout?.cancel();
+    timeout = null;
+    pingTimer?.cancel();
+    pingTimer = null;
+  }
+
   void close() {
+    if (_closed) {
+      return;
+    }
+    _closed = true;
     deviceSub?.cancel();
     sub?.cancel();
-    pingTimer?.cancel();
+    _cancelHeartbeat();
+    for (Completer completer in commandCompleters.values) {
+      if (!completer.isCompleted) {
+        completer.completeError(StateError('Websocket closed'));
+      }
+    }
+    commandCompleters.clear();
+    try {
+      channel.sink.close();
+    } catch (_) {}
   }
 }
