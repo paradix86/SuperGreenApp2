@@ -30,7 +30,8 @@ import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:tuple/tuple.dart';
 
 String generateRandomString(int len) {
-  var r = Random();
+  // seeds the per-device command signing key: must not be predictable
+  var r = Random.secure();
   return String.fromCharCodes(List.generate(len, (index) => r.nextInt(33) + 89));
 }
 
