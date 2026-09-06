@@ -101,8 +101,7 @@ class MainNavigateToSelectDeviceEvent extends MainNavigatorEvent {
   final bool? isScreen;
   final bool? isController;
 
-  MainNavigateToSelectDeviceEvent({this.isScreen, this.isController, futureFn})
-      : super(futureFn: futureFn);
+  MainNavigateToSelectDeviceEvent({this.isScreen, this.isController, futureFn}) : super(futureFn: futureFn);
 
   @override
   List<Object?> get props => [isScreen, isController];
@@ -199,7 +198,8 @@ class MainNavigateToSimilarEntriesEvent extends MainNavigatorEvent {
   final FeedEntryState feedEntryState;
   final bool pushAsReplacement;
 
-  MainNavigateToSimilarEntriesEvent(this.feedEntryState, {this.pushAsReplacement = false, futureFn}) : super(futureFn: futureFn);
+  MainNavigateToSimilarEntriesEvent(this.feedEntryState, {this.pushAsReplacement = false, futureFn})
+      : super(futureFn: futureFn);
 
   @override
   List<Object?> get props => [feedEntryState, pushAsReplacement];
@@ -558,6 +558,16 @@ class MainNavigateToSettingsUpgradeDevice extends MainNavigatorEvent {
   List<Object> get props => [device];
 }
 
+class MainNavigateToSettingsDeviceStatus extends MainNavigatorEvent {
+  final Device device;
+
+  MainNavigateToSettingsDeviceStatus(this.device, {void Function(Future<dynamic>? future)? futureFn})
+      : super(futureFn: futureFn);
+
+  @override
+  List<Object> get props => [device];
+}
+
 class MainNavigateToRefreshParameters extends MainNavigatorEvent {
   final Device device;
 
@@ -848,6 +858,8 @@ class MainNavigatorBloc extends LegacyBloc<MainNavigatorEvent, dynamic> {
       future = _navigatorKey.currentState!.pushNamed('/settings/device/auth', arguments: event);
     } else if (event is MainNavigateToSettingsUpgradeDevice) {
       future = _navigatorKey.currentState!.pushNamed('/settings/device/upgrade', arguments: event);
+    } else if (event is MainNavigateToSettingsDeviceStatus) {
+      future = _navigatorKey.currentState!.pushNamed('/settings/device/status', arguments: event);
     } else if (event is MainNavigateToRefreshParameters) {
       future = _navigatorKey.currentState!.pushNamed('/device/refresh', arguments: event);
     } else if (event is MainNavigateToPublicPlant) {

@@ -110,6 +110,24 @@ class SettingsDevicePage extends StatefulWidget {
     );
   }
 
+  static String get settingsDevicePageControllerStatusTitle {
+    return Intl.message(
+      'Controller status',
+      name: 'settingsDevicePageControllerStatusTitle',
+      desc: 'Controller status menu entry title',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
+  static String get settingsDevicePageControllerStatusLabel {
+    return Intl.message(
+      'Connectivity, memory, uptime and reboot diagnostics. Requires the controller to be reachable.',
+      name: 'settingsDevicePageControllerStatusLabel',
+      desc: 'Controller status menu entry label',
+      locale: SGLLocalizations.current?.localeName,
+    );
+  }
+
   @override
   _SettingsDevicePageState createState() => _SettingsDevicePageState();
 }
@@ -269,30 +287,36 @@ class _SettingsDevicePageState extends State<SettingsDevicePage> {
                   }));
                 },
               ),
-              state.device.isScreen && state.device.isController == false ? Container() : ListTile(
-                leading: SvgPicture.asset('assets/settings/icon_boxslot.svg'),
-                trailing: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: SvgPicture.asset('assets/settings/icon_go.svg'),
-                ),
-                title: Text('View box slots'),
-                subtitle: Text('Tap to view this controller\'s box slots'),
-                onTap: () {
-                  BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSelectDeviceBoxEvent(state.device));
-                },
-              ),
-              state.device.isScreen && state.device.isController == false ? Container() : ListTile(
-                leading: SvgPicture.asset('assets/settings/icon_motor.svg'),
-                trailing: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: SvgPicture.asset('assets/settings/icon_go.svg'),
-                ),
-                title: Text('View motor ports'),
-                subtitle: Text('Tap to view this controller\'s motor ports'),
-                onTap: () {
-                  BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToMotorPortEvent(state.device, null));
-                },
-              ),
+              state.device.isScreen && state.device.isController == false
+                  ? Container()
+                  : ListTile(
+                      leading: SvgPicture.asset('assets/settings/icon_boxslot.svg'),
+                      trailing: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: SvgPicture.asset('assets/settings/icon_go.svg'),
+                      ),
+                      title: Text('View box slots'),
+                      subtitle: Text('Tap to view this controller\'s box slots'),
+                      onTap: () {
+                        BlocProvider.of<MainNavigatorBloc>(context)
+                            .add(MainNavigateToSelectDeviceBoxEvent(state.device));
+                      },
+                    ),
+              state.device.isScreen && state.device.isController == false
+                  ? Container()
+                  : ListTile(
+                      leading: SvgPicture.asset('assets/settings/icon_motor.svg'),
+                      trailing: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: SvgPicture.asset('assets/settings/icon_go.svg'),
+                      ),
+                      title: Text('View motor ports'),
+                      subtitle: Text('Tap to view this controller\'s motor ports'),
+                      onTap: () {
+                        BlocProvider.of<MainNavigatorBloc>(context)
+                            .add(MainNavigateToMotorPortEvent(state.device, null));
+                      },
+                    ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: ListTile(
@@ -315,22 +339,25 @@ class _SettingsDevicePageState extends State<SettingsDevicePage> {
                 titleColor: Colors.white,
                 elevation: 5,
               ),
-              state.device.isScreen && state.device.isController == false ? Container() : Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ListTile(
-                  leading: SvgPicture.asset('assets/settings/icon_remotecontrol.svg'),
-                  trailing: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: SvgPicture.asset('assets/settings/icon_go.svg'),
-                  ),
-                  title: Text('Remote control'),
-                  subtitle: Text(
-                      'Remote control allows you to change your controller parameters from anywhere on the planet.'),
-                  onTap: () {
-                    BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsRemoteControl(state.device));
-                  },
-                ),
-              ),
+              state.device.isScreen && state.device.isController == false
+                  ? Container()
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: ListTile(
+                        leading: SvgPicture.asset('assets/settings/icon_remotecontrol.svg'),
+                        trailing: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: SvgPicture.asset('assets/settings/icon_go.svg'),
+                        ),
+                        title: Text('Remote control'),
+                        subtitle: Text(
+                            'Remote control allows you to change your controller parameters from anywhere on the planet.'),
+                        onTap: () {
+                          BlocProvider.of<MainNavigatorBloc>(context)
+                              .add(MainNavigateToSettingsRemoteControl(state.device));
+                        },
+                      ),
+                    ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: ListTile(
@@ -365,6 +392,21 @@ class _SettingsDevicePageState extends State<SettingsDevicePage> {
                         BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToRefreshParameters(state.device));
                       }
                     }));
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ListTile(
+                  leading: SvgPicture.asset('assets/settings/icon_controller.svg'),
+                  trailing: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: SvgPicture.asset('assets/settings/icon_go.svg'),
+                  ),
+                  title: Text(SettingsDevicePage.settingsDevicePageControllerStatusTitle),
+                  subtitle: Text(SettingsDevicePage.settingsDevicePageControllerStatusLabel),
+                  onTap: () {
+                    BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsDeviceStatus(state.device));
                   },
                 ),
               ),

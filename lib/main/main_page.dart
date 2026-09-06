@@ -158,6 +158,8 @@ import 'package:super_green_app/pages/settings/devices/remote_control/settings_r
 import 'package:super_green_app/pages/settings/devices/remote_control/settings_remote_control_page.dart';
 import 'package:super_green_app/pages/settings/devices/settings_devices_bloc.dart';
 import 'package:super_green_app/pages/settings/devices/settings_devices_page.dart';
+import 'package:super_green_app/pages/settings/devices/status/settings_device_status_bloc.dart';
+import 'package:super_green_app/pages/settings/devices/status/settings_device_status_page.dart';
 import 'package:super_green_app/pages/settings/devices/upgrade/settings_upgrade_device_bloc.dart';
 import 'package:super_green_app/pages/settings/devices/upgrade/settings_upgrade_device_page.dart';
 import 'package:super_green_app/pages/settings/plants/alerts/settings_plant_alerts_bloc.dart';
@@ -697,6 +699,11 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
           create: (context) => SettingsUpgradeDeviceBloc(settings.arguments as MainNavigateToSettingsUpgradeDevice),
           child: addOnPopCallBack(SettingsUpgradeDevicePage(), onPop),
         );
+      case '/settings/device/status':
+        return BlocProvider(
+          create: (context) => SettingsDeviceStatusBloc(settings.arguments as MainNavigateToSettingsDeviceStatus),
+          child: addOnPopCallBack(SettingsDeviceStatusPage(), onPop),
+        );
       case '/device/refresh':
         return BlocProvider(
           create: (context) => RefreshParametersBloc(settings.arguments as MainNavigateToRefreshParameters),
@@ -802,8 +809,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         return MultiBlocProvider(
           providers: [
             BlocProvider(
-                create: (context) =>
-                    SimilarEntriesBloc(settings.arguments as MainNavigateToSimilarEntriesEvent)),
+                create: (context) => SimilarEntriesBloc(settings.arguments as MainNavigateToSimilarEntriesEvent)),
           ],
           child: addOnPopCallBack(SimilarEntriesPage(), onPop),
         );
