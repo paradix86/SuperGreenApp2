@@ -19,7 +19,6 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:connectivity/connectivity.dart';
 import 'package:equatable/equatable.dart';
 import 'package:super_green_app/misc/bloc.dart';
 import 'package:drift/drift.dart';
@@ -74,7 +73,13 @@ class DeviceDaemonBlocStateRequiresLogin extends DeviceDaemonBlocState {
 }
 
 class DeviceDaemonBloc extends LegacyBloc<DeviceDaemonBlocEvent, DeviceDaemonBlocState> {
-  StreamSubscription<ConnectivityResult>? _connectivity;
+  /// Every local controller is polled at this interval; 5 s was more than the
+  /// UI needs and kept the ESP32's single-threaded httpd busy.
+  static const Duration pollInterval = Duration(seconds: 15);
+
+  /// The controller syncs with NTP itself; only push the phone clock when it is
+  /// clearly wrong (no network at boot, NTP not reached yet).
+  static const Duration maxClockDrift = Duration(seconds: 60);
 
   Timer? _timer;
   List<Device> _devices = [];
@@ -95,7 +100,7 @@ class DeviceDaemonBloc extends LegacyBloc<DeviceDaemonBlocEvent, DeviceDaemonBlo
   }
 
   void _scheduleUpdate() {
-    _timer = Timer.periodic(Duration(seconds: 5), (timer) async {
+    _timer = Timer.periodic(pollInterval, (timer) async {
       for (int i = 0; i < _devices.length; ++i) {
         if (_devices[i].isRemote) {
           continue;
@@ -118,27 +123,21 @@ class DeviceDaemonBloc extends LegacyBloc<DeviceDaemonBlocEvent, DeviceDaemonBlo
       String? auth = AppDB().getDeviceAuth(device.identifier);
       var ddb = RelDB.get().devicesDAO;
       try {
-        String? identifier;
-        try {
-          identifier = await DeviceAPI.fetchStringParam(device.ip, 'BROKER_CLIENTID', nRetries: 1, auth: auth);
-        } catch (e) {}
+        // throws (SocketException/TimeoutException/DeviceRequestException) when
+        // the controller is not at device.ip: handled below by mDNS re-resolution
+        String identifier = await DeviceAPI.fetchStringParam(device.ip, 'BROKER_CLIENTID', nRetries: 1, auth: auth);
         if (identifier == device.identifier) {
           if (device.isSetup == false || device.needsRefresh) {
             await DeviceAPI.fetchAllParams(device.ip, device.id, (_) => null, auth: auth);
           }
           await ddb.updateDevice(DevicesCompanion(id: Value(device.id), isReachable: Value(true)));
-          await _updateDeviceTime(device);
+          await _updateDeviceTime(device, auth);
         } else {
-          if (identifier != null) {
-            await ddb.updateDevice(DevicesCompanion(id: Value(device.id), isReachable: Value(false)));
-            Logger.throwError("Wrong identifier for device ${device.name}",
-                data: {"identifier": identifier});
-          } else {
-            throw 'Couldn\'t connect to device';
-          }
+          await ddb.updateDevice(DevicesCompanion(id: Value(device.id), isReachable: Value(false)));
+          Logger.throwError("Wrong identifier for device ${device.name}", data: {"identifier": identifier});
         }
       } catch (e) {
-        if (e.toString().endsWith('401')) {
+        if (e is DeviceRequestException && e.statusCode == 401) {
           add(DeviceDaemonBlocEventRequiresLogin(device));
           _deviceWorker[device.id] = false;
           return;
@@ -149,10 +148,7 @@ class DeviceDaemonBloc extends LegacyBloc<DeviceDaemonBlocEvent, DeviceDaemonBlo
         String? ip = await DeviceAPI.resolveLocalName(device.mdns);
         if (ip != null && ip != "") {
           try {
-            String? identifier;
-            try {
-              identifier = await DeviceAPI.fetchStringParam(ip, 'BROKER_CLIENTID', auth: auth);
-            } catch (e) {}
+            String identifier = await DeviceAPI.fetchStringParam(ip, 'BROKER_CLIENTID', auth: auth);
             if (identifier == device.identifier) {
               if (device.isSetup == false || device.needsRefresh) {
                 await DeviceAPI.fetchAllParams(ip, device.id, (_) => null, auth: auth);
@@ -163,12 +159,8 @@ class DeviceDaemonBloc extends LegacyBloc<DeviceDaemonBlocEvent, DeviceDaemonBlo
                   ip: Value(ip),
                   synced: Value(device.synced ? ip == device.ip : false)));
             } else {
-              if (identifier != null) {
-                Logger.throwError("Wrong identifier for device ${device.name}",
-                    data: {"identifier": identifier}, fwdThrow: true);
-              } else {
-                throw 'Couldn\'t connect to device';
-              }
+              Logger.throwError("Wrong identifier for device ${device.name}",
+                  data: {"identifier": identifier}, fwdThrow: true);
             }
           } catch (e, trace) {
             Logger.logError(e, trace, data: {"device": device.identifier});
@@ -201,15 +193,20 @@ class DeviceDaemonBloc extends LegacyBloc<DeviceDaemonBlocEvent, DeviceDaemonBlo
     }
   }
 
-  Future<void> _updateDeviceTime(Device device) async {
-    final Param? time = await RelDB.get().devicesDAO.getParam(device.id, 'TIME');
-    await DeviceHelper.updateIntParam(device, time!, DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000);
+  Future<void> _updateDeviceTime(Device device, String? auth) async {
+    final int now = DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000;
+    final int deviceTime = await DeviceAPI.fetchIntParam(device.ip, 'TIME', nRetries: 1, auth: auth);
+    if ((now - deviceTime).abs() <= maxClockDrift.inSeconds) {
+      return;
+    }
+    Logger.log("Controller ${device.name} clock is off by ${now - deviceTime}s, pushing phone time");
+    final Param time = await RelDB.get().devicesDAO.getParam(device.id, 'TIME');
+    await DeviceHelper.updateIntParam(device, time, now);
   }
 
   @override
   Future<void> close() async {
     _timer?.cancel();
-    _connectivity?.cancel();
     return super.close();
   }
 }
