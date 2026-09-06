@@ -18,12 +18,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/dashboard/tuto/tuto_bloc.dart';
 import 'package:super_green_app/pages/dashboard/tuto/tuto_item.dart';
 import 'package:super_green_app/pages/home/home_navigator_bloc.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
+import 'package:super_green_app/widgets/super_alan_green_lab_logo.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TutoPage extends StatefulWidget {
@@ -67,19 +67,20 @@ class _TutoPageState extends State<TutoPage> {
           margin: EdgeInsets.symmetric(vertical: 20),
           child: Column(
             children: [
-              Text("Welcome to", style: TextStyle(
-                fontWeight: FontWeight.w200,
-                fontSize: 30,
-              )),
+              Text("Welcome to",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w200,
+                    fontSize: 30,
+                  )),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
-                child: SvgPicture.asset('assets/tutos/logo-tuto.svg', fit: BoxFit.contain,
-                  width: 300,),
+                child: const SuperAlanGreenLabLogo(width: 300, height: 180),
               ),
-              Text("What brings you here?", style: TextStyle(
-                fontWeight: FontWeight.w300,
-                fontSize: 20,
-              )),
+              Text("What brings you here?",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w300,
+                    fontSize: 20,
+                  )),
             ],
           ),
         ),
@@ -107,7 +108,7 @@ class _TutoPageState extends State<TutoPage> {
           description: 'Create your first plant to start your first diary!',
           label: 'Start diary >',
           action: () {
-           BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToCreatePlantEvent());
+            BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToCreatePlantEvent());
           },
         ),
         TutoItem(

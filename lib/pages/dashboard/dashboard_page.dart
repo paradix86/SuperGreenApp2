@@ -36,6 +36,7 @@ import 'package:super_green_app/pages/home/home_navigator_bloc.dart';
 import 'package:super_green_app/towelie/towelie_bloc.dart';
 import 'package:super_green_app/widgets/appbar.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
+import 'package:super_green_app/widgets/super_alan_green_lab_logo.dart';
 
 class DashboardPage extends StatefulWidget {
   @override
@@ -68,8 +69,11 @@ class _DashboardPageState extends State<DashboardPage> {
                 hideBackButton: true,
                 leading: Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child:
-                      SizedBox(width: 100, height: 100, child: SvgPicture.asset('assets/explorer/logo_sgl_white.svg')),
+                  child: const SuperAlanGreenLabLogo(
+                    width: 100,
+                    height: 100,
+                    textColor: Colors.white,
+                  ),
                 ),
               ),
               body: body,

@@ -11,6 +11,7 @@ import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/feeds/home/common/drawer/plant_drawer_bloc.dart';
 import 'package:super_green_app/pages/home/home_navigator_bloc.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
+import 'package:super_green_app/widgets/super_alan_green_lab_logo.dart';
 
 class PlantDrawerPage extends StatefulWidget {
   static String get plantDrawerPagePlantList {
@@ -66,7 +67,11 @@ class _PlantDrawerPageState extends State<PlantDrawerPage> {
                 SizedBox(
                   width: 50,
                   height: 50,
-                  child: SvgPicture.asset("assets/super_green_lab_vertical_white.svg"),
+                  child: const SuperAlanGreenLabLogo(
+                    width: 50,
+                    height: 50,
+                    textColor: Colors.white,
+                  ),
                 ),
               ])),
             ),

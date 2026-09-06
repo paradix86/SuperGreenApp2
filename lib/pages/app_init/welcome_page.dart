@@ -19,12 +19,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/l10n.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/app_init/app_init_bloc.dart';
 import 'package:super_green_app/widgets/green_button.dart';
+import 'package:super_green_app/widgets/super_alan_green_lab_logo.dart';
 
 class WelcomePage extends StatefulWidget {
   static String get formAllowAnalytics {
@@ -91,7 +91,7 @@ class _WelcomePageState extends State<WelcomePage> {
     List<Widget> body = <Widget>[
       Padding(
         padding: const EdgeInsets.only(top: 48.0),
-        child: SizedBox(width: 200, height: 200, child: SvgPicture.asset('assets/super_green_lab_vertical.svg')),
+        child: const SuperAlanGreenLabLogo(width: 200, height: 200),
       ),
     ];
     if (!widget._loading) {
@@ -137,19 +137,20 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   Widget _renderOptionCheckbx(BuildContext context, String text, Function(bool?) onChanged, bool value) {
-    return Container(
+    return InkWell(
+      onTap: () {
+        onChanged(!value);
+      },
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Checkbox(
             onChanged: onChanged,
             value: value,
           ),
           Expanded(
-            child: InkWell(
-              onTap: () {
-                onChanged(!value);
-              },
+            child: Padding(
+              padding: const EdgeInsets.only(top: 12.0, right: 8.0),
               child: MarkdownBody(
                 fitContent: true,
                 data: text,

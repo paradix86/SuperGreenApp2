@@ -47,6 +47,7 @@ import 'package:super_green_app/pages/feeds/feed/bloc/state/feed_entry_state.dar
 import 'package:super_green_app/pages/feeds/feed/feed_page.dart';
 import 'package:super_green_app/widgets/appbar.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
+import 'package:super_green_app/widgets/super_alan_green_lab_logo.dart';
 
 class ExplorerPage extends StatefulWidget {
   static String get explorerPageTitle {
@@ -143,8 +144,11 @@ class _ExplorerPageState extends State<ExplorerPage> {
                 hideBackButton: true,
                 leading: Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child:
-                      SizedBox(width: 100, height: 100, child: SvgPicture.asset('assets/explorer/logo_sgl_white.svg')),
+                  child: const SuperAlanGreenLabLogo(
+                    width: 100,
+                    height: 100,
+                    textColor: Colors.white,
+                  ),
                 ),
                 actions: [
                   IconButton(
@@ -196,33 +200,35 @@ class _ExplorerPageState extends State<ExplorerPage> {
               },
               cardActions: (BuildContext context, FeedEntryState state) {
                 return [
-                  state.followed == null ? Container() : (state.followed == false
-                      ? InkWell(
-                          highlightColor: Colors.transparent,
-                          onTap: () {
-                            if (BackendAPI().usersAPI.loggedIn) {
-                              BlocProvider.of<FeedBloc>(context).add(ExplorerFeedBlocDelegateFollowEvent(state));
-                            } else {
-                              _login(context);
-                            }
-                          },
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                  color: Color(0xff3bb30b),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
-                                  child: Text('Follow', style: TextStyle(color: Colors.white)),
-                                ),
+                  state.followed == null
+                      ? Container()
+                      : (state.followed == false
+                          ? InkWell(
+                              highlightColor: Colors.transparent,
+                              onTap: () {
+                                if (BackendAPI().usersAPI.loggedIn) {
+                                  BlocProvider.of<FeedBloc>(context).add(ExplorerFeedBlocDelegateFollowEvent(state));
+                                } else {
+                                  _login(context);
+                                }
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      color: Color(0xff3bb30b),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+                                      child: Text('Follow', style: TextStyle(color: Colors.white)),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        )
-                      : Text('Followed', style: TextStyle(color: Color(0xff3bb30b)))),
+                            )
+                          : Text('Followed', style: TextStyle(color: Color(0xff3bb30b)))),
                   IconButton(
                     icon: Text(
                       'Open plant',
@@ -366,8 +372,8 @@ class _ExplorerPageState extends State<ExplorerPage> {
 
   void onMakePublic(ExplorerBlocState state) {
     if (state is ExplorerBlocStateLoaded && state.loggedIn) {
-      BlocProvider.of<MainNavigatorBloc>(context).add(
-          MainNavigateToSelectPlantEvent(ExplorerPage.explorerPageSelectPlantTitle, true, futureFn: (Future? future) async {
+      BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSelectPlantEvent(
+          ExplorerPage.explorerPageSelectPlantTitle, true, futureFn: (Future? future) async {
         dynamic plant = await future!;
         if (plant == null) {
           return;
