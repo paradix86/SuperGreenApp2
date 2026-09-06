@@ -138,8 +138,13 @@ class _AppBarBoxMetricsPageState extends State<AppBarBoxMetricsPage> {
 
   Widget _renderLoaded(BuildContext context, AppBarMetricsBlocStateLoaded state) {
     AppBarMetricsParamsController metrics = state.metrics;
-    return _renderMetrics(metrics.temp.ivalue, metrics.humidity?.ivalue, metrics.vpd.ivalue.toDouble(),
-        metrics.co2.ivalue, !(metrics.weight.available == true) ? null : metrics.weight.ivalue.toDouble(), metrics.version.ivalue);
+    return _renderMetrics(
+        metrics.temp.ivalue,
+        metrics.humidity.ivalue,
+        metrics.vpd.ivalue.toDouble(),
+        metrics.co2.ivalue,
+        !(metrics.weight.available == true) ? null : metrics.weight.ivalue.toDouble(),
+        metrics.version.ivalue);
   }
 
   Widget _renderMetrics(int? temp, int? humidity, double? vpd, int? co2, double? weight, int version) {
@@ -169,7 +174,9 @@ class _AppBarBoxMetricsPageState extends State<AppBarBoxMetricsPage> {
           color: Color(0xFFD7352B)),
       AppBarMetric(
           icon: SvgPicture.asset('assets/app_bar/icon_vpd.svg'),
-          value: vpd == null || vpd == 0 ? 'n/a' : '${(version != 0 && version <= 1700000000 ? vpd / 10 : vpd / 100.0).toStringAsFixed(2)}',
+          value: vpd == null || vpd == 0
+              ? 'n/a'
+              : '${(version != 0 && version <= 1700000000 ? vpd / 10 : vpd / 100.0).toStringAsFixed(2)}',
           color: Color(0xFF115D87)),
     ];
     if (co2 != null && co2 != 0) {
@@ -191,24 +198,26 @@ class _AppBarBoxMetricsPageState extends State<AppBarBoxMetricsPage> {
       height: 55,
       child: Stack(
         children: [
-          widgets.length > 3 ? ListView(
-            controller: scrollController,
-            scrollDirection: Axis.horizontal,
-            children: widgets
-                .map<Widget>((w) => Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: w,
-                    ))
-                .toList(),
-          ) : Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: widgets
-                .map<Widget>((w) => Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: w,
-                    ))
-                .toList(),
-          ),
+          widgets.length > 3
+              ? ListView(
+                  controller: scrollController,
+                  scrollDirection: Axis.horizontal,
+                  children: widgets
+                      .map<Widget>((w) => Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12),
+                            child: w,
+                          ))
+                      .toList(),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: widgets
+                      .map<Widget>((w) => Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 12),
+                            child: w,
+                          ))
+                      .toList(),
+                ),
           showLeftArrow && widgets.length > 3
               ? Positioned(
                   top: 0,

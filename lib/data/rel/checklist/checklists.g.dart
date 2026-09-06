@@ -2,7 +2,10 @@
 
 part of 'checklists.dart';
 
-// ignore_for_file: type=lint
+// **************************************************************************
+// DaoGenerator
+// **************************************************************************
+
 mixin _$ChecklistsDAOMixin on DatabaseAccessor<RelDB> {
   $ChecklistsTable get checklists => attachedDatabase.checklists;
   $ChecklistSeedsTable get checklistSeeds => attachedDatabase.checklistSeeds;
@@ -36,10 +39,12 @@ mixin _$ChecklistsDAOMixin on DatabaseAccessor<RelDB> {
         readsFrom: {
           checklists,
           checklistLogs,
-        }).map((QueryRow row) => GetNLogsPerPlantsResult(
-          plant: row.read<int>('plant'),
-          nPending: row.read<int>('nPending'),
-        ));
+        }).map((QueryRow row) {
+      return GetNLogsPerPlantsResult(
+        plant: row.read<int>('plant'),
+        nPending: row.read<int>('nPending'),
+      );
+    });
   }
 
   Selectable<ChecklistSeed> searchSeeds(String searchTerms, int checklistid) {

@@ -2,340 +2,11 @@
 
 part of 'rel_db.dart';
 
+// **************************************************************************
+// DriftDatabaseGenerator
+// **************************************************************************
+
 // ignore_for_file: type=lint
-class $DevicesTable extends Devices with TableInfo<$DevicesTable, Device> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $DevicesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _identifierMeta =
-      const VerificationMeta('identifier');
-  @override
-  late final GeneratedColumn<String> identifier = GeneratedColumn<String>(
-      'identifier', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 16),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 24),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _isControllerMeta =
-      const VerificationMeta('isController');
-  @override
-  late final GeneratedColumn<bool> isController = GeneratedColumn<bool>(
-      'is_controller', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'CHECK ("is_controller" IN (0, 1))'),
-      defaultValue: Constant(true));
-  static const VerificationMeta _isScreenMeta =
-      const VerificationMeta('isScreen');
-  @override
-  late final GeneratedColumn<bool> isScreen = GeneratedColumn<bool>(
-      'is_screen', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("is_screen" IN (0, 1))'),
-      defaultValue: Constant(false));
-  static const VerificationMeta _ipMeta = const VerificationMeta('ip');
-  @override
-  late final GeneratedColumn<String> ip = GeneratedColumn<String>(
-      'ip', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 7, maxTextLength: 15),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _mdnsMeta = const VerificationMeta('mdns');
-  @override
-  late final GeneratedColumn<String> mdns = GeneratedColumn<String>(
-      'mdns', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _isReachableMeta =
-      const VerificationMeta('isReachable');
-  @override
-  late final GeneratedColumn<bool> isReachable = GeneratedColumn<bool>(
-      'is_reachable', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'CHECK ("is_reachable" IN (0, 1))'),
-      defaultValue: Constant(true));
-  static const VerificationMeta _isRemoteMeta =
-      const VerificationMeta('isRemote');
-  @override
-  late final GeneratedColumn<bool> isRemote = GeneratedColumn<bool>(
-      'is_remote', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("is_remote" IN (0, 1))'),
-      defaultValue: Constant(false));
-  static const VerificationMeta _isSetupMeta =
-      const VerificationMeta('isSetup');
-  @override
-  late final GeneratedColumn<bool> isSetup = GeneratedColumn<bool>(
-      'is_setup', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("is_setup" IN (0, 1))'),
-      defaultValue: Constant(false));
-  static const VerificationMeta _nBoxesMeta = const VerificationMeta('nBoxes');
-  @override
-  late final GeneratedColumn<int> nBoxes = GeneratedColumn<int>(
-      'n_boxes', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: Constant(0));
-  static const VerificationMeta _nSensorPortsMeta =
-      const VerificationMeta('nSensorPorts');
-  @override
-  late final GeneratedColumn<int> nSensorPorts = GeneratedColumn<int>(
-      'n_sensor_ports', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: Constant(0));
-  static const VerificationMeta _nLedsMeta = const VerificationMeta('nLeds');
-  @override
-  late final GeneratedColumn<int> nLeds = GeneratedColumn<int>(
-      'n_leds', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: Constant(0));
-  static const VerificationMeta _nMotorsMeta =
-      const VerificationMeta('nMotors');
-  @override
-  late final GeneratedColumn<int> nMotors = GeneratedColumn<int>(
-      'n_motors', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: Constant(0));
-  static const VerificationMeta _needsRefreshMeta =
-      const VerificationMeta('needsRefresh');
-  @override
-  late final GeneratedColumn<bool> needsRefresh = GeneratedColumn<bool>(
-      'needs_refresh', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'CHECK ("needs_refresh" IN (0, 1))'),
-      defaultValue: Constant(false));
-  static const VerificationMeta _configMeta = const VerificationMeta('config');
-  @override
-  late final GeneratedColumn<String> config = GeneratedColumn<String>(
-      'config', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _serverIDMeta =
-      const VerificationMeta('serverID');
-  @override
-  late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
-      'server_i_d', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
-  @override
-  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
-      'synced', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
-      defaultValue: Constant(false));
-  @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        identifier,
-        name,
-        isController,
-        isScreen,
-        ip,
-        mdns,
-        isReachable,
-        isRemote,
-        isSetup,
-        nBoxes,
-        nSensorPorts,
-        nLeds,
-        nMotors,
-        needsRefresh,
-        config,
-        serverID,
-        synced
-      ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'devices';
-  @override
-  VerificationContext validateIntegrity(Insertable<Device> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('identifier')) {
-      context.handle(
-          _identifierMeta,
-          identifier.isAcceptableOrUnknown(
-              data['identifier']!, _identifierMeta));
-    } else if (isInserting) {
-      context.missing(_identifierMeta);
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    if (data.containsKey('is_controller')) {
-      context.handle(
-          _isControllerMeta,
-          isController.isAcceptableOrUnknown(
-              data['is_controller']!, _isControllerMeta));
-    }
-    if (data.containsKey('is_screen')) {
-      context.handle(_isScreenMeta,
-          isScreen.isAcceptableOrUnknown(data['is_screen']!, _isScreenMeta));
-    }
-    if (data.containsKey('ip')) {
-      context.handle(_ipMeta, ip.isAcceptableOrUnknown(data['ip']!, _ipMeta));
-    } else if (isInserting) {
-      context.missing(_ipMeta);
-    }
-    if (data.containsKey('mdns')) {
-      context.handle(
-          _mdnsMeta, mdns.isAcceptableOrUnknown(data['mdns']!, _mdnsMeta));
-    } else if (isInserting) {
-      context.missing(_mdnsMeta);
-    }
-    if (data.containsKey('is_reachable')) {
-      context.handle(
-          _isReachableMeta,
-          isReachable.isAcceptableOrUnknown(
-              data['is_reachable']!, _isReachableMeta));
-    }
-    if (data.containsKey('is_remote')) {
-      context.handle(_isRemoteMeta,
-          isRemote.isAcceptableOrUnknown(data['is_remote']!, _isRemoteMeta));
-    }
-    if (data.containsKey('is_setup')) {
-      context.handle(_isSetupMeta,
-          isSetup.isAcceptableOrUnknown(data['is_setup']!, _isSetupMeta));
-    }
-    if (data.containsKey('n_boxes')) {
-      context.handle(_nBoxesMeta,
-          nBoxes.isAcceptableOrUnknown(data['n_boxes']!, _nBoxesMeta));
-    }
-    if (data.containsKey('n_sensor_ports')) {
-      context.handle(
-          _nSensorPortsMeta,
-          nSensorPorts.isAcceptableOrUnknown(
-              data['n_sensor_ports']!, _nSensorPortsMeta));
-    }
-    if (data.containsKey('n_leds')) {
-      context.handle(
-          _nLedsMeta, nLeds.isAcceptableOrUnknown(data['n_leds']!, _nLedsMeta));
-    }
-    if (data.containsKey('n_motors')) {
-      context.handle(_nMotorsMeta,
-          nMotors.isAcceptableOrUnknown(data['n_motors']!, _nMotorsMeta));
-    }
-    if (data.containsKey('needs_refresh')) {
-      context.handle(
-          _needsRefreshMeta,
-          needsRefresh.isAcceptableOrUnknown(
-              data['needs_refresh']!, _needsRefreshMeta));
-    }
-    if (data.containsKey('config')) {
-      context.handle(_configMeta,
-          config.isAcceptableOrUnknown(data['config']!, _configMeta));
-    }
-    if (data.containsKey('server_i_d')) {
-      context.handle(_serverIDMeta,
-          serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
-    }
-    if (data.containsKey('synced')) {
-      context.handle(_syncedMeta,
-          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  Device map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Device(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      identifier: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}identifier'])!,
-      name: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      isController: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_controller'])!,
-      isScreen: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_screen'])!,
-      ip: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}ip'])!,
-      mdns: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}mdns'])!,
-      isReachable: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_reachable'])!,
-      isRemote: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_remote'])!,
-      isSetup: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_setup'])!,
-      nBoxes: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}n_boxes'])!,
-      nSensorPorts: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}n_sensor_ports'])!,
-      nLeds: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}n_leds'])!,
-      nMotors: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}n_motors'])!,
-      needsRefresh: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}needs_refresh'])!,
-      config: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}config']),
-      serverID: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
-    );
-  }
-
-  @override
-  $DevicesTable createAlias(String alias) {
-    return $DevicesTable(attachedDatabase, alias);
-  }
-}
-
 class Device extends DataClass implements Insertable<Device> {
   final int id;
   final String identifier;
@@ -816,26 +487,27 @@ class DevicesCompanion extends UpdateCompanion<Device> {
   }
 }
 
-class $ModulesTable extends Modules with TableInfo<$ModulesTable, Module> {
+class $DevicesTable extends Devices with TableInfo<$DevicesTable, Device> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $ModulesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  $DevicesTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _deviceMeta = const VerificationMeta('device');
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _identifierMeta = const VerificationMeta('identifier');
   @override
-  late final GeneratedColumn<int> device = GeneratedColumn<int>(
-      'device', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  late final GeneratedColumn<String> identifier = GeneratedColumn<String>(
+      'identifier', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 16),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
@@ -843,41 +515,163 @@ class $ModulesTable extends Modules with TableInfo<$ModulesTable, Module> {
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 24),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  static const VerificationMeta _isArrayMeta =
-      const VerificationMeta('isArray');
+  final VerificationMeta _isControllerMeta =
+      const VerificationMeta('isController');
   @override
-  late final GeneratedColumn<bool> isArray = GeneratedColumn<bool>(
-      'is_array', aliasedName, false,
+  late final GeneratedColumn<bool> isController = GeneratedColumn<bool>(
+      'is_controller', aliasedName, false,
       type: DriftSqlType.bool,
-      requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("is_array" IN (0, 1))'));
-  static const VerificationMeta _arrayLenMeta =
-      const VerificationMeta('arrayLen');
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (is_controller IN (0, 1))',
+      defaultValue: Constant(true));
+  final VerificationMeta _isScreenMeta = const VerificationMeta('isScreen');
   @override
-  late final GeneratedColumn<int> arrayLen = GeneratedColumn<int>(
-      'array_len', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+  late final GeneratedColumn<bool> isScreen = GeneratedColumn<bool>(
+      'is_screen', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (is_screen IN (0, 1))',
+      defaultValue: Constant(false));
+  final VerificationMeta _ipMeta = const VerificationMeta('ip');
   @override
-  List<GeneratedColumn> get $columns => [id, device, name, isArray, arrayLen];
+  late final GeneratedColumn<String> ip = GeneratedColumn<String>(
+      'ip', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 7, maxTextLength: 15),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  final VerificationMeta _mdnsMeta = const VerificationMeta('mdns');
   @override
-  String get aliasedName => _alias ?? actualTableName;
+  late final GeneratedColumn<String> mdns = GeneratedColumn<String>(
+      'mdns', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  final VerificationMeta _isReachableMeta =
+      const VerificationMeta('isReachable');
   @override
-  String get actualTableName => $name;
-  static const String $name = 'modules';
+  late final GeneratedColumn<bool> isReachable = GeneratedColumn<bool>(
+      'is_reachable', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (is_reachable IN (0, 1))',
+      defaultValue: Constant(true));
+  final VerificationMeta _isRemoteMeta = const VerificationMeta('isRemote');
   @override
-  VerificationContext validateIntegrity(Insertable<Module> instance,
+  late final GeneratedColumn<bool> isRemote = GeneratedColumn<bool>(
+      'is_remote', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (is_remote IN (0, 1))',
+      defaultValue: Constant(false));
+  final VerificationMeta _isSetupMeta = const VerificationMeta('isSetup');
+  @override
+  late final GeneratedColumn<bool> isSetup = GeneratedColumn<bool>(
+      'is_setup', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (is_setup IN (0, 1))',
+      defaultValue: Constant(false));
+  final VerificationMeta _nBoxesMeta = const VerificationMeta('nBoxes');
+  @override
+  late final GeneratedColumn<int> nBoxes = GeneratedColumn<int>(
+      'n_boxes', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: Constant(0));
+  final VerificationMeta _nSensorPortsMeta =
+      const VerificationMeta('nSensorPorts');
+  @override
+  late final GeneratedColumn<int> nSensorPorts = GeneratedColumn<int>(
+      'n_sensor_ports', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: Constant(0));
+  final VerificationMeta _nLedsMeta = const VerificationMeta('nLeds');
+  @override
+  late final GeneratedColumn<int> nLeds = GeneratedColumn<int>(
+      'n_leds', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: Constant(0));
+  final VerificationMeta _nMotorsMeta = const VerificationMeta('nMotors');
+  @override
+  late final GeneratedColumn<int> nMotors = GeneratedColumn<int>(
+      'n_motors', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: Constant(0));
+  final VerificationMeta _needsRefreshMeta =
+      const VerificationMeta('needsRefresh');
+  @override
+  late final GeneratedColumn<bool> needsRefresh = GeneratedColumn<bool>(
+      'needs_refresh', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (needs_refresh IN (0, 1))',
+      defaultValue: Constant(false));
+  final VerificationMeta _configMeta = const VerificationMeta('config');
+  @override
+  late final GeneratedColumn<String> config = GeneratedColumn<String>(
+      'config', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
+  @override
+  late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
+      'server_i_d', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  @override
+  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
+      'synced', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (synced IN (0, 1))',
+      defaultValue: Constant(false));
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        identifier,
+        name,
+        isController,
+        isScreen,
+        ip,
+        mdns,
+        isReachable,
+        isRemote,
+        isSetup,
+        nBoxes,
+        nSensorPorts,
+        nLeds,
+        nMotors,
+        needsRefresh,
+        config,
+        serverID,
+        synced
+      ];
+  @override
+  String get aliasedName => _alias ?? 'devices';
+  @override
+  String get actualTableName => 'devices';
+  @override
+  VerificationContext validateIntegrity(Insertable<Device> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('device')) {
-      context.handle(_deviceMeta,
-          device.isAcceptableOrUnknown(data['device']!, _deviceMeta));
+    if (data.containsKey('identifier')) {
+      context.handle(
+          _identifierMeta,
+          identifier.isAcceptableOrUnknown(
+              data['identifier']!, _identifierMeta));
     } else if (isInserting) {
-      context.missing(_deviceMeta);
+      context.missing(_identifierMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -885,17 +679,76 @@ class $ModulesTable extends Modules with TableInfo<$ModulesTable, Module> {
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
-    if (data.containsKey('is_array')) {
-      context.handle(_isArrayMeta,
-          isArray.isAcceptableOrUnknown(data['is_array']!, _isArrayMeta));
-    } else if (isInserting) {
-      context.missing(_isArrayMeta);
+    if (data.containsKey('is_controller')) {
+      context.handle(
+          _isControllerMeta,
+          isController.isAcceptableOrUnknown(
+              data['is_controller']!, _isControllerMeta));
     }
-    if (data.containsKey('array_len')) {
-      context.handle(_arrayLenMeta,
-          arrayLen.isAcceptableOrUnknown(data['array_len']!, _arrayLenMeta));
+    if (data.containsKey('is_screen')) {
+      context.handle(_isScreenMeta,
+          isScreen.isAcceptableOrUnknown(data['is_screen']!, _isScreenMeta));
+    }
+    if (data.containsKey('ip')) {
+      context.handle(_ipMeta, ip.isAcceptableOrUnknown(data['ip']!, _ipMeta));
     } else if (isInserting) {
-      context.missing(_arrayLenMeta);
+      context.missing(_ipMeta);
+    }
+    if (data.containsKey('mdns')) {
+      context.handle(
+          _mdnsMeta, mdns.isAcceptableOrUnknown(data['mdns']!, _mdnsMeta));
+    } else if (isInserting) {
+      context.missing(_mdnsMeta);
+    }
+    if (data.containsKey('is_reachable')) {
+      context.handle(
+          _isReachableMeta,
+          isReachable.isAcceptableOrUnknown(
+              data['is_reachable']!, _isReachableMeta));
+    }
+    if (data.containsKey('is_remote')) {
+      context.handle(_isRemoteMeta,
+          isRemote.isAcceptableOrUnknown(data['is_remote']!, _isRemoteMeta));
+    }
+    if (data.containsKey('is_setup')) {
+      context.handle(_isSetupMeta,
+          isSetup.isAcceptableOrUnknown(data['is_setup']!, _isSetupMeta));
+    }
+    if (data.containsKey('n_boxes')) {
+      context.handle(_nBoxesMeta,
+          nBoxes.isAcceptableOrUnknown(data['n_boxes']!, _nBoxesMeta));
+    }
+    if (data.containsKey('n_sensor_ports')) {
+      context.handle(
+          _nSensorPortsMeta,
+          nSensorPorts.isAcceptableOrUnknown(
+              data['n_sensor_ports']!, _nSensorPortsMeta));
+    }
+    if (data.containsKey('n_leds')) {
+      context.handle(
+          _nLedsMeta, nLeds.isAcceptableOrUnknown(data['n_leds']!, _nLedsMeta));
+    }
+    if (data.containsKey('n_motors')) {
+      context.handle(_nMotorsMeta,
+          nMotors.isAcceptableOrUnknown(data['n_motors']!, _nMotorsMeta));
+    }
+    if (data.containsKey('needs_refresh')) {
+      context.handle(
+          _needsRefreshMeta,
+          needsRefresh.isAcceptableOrUnknown(
+              data['needs_refresh']!, _needsRefreshMeta));
+    }
+    if (data.containsKey('config')) {
+      context.handle(_configMeta,
+          config.isAcceptableOrUnknown(data['config']!, _configMeta));
+    }
+    if (data.containsKey('server_i_d')) {
+      context.handle(_serverIDMeta,
+          serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
+    }
+    if (data.containsKey('synced')) {
+      context.handle(_syncedMeta,
+          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
     }
     return context;
   }
@@ -903,25 +756,51 @@ class $ModulesTable extends Modules with TableInfo<$ModulesTable, Module> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Module map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Device map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Module(
-      id: attachedDatabase.typeMapping
+    return Device(
+      id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      device: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}device'])!,
-      name: attachedDatabase.typeMapping
+      identifier: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}identifier'])!,
+      name: attachedDatabase.options.types
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      isArray: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_array'])!,
-      arrayLen: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}array_len'])!,
+      isController: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_controller'])!,
+      isScreen: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_screen'])!,
+      ip: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}ip'])!,
+      mdns: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}mdns'])!,
+      isReachable: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_reachable'])!,
+      isRemote: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_remote'])!,
+      isSetup: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_setup'])!,
+      nBoxes: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}n_boxes'])!,
+      nSensorPorts: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}n_sensor_ports'])!,
+      nLeds: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}n_leds'])!,
+      nMotors: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}n_motors'])!,
+      needsRefresh: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}needs_refresh'])!,
+      config: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}config']),
+      serverID: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
+      synced: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $ModulesTable createAlias(String alias) {
-    return $ModulesTable(attachedDatabase, alias);
+  $DevicesTable createAlias(String alias) {
+    return $DevicesTable(attachedDatabase, alias);
   }
 }
 
@@ -1103,66 +982,51 @@ class ModulesCompanion extends UpdateCompanion<Module> {
   }
 }
 
-class $ParamsTable extends Params with TableInfo<$ParamsTable, Param> {
+class $ModulesTable extends Modules with TableInfo<$ModulesTable, Module> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $ParamsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  $ModulesTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _deviceMeta = const VerificationMeta('device');
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _deviceMeta = const VerificationMeta('device');
   @override
   late final GeneratedColumn<int> device = GeneratedColumn<int>(
       'device', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _moduleMeta = const VerificationMeta('module');
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
-  late final GeneratedColumn<int> module = GeneratedColumn<int>(
-      'module', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _keyMeta = const VerificationMeta('key');
-  @override
-  late final GeneratedColumn<String> key = GeneratedColumn<String>(
-      'key', aliasedName, false,
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 30),
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 24),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  final VerificationMeta _isArrayMeta = const VerificationMeta('isArray');
   @override
-  late final GeneratedColumn<int> type = GeneratedColumn<int>(
-      'type', aliasedName, false,
+  late final GeneratedColumn<bool> isArray = GeneratedColumn<bool>(
+      'is_array', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: true,
+      defaultConstraints: 'CHECK (is_array IN (0, 1))');
+  final VerificationMeta _arrayLenMeta = const VerificationMeta('arrayLen');
+  @override
+  late final GeneratedColumn<int> arrayLen = GeneratedColumn<int>(
+      'array_len', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _svalueMeta = const VerificationMeta('svalue');
   @override
-  late final GeneratedColumn<String> svalue = GeneratedColumn<String>(
-      'svalue', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  static const VerificationMeta _ivalueMeta = const VerificationMeta('ivalue');
+  List<GeneratedColumn> get $columns => [id, device, name, isArray, arrayLen];
   @override
-  late final GeneratedColumn<int> ivalue = GeneratedColumn<int>(
-      'ivalue', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+  String get aliasedName => _alias ?? 'modules';
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, device, module, key, type, svalue, ivalue];
+  String get actualTableName => 'modules';
   @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'params';
-  @override
-  VerificationContext validateIntegrity(Insertable<Param> instance,
+  VerificationContext validateIntegrity(Insertable<Module> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -1175,31 +1039,23 @@ class $ParamsTable extends Params with TableInfo<$ParamsTable, Param> {
     } else if (isInserting) {
       context.missing(_deviceMeta);
     }
-    if (data.containsKey('module')) {
-      context.handle(_moduleMeta,
-          module.isAcceptableOrUnknown(data['module']!, _moduleMeta));
-    } else if (isInserting) {
-      context.missing(_moduleMeta);
-    }
-    if (data.containsKey('key')) {
+    if (data.containsKey('name')) {
       context.handle(
-          _keyMeta, key.isAcceptableOrUnknown(data['key']!, _keyMeta));
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
     } else if (isInserting) {
-      context.missing(_keyMeta);
+      context.missing(_nameMeta);
     }
-    if (data.containsKey('type')) {
-      context.handle(
-          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    if (data.containsKey('is_array')) {
+      context.handle(_isArrayMeta,
+          isArray.isAcceptableOrUnknown(data['is_array']!, _isArrayMeta));
     } else if (isInserting) {
-      context.missing(_typeMeta);
+      context.missing(_isArrayMeta);
     }
-    if (data.containsKey('svalue')) {
-      context.handle(_svalueMeta,
-          svalue.isAcceptableOrUnknown(data['svalue']!, _svalueMeta));
-    }
-    if (data.containsKey('ivalue')) {
-      context.handle(_ivalueMeta,
-          ivalue.isAcceptableOrUnknown(data['ivalue']!, _ivalueMeta));
+    if (data.containsKey('array_len')) {
+      context.handle(_arrayLenMeta,
+          arrayLen.isAcceptableOrUnknown(data['array_len']!, _arrayLenMeta));
+    } else if (isInserting) {
+      context.missing(_arrayLenMeta);
     }
     return context;
   }
@@ -1207,29 +1063,25 @@ class $ParamsTable extends Params with TableInfo<$ParamsTable, Param> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Param map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Module map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Param(
-      id: attachedDatabase.typeMapping
+    return Module(
+      id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      device: attachedDatabase.typeMapping
+      device: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}device'])!,
-      module: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}module'])!,
-      key: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}key'])!,
-      type: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}type'])!,
-      svalue: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}svalue']),
-      ivalue: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}ivalue']),
+      name: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      isArray: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_array'])!,
+      arrayLen: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}array_len'])!,
     );
   }
 
   @override
-  $ParamsTable createAlias(String alias) {
-    return $ParamsTable(attachedDatabase, alias);
+  $ModulesTable createAlias(String alias) {
+    return $ModulesTable(attachedDatabase, alias);
   }
 }
 
@@ -1464,148 +1316,100 @@ class ParamsCompanion extends UpdateCompanion<Param> {
   }
 }
 
-class $PlantsTable extends Plants with TableInfo<$PlantsTable, Plant> {
+class $ParamsTable extends Params with TableInfo<$ParamsTable, Param> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $PlantsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  $ParamsTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _feedMeta = const VerificationMeta('feed');
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _deviceMeta = const VerificationMeta('device');
   @override
-  late final GeneratedColumn<int> feed = GeneratedColumn<int>(
-      'feed', aliasedName, false,
+  late final GeneratedColumn<int> device = GeneratedColumn<int>(
+      'device', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _boxMeta = const VerificationMeta('box');
+  final VerificationMeta _moduleMeta = const VerificationMeta('module');
   @override
-  late final GeneratedColumn<int> box = GeneratedColumn<int>(
-      'box', aliasedName, false,
+  late final GeneratedColumn<int> module = GeneratedColumn<int>(
+      'module', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  final VerificationMeta _keyMeta = const VerificationMeta('key');
   @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, false,
+  late final GeneratedColumn<String> key = GeneratedColumn<String>(
+      'key', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 32),
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 30),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  static const VerificationMeta _singleMeta = const VerificationMeta('single');
+  final VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
-  late final GeneratedColumn<bool> single = GeneratedColumn<bool>(
-      'single', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("single" IN (0, 1))'),
-      defaultValue: Constant(false));
-  static const VerificationMeta _publicMeta = const VerificationMeta('public');
+  late final GeneratedColumn<int> type = GeneratedColumn<int>(
+      'type', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  final VerificationMeta _svalueMeta = const VerificationMeta('svalue');
   @override
-  late final GeneratedColumn<bool> public = GeneratedColumn<bool>(
-      'public', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("public" IN (0, 1))'),
-      defaultValue: Constant(false));
-  static const VerificationMeta _alertsMeta = const VerificationMeta('alerts');
-  @override
-  late final GeneratedColumn<bool> alerts = GeneratedColumn<bool>(
-      'alerts', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("alerts" IN (0, 1))'),
-      defaultValue: Constant(true));
-  static const VerificationMeta _settingsMeta =
-      const VerificationMeta('settings');
-  @override
-  late final GeneratedColumn<String> settings = GeneratedColumn<String>(
-      'settings', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant('{}'));
-  static const VerificationMeta _serverIDMeta =
-      const VerificationMeta('serverID');
-  @override
-  late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
-      'server_i_d', aliasedName, true,
+  late final GeneratedColumn<String> svalue = GeneratedColumn<String>(
+      'svalue', aliasedName, true,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 64),
       type: DriftSqlType.string,
       requiredDuringInsert: false);
-  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  final VerificationMeta _ivalueMeta = const VerificationMeta('ivalue');
   @override
-  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
-      'synced', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
-      defaultValue: Constant(false));
+  late final GeneratedColumn<int> ivalue = GeneratedColumn<int>(
+      'ivalue', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, feed, box, name, single, public, alerts, settings, serverID, synced];
+      [id, device, module, key, type, svalue, ivalue];
   @override
-  String get aliasedName => _alias ?? actualTableName;
+  String get aliasedName => _alias ?? 'params';
   @override
-  String get actualTableName => $name;
-  static const String $name = 'plants';
+  String get actualTableName => 'params';
   @override
-  VerificationContext validateIntegrity(Insertable<Plant> instance,
+  VerificationContext validateIntegrity(Insertable<Param> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('feed')) {
-      context.handle(
-          _feedMeta, feed.isAcceptableOrUnknown(data['feed']!, _feedMeta));
+    if (data.containsKey('device')) {
+      context.handle(_deviceMeta,
+          device.isAcceptableOrUnknown(data['device']!, _deviceMeta));
     } else if (isInserting) {
-      context.missing(_feedMeta);
+      context.missing(_deviceMeta);
     }
-    if (data.containsKey('box')) {
-      context.handle(
-          _boxMeta, box.isAcceptableOrUnknown(data['box']!, _boxMeta));
+    if (data.containsKey('module')) {
+      context.handle(_moduleMeta,
+          module.isAcceptableOrUnknown(data['module']!, _moduleMeta));
     } else if (isInserting) {
-      context.missing(_boxMeta);
+      context.missing(_moduleMeta);
     }
-    if (data.containsKey('name')) {
+    if (data.containsKey('key')) {
       context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+          _keyMeta, key.isAcceptableOrUnknown(data['key']!, _keyMeta));
     } else if (isInserting) {
-      context.missing(_nameMeta);
+      context.missing(_keyMeta);
     }
-    if (data.containsKey('single')) {
-      context.handle(_singleMeta,
-          single.isAcceptableOrUnknown(data['single']!, _singleMeta));
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    } else if (isInserting) {
+      context.missing(_typeMeta);
     }
-    if (data.containsKey('public')) {
-      context.handle(_publicMeta,
-          public.isAcceptableOrUnknown(data['public']!, _publicMeta));
+    if (data.containsKey('svalue')) {
+      context.handle(_svalueMeta,
+          svalue.isAcceptableOrUnknown(data['svalue']!, _svalueMeta));
     }
-    if (data.containsKey('alerts')) {
-      context.handle(_alertsMeta,
-          alerts.isAcceptableOrUnknown(data['alerts']!, _alertsMeta));
-    }
-    if (data.containsKey('settings')) {
-      context.handle(_settingsMeta,
-          settings.isAcceptableOrUnknown(data['settings']!, _settingsMeta));
-    }
-    if (data.containsKey('server_i_d')) {
-      context.handle(_serverIDMeta,
-          serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
-    }
-    if (data.containsKey('synced')) {
-      context.handle(_syncedMeta,
-          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
+    if (data.containsKey('ivalue')) {
+      context.handle(_ivalueMeta,
+          ivalue.isAcceptableOrUnknown(data['ivalue']!, _ivalueMeta));
     }
     return context;
   }
@@ -1613,35 +1417,29 @@ class $PlantsTable extends Plants with TableInfo<$PlantsTable, Plant> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Plant map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Param map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Plant(
-      id: attachedDatabase.typeMapping
+    return Param(
+      id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      feed: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}feed'])!,
-      box: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}box'])!,
-      name: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      single: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}single'])!,
-      public: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}public'])!,
-      alerts: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}alerts'])!,
-      settings: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}settings'])!,
-      serverID: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
+      device: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}device'])!,
+      module: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}module'])!,
+      key: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}key'])!,
+      type: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}type'])!,
+      svalue: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}svalue']),
+      ivalue: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}ivalue']),
     );
   }
 
   @override
-  $PlantsTable createAlias(String alias) {
-    return $PlantsTable(attachedDatabase, alias);
+  $ParamsTable createAlias(String alias) {
+    return $ParamsTable(attachedDatabase, alias);
   }
 }
 
@@ -1936,60 +1734,29 @@ class PlantsCompanion extends UpdateCompanion<Plant> {
   }
 }
 
-class $BoxesTable extends Boxes with TableInfo<$BoxesTable, Box> {
+class $PlantsTable extends Plants with TableInfo<$PlantsTable, Plant> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $BoxesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  $PlantsTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _feedMeta = const VerificationMeta('feed');
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _feedMeta = const VerificationMeta('feed');
   @override
   late final GeneratedColumn<int> feed = GeneratedColumn<int>(
-      'feed', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _deviceMeta = const VerificationMeta('device');
+      'feed', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  final VerificationMeta _boxMeta = const VerificationMeta('box');
   @override
-  late final GeneratedColumn<int> device = GeneratedColumn<int>(
-      'device', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _deviceBoxMeta =
-      const VerificationMeta('deviceBox');
-  @override
-  late final GeneratedColumn<int> deviceBox = GeneratedColumn<int>(
-      'device_box', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _screenDeviceMeta =
-      const VerificationMeta('screenDevice');
-  @override
-  late final GeneratedColumn<int> screenDevice = GeneratedColumn<int>(
-      'screen_device', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _screenDeviceTokenMeta =
-      const VerificationMeta('screenDeviceToken');
-  @override
-  late final GeneratedColumn<String> screenDeviceToken =
-      GeneratedColumn<String>('screen_device_token', aliasedName, true,
-          additionalChecks: GeneratedColumn.checkTextLength(
-              minTextLength: 36, maxTextLength: 36),
-          type: DriftSqlType.string,
-          requiredDuringInsert: false);
-  static const VerificationMeta _encKeyMeta = const VerificationMeta('encKey');
-  @override
-  late final GeneratedColumn<String> encKey = GeneratedColumn<String>(
-      'enc_key', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  late final GeneratedColumn<int> box = GeneratedColumn<int>(
+      'box', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
@@ -1997,16 +1764,38 @@ class $BoxesTable extends Boxes with TableInfo<$BoxesTable, Box> {
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 32),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  static const VerificationMeta _settingsMeta =
-      const VerificationMeta('settings');
+  final VerificationMeta _singleMeta = const VerificationMeta('single');
+  @override
+  late final GeneratedColumn<bool> single = GeneratedColumn<bool>(
+      'single', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (single IN (0, 1))',
+      defaultValue: Constant(false));
+  final VerificationMeta _publicMeta = const VerificationMeta('public');
+  @override
+  late final GeneratedColumn<bool> public = GeneratedColumn<bool>(
+      'public', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (public IN (0, 1))',
+      defaultValue: Constant(false));
+  final VerificationMeta _alertsMeta = const VerificationMeta('alerts');
+  @override
+  late final GeneratedColumn<bool> alerts = GeneratedColumn<bool>(
+      'alerts', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (alerts IN (0, 1))',
+      defaultValue: Constant(true));
+  final VerificationMeta _settingsMeta = const VerificationMeta('settings');
   @override
   late final GeneratedColumn<String> settings = GeneratedColumn<String>(
       'settings', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
       defaultValue: Constant('{}'));
-  static const VerificationMeta _serverIDMeta =
-      const VerificationMeta('serverID');
+  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
   @override
   late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
       'server_i_d', aliasedName, true,
@@ -2014,36 +1803,23 @@ class $BoxesTable extends Boxes with TableInfo<$BoxesTable, Box> {
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
       requiredDuringInsert: false);
-  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
   @override
   late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
       'synced', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
+      defaultConstraints: 'CHECK (synced IN (0, 1))',
       defaultValue: Constant(false));
   @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        feed,
-        device,
-        deviceBox,
-        screenDevice,
-        screenDeviceToken,
-        encKey,
-        name,
-        settings,
-        serverID,
-        synced
-      ];
+  List<GeneratedColumn> get $columns =>
+      [id, feed, box, name, single, public, alerts, settings, serverID, synced];
   @override
-  String get aliasedName => _alias ?? actualTableName;
+  String get aliasedName => _alias ?? 'plants';
   @override
-  String get actualTableName => $name;
-  static const String $name = 'boxes';
+  String get actualTableName => 'plants';
   @override
-  VerificationContext validateIntegrity(Insertable<Box> instance,
+  VerificationContext validateIntegrity(Insertable<Plant> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -2053,36 +1829,32 @@ class $BoxesTable extends Boxes with TableInfo<$BoxesTable, Box> {
     if (data.containsKey('feed')) {
       context.handle(
           _feedMeta, feed.isAcceptableOrUnknown(data['feed']!, _feedMeta));
+    } else if (isInserting) {
+      context.missing(_feedMeta);
     }
-    if (data.containsKey('device')) {
-      context.handle(_deviceMeta,
-          device.isAcceptableOrUnknown(data['device']!, _deviceMeta));
-    }
-    if (data.containsKey('device_box')) {
-      context.handle(_deviceBoxMeta,
-          deviceBox.isAcceptableOrUnknown(data['device_box']!, _deviceBoxMeta));
-    }
-    if (data.containsKey('screen_device')) {
+    if (data.containsKey('box')) {
       context.handle(
-          _screenDeviceMeta,
-          screenDevice.isAcceptableOrUnknown(
-              data['screen_device']!, _screenDeviceMeta));
-    }
-    if (data.containsKey('screen_device_token')) {
-      context.handle(
-          _screenDeviceTokenMeta,
-          screenDeviceToken.isAcceptableOrUnknown(
-              data['screen_device_token']!, _screenDeviceTokenMeta));
-    }
-    if (data.containsKey('enc_key')) {
-      context.handle(_encKeyMeta,
-          encKey.isAcceptableOrUnknown(data['enc_key']!, _encKeyMeta));
+          _boxMeta, box.isAcceptableOrUnknown(data['box']!, _boxMeta));
+    } else if (isInserting) {
+      context.missing(_boxMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
           _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
+    }
+    if (data.containsKey('single')) {
+      context.handle(_singleMeta,
+          single.isAcceptableOrUnknown(data['single']!, _singleMeta));
+    }
+    if (data.containsKey('public')) {
+      context.handle(_publicMeta,
+          public.isAcceptableOrUnknown(data['public']!, _publicMeta));
+    }
+    if (data.containsKey('alerts')) {
+      context.handle(_alertsMeta,
+          alerts.isAcceptableOrUnknown(data['alerts']!, _alertsMeta));
     }
     if (data.containsKey('settings')) {
       context.handle(_settingsMeta,
@@ -2102,37 +1874,35 @@ class $BoxesTable extends Boxes with TableInfo<$BoxesTable, Box> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Box map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Plant map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Box(
-      id: attachedDatabase.typeMapping
+    return Plant(
+      id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      feed: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}feed']),
-      device: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}device']),
-      deviceBox: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}device_box']),
-      screenDevice: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}screen_device']),
-      screenDeviceToken: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}screen_device_token']),
-      encKey: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}enc_key']),
-      name: attachedDatabase.typeMapping
+      feed: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}feed'])!,
+      box: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}box'])!,
+      name: attachedDatabase.options.types
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      settings: attachedDatabase.typeMapping
+      single: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}single'])!,
+      public: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}public'])!,
+      alerts: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}alerts'])!,
+      settings: attachedDatabase.options.types
           .read(DriftSqlType.string, data['${effectivePrefix}settings'])!,
-      serverID: attachedDatabase.typeMapping
+      serverID: attachedDatabase.options.types
           .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.typeMapping
+      synced: attachedDatabase.options.types
           .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $BoxesTable createAlias(String alias) {
-    return $BoxesTable(attachedDatabase, alias);
+  $PlantsTable createAlias(String alias) {
+    return $PlantsTable(attachedDatabase, alias);
   }
 }
 
@@ -2470,27 +2240,57 @@ class BoxesCompanion extends UpdateCompanion<Box> {
   }
 }
 
-class $ChartCachesTable extends ChartCaches
-    with TableInfo<$ChartCachesTable, ChartCache> {
+class $BoxesTable extends Boxes with TableInfo<$BoxesTable, Box> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $ChartCachesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  $BoxesTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _boxMeta = const VerificationMeta('box');
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _feedMeta = const VerificationMeta('feed');
   @override
-  late final GeneratedColumn<int> box = GeneratedColumn<int>(
-      'box', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  late final GeneratedColumn<int> feed = GeneratedColumn<int>(
+      'feed', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  final VerificationMeta _deviceMeta = const VerificationMeta('device');
+  @override
+  late final GeneratedColumn<int> device = GeneratedColumn<int>(
+      'device', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  final VerificationMeta _deviceBoxMeta = const VerificationMeta('deviceBox');
+  @override
+  late final GeneratedColumn<int> deviceBox = GeneratedColumn<int>(
+      'device_box', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  final VerificationMeta _screenDeviceMeta =
+      const VerificationMeta('screenDevice');
+  @override
+  late final GeneratedColumn<int> screenDevice = GeneratedColumn<int>(
+      'screen_device', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  final VerificationMeta _screenDeviceTokenMeta =
+      const VerificationMeta('screenDeviceToken');
+  @override
+  late final GeneratedColumn<String> screenDeviceToken =
+      GeneratedColumn<String>('screen_device_token', aliasedName, true,
+          additionalChecks: GeneratedColumn.checkTextLength(
+              minTextLength: 36, maxTextLength: 36),
+          type: DriftSqlType.string,
+          requiredDuringInsert: false);
+  final VerificationMeta _encKeyMeta = const VerificationMeta('encKey');
+  @override
+  late final GeneratedColumn<String> encKey = GeneratedColumn<String>(
+      'enc_key', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
@@ -2498,38 +2298,82 @@ class $ChartCachesTable extends ChartCaches
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 32),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  static const VerificationMeta _dateMeta = const VerificationMeta('date');
+  final VerificationMeta _settingsMeta = const VerificationMeta('settings');
   @override
-  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
-      'date', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _valuesMeta = const VerificationMeta('values');
-  @override
-  late final GeneratedColumn<String> values = GeneratedColumn<String>(
-      'values', aliasedName, false,
+  late final GeneratedColumn<String> settings = GeneratedColumn<String>(
+      'settings', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
-      defaultValue: Constant('[]'));
+      defaultValue: Constant('{}'));
+  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
   @override
-  List<GeneratedColumn> get $columns => [id, box, name, date, values];
+  late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
+      'server_i_d', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
   @override
-  String get aliasedName => _alias ?? actualTableName;
+  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
+      'synced', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (synced IN (0, 1))',
+      defaultValue: Constant(false));
   @override
-  String get actualTableName => $name;
-  static const String $name = 'chart_caches';
+  List<GeneratedColumn> get $columns => [
+        id,
+        feed,
+        device,
+        deviceBox,
+        screenDevice,
+        screenDeviceToken,
+        encKey,
+        name,
+        settings,
+        serverID,
+        synced
+      ];
   @override
-  VerificationContext validateIntegrity(Insertable<ChartCache> instance,
+  String get aliasedName => _alias ?? 'boxes';
+  @override
+  String get actualTableName => 'boxes';
+  @override
+  VerificationContext validateIntegrity(Insertable<Box> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('box')) {
+    if (data.containsKey('feed')) {
       context.handle(
-          _boxMeta, box.isAcceptableOrUnknown(data['box']!, _boxMeta));
-    } else if (isInserting) {
-      context.missing(_boxMeta);
+          _feedMeta, feed.isAcceptableOrUnknown(data['feed']!, _feedMeta));
+    }
+    if (data.containsKey('device')) {
+      context.handle(_deviceMeta,
+          device.isAcceptableOrUnknown(data['device']!, _deviceMeta));
+    }
+    if (data.containsKey('device_box')) {
+      context.handle(_deviceBoxMeta,
+          deviceBox.isAcceptableOrUnknown(data['device_box']!, _deviceBoxMeta));
+    }
+    if (data.containsKey('screen_device')) {
+      context.handle(
+          _screenDeviceMeta,
+          screenDevice.isAcceptableOrUnknown(
+              data['screen_device']!, _screenDeviceMeta));
+    }
+    if (data.containsKey('screen_device_token')) {
+      context.handle(
+          _screenDeviceTokenMeta,
+          screenDeviceToken.isAcceptableOrUnknown(
+              data['screen_device_token']!, _screenDeviceTokenMeta));
+    }
+    if (data.containsKey('enc_key')) {
+      context.handle(_encKeyMeta,
+          encKey.isAcceptableOrUnknown(data['enc_key']!, _encKeyMeta));
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -2537,15 +2381,17 @@ class $ChartCachesTable extends ChartCaches
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
-    if (data.containsKey('date')) {
-      context.handle(
-          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
-    } else if (isInserting) {
-      context.missing(_dateMeta);
+    if (data.containsKey('settings')) {
+      context.handle(_settingsMeta,
+          settings.isAcceptableOrUnknown(data['settings']!, _settingsMeta));
     }
-    if (data.containsKey('values')) {
-      context.handle(_valuesMeta,
-          values.isAcceptableOrUnknown(data['values']!, _valuesMeta));
+    if (data.containsKey('server_i_d')) {
+      context.handle(_serverIDMeta,
+          serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
+    }
+    if (data.containsKey('synced')) {
+      context.handle(_syncedMeta,
+          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
     }
     return context;
   }
@@ -2553,25 +2399,37 @@ class $ChartCachesTable extends ChartCaches
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  ChartCache map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Box map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return ChartCache(
-      id: attachedDatabase.typeMapping
+    return Box(
+      id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      box: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}box'])!,
-      name: attachedDatabase.typeMapping
+      feed: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}feed']),
+      device: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}device']),
+      deviceBox: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}device_box']),
+      screenDevice: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}screen_device']),
+      screenDeviceToken: attachedDatabase.options.types.read(
+          DriftSqlType.string, data['${effectivePrefix}screen_device_token']),
+      encKey: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}enc_key']),
+      name: attachedDatabase.options.types
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      date: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
-      values: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}values'])!,
+      settings: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}settings'])!,
+      serverID: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
+      synced: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $ChartCachesTable createAlias(String alias) {
-    return $ChartCachesTable(attachedDatabase, alias);
+  $BoxesTable createAlias(String alias) {
+    return $BoxesTable(attachedDatabase, alias);
   }
 }
 
@@ -2752,218 +2610,79 @@ class ChartCachesCompanion extends UpdateCompanion<ChartCache> {
   }
 }
 
-class $TimelapsesTable extends Timelapses
-    with TableInfo<$TimelapsesTable, Timelapse> {
+class $ChartCachesTable extends ChartCaches
+    with TableInfo<$ChartCachesTable, ChartCache> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $TimelapsesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  $ChartCachesTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _plantMeta = const VerificationMeta('plant');
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _boxMeta = const VerificationMeta('box');
   @override
-  late final GeneratedColumn<int> plant = GeneratedColumn<int>(
-      'plant', aliasedName, false,
+  late final GeneratedColumn<int> box = GeneratedColumn<int>(
+      'box', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
-  late final GeneratedColumn<String> type = GeneratedColumn<String>(
-      'type', aliasedName, false,
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 32),
       type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant('dropbox'));
-  static const VerificationMeta _settingsMeta =
-      const VerificationMeta('settings');
+      requiredDuringInsert: true);
+  final VerificationMeta _dateMeta = const VerificationMeta('date');
   @override
-  late final GeneratedColumn<String> settings = GeneratedColumn<String>(
-      'settings', aliasedName, false,
+  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
+      'date', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  final VerificationMeta _valuesMeta = const VerificationMeta('values');
+  @override
+  late final GeneratedColumn<String> values = GeneratedColumn<String>(
+      'values', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
-      defaultValue: Constant('{}'));
-  static const VerificationMeta _ssidMeta = const VerificationMeta('ssid');
+      defaultValue: Constant('[]'));
   @override
-  late final GeneratedColumn<String> ssid = GeneratedColumn<String>(
-      'ssid', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  static const VerificationMeta _passwordMeta =
-      const VerificationMeta('password');
+  List<GeneratedColumn> get $columns => [id, box, name, date, values];
   @override
-  late final GeneratedColumn<String> password = GeneratedColumn<String>(
-      'password', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  static const VerificationMeta _controllerIDMeta =
-      const VerificationMeta('controllerID');
+  String get aliasedName => _alias ?? 'chart_caches';
   @override
-  late final GeneratedColumn<String> controllerID = GeneratedColumn<String>(
-      'controller_i_d', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  static const VerificationMeta _rotateMeta = const VerificationMeta('rotate');
+  String get actualTableName => 'chart_caches';
   @override
-  late final GeneratedColumn<String> rotate = GeneratedColumn<String>(
-      'rotate', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  static const VerificationMeta _strainMeta = const VerificationMeta('strain');
-  @override
-  late final GeneratedColumn<String> strain = GeneratedColumn<String>(
-      'strain', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  static const VerificationMeta _dropboxTokenMeta =
-      const VerificationMeta('dropboxToken');
-  @override
-  late final GeneratedColumn<String> dropboxToken = GeneratedColumn<String>(
-      'dropbox_token', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  static const VerificationMeta _uploadNameMeta =
-      const VerificationMeta('uploadName');
-  @override
-  late final GeneratedColumn<String> uploadName = GeneratedColumn<String>(
-      'upload_name', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  static const VerificationMeta _serverIDMeta =
-      const VerificationMeta('serverID');
-  @override
-  late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
-      'server_i_d', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
-  @override
-  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
-      'synced', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
-      defaultValue: Constant(false));
-  @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        plant,
-        type,
-        settings,
-        ssid,
-        password,
-        controllerID,
-        rotate,
-        name,
-        strain,
-        dropboxToken,
-        uploadName,
-        serverID,
-        synced
-      ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'timelapses';
-  @override
-  VerificationContext validateIntegrity(Insertable<Timelapse> instance,
+  VerificationContext validateIntegrity(Insertable<ChartCache> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('plant')) {
+    if (data.containsKey('box')) {
       context.handle(
-          _plantMeta, plant.isAcceptableOrUnknown(data['plant']!, _plantMeta));
+          _boxMeta, box.isAcceptableOrUnknown(data['box']!, _boxMeta));
     } else if (isInserting) {
-      context.missing(_plantMeta);
-    }
-    if (data.containsKey('type')) {
-      context.handle(
-          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
-    }
-    if (data.containsKey('settings')) {
-      context.handle(_settingsMeta,
-          settings.isAcceptableOrUnknown(data['settings']!, _settingsMeta));
-    }
-    if (data.containsKey('ssid')) {
-      context.handle(
-          _ssidMeta, ssid.isAcceptableOrUnknown(data['ssid']!, _ssidMeta));
-    }
-    if (data.containsKey('password')) {
-      context.handle(_passwordMeta,
-          password.isAcceptableOrUnknown(data['password']!, _passwordMeta));
-    }
-    if (data.containsKey('controller_i_d')) {
-      context.handle(
-          _controllerIDMeta,
-          controllerID.isAcceptableOrUnknown(
-              data['controller_i_d']!, _controllerIDMeta));
-    }
-    if (data.containsKey('rotate')) {
-      context.handle(_rotateMeta,
-          rotate.isAcceptableOrUnknown(data['rotate']!, _rotateMeta));
+      context.missing(_boxMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
           _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
     }
-    if (data.containsKey('strain')) {
-      context.handle(_strainMeta,
-          strain.isAcceptableOrUnknown(data['strain']!, _strainMeta));
-    }
-    if (data.containsKey('dropbox_token')) {
+    if (data.containsKey('date')) {
       context.handle(
-          _dropboxTokenMeta,
-          dropboxToken.isAcceptableOrUnknown(
-              data['dropbox_token']!, _dropboxTokenMeta));
+          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
+    } else if (isInserting) {
+      context.missing(_dateMeta);
     }
-    if (data.containsKey('upload_name')) {
-      context.handle(
-          _uploadNameMeta,
-          uploadName.isAcceptableOrUnknown(
-              data['upload_name']!, _uploadNameMeta));
-    }
-    if (data.containsKey('server_i_d')) {
-      context.handle(_serverIDMeta,
-          serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
-    }
-    if (data.containsKey('synced')) {
-      context.handle(_syncedMeta,
-          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
+    if (data.containsKey('values')) {
+      context.handle(_valuesMeta,
+          values.isAcceptableOrUnknown(data['values']!, _valuesMeta));
     }
     return context;
   }
@@ -2971,43 +2690,25 @@ class $TimelapsesTable extends Timelapses
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Timelapse map(Map<String, dynamic> data, {String? tablePrefix}) {
+  ChartCache map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Timelapse(
-      id: attachedDatabase.typeMapping
+    return ChartCache(
+      id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      plant: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}plant'])!,
-      type: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
-      settings: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}settings'])!,
-      ssid: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}ssid']),
-      password: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}password']),
-      controllerID: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}controller_i_d']),
-      rotate: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}rotate']),
-      name: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name']),
-      strain: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}strain']),
-      dropboxToken: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}dropbox_token']),
-      uploadName: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}upload_name']),
-      serverID: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
+      box: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}box'])!,
+      name: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      date: attachedDatabase.options.types
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
+      values: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}values'])!,
     );
   }
 
   @override
-  $TimelapsesTable createAlias(String alias) {
-    return $TimelapsesTable(attachedDatabase, alias);
+  $ChartCachesTable createAlias(String alias) {
+    return $ChartCachesTable(attachedDatabase, alias);
   }
 }
 
@@ -3425,40 +3126,107 @@ class TimelapsesCompanion extends UpdateCompanion<Timelapse> {
   }
 }
 
-class $FeedsTable extends Feeds with TableInfo<$FeedsTable, Feed> {
+class $TimelapsesTable extends Timelapses
+    with TableInfo<$TimelapsesTable, Timelapse> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $FeedsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  $TimelapsesTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _plantMeta = const VerificationMeta('plant');
+  @override
+  late final GeneratedColumn<int> plant = GeneratedColumn<int>(
+      'plant', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  final VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 32),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant('dropbox'));
+  final VerificationMeta _settingsMeta = const VerificationMeta('settings');
+  @override
+  late final GeneratedColumn<String> settings = GeneratedColumn<String>(
+      'settings', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant('{}'));
+  final VerificationMeta _ssidMeta = const VerificationMeta('ssid');
+  @override
+  late final GeneratedColumn<String> ssid = GeneratedColumn<String>(
+      'ssid', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  final VerificationMeta _passwordMeta = const VerificationMeta('password');
+  @override
+  late final GeneratedColumn<String> password = GeneratedColumn<String>(
+      'password', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  final VerificationMeta _controllerIDMeta =
+      const VerificationMeta('controllerID');
+  @override
+  late final GeneratedColumn<String> controllerID = GeneratedColumn<String>(
+      'controller_i_d', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  final VerificationMeta _rotateMeta = const VerificationMeta('rotate');
+  @override
+  late final GeneratedColumn<String> rotate = GeneratedColumn<String>(
+      'rotate', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, false,
+      'name', aliasedName, true,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 24),
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
       type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _isNewsFeedMeta =
-      const VerificationMeta('isNewsFeed');
+      requiredDuringInsert: false);
+  final VerificationMeta _strainMeta = const VerificationMeta('strain');
   @override
-  late final GeneratedColumn<bool> isNewsFeed = GeneratedColumn<bool>(
-      'is_news_feed', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'CHECK ("is_news_feed" IN (0, 1))'),
-      defaultValue: Constant(false));
-  static const VerificationMeta _serverIDMeta =
-      const VerificationMeta('serverID');
+  late final GeneratedColumn<String> strain = GeneratedColumn<String>(
+      'strain', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  final VerificationMeta _dropboxTokenMeta =
+      const VerificationMeta('dropboxToken');
+  @override
+  late final GeneratedColumn<String> dropboxToken = GeneratedColumn<String>(
+      'dropbox_token', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  final VerificationMeta _uploadNameMeta = const VerificationMeta('uploadName');
+  @override
+  late final GeneratedColumn<String> uploadName = GeneratedColumn<String>(
+      'upload_name', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
   @override
   late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
       'server_i_d', aliasedName, true,
@@ -3466,42 +3234,94 @@ class $FeedsTable extends Feeds with TableInfo<$FeedsTable, Feed> {
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
       requiredDuringInsert: false);
-  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
   @override
   late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
       'synced', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
+      defaultConstraints: 'CHECK (synced IN (0, 1))',
       defaultValue: Constant(false));
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, name, isNewsFeed, serverID, synced];
+  List<GeneratedColumn> get $columns => [
+        id,
+        plant,
+        type,
+        settings,
+        ssid,
+        password,
+        controllerID,
+        rotate,
+        name,
+        strain,
+        dropboxToken,
+        uploadName,
+        serverID,
+        synced
+      ];
   @override
-  String get aliasedName => _alias ?? actualTableName;
+  String get aliasedName => _alias ?? 'timelapses';
   @override
-  String get actualTableName => $name;
-  static const String $name = 'feeds';
+  String get actualTableName => 'timelapses';
   @override
-  VerificationContext validateIntegrity(Insertable<Feed> instance,
+  VerificationContext validateIntegrity(Insertable<Timelapse> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
+    if (data.containsKey('plant')) {
+      context.handle(
+          _plantMeta, plant.isAcceptableOrUnknown(data['plant']!, _plantMeta));
+    } else if (isInserting) {
+      context.missing(_plantMeta);
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    }
+    if (data.containsKey('settings')) {
+      context.handle(_settingsMeta,
+          settings.isAcceptableOrUnknown(data['settings']!, _settingsMeta));
+    }
+    if (data.containsKey('ssid')) {
+      context.handle(
+          _ssidMeta, ssid.isAcceptableOrUnknown(data['ssid']!, _ssidMeta));
+    }
+    if (data.containsKey('password')) {
+      context.handle(_passwordMeta,
+          password.isAcceptableOrUnknown(data['password']!, _passwordMeta));
+    }
+    if (data.containsKey('controller_i_d')) {
+      context.handle(
+          _controllerIDMeta,
+          controllerID.isAcceptableOrUnknown(
+              data['controller_i_d']!, _controllerIDMeta));
+    }
+    if (data.containsKey('rotate')) {
+      context.handle(_rotateMeta,
+          rotate.isAcceptableOrUnknown(data['rotate']!, _rotateMeta));
+    }
     if (data.containsKey('name')) {
       context.handle(
           _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
-    } else if (isInserting) {
-      context.missing(_nameMeta);
     }
-    if (data.containsKey('is_news_feed')) {
+    if (data.containsKey('strain')) {
+      context.handle(_strainMeta,
+          strain.isAcceptableOrUnknown(data['strain']!, _strainMeta));
+    }
+    if (data.containsKey('dropbox_token')) {
       context.handle(
-          _isNewsFeedMeta,
-          isNewsFeed.isAcceptableOrUnknown(
-              data['is_news_feed']!, _isNewsFeedMeta));
+          _dropboxTokenMeta,
+          dropboxToken.isAcceptableOrUnknown(
+              data['dropbox_token']!, _dropboxTokenMeta));
+    }
+    if (data.containsKey('upload_name')) {
+      context.handle(
+          _uploadNameMeta,
+          uploadName.isAcceptableOrUnknown(
+              data['upload_name']!, _uploadNameMeta));
     }
     if (data.containsKey('server_i_d')) {
       context.handle(_serverIDMeta,
@@ -3517,25 +3337,43 @@ class $FeedsTable extends Feeds with TableInfo<$FeedsTable, Feed> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Feed map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Timelapse map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Feed(
-      id: attachedDatabase.typeMapping
+    return Timelapse(
+      id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      name: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      isNewsFeed: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_news_feed'])!,
-      serverID: attachedDatabase.typeMapping
+      plant: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}plant'])!,
+      type: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
+      settings: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}settings'])!,
+      ssid: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}ssid']),
+      password: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}password']),
+      controllerID: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}controller_i_d']),
+      rotate: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}rotate']),
+      name: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}name']),
+      strain: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}strain']),
+      dropboxToken: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}dropbox_token']),
+      uploadName: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}upload_name']),
+      serverID: attachedDatabase.options.types
           .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.typeMapping
+      synced: attachedDatabase.options.types
           .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $FeedsTable createAlias(String alias) {
-    return $FeedsTable(attachedDatabase, alias);
+  $TimelapsesTable createAlias(String alias) {
+    return $TimelapsesTable(attachedDatabase, alias);
   }
 }
 
@@ -3722,57 +3560,35 @@ class FeedsCompanion extends UpdateCompanion<Feed> {
   }
 }
 
-class $FeedEntriesTable extends FeedEntries
-    with TableInfo<$FeedEntriesTable, FeedEntry> {
+class $FeedsTable extends Feeds with TableInfo<$FeedsTable, Feed> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $FeedEntriesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  $FeedsTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _feedMeta = const VerificationMeta('feed');
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
-  late final GeneratedColumn<int> feed = GeneratedColumn<int>(
-      'feed', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _dateMeta = const VerificationMeta('date');
-  @override
-  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
-      'date', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _typeMeta = const VerificationMeta('type');
-  @override
-  late final GeneratedColumn<String> type = GeneratedColumn<String>(
-      'type', aliasedName, false,
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 24),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  static const VerificationMeta _isNewMeta = const VerificationMeta('isNew');
+  final VerificationMeta _isNewsFeedMeta = const VerificationMeta('isNewsFeed');
   @override
-  late final GeneratedColumn<bool> isNew = GeneratedColumn<bool>(
-      'is_new', aliasedName, false,
+  late final GeneratedColumn<bool> isNewsFeed = GeneratedColumn<bool>(
+      'is_news_feed', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("is_new" IN (0, 1))'),
+      defaultConstraints: 'CHECK (is_news_feed IN (0, 1))',
       defaultValue: Constant(false));
-  static const VerificationMeta _paramsMeta = const VerificationMeta('params');
-  @override
-  late final GeneratedColumn<String> params = GeneratedColumn<String>(
-      'params', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant('{}'));
-  static const VerificationMeta _serverIDMeta =
-      const VerificationMeta('serverID');
+  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
   @override
   late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
       'server_i_d', aliasedName, true,
@@ -3780,56 +3596,40 @@ class $FeedEntriesTable extends FeedEntries
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
       requiredDuringInsert: false);
-  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
   @override
   late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
       'synced', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
+      defaultConstraints: 'CHECK (synced IN (0, 1))',
       defaultValue: Constant(false));
   @override
   List<GeneratedColumn> get $columns =>
-      [id, feed, date, type, isNew, params, serverID, synced];
+      [id, name, isNewsFeed, serverID, synced];
   @override
-  String get aliasedName => _alias ?? actualTableName;
+  String get aliasedName => _alias ?? 'feeds';
   @override
-  String get actualTableName => $name;
-  static const String $name = 'feed_entries';
+  String get actualTableName => 'feeds';
   @override
-  VerificationContext validateIntegrity(Insertable<FeedEntry> instance,
+  VerificationContext validateIntegrity(Insertable<Feed> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('feed')) {
+    if (data.containsKey('name')) {
       context.handle(
-          _feedMeta, feed.isAcceptableOrUnknown(data['feed']!, _feedMeta));
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
     } else if (isInserting) {
-      context.missing(_feedMeta);
+      context.missing(_nameMeta);
     }
-    if (data.containsKey('date')) {
+    if (data.containsKey('is_news_feed')) {
       context.handle(
-          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
-    } else if (isInserting) {
-      context.missing(_dateMeta);
-    }
-    if (data.containsKey('type')) {
-      context.handle(
-          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
-    } else if (isInserting) {
-      context.missing(_typeMeta);
-    }
-    if (data.containsKey('is_new')) {
-      context.handle(
-          _isNewMeta, isNew.isAcceptableOrUnknown(data['is_new']!, _isNewMeta));
-    }
-    if (data.containsKey('params')) {
-      context.handle(_paramsMeta,
-          params.isAcceptableOrUnknown(data['params']!, _paramsMeta));
+          _isNewsFeedMeta,
+          isNewsFeed.isAcceptableOrUnknown(
+              data['is_news_feed']!, _isNewsFeedMeta));
     }
     if (data.containsKey('server_i_d')) {
       context.handle(_serverIDMeta,
@@ -3845,31 +3645,25 @@ class $FeedEntriesTable extends FeedEntries
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  FeedEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Feed map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return FeedEntry(
-      id: attachedDatabase.typeMapping
+    return Feed(
+      id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      feed: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}feed'])!,
-      date: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
-      type: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
-      isNew: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_new'])!,
-      params: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}params'])!,
-      serverID: attachedDatabase.typeMapping
+      name: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      isNewsFeed: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_news_feed'])!,
+      serverID: attachedDatabase.options.types
           .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.typeMapping
+      synced: attachedDatabase.options.types
           .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $FeedEntriesTable createAlias(String alias) {
-    return $FeedEntriesTable(attachedDatabase, alias);
+  $FeedsTable createAlias(String alias) {
+    return $FeedsTable(attachedDatabase, alias);
   }
 }
 
@@ -4122,27 +3916,30 @@ class FeedEntriesCompanion extends UpdateCompanion<FeedEntry> {
   }
 }
 
-class $FeedEntryDraftsTable extends FeedEntryDrafts
-    with TableInfo<$FeedEntryDraftsTable, FeedEntryDraft> {
+class $FeedEntriesTable extends FeedEntries
+    with TableInfo<$FeedEntriesTable, FeedEntry> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $FeedEntryDraftsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  $FeedEntriesTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _feedMeta = const VerificationMeta('feed');
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _feedMeta = const VerificationMeta('feed');
   @override
   late final GeneratedColumn<int> feed = GeneratedColumn<int>(
       'feed', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  final VerificationMeta _dateMeta = const VerificationMeta('date');
+  @override
+  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
+      'date', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  final VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
   late final GeneratedColumn<String> type = GeneratedColumn<String>(
       'type', aliasedName, false,
@@ -4150,22 +3947,46 @@ class $FeedEntryDraftsTable extends FeedEntryDrafts
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 24),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  static const VerificationMeta _paramsMeta = const VerificationMeta('params');
+  final VerificationMeta _isNewMeta = const VerificationMeta('isNew');
+  @override
+  late final GeneratedColumn<bool> isNew = GeneratedColumn<bool>(
+      'is_new', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (is_new IN (0, 1))',
+      defaultValue: Constant(false));
+  final VerificationMeta _paramsMeta = const VerificationMeta('params');
   @override
   late final GeneratedColumn<String> params = GeneratedColumn<String>(
       'params', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
       defaultValue: Constant('{}'));
+  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
   @override
-  List<GeneratedColumn> get $columns => [id, feed, type, params];
+  late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
+      'server_i_d', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
   @override
-  String get aliasedName => _alias ?? actualTableName;
+  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
+      'synced', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (synced IN (0, 1))',
+      defaultValue: Constant(false));
   @override
-  String get actualTableName => $name;
-  static const String $name = 'feed_entry_drafts';
+  List<GeneratedColumn> get $columns =>
+      [id, feed, date, type, isNew, params, serverID, synced];
   @override
-  VerificationContext validateIntegrity(Insertable<FeedEntryDraft> instance,
+  String get aliasedName => _alias ?? 'feed_entries';
+  @override
+  String get actualTableName => 'feed_entries';
+  @override
+  VerificationContext validateIntegrity(Insertable<FeedEntry> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -4178,15 +3999,33 @@ class $FeedEntryDraftsTable extends FeedEntryDrafts
     } else if (isInserting) {
       context.missing(_feedMeta);
     }
+    if (data.containsKey('date')) {
+      context.handle(
+          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
     if (data.containsKey('type')) {
       context.handle(
           _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
     } else if (isInserting) {
       context.missing(_typeMeta);
     }
+    if (data.containsKey('is_new')) {
+      context.handle(
+          _isNewMeta, isNew.isAcceptableOrUnknown(data['is_new']!, _isNewMeta));
+    }
     if (data.containsKey('params')) {
       context.handle(_paramsMeta,
           params.isAcceptableOrUnknown(data['params']!, _paramsMeta));
+    }
+    if (data.containsKey('server_i_d')) {
+      context.handle(_serverIDMeta,
+          serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
+    }
+    if (data.containsKey('synced')) {
+      context.handle(_syncedMeta,
+          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
     }
     return context;
   }
@@ -4194,23 +4033,31 @@ class $FeedEntryDraftsTable extends FeedEntryDrafts
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  FeedEntryDraft map(Map<String, dynamic> data, {String? tablePrefix}) {
+  FeedEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return FeedEntryDraft(
-      id: attachedDatabase.typeMapping
+    return FeedEntry(
+      id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      feed: attachedDatabase.typeMapping
+      feed: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}feed'])!,
-      type: attachedDatabase.typeMapping
+      date: attachedDatabase.options.types
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
+      type: attachedDatabase.options.types
           .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
-      params: attachedDatabase.typeMapping
+      isNew: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_new'])!,
+      params: attachedDatabase.options.types
           .read(DriftSqlType.string, data['${effectivePrefix}params'])!,
+      serverID: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
+      synced: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $FeedEntryDraftsTable createAlias(String alias) {
-    return $FeedEntryDraftsTable(attachedDatabase, alias);
+  $FeedEntriesTable createAlias(String alias) {
+    return $FeedEntriesTable(attachedDatabase, alias);
   }
 }
 
@@ -4369,79 +4216,47 @@ class FeedEntryDraftsCompanion extends UpdateCompanion<FeedEntryDraft> {
   }
 }
 
-class $FeedMediasTable extends FeedMedias
-    with TableInfo<$FeedMediasTable, FeedMedia> {
+class $FeedEntryDraftsTable extends FeedEntryDrafts
+    with TableInfo<$FeedEntryDraftsTable, FeedEntryDraft> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $FeedMediasTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  $FeedEntryDraftsTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _feedMeta = const VerificationMeta('feed');
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _feedMeta = const VerificationMeta('feed');
   @override
   late final GeneratedColumn<int> feed = GeneratedColumn<int>(
       'feed', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _feedEntryMeta =
-      const VerificationMeta('feedEntry');
+  final VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
-  late final GeneratedColumn<int> feedEntry = GeneratedColumn<int>(
-      'feed_entry', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _filePathMeta =
-      const VerificationMeta('filePath');
-  @override
-  late final GeneratedColumn<String> filePath = GeneratedColumn<String>(
-      'file_path', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _thumbnailPathMeta =
-      const VerificationMeta('thumbnailPath');
-  @override
-  late final GeneratedColumn<String> thumbnailPath = GeneratedColumn<String>(
-      'thumbnail_path', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _paramsMeta = const VerificationMeta('params');
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 24),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  final VerificationMeta _paramsMeta = const VerificationMeta('params');
   @override
   late final GeneratedColumn<String> params = GeneratedColumn<String>(
       'params', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
       defaultValue: Constant('{}'));
-  static const VerificationMeta _serverIDMeta =
-      const VerificationMeta('serverID');
   @override
-  late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
-      'server_i_d', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  List<GeneratedColumn> get $columns => [id, feed, type, params];
   @override
-  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
-      'synced', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
-      defaultValue: Constant(false));
+  String get aliasedName => _alias ?? 'feed_entry_drafts';
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, feed, feedEntry, filePath, thumbnailPath, params, serverID, synced];
+  String get actualTableName => 'feed_entry_drafts';
   @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'feed_medias';
-  @override
-  VerificationContext validateIntegrity(Insertable<FeedMedia> instance,
+  VerificationContext validateIntegrity(Insertable<FeedEntryDraft> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -4454,37 +4269,15 @@ class $FeedMediasTable extends FeedMedias
     } else if (isInserting) {
       context.missing(_feedMeta);
     }
-    if (data.containsKey('feed_entry')) {
-      context.handle(_feedEntryMeta,
-          feedEntry.isAcceptableOrUnknown(data['feed_entry']!, _feedEntryMeta));
-    } else if (isInserting) {
-      context.missing(_feedEntryMeta);
-    }
-    if (data.containsKey('file_path')) {
-      context.handle(_filePathMeta,
-          filePath.isAcceptableOrUnknown(data['file_path']!, _filePathMeta));
-    } else if (isInserting) {
-      context.missing(_filePathMeta);
-    }
-    if (data.containsKey('thumbnail_path')) {
+    if (data.containsKey('type')) {
       context.handle(
-          _thumbnailPathMeta,
-          thumbnailPath.isAcceptableOrUnknown(
-              data['thumbnail_path']!, _thumbnailPathMeta));
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
     } else if (isInserting) {
-      context.missing(_thumbnailPathMeta);
+      context.missing(_typeMeta);
     }
     if (data.containsKey('params')) {
       context.handle(_paramsMeta,
           params.isAcceptableOrUnknown(data['params']!, _paramsMeta));
-    }
-    if (data.containsKey('server_i_d')) {
-      context.handle(_serverIDMeta,
-          serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
-    }
-    if (data.containsKey('synced')) {
-      context.handle(_syncedMeta,
-          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
     }
     return context;
   }
@@ -4492,31 +4285,23 @@ class $FeedMediasTable extends FeedMedias
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  FeedMedia map(Map<String, dynamic> data, {String? tablePrefix}) {
+  FeedEntryDraft map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return FeedMedia(
-      id: attachedDatabase.typeMapping
+    return FeedEntryDraft(
+      id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      feed: attachedDatabase.typeMapping
+      feed: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}feed'])!,
-      feedEntry: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}feed_entry'])!,
-      filePath: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}file_path'])!,
-      thumbnailPath: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}thumbnail_path'])!,
-      params: attachedDatabase.typeMapping
+      type: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
+      params: attachedDatabase.options.types
           .read(DriftSqlType.string, data['${effectivePrefix}params'])!,
-      serverID: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $FeedMediasTable createAlias(String alias) {
-    return $FeedMediasTable(attachedDatabase, alias);
+  $FeedEntryDraftsTable createAlias(String alias) {
+    return $FeedEntryDraftsTable(attachedDatabase, alias);
   }
 }
 
@@ -4770,63 +4555,115 @@ class FeedMediasCompanion extends UpdateCompanion<FeedMedia> {
   }
 }
 
-class $DeletesTable extends Deletes with TableInfo<$DeletesTable, Delete> {
+class $FeedMediasTable extends FeedMedias
+    with TableInfo<$FeedMediasTable, FeedMedia> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DeletesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  $FeedMediasTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _serverIDMeta =
-      const VerificationMeta('serverID');
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _feedMeta = const VerificationMeta('feed');
+  @override
+  late final GeneratedColumn<int> feed = GeneratedColumn<int>(
+      'feed', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  final VerificationMeta _feedEntryMeta = const VerificationMeta('feedEntry');
+  @override
+  late final GeneratedColumn<int> feedEntry = GeneratedColumn<int>(
+      'feed_entry', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  final VerificationMeta _filePathMeta = const VerificationMeta('filePath');
+  @override
+  late final GeneratedColumn<String> filePath = GeneratedColumn<String>(
+      'file_path', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  final VerificationMeta _thumbnailPathMeta =
+      const VerificationMeta('thumbnailPath');
+  @override
+  late final GeneratedColumn<String> thumbnailPath = GeneratedColumn<String>(
+      'thumbnail_path', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  final VerificationMeta _paramsMeta = const VerificationMeta('params');
+  @override
+  late final GeneratedColumn<String> params = GeneratedColumn<String>(
+      'params', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant('{}'));
+  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
   @override
   late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
-      'server_i_d', aliasedName, false,
+      'server_i_d', aliasedName, true,
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+      requiredDuringInsert: false);
+  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
   @override
-  late final GeneratedColumn<String> type = GeneratedColumn<String>(
-      'type', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 16),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
+  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
+      'synced', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (synced IN (0, 1))',
+      defaultValue: Constant(false));
   @override
-  List<GeneratedColumn> get $columns => [id, serverID, type];
+  List<GeneratedColumn> get $columns =>
+      [id, feed, feedEntry, filePath, thumbnailPath, params, serverID, synced];
   @override
-  String get aliasedName => _alias ?? actualTableName;
+  String get aliasedName => _alias ?? 'feed_medias';
   @override
-  String get actualTableName => $name;
-  static const String $name = 'deletes';
+  String get actualTableName => 'feed_medias';
   @override
-  VerificationContext validateIntegrity(Insertable<Delete> instance,
+  VerificationContext validateIntegrity(Insertable<FeedMedia> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
+    if (data.containsKey('feed')) {
+      context.handle(
+          _feedMeta, feed.isAcceptableOrUnknown(data['feed']!, _feedMeta));
+    } else if (isInserting) {
+      context.missing(_feedMeta);
+    }
+    if (data.containsKey('feed_entry')) {
+      context.handle(_feedEntryMeta,
+          feedEntry.isAcceptableOrUnknown(data['feed_entry']!, _feedEntryMeta));
+    } else if (isInserting) {
+      context.missing(_feedEntryMeta);
+    }
+    if (data.containsKey('file_path')) {
+      context.handle(_filePathMeta,
+          filePath.isAcceptableOrUnknown(data['file_path']!, _filePathMeta));
+    } else if (isInserting) {
+      context.missing(_filePathMeta);
+    }
+    if (data.containsKey('thumbnail_path')) {
+      context.handle(
+          _thumbnailPathMeta,
+          thumbnailPath.isAcceptableOrUnknown(
+              data['thumbnail_path']!, _thumbnailPathMeta));
+    } else if (isInserting) {
+      context.missing(_thumbnailPathMeta);
+    }
+    if (data.containsKey('params')) {
+      context.handle(_paramsMeta,
+          params.isAcceptableOrUnknown(data['params']!, _paramsMeta));
+    }
     if (data.containsKey('server_i_d')) {
       context.handle(_serverIDMeta,
           serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
-    } else if (isInserting) {
-      context.missing(_serverIDMeta);
     }
-    if (data.containsKey('type')) {
-      context.handle(
-          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
-    } else if (isInserting) {
-      context.missing(_typeMeta);
+    if (data.containsKey('synced')) {
+      context.handle(_syncedMeta,
+          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
     }
     return context;
   }
@@ -4834,21 +4671,31 @@ class $DeletesTable extends Deletes with TableInfo<$DeletesTable, Delete> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Delete map(Map<String, dynamic> data, {String? tablePrefix}) {
+  FeedMedia map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Delete(
-      id: attachedDatabase.typeMapping
+    return FeedMedia(
+      id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      serverID: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d'])!,
-      type: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
+      feed: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}feed'])!,
+      feedEntry: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}feed_entry'])!,
+      filePath: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}file_path'])!,
+      thumbnailPath: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}thumbnail_path'])!,
+      params: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}params'])!,
+      serverID: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
+      synced: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $DeletesTable createAlias(String alias) {
-    return $DeletesTable(attachedDatabase, alias);
+  $FeedMediasTable createAlias(String alias) {
+    return $FeedMediasTable(attachedDatabase, alias);
   }
 }
 
@@ -4981,72 +4828,59 @@ class DeletesCompanion extends UpdateCompanion<Delete> {
   }
 }
 
-class $ChecklistsTable extends Checklists
-    with TableInfo<$ChecklistsTable, Checklist> {
+class $DeletesTable extends Deletes with TableInfo<$DeletesTable, Delete> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $ChecklistsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  $DeletesTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _plantMeta = const VerificationMeta('plant');
-  @override
-  late final GeneratedColumn<int> plant = GeneratedColumn<int>(
-      'plant', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _serverIDMeta =
-      const VerificationMeta('serverID');
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
   @override
   late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
-      'server_i_d', aliasedName, true,
+      'server_i_d', aliasedName, false,
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
+      requiredDuringInsert: true);
+  final VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
-  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
-      'synced', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
-      defaultValue: Constant(false));
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 16),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, plant, serverID, synced];
+  List<GeneratedColumn> get $columns => [id, serverID, type];
   @override
-  String get aliasedName => _alias ?? actualTableName;
+  String get aliasedName => _alias ?? 'deletes';
   @override
-  String get actualTableName => $name;
-  static const String $name = 'checklists';
+  String get actualTableName => 'deletes';
   @override
-  VerificationContext validateIntegrity(Insertable<Checklist> instance,
+  VerificationContext validateIntegrity(Insertable<Delete> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('plant')) {
-      context.handle(
-          _plantMeta, plant.isAcceptableOrUnknown(data['plant']!, _plantMeta));
-    } else if (isInserting) {
-      context.missing(_plantMeta);
-    }
     if (data.containsKey('server_i_d')) {
       context.handle(_serverIDMeta,
           serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
+    } else if (isInserting) {
+      context.missing(_serverIDMeta);
     }
-    if (data.containsKey('synced')) {
-      context.handle(_syncedMeta,
-          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    } else if (isInserting) {
+      context.missing(_typeMeta);
     }
     return context;
   }
@@ -5054,23 +4888,21 @@ class $ChecklistsTable extends Checklists
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Checklist map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Delete map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Checklist(
-      id: attachedDatabase.typeMapping
+    return Delete(
+      id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      plant: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}plant'])!,
-      serverID: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
+      serverID: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d'])!,
+      type: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
     );
   }
 
   @override
-  $ChecklistsTable createAlias(String alias) {
-    return $ChecklistsTable(attachedDatabase, alias);
+  $DeletesTable createAlias(String alias) {
+    return $DeletesTable(attachedDatabase, alias);
   }
 }
 
@@ -5236,137 +5068,25 @@ class ChecklistsCompanion extends UpdateCompanion<Checklist> {
   }
 }
 
-class $ChecklistSeedsTable extends ChecklistSeeds
-    with TableInfo<$ChecklistSeedsTable, ChecklistSeed> {
+class $ChecklistsTable extends Checklists
+    with TableInfo<$ChecklistsTable, Checklist> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $ChecklistSeedsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  $ChecklistsTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _checklistMeta =
-      const VerificationMeta('checklist');
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _plantMeta = const VerificationMeta('plant');
   @override
-  late final GeneratedColumn<int> checklist = GeneratedColumn<int>(
-      'checklist', aliasedName, false,
+  late final GeneratedColumn<int> plant = GeneratedColumn<int>(
+      'plant', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _collectionMeta =
-      const VerificationMeta('collection');
-  @override
-  late final GeneratedColumn<int> collection = GeneratedColumn<int>(
-      'collection', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  static const VerificationMeta _titleMeta = const VerificationMeta('title');
-  @override
-  late final GeneratedColumn<String> title = GeneratedColumn<String>(
-      'title', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant(''));
-  static const VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
-  @override
-  late final GeneratedColumn<String> description = GeneratedColumn<String>(
-      'description', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant(''));
-  static const VerificationMeta _categoryMeta =
-      const VerificationMeta('category');
-  @override
-  late final GeneratedColumn<String> category = GeneratedColumn<String>(
-      'category', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant(''));
-  static const VerificationMeta _fastMeta = const VerificationMeta('fast');
-  @override
-  late final GeneratedColumn<bool> fast = GeneratedColumn<bool>(
-      'fast', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("fast" IN (0, 1))'),
-      defaultValue: Constant(false));
-  static const VerificationMeta _publicMeta = const VerificationMeta('public');
-  @override
-  late final GeneratedColumn<bool> public = GeneratedColumn<bool>(
-      'public', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("public" IN (0, 1))'),
-      defaultValue: Constant(false));
-  static const VerificationMeta _repeatMeta = const VerificationMeta('repeat');
-  @override
-  late final GeneratedColumn<bool> repeat = GeneratedColumn<bool>(
-      'repeat', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("repeat" IN (0, 1))'),
-      defaultValue: Constant(false));
-  static const VerificationMeta _mineMeta = const VerificationMeta('mine');
-  @override
-  late final GeneratedColumn<bool> mine = GeneratedColumn<bool>(
-      'mine', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("mine" IN (0, 1))'),
-      defaultValue: Constant(true));
-  static const VerificationMeta _conditionsMeta =
-      const VerificationMeta('conditions');
-  @override
-  late final GeneratedColumn<String> conditions = GeneratedColumn<String>(
-      'conditions', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant('[]'));
-  static const VerificationMeta _exitConditionsMeta =
-      const VerificationMeta('exitConditions');
-  @override
-  late final GeneratedColumn<String> exitConditions = GeneratedColumn<String>(
-      'exit_conditions', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant('[]'));
-  static const VerificationMeta _actionsMeta =
-      const VerificationMeta('actions');
-  @override
-  late final GeneratedColumn<String> actions = GeneratedColumn<String>(
-      'actions', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant('[]'));
-  static const VerificationMeta _checklistServerIDMeta =
-      const VerificationMeta('checklistServerID');
-  @override
-  late final GeneratedColumn<String> checklistServerID =
-      GeneratedColumn<String>('checklist_server_i_d', aliasedName, true,
-          additionalChecks: GeneratedColumn.checkTextLength(
-              minTextLength: 36, maxTextLength: 36),
-          type: DriftSqlType.string,
-          requiredDuringInsert: false);
-  static const VerificationMeta _checklistCollectionServerIDMeta =
-      const VerificationMeta('checklistCollectionServerID');
-  @override
-  late final GeneratedColumn<String> checklistCollectionServerID =
-      GeneratedColumn<String>(
-          'checklist_collection_server_i_d', aliasedName, true,
-          additionalChecks: GeneratedColumn.checkTextLength(
-              minTextLength: 36, maxTextLength: 36),
-          type: DriftSqlType.string,
-          requiredDuringInsert: false);
-  static const VerificationMeta _serverIDMeta =
-      const VerificationMeta('serverID');
+  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
   @override
   late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
       'server_i_d', aliasedName, true,
@@ -5374,118 +5094,33 @@ class $ChecklistSeedsTable extends ChecklistSeeds
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
       requiredDuringInsert: false);
-  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
   @override
   late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
       'synced', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
+      defaultConstraints: 'CHECK (synced IN (0, 1))',
       defaultValue: Constant(false));
   @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        checklist,
-        collection,
-        title,
-        description,
-        category,
-        fast,
-        public,
-        repeat,
-        mine,
-        conditions,
-        exitConditions,
-        actions,
-        checklistServerID,
-        checklistCollectionServerID,
-        serverID,
-        synced
-      ];
+  List<GeneratedColumn> get $columns => [id, plant, serverID, synced];
   @override
-  String get aliasedName => _alias ?? actualTableName;
+  String get aliasedName => _alias ?? 'checklists';
   @override
-  String get actualTableName => $name;
-  static const String $name = 'checklist_seeds';
+  String get actualTableName => 'checklists';
   @override
-  VerificationContext validateIntegrity(Insertable<ChecklistSeed> instance,
+  VerificationContext validateIntegrity(Insertable<Checklist> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('checklist')) {
-      context.handle(_checklistMeta,
-          checklist.isAcceptableOrUnknown(data['checklist']!, _checklistMeta));
+    if (data.containsKey('plant')) {
+      context.handle(
+          _plantMeta, plant.isAcceptableOrUnknown(data['plant']!, _plantMeta));
     } else if (isInserting) {
-      context.missing(_checklistMeta);
-    }
-    if (data.containsKey('collection')) {
-      context.handle(
-          _collectionMeta,
-          collection.isAcceptableOrUnknown(
-              data['collection']!, _collectionMeta));
-    }
-    if (data.containsKey('title')) {
-      context.handle(
-          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
-    }
-    if (data.containsKey('description')) {
-      context.handle(
-          _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description']!, _descriptionMeta));
-    }
-    if (data.containsKey('category')) {
-      context.handle(_categoryMeta,
-          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
-    }
-    if (data.containsKey('fast')) {
-      context.handle(
-          _fastMeta, fast.isAcceptableOrUnknown(data['fast']!, _fastMeta));
-    }
-    if (data.containsKey('public')) {
-      context.handle(_publicMeta,
-          public.isAcceptableOrUnknown(data['public']!, _publicMeta));
-    }
-    if (data.containsKey('repeat')) {
-      context.handle(_repeatMeta,
-          repeat.isAcceptableOrUnknown(data['repeat']!, _repeatMeta));
-    }
-    if (data.containsKey('mine')) {
-      context.handle(
-          _mineMeta, mine.isAcceptableOrUnknown(data['mine']!, _mineMeta));
-    }
-    if (data.containsKey('conditions')) {
-      context.handle(
-          _conditionsMeta,
-          conditions.isAcceptableOrUnknown(
-              data['conditions']!, _conditionsMeta));
-    }
-    if (data.containsKey('exit_conditions')) {
-      context.handle(
-          _exitConditionsMeta,
-          exitConditions.isAcceptableOrUnknown(
-              data['exit_conditions']!, _exitConditionsMeta));
-    }
-    if (data.containsKey('actions')) {
-      context.handle(_actionsMeta,
-          actions.isAcceptableOrUnknown(data['actions']!, _actionsMeta));
-    }
-    if (data.containsKey('checklist_server_i_d')) {
-      context.handle(
-          _checklistServerIDMeta,
-          checklistServerID.isAcceptableOrUnknown(
-              data['checklist_server_i_d']!, _checklistServerIDMeta));
-    }
-    if (data.containsKey('checklist_collection_server_i_d')) {
-      context.handle(
-          _checklistCollectionServerIDMeta,
-          checklistCollectionServerID.isAcceptableOrUnknown(
-              data['checklist_collection_server_i_d']!,
-              _checklistCollectionServerIDMeta));
+      context.missing(_plantMeta);
     }
     if (data.containsKey('server_i_d')) {
       context.handle(_serverIDMeta,
@@ -5501,50 +5136,23 @@ class $ChecklistSeedsTable extends ChecklistSeeds
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  ChecklistSeed map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Checklist map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return ChecklistSeed(
-      id: attachedDatabase.typeMapping
+    return Checklist(
+      id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      checklist: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}checklist'])!,
-      collection: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}collection']),
-      title: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      description: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
-      category: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}category'])!,
-      fast: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}fast'])!,
-      public: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}public'])!,
-      repeat: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}repeat'])!,
-      mine: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}mine'])!,
-      conditions: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}conditions'])!,
-      exitConditions: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}exit_conditions'])!,
-      actions: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}actions'])!,
-      checklistServerID: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}checklist_server_i_d']),
-      checklistCollectionServerID: attachedDatabase.typeMapping.read(
-          DriftSqlType.string,
-          data['${effectivePrefix}checklist_collection_server_i_d']),
-      serverID: attachedDatabase.typeMapping
+      plant: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}plant'])!,
+      serverID: attachedDatabase.options.types
           .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.typeMapping
+      synced: attachedDatabase.options.types
           .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $ChecklistSeedsTable createAlias(String alias) {
-    return $ChecklistSeedsTable(attachedDatabase, alias);
+  $ChecklistsTable createAlias(String alias) {
+    return $ChecklistsTable(attachedDatabase, alias);
   }
 }
 
@@ -6025,77 +5633,125 @@ class ChecklistSeedsCompanion extends UpdateCompanion<ChecklistSeed> {
   }
 }
 
-class $ChecklistLogsTable extends ChecklistLogs
-    with TableInfo<$ChecklistLogsTable, ChecklistLog> {
+class $ChecklistSeedsTable extends ChecklistSeeds
+    with TableInfo<$ChecklistSeedsTable, ChecklistSeed> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $ChecklistLogsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  $ChecklistSeedsTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _checklistSeedMeta =
-      const VerificationMeta('checklistSeed');
-  @override
-  late final GeneratedColumn<int> checklistSeed = GeneratedColumn<int>(
-      'checklist_seed', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _checklistMeta =
-      const VerificationMeta('checklist');
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _checklistMeta = const VerificationMeta('checklist');
   @override
   late final GeneratedColumn<int> checklist = GeneratedColumn<int>(
       'checklist', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _actionMeta = const VerificationMeta('action');
+  final VerificationMeta _collectionMeta = const VerificationMeta('collection');
   @override
-  late final GeneratedColumn<String> action = GeneratedColumn<String>(
-      'action', aliasedName, false,
+  late final GeneratedColumn<int> collection = GeneratedColumn<int>(
+      'collection', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  final VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+      'title', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
-      defaultValue: Constant('{}'));
-  static const VerificationMeta _noRepeatMeta =
-      const VerificationMeta('noRepeat');
+      defaultValue: Constant(''));
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
   @override
-  late final GeneratedColumn<bool> noRepeat = GeneratedColumn<bool>(
-      'no_repeat', aliasedName, false,
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant(''));
+  final VerificationMeta _categoryMeta = const VerificationMeta('category');
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+      'category', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant(''));
+  final VerificationMeta _fastMeta = const VerificationMeta('fast');
+  @override
+  late final GeneratedColumn<bool> fast = GeneratedColumn<bool>(
+      'fast', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("no_repeat" IN (0, 1))'),
+      defaultConstraints: 'CHECK (fast IN (0, 1))',
       defaultValue: Constant(false));
-  static const VerificationMeta _checkedMeta =
-      const VerificationMeta('checked');
+  final VerificationMeta _publicMeta = const VerificationMeta('public');
   @override
-  late final GeneratedColumn<bool> checked = GeneratedColumn<bool>(
-      'checked', aliasedName, false,
+  late final GeneratedColumn<bool> public = GeneratedColumn<bool>(
+      'public', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("checked" IN (0, 1))'),
+      defaultConstraints: 'CHECK (public IN (0, 1))',
       defaultValue: Constant(false));
-  static const VerificationMeta _skippedMeta =
-      const VerificationMeta('skipped');
+  final VerificationMeta _repeatMeta = const VerificationMeta('repeat');
   @override
-  late final GeneratedColumn<bool> skipped = GeneratedColumn<bool>(
-      'skipped', aliasedName, false,
+  late final GeneratedColumn<bool> repeat = GeneratedColumn<bool>(
+      'repeat', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("skipped" IN (0, 1))'),
+      defaultConstraints: 'CHECK (repeat IN (0, 1))',
       defaultValue: Constant(false));
-  static const VerificationMeta _dateMeta = const VerificationMeta('date');
+  final VerificationMeta _mineMeta = const VerificationMeta('mine');
   @override
-  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
-      'date', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _serverIDMeta =
-      const VerificationMeta('serverID');
+  late final GeneratedColumn<bool> mine = GeneratedColumn<bool>(
+      'mine', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (mine IN (0, 1))',
+      defaultValue: Constant(true));
+  final VerificationMeta _conditionsMeta = const VerificationMeta('conditions');
+  @override
+  late final GeneratedColumn<String> conditions = GeneratedColumn<String>(
+      'conditions', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant('[]'));
+  final VerificationMeta _exitConditionsMeta =
+      const VerificationMeta('exitConditions');
+  @override
+  late final GeneratedColumn<String> exitConditions = GeneratedColumn<String>(
+      'exit_conditions', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant('[]'));
+  final VerificationMeta _actionsMeta = const VerificationMeta('actions');
+  @override
+  late final GeneratedColumn<String> actions = GeneratedColumn<String>(
+      'actions', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant('[]'));
+  final VerificationMeta _checklistServerIDMeta =
+      const VerificationMeta('checklistServerID');
+  @override
+  late final GeneratedColumn<String> checklistServerID =
+      GeneratedColumn<String>('checklist_server_i_d', aliasedName, true,
+          additionalChecks: GeneratedColumn.checkTextLength(
+              minTextLength: 36, maxTextLength: 36),
+          type: DriftSqlType.string,
+          requiredDuringInsert: false);
+  final VerificationMeta _checklistCollectionServerIDMeta =
+      const VerificationMeta('checklistCollectionServerID');
+  @override
+  late final GeneratedColumn<String> checklistCollectionServerID =
+      GeneratedColumn<String>(
+          'checklist_collection_server_i_d', aliasedName, true,
+          additionalChecks: GeneratedColumn.checkTextLength(
+              minTextLength: 36, maxTextLength: 36),
+          type: DriftSqlType.string,
+          requiredDuringInsert: false);
+  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
   @override
   late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
       'server_i_d', aliasedName, true,
@@ -6103,48 +5759,45 @@ class $ChecklistLogsTable extends ChecklistLogs
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
       requiredDuringInsert: false);
-  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
   @override
   late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
       'synced', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
+      defaultConstraints: 'CHECK (synced IN (0, 1))',
       defaultValue: Constant(false));
   @override
   List<GeneratedColumn> get $columns => [
         id,
-        checklistSeed,
         checklist,
-        action,
-        noRepeat,
-        checked,
-        skipped,
-        date,
+        collection,
+        title,
+        description,
+        category,
+        fast,
+        public,
+        repeat,
+        mine,
+        conditions,
+        exitConditions,
+        actions,
+        checklistServerID,
+        checklistCollectionServerID,
         serverID,
         synced
       ];
   @override
-  String get aliasedName => _alias ?? actualTableName;
+  String get aliasedName => _alias ?? 'checklist_seeds';
   @override
-  String get actualTableName => $name;
-  static const String $name = 'checklist_logs';
+  String get actualTableName => 'checklist_seeds';
   @override
-  VerificationContext validateIntegrity(Insertable<ChecklistLog> instance,
+  VerificationContext validateIntegrity(Insertable<ChecklistSeed> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('checklist_seed')) {
-      context.handle(
-          _checklistSeedMeta,
-          checklistSeed.isAcceptableOrUnknown(
-              data['checklist_seed']!, _checklistSeedMeta));
-    } else if (isInserting) {
-      context.missing(_checklistSeedMeta);
     }
     if (data.containsKey('checklist')) {
       context.handle(_checklistMeta,
@@ -6152,27 +5805,70 @@ class $ChecklistLogsTable extends ChecklistLogs
     } else if (isInserting) {
       context.missing(_checklistMeta);
     }
-    if (data.containsKey('action')) {
-      context.handle(_actionMeta,
-          action.isAcceptableOrUnknown(data['action']!, _actionMeta));
-    }
-    if (data.containsKey('no_repeat')) {
-      context.handle(_noRepeatMeta,
-          noRepeat.isAcceptableOrUnknown(data['no_repeat']!, _noRepeatMeta));
-    }
-    if (data.containsKey('checked')) {
-      context.handle(_checkedMeta,
-          checked.isAcceptableOrUnknown(data['checked']!, _checkedMeta));
-    }
-    if (data.containsKey('skipped')) {
-      context.handle(_skippedMeta,
-          skipped.isAcceptableOrUnknown(data['skipped']!, _skippedMeta));
-    }
-    if (data.containsKey('date')) {
+    if (data.containsKey('collection')) {
       context.handle(
-          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
-    } else if (isInserting) {
-      context.missing(_dateMeta);
+          _collectionMeta,
+          collection.isAcceptableOrUnknown(
+              data['collection']!, _collectionMeta));
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
+    if (data.containsKey('category')) {
+      context.handle(_categoryMeta,
+          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
+    }
+    if (data.containsKey('fast')) {
+      context.handle(
+          _fastMeta, fast.isAcceptableOrUnknown(data['fast']!, _fastMeta));
+    }
+    if (data.containsKey('public')) {
+      context.handle(_publicMeta,
+          public.isAcceptableOrUnknown(data['public']!, _publicMeta));
+    }
+    if (data.containsKey('repeat')) {
+      context.handle(_repeatMeta,
+          repeat.isAcceptableOrUnknown(data['repeat']!, _repeatMeta));
+    }
+    if (data.containsKey('mine')) {
+      context.handle(
+          _mineMeta, mine.isAcceptableOrUnknown(data['mine']!, _mineMeta));
+    }
+    if (data.containsKey('conditions')) {
+      context.handle(
+          _conditionsMeta,
+          conditions.isAcceptableOrUnknown(
+              data['conditions']!, _conditionsMeta));
+    }
+    if (data.containsKey('exit_conditions')) {
+      context.handle(
+          _exitConditionsMeta,
+          exitConditions.isAcceptableOrUnknown(
+              data['exit_conditions']!, _exitConditionsMeta));
+    }
+    if (data.containsKey('actions')) {
+      context.handle(_actionsMeta,
+          actions.isAcceptableOrUnknown(data['actions']!, _actionsMeta));
+    }
+    if (data.containsKey('checklist_server_i_d')) {
+      context.handle(
+          _checklistServerIDMeta,
+          checklistServerID.isAcceptableOrUnknown(
+              data['checklist_server_i_d']!, _checklistServerIDMeta));
+    }
+    if (data.containsKey('checklist_collection_server_i_d')) {
+      context.handle(
+          _checklistCollectionServerIDMeta,
+          checklistCollectionServerID.isAcceptableOrUnknown(
+              data['checklist_collection_server_i_d']!,
+              _checklistCollectionServerIDMeta));
     }
     if (data.containsKey('server_i_d')) {
       context.handle(_serverIDMeta,
@@ -6188,35 +5884,50 @@ class $ChecklistLogsTable extends ChecklistLogs
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  ChecklistLog map(Map<String, dynamic> data, {String? tablePrefix}) {
+  ChecklistSeed map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return ChecklistLog(
-      id: attachedDatabase.typeMapping
+    return ChecklistSeed(
+      id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      checklistSeed: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}checklist_seed'])!,
-      checklist: attachedDatabase.typeMapping
+      checklist: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}checklist'])!,
-      action: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}action'])!,
-      noRepeat: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}no_repeat'])!,
-      checked: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}checked'])!,
-      skipped: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}skipped'])!,
-      date: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
-      serverID: attachedDatabase.typeMapping
+      collection: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}collection']),
+      title: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      description: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
+      category: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}category'])!,
+      fast: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}fast'])!,
+      public: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}public'])!,
+      repeat: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}repeat'])!,
+      mine: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}mine'])!,
+      conditions: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}conditions'])!,
+      exitConditions: attachedDatabase.options.types.read(
+          DriftSqlType.string, data['${effectivePrefix}exit_conditions'])!,
+      actions: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}actions'])!,
+      checklistServerID: attachedDatabase.options.types.read(
+          DriftSqlType.string, data['${effectivePrefix}checklist_server_i_d']),
+      checklistCollectionServerID: attachedDatabase.options.types.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}checklist_collection_server_i_d']),
+      serverID: attachedDatabase.options.types
           .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.typeMapping
+      synced: attachedDatabase.options.types
           .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $ChecklistLogsTable createAlias(String alias) {
-    return $ChecklistLogsTable(attachedDatabase, alias);
+  $ChecklistSeedsTable createAlias(String alias) {
+    return $ChecklistSeedsTable(attachedDatabase, alias);
   }
 }
 
@@ -6511,29 +6222,67 @@ class ChecklistLogsCompanion extends UpdateCompanion<ChecklistLog> {
   }
 }
 
-class $ChecklistCollectionsTable extends ChecklistCollections
-    with TableInfo<$ChecklistCollectionsTable, ChecklistCollection> {
+class $ChecklistLogsTable extends ChecklistLogs
+    with TableInfo<$ChecklistLogsTable, ChecklistLog> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $ChecklistCollectionsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  $ChecklistLogsTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _checklistMeta =
-      const VerificationMeta('checklist');
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _checklistSeedMeta =
+      const VerificationMeta('checklistSeed');
+  @override
+  late final GeneratedColumn<int> checklistSeed = GeneratedColumn<int>(
+      'checklist_seed', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  final VerificationMeta _checklistMeta = const VerificationMeta('checklist');
   @override
   late final GeneratedColumn<int> checklist = GeneratedColumn<int>(
       'checklist', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _serverIDMeta =
-      const VerificationMeta('serverID');
+  final VerificationMeta _actionMeta = const VerificationMeta('action');
+  @override
+  late final GeneratedColumn<String> action = GeneratedColumn<String>(
+      'action', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant('{}'));
+  final VerificationMeta _noRepeatMeta = const VerificationMeta('noRepeat');
+  @override
+  late final GeneratedColumn<bool> noRepeat = GeneratedColumn<bool>(
+      'no_repeat', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (no_repeat IN (0, 1))',
+      defaultValue: Constant(false));
+  final VerificationMeta _checkedMeta = const VerificationMeta('checked');
+  @override
+  late final GeneratedColumn<bool> checked = GeneratedColumn<bool>(
+      'checked', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (checked IN (0, 1))',
+      defaultValue: Constant(false));
+  final VerificationMeta _skippedMeta = const VerificationMeta('skipped');
+  @override
+  late final GeneratedColumn<bool> skipped = GeneratedColumn<bool>(
+      'skipped', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (skipped IN (0, 1))',
+      defaultValue: Constant(false));
+  final VerificationMeta _dateMeta = const VerificationMeta('date');
+  @override
+  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
+      'date', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
   @override
   late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
       'server_i_d', aliasedName, true,
@@ -6541,45 +6290,46 @@ class $ChecklistCollectionsTable extends ChecklistCollections
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
       requiredDuringInsert: false);
-  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
   @override
-  late final GeneratedColumn<String> title = GeneratedColumn<String>(
-      'title', aliasedName, false,
-      type: DriftSqlType.string,
+  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
+      'synced', aliasedName, false,
+      type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultValue: Constant(''));
-  static const VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
+      defaultConstraints: 'CHECK (synced IN (0, 1))',
+      defaultValue: Constant(false));
   @override
-  late final GeneratedColumn<String> description = GeneratedColumn<String>(
-      'description', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant(''));
-  static const VerificationMeta _categoryMeta =
-      const VerificationMeta('category');
+  List<GeneratedColumn> get $columns => [
+        id,
+        checklistSeed,
+        checklist,
+        action,
+        noRepeat,
+        checked,
+        skipped,
+        date,
+        serverID,
+        synced
+      ];
   @override
-  late final GeneratedColumn<String> category = GeneratedColumn<String>(
-      'category', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant(''));
+  String get aliasedName => _alias ?? 'checklist_logs';
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, checklist, serverID, title, description, category];
+  String get actualTableName => 'checklist_logs';
   @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'checklist_collections';
-  @override
-  VerificationContext validateIntegrity(
-      Insertable<ChecklistCollection> instance,
+  VerificationContext validateIntegrity(Insertable<ChecklistLog> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('checklist_seed')) {
+      context.handle(
+          _checklistSeedMeta,
+          checklistSeed.isAcceptableOrUnknown(
+              data['checklist_seed']!, _checklistSeedMeta));
+    } else if (isInserting) {
+      context.missing(_checklistSeedMeta);
     }
     if (data.containsKey('checklist')) {
       context.handle(_checklistMeta,
@@ -6587,23 +6337,35 @@ class $ChecklistCollectionsTable extends ChecklistCollections
     } else if (isInserting) {
       context.missing(_checklistMeta);
     }
+    if (data.containsKey('action')) {
+      context.handle(_actionMeta,
+          action.isAcceptableOrUnknown(data['action']!, _actionMeta));
+    }
+    if (data.containsKey('no_repeat')) {
+      context.handle(_noRepeatMeta,
+          noRepeat.isAcceptableOrUnknown(data['no_repeat']!, _noRepeatMeta));
+    }
+    if (data.containsKey('checked')) {
+      context.handle(_checkedMeta,
+          checked.isAcceptableOrUnknown(data['checked']!, _checkedMeta));
+    }
+    if (data.containsKey('skipped')) {
+      context.handle(_skippedMeta,
+          skipped.isAcceptableOrUnknown(data['skipped']!, _skippedMeta));
+    }
+    if (data.containsKey('date')) {
+      context.handle(
+          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
     if (data.containsKey('server_i_d')) {
       context.handle(_serverIDMeta,
           serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
     }
-    if (data.containsKey('title')) {
-      context.handle(
-          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
-    }
-    if (data.containsKey('description')) {
-      context.handle(
-          _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description']!, _descriptionMeta));
-    }
-    if (data.containsKey('category')) {
-      context.handle(_categoryMeta,
-          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
+    if (data.containsKey('synced')) {
+      context.handle(_syncedMeta,
+          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
     }
     return context;
   }
@@ -6611,27 +6373,35 @@ class $ChecklistCollectionsTable extends ChecklistCollections
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  ChecklistCollection map(Map<String, dynamic> data, {String? tablePrefix}) {
+  ChecklistLog map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return ChecklistCollection(
-      id: attachedDatabase.typeMapping
+    return ChecklistLog(
+      id: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      checklist: attachedDatabase.typeMapping
+      checklistSeed: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}checklist_seed'])!,
+      checklist: attachedDatabase.options.types
           .read(DriftSqlType.int, data['${effectivePrefix}checklist'])!,
-      serverID: attachedDatabase.typeMapping
+      action: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}action'])!,
+      noRepeat: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}no_repeat'])!,
+      checked: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}checked'])!,
+      skipped: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}skipped'])!,
+      date: attachedDatabase.options.types
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
+      serverID: attachedDatabase.options.types
           .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      title: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      description: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
-      category: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}category'])!,
+      synced: attachedDatabase.options.types
+          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $ChecklistCollectionsTable createAlias(String alias) {
-    return $ChecklistCollectionsTable(attachedDatabase, alias);
+  $ChecklistLogsTable createAlias(String alias) {
+    return $ChecklistLogsTable(attachedDatabase, alias);
   }
 }
 
@@ -6842,6 +6612,124 @@ class ChecklistCollectionsCompanion
   }
 }
 
+class $ChecklistCollectionsTable extends ChecklistCollections
+    with TableInfo<$ChecklistCollectionsTable, ChecklistCollection> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ChecklistCollectionsTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _checklistMeta = const VerificationMeta('checklist');
+  @override
+  late final GeneratedColumn<int> checklist = GeneratedColumn<int>(
+      'checklist', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
+  @override
+  late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
+      'server_i_d', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  final VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+      'title', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant(''));
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant(''));
+  final VerificationMeta _categoryMeta = const VerificationMeta('category');
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+      'category', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant(''));
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, checklist, serverID, title, description, category];
+  @override
+  String get aliasedName => _alias ?? 'checklist_collections';
+  @override
+  String get actualTableName => 'checklist_collections';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<ChecklistCollection> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('checklist')) {
+      context.handle(_checklistMeta,
+          checklist.isAcceptableOrUnknown(data['checklist']!, _checklistMeta));
+    } else if (isInserting) {
+      context.missing(_checklistMeta);
+    }
+    if (data.containsKey('server_i_d')) {
+      context.handle(_serverIDMeta,
+          serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
+    if (data.containsKey('category')) {
+      context.handle(_categoryMeta,
+          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ChecklistCollection map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ChecklistCollection(
+      id: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      checklist: attachedDatabase.options.types
+          .read(DriftSqlType.int, data['${effectivePrefix}checklist'])!,
+      serverID: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
+      title: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      description: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
+      category: attachedDatabase.options.types
+          .read(DriftSqlType.string, data['${effectivePrefix}category'])!,
+    );
+  }
+
+  @override
+  $ChecklistCollectionsTable createAlias(String alias) {
+    return $ChecklistCollectionsTable(attachedDatabase, alias);
+  }
+}
+
 abstract class _$RelDB extends GeneratedDatabase {
   _$RelDB(QueryExecutor e) : super(e);
   late final $DevicesTable devices = $DevicesTable(this);
@@ -6868,7 +6756,7 @@ abstract class _$RelDB extends GeneratedDatabase {
   late final DeletesDAO deletesDAO = DeletesDAO(this as RelDB);
   late final ChecklistsDAO checklistsDAO = ChecklistsDAO(this as RelDB);
   @override
-  Iterable<TableInfo<Table, Object?>> get allTables =>
+  Iterable<TableInfo<Table, dynamic>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [

@@ -30,10 +30,9 @@ dependencies:
   qr_flutter:
   web_socket_channel:
   uuid:
-  rive:
+  rive: 0.13.4
   animated_size_and_fade:
-  heic_to_jpg:
-    path: ./vendor/heic_to_jpg
+  heic_to_jpg: ^0.2.0
   enum_to_string:
   uni_links:
   tuple:
@@ -77,6 +76,7 @@ dependencies:
     git: 
       url: https://github.com/supergreenlab/charts.git
       path: charts_flutter
+      ref: dc38a51beb07af54c9a53b195ec7bed98f4d481c
   flutter_markdown:
   youtube_player_flutter:
   matrix_gesture_detector:
@@ -106,9 +106,13 @@ dependencies:
   intl_translation:
   crisp_chat: ^2.0.2
 
-# dependency_overrides:
-  # analyzer: 0.39.14
-  # path: 1.7.0
+dependency_overrides:
+  meta: 1.9.1
+  charts_common:
+    git:
+      url: https://github.com/supergreenlab/charts.git
+      path: charts_common
+      ref: dc38a51beb07af54c9a53b195ec7bed98f4d481c
 
 dev_dependencies:
   hive_generator:

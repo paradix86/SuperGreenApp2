@@ -2,7 +2,10 @@
 
 part of 'devices.dart';
 
-// ignore_for_file: type=lint
+// **************************************************************************
+// DaoGenerator
+// **************************************************************************
+
 mixin _$DevicesDAOMixin on DatabaseAccessor<RelDB> {
   $DevicesTable get devices => attachedDatabase.devices;
   $ModulesTable get modules => attachedDatabase.modules;

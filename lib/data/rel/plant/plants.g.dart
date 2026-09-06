@@ -2,7 +2,10 @@
 
 part of 'plants.dart';
 
-// ignore_for_file: type=lint
+// **************************************************************************
+// DaoGenerator
+// **************************************************************************
+
 mixin _$PlantsDAOMixin on DatabaseAccessor<RelDB> {
   $PlantsTable get plants => attachedDatabase.plants;
   $BoxesTable get boxes => attachedDatabase.boxes;
