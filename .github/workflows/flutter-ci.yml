@@ -33,3 +33,6 @@ jobs:
 
       - name: Static analysis
         run: flutter analyze
+
+      - name: Unit tests
+        run: flutter test

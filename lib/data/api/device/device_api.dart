@@ -27,7 +27,41 @@ import 'package:super_green_app/data/logger/logger.dart';
 import 'package:super_green_app/data/rel/device/devices.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 
+/// A controller HTTP request that completed with a non-2xx status, or whose
+/// body could not be parsed. Connectivity failures (SocketException,
+/// TimeoutException) are propagated as-is.
+class DeviceRequestException implements Exception {
+  final String url;
+  final int? statusCode;
+  final Object? cause;
+
+  DeviceRequestException(this.url, {this.statusCode, this.cause});
+
+  @override
+  String toString() {
+    if (statusCode != null) {
+      return 'Device request error: $statusCode ($url)';
+    }
+    return 'Device request error: $cause ($url)';
+  }
+}
+
 class DeviceAPI {
+  /// Retries used to wait a fixed [wait] seconds between attempts; a controller
+  /// that is rebooting or busy with an OTA is better served by backing off.
+  static const int maxBackoffSeconds = 8;
+
+  static Duration backoffDelay(int attempt, int baseSeconds) {
+    if (attempt < 1 || baseSeconds <= 0) {
+      return Duration.zero;
+    }
+    int seconds = baseSeconds << (attempt - 1);
+    if (seconds > maxBackoffSeconds) {
+      seconds = maxBackoffSeconds;
+    }
+    return Duration(seconds: seconds);
+  }
+
   static String mdnsDomain(String name) {
     return name.toLowerCase().replaceAllMapped(RegExp(r'[\W_]+'), (match) => "");
   }
@@ -64,29 +98,77 @@ class DeviceAPI {
     return foundIP;
   }
 
+  /// Runs [attempt] up to [nRetries] times with exponential backoff, logs the
+  /// last failure with [logData] and rethrows it.
+  static Future<T> _withRetries<T>(Future<T> Function() attempt,
+      {required int nRetries, required int wait, required Map<String, dynamic> logData}) async {
+    if (nRetries < 1) {
+      nRetries = 1;
+    }
+    Object? lastError;
+    StackTrace? lastTrace;
+    for (int i = 0; i < nRetries; ++i) {
+      if (i != 0) {
+        await Future.delayed(backoffDelay(i, wait));
+      }
+      try {
+        return await attempt();
+      } catch (e, trace) {
+        lastError = e;
+        lastTrace = trace;
+      }
+    }
+    Logger.logError(lastError, lastTrace, data: logData);
+    throw lastError!;
+  }
+
+  /// One HTTP exchange with the controller. [timeout] bounds the whole
+  /// exchange (connect + headers + body), not just the TCP connect: a
+  /// controller that accepts the socket and then hangs used to leave the
+  /// caller waiting forever.
+  static Future<String> _exchange(String method, String url,
+      {int? timeout, String? auth, void Function(HttpClientRequest req)? writeBody}) async {
+    final client = HttpClient();
+    if (timeout != null) {
+      client.connectionTimeout = Duration(seconds: timeout);
+    }
+    Future<String> run() async {
+      final Uri uri = Uri.parse(url);
+      final HttpClientRequest req = await (method == 'POST' ? client.postUrl(uri) : client.getUrl(uri));
+      if (auth != null) {
+        req.headers.set('Authorization', 'Basic $auth');
+      }
+      if (writeBody != null) {
+        writeBody(req);
+        await req.flush();
+      }
+      final HttpClientResponse resp = await req.close();
+      if ((resp.statusCode / 100).floor() != 2) {
+        throw DeviceRequestException(url, statusCode: resp.statusCode);
+      }
+      if (resp.contentLength == 0) {
+        return '';
+      }
+      return resp.transform(utf8.decoder).join();
+    }
+
+    try {
+      if (timeout == null) {
+        return await run();
+      }
+      return await run().timeout(Duration(seconds: timeout));
+    } finally {
+      client.close(force: true);
+    }
+  }
+
   static Future<String> fetchConfig(String controllerIP, {String? auth}) async {
-    final client = new HttpClient();
-    client.connectionTimeout = Duration(seconds: 10);
-    final req = await client.getUrl(Uri.parse('http://$controllerIP/fs/config.json'));
-    if (auth != null) {
-      req.headers.set('Authorization', 'Basic $auth');
+    final String url = 'http://$controllerIP/fs/config.json';
+    final String contents = await _exchange('GET', url, timeout: 10, auth: auth);
+    if (contents.isEmpty) {
+      throw DeviceRequestException(url, cause: 'empty config.json');
     }
-    final HttpClientResponse resp = await req.close();
-    if (resp.contentLength == 0) {
-      Logger.throwError('Device request error: ${resp.statusCode}', fwdThrow: true);
-    }
-    if ((resp.statusCode / 100).floor() != 2) {
-      Logger.throwError('Device request error: ${resp.statusCode}', fwdThrow: true);
-    }
-    final completer = Completer<String>();
-    completer.future.whenComplete(() => client.close(force: true));
-    String contents = '';
-    resp.transform(utf8.decoder).listen((c) {
-      contents += c;
-    }, onDone: () {
-      completer.complete(contents);
-    }, onError: completer.completeError);
-    return completer.future;
+    return contents;
   }
 
   static Future<String> fetchStringParam(String controllerIP, String paramName,
@@ -97,177 +179,53 @@ class DeviceAPI {
 
   static Future<String> fetchString(String url,
       {int? timeout = 5, int nRetries = 4, int wait = 0, String? auth}) async {
-    final client = new HttpClient();
-    if (timeout != null) {
-      client.connectionTimeout = Duration(seconds: timeout);
-    }
-    try {
-      for (int i = 0; i < nRetries; ++i) {
-        if (i != 0 && wait > 0) {
-          await Future.delayed(Duration(seconds: wait));
-        }
-        try {
-          final req = await client.getUrl(Uri.parse(url));
-          if (auth != null) {
-            req.headers.set('Authorization', 'Basic $auth');
-          }
-          final HttpClientResponse resp = await req.close();
-          if (resp.contentLength == 0) {
-            return '';
-          }
-          if ((resp.statusCode / 100).floor() != 2) {
-            Logger.throwError('Device request error: ${resp.statusCode}', fwdThrow: true);
-          }
-          final completer = Completer<String>();
-          completer.future.whenComplete(() => client.close(force: true));
-          resp.transform(utf8.decoder).listen((contents) {
-            completer.complete(contents);
-          }, onError: completer.completeError);
-          return completer.future;
-        } catch (e) {
-          if (i == nRetries - 1) {
-            throw e;
-          }
-        }
-      }
-    } catch (e, trace) {
-      Logger.logError(e, trace, data: {"url": url}, fwdThrow: true);
-    }
-    throw Error();
+    return _withRetries(() => _exchange('GET', url, timeout: timeout, auth: auth),
+        nRetries: nRetries, wait: wait, logData: {"url": url});
   }
 
   static Future<int> fetchIntParam(String controllerIP, String paramName,
       {int? timeout = 5, int nRetries = 4, int wait = 1, String? auth}) async {
-    final client = new HttpClient();
-    if (timeout != null) {
-      client.connectionTimeout = Duration(seconds: timeout);
-    }
-    try {
-      for (int i = 0; i < nRetries; ++i) {
-        if (i != 0 && wait > 0) {
-          await Future.delayed(Duration(seconds: wait));
-        }
-        try {
-          final req = await client.getUrl(Uri.parse('http://$controllerIP/i?k=${paramName.toUpperCase()}'));
-          if (auth != null) {
-            req.headers.set('Authorization', 'Basic $auth');
-          }
-          final resp = await req.close();
-          if ((resp.statusCode / 100).floor() != 2) {
-            Logger.throwError('Device request error: ${resp.statusCode}', fwdThrow: true);
-          }
-          final completer = Completer<int>();
-          completer.future.whenComplete(() => client.close(force: true));
-          resp.transform(utf8.decoder).listen((contents) {
-            try {
-              completer.complete(int.parse(contents));
-            } catch (e, trace) {
-              Logger.logError(e, trace, data: {"controllerIP": controllerIP, "paramName": paramName}, fwdThrow: true);
-            }
-          }, onError: completer.completeError);
-          return completer.future;
-        } catch (e) {
-          if (i == nRetries - 1) {
-            throw e;
-          }
-        }
+    final String url = 'http://$controllerIP/i?k=${paramName.toUpperCase()}';
+    return _withRetries(() async {
+      final String contents = await _exchange('GET', url, timeout: timeout, auth: auth);
+      try {
+        return int.parse(contents.trim());
+      } on FormatException catch (e) {
+        throw DeviceRequestException(url, cause: e);
       }
-    } catch (e, trace) {
-      Logger.logError(e, trace, data: {"controllerIP": controllerIP, "paramName": paramName}, fwdThrow: true);
-    }
-    throw Error();
+    }, nRetries: nRetries, wait: wait, logData: {"controllerIP": controllerIP, "paramName": paramName});
   }
 
   static Future<String> setStringParam(String controllerIP, String paramName, String value,
       {int? timeout = 5, int nRetries = 4, int wait = 1, String? auth}) async {
-    try {
-      await post('http://$controllerIP/s?k=${paramName.toUpperCase()}&v=${Uri.encodeQueryComponent(value)}',
-          timeout: timeout, nRetries: nRetries, wait: wait, auth: auth);
-    } catch (e, trace) {
-      Logger.logError(e, trace,
-          data: {"controllerIP": controllerIP, "paramName": paramName, "value": value}, fwdThrow: true);
-    }
+    await post('http://$controllerIP/s?k=${paramName.toUpperCase()}&v=${Uri.encodeQueryComponent(value)}',
+        timeout: timeout, nRetries: nRetries, wait: wait, auth: auth);
     return fetchStringParam(controllerIP, paramName, auth: auth);
   }
 
   static Future<int> setIntParam(String controllerIP, String paramName, int value,
       {int? timeout = 5, int nRetries = 4, int wait = 1, String? auth}) async {
-    try {
-      await post('http://$controllerIP/i?k=${paramName.toUpperCase()}&v=$value',
-          timeout: timeout, nRetries: nRetries, wait: wait, auth: auth);
-    } catch (e, trace) {
-      Logger.logError(e, trace,
-          data: {"controllerIP": controllerIP, "paramName": paramName, "value": value}, fwdThrow: true);
-    }
+    await post('http://$controllerIP/i?k=${paramName.toUpperCase()}&v=$value',
+        timeout: timeout, nRetries: nRetries, wait: wait, auth: auth);
     return fetchIntParam(controllerIP, paramName, auth: auth);
   }
 
   static Future post(String url, {int? timeout = 5, int nRetries = 4, int wait = 1, String? auth}) async {
-    final client = new HttpClient();
-    if (timeout != null) {
-      client.connectionTimeout = Duration(seconds: timeout);
-    }
-    try {
-      for (int i = 0; i < nRetries; ++i) {
-        if (i != 0 && wait > 0) {
-          await Future.delayed(Duration(seconds: wait));
-        }
-        try {
-          final req = await client.postUrl(Uri.parse(url));
-          if (auth != null) {
-            req.headers.set('Authorization', 'Basic $auth');
-          }
-          final resp = await req.close();
-          if ((resp.statusCode / 100).floor() != 2) {
-            Logger.throwError('Device request error: ${resp.statusCode}', fwdThrow: true);
-          }
-          break;
-        } catch (e) {
-          if (i == nRetries - 1) {
-            throw e;
-          }
-        }
-      }
-    } finally {
-      client.close(force: true);
-    }
+    await _withRetries(() => _exchange('POST', url, timeout: timeout, auth: auth),
+        nRetries: nRetries, wait: wait, logData: {"url": url});
   }
 
   static Future uploadFile(String controllerIP, String fileName, ByteData data,
       {int? timeout = 5, int nRetries = 4, int wait = 1, String? auth}) async {
-    final client = new HttpClient();
-    if (timeout != null) {
-      client.connectionTimeout = Duration(seconds: timeout);
-    }
-    try {
-      for (int i = 0; i < nRetries; ++i) {
-        if (i != 0 && wait > 0) {
-          await Future.delayed(Duration(seconds: wait));
-        }
-        try {
-          final req = await client.postUrl(Uri.parse('http://$controllerIP/fs/$fileName'));
-          if (auth != null) {
-            req.headers.set('Authorization', 'Basic $auth');
-          }
-          req.contentLength = data.lengthInBytes;
-          req.add(data.buffer.asInt8List());
-          await req.flush();
-          final resp = await req.close();
-          if ((resp.statusCode / 100).floor() != 2) {
-            Logger.throwError('Device request error: ${resp.statusCode}', fwdThrow: true);
-          }
-          break;
-        } catch (e) {
-          if (i == nRetries - 1) {
-            throw e;
-          }
-        }
-      }
-    } catch (e, trace) {
-      Logger.logError(e, trace, data: {"controllerIP": controllerIP, "fileName": fileName}, fwdThrow: true);
-    } finally {
-      client.close(force: true);
-    }
+    final String url = 'http://$controllerIP/fs/$fileName';
+    await _withRetries(
+        () => _exchange('POST', url, timeout: timeout, auth: auth, writeBody: (HttpClientRequest req) {
+              req.contentLength = data.lengthInBytes;
+              req.add(data.buffer.asInt8List());
+            }),
+        nRetries: nRetries,
+        wait: wait,
+        logData: {"controllerIP": controllerIP, "fileName": fileName});
   }
 
   static Map<int, bool> fetchingAllParams = {};
@@ -300,7 +258,9 @@ class DeviceAPI {
           Module? exists;
           try {
             exists = await db.getModule(deviceID, moduleName);
-          } catch (e) {}
+          } catch (e) {
+            // getModule throws when the module is not in the local db yet
+          }
           if (exists == null) {
             ModulesCompanion module = ModulesCompanion.insert(
                 device: deviceID, name: moduleName, isArray: isArray, arrayLen: isArray ? k['array']['len'] : 0);
@@ -314,7 +274,9 @@ class DeviceAPI {
         Param? exists;
         try {
           exists = await db.getParam(deviceID, k['caps_name']);
-        } catch (e) {}
+        } catch (e) {
+          // getParam throws when the param is not in the local db yet
+        }
         if (type == INTEGER_TYPE) {
           try {
             final value = await DeviceAPI.fetchIntParam(ip, k['caps_name'], auth: auth);
@@ -360,22 +322,10 @@ class DeviceAPI {
       int nLeds = 0;
       int nMotors = 0;
       if (isController) {
-        try {
-          final boxModule = await RelDB.get().devicesDAO.getModule(deviceID, 'box');
-          nBoxes = boxModule.arrayLen;
-        } catch (e) {}
-        try {
-          final i2cModule = await RelDB.get().devicesDAO.getModule(deviceID, 'i2c');
-          nSensorPorts = i2cModule.arrayLen;
-        } catch (e) {}
-        try {
-          final ledModule = await RelDB.get().devicesDAO.getModule(deviceID, 'led');
-          nLeds = ledModule.arrayLen;
-        } catch (e) {}
-        try {
-          final motorModule = await RelDB.get().devicesDAO.getModule(deviceID, 'motor');
-          nMotors = motorModule.arrayLen;
-        } catch (e) {}
+        nBoxes = await _moduleArrayLen(deviceID, 'box');
+        nSensorPorts = await _moduleArrayLen(deviceID, 'i2c');
+        nLeds = await _moduleArrayLen(deviceID, 'led');
+        nMotors = await _moduleArrayLen(deviceID, 'motor');
       }
       await db.updateDevice(DevicesCompanion(
         id: Value(deviceID),
@@ -393,6 +343,16 @@ class DeviceAPI {
       Logger.logError(e, trace, data: {"ip": ip, "deviceID": deviceID}, fwdThrow: true);
     } finally {
       DeviceAPI.fetchingAllParams[deviceID] = false;
+    }
+  }
+
+  /// 0 when the controller does not expose [moduleName] (getModule throws).
+  static Future<int> _moduleArrayLen(int deviceID, String moduleName) async {
+    try {
+      final module = await RelDB.get().devicesDAO.getModule(deviceID, moduleName);
+      return module.arrayLen;
+    } catch (e) {
+      return 0;
     }
   }
 }
