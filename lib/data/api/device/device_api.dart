@@ -23,6 +23,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:drift/drift.dart';
 import 'package:multicast_dns/multicast_dns.dart';
+import 'package:super_green_app/data/api/device/dash_history.dart';
 import 'package:super_green_app/data/api/device/device_dash.dart';
 import 'package:super_green_app/data/api/device/request_limiter.dart';
 import 'package:super_green_app/data/logger/logger.dart';
@@ -442,6 +443,7 @@ class DeviceAPI {
       }
     }
     noteDashApplied(deviceID, dash);
+    DashHistory.record(deviceID, dash);
     return updated;
   }
 

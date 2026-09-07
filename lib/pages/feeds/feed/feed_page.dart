@@ -61,6 +61,10 @@ class FeedPage extends StatefulWidget {
   final bool automaticallyImplyLeading;
   final Function(ScrollController)? onScroll;
 
+  /// Redesigned layout: a compact themed app bar followed by this widget as
+  /// a regular sliver, instead of the expanded colored [appBar].
+  final Widget? header;
+
   const FeedPage({
     this.title,
     this.titleWidget,
@@ -82,6 +86,7 @@ class FeedPage extends StatefulWidget {
     this.automaticallyImplyLeading = false,
     this.onScroll,
     this.initFilter,
+    this.header,
   });
 
   @override
@@ -189,7 +194,16 @@ class _FeedPageState extends State<FeedPage> {
 
   Widget _renderCards(BuildContext context) {
     List<Widget> content = [];
-    if (widget.appBarEnabled) {
+    if (widget.header != null) {
+      content.add(SliverAppBar(
+        automaticallyImplyLeading: widget.automaticallyImplyLeading,
+        title: widget.title != null ? Text(widget.title!) : widget.titleWidget,
+        pinned: true,
+        leading: widget.leading,
+        actions: widget.actions,
+      ));
+      content.add(SliverToBoxAdapter(child: widget.header));
+    } else if (widget.appBarEnabled) {
       content.add(
         SliverAppBar(
           automaticallyImplyLeading: widget.automaticallyImplyLeading,
@@ -268,7 +282,7 @@ class _FeedPageState extends State<FeedPage> {
       ));
     }
     return Container(
-      color: widget.feedColor ?? Color(0xffeeeeee),
+      color: widget.feedColor ?? (widget.header != null ? Theme.of(context).scaffoldBackgroundColor : Color(0xffeeeeee)),
       child: CustomScrollView(
         controller: scrollController,
         slivers: content,
@@ -283,7 +297,7 @@ class _FeedPageState extends State<FeedPage> {
     }
     Timer(
         Duration(milliseconds: 100),
-        () => scrollController.animateTo(widget.appBarHeight! - height,
+        () => scrollController.animateTo((widget.appBarHeight ?? height) - height,
             duration: Duration(milliseconds: 500), curve: Curves.linear));
   }
 }

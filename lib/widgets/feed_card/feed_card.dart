@@ -17,6 +17,8 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/theme/sgl_theme.dart';
 
 class FeedCard extends StatefulWidget {
   final Widget child;
@@ -45,7 +47,7 @@ class _FeedCardState extends State<FeedCard> with AutomaticKeepAliveClientMixin 
   Widget build(BuildContext context) {
     super.build(context);
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.fromLTRB(12, 4, 12, 6),
       child: AnimatedOpacity(
         duration: Duration(milliseconds: 200),
         opacity: _opacity,
@@ -54,9 +56,10 @@ class _FeedCardState extends State<FeedCard> with AutomaticKeepAliveClientMixin 
           sizeFactor: widget.animation,
           child: Container(
               decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xffdedede), width: 1),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8)),
+                  border: Border.all(color: context.sgl.line, width: 1),
+                  color: context.sgl.surface,
+                  borderRadius: BorderRadius.circular(SglTheme.radiusLarge)),
+              clipBehavior: Clip.antiAlias,
               child: widget.child),
         ),
       ),

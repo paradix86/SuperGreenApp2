@@ -19,6 +19,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/theme/sgl_typography.dart';
 
 class FeedCardTitle extends StatelessWidget {
   final String icon;
@@ -43,71 +45,54 @@ class FeedCardTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final SglColors c = context.sgl;
+    final TextTheme text = Theme.of(context).textTheme;
     List<Widget> content = <Widget>[
       Padding(
-        padding: const EdgeInsets.only(right: 8.0),
-        child:
-            SizedBox(width: 40, height: 40, child: icon.endsWith('svg') ? SvgPicture.asset(icon) : Image.asset(icon)),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(title,
-                style:
-                    TextStyle(fontSize: title2 != null ? 17 : 20, fontWeight: FontWeight.w300, color: Colors.black87)),
-            title2 != null
-                ? AutoSizeText(title2!, style: TextStyle(color: Color(0xff2c820a), fontSize: 19, fontWeight: FontWeight.bold))
-                : Container(),
-            showSyncStatus
-                ? Text(synced ? 'Synced' : 'Not synced', style: TextStyle(color: synced ? Colors.green : Colors.red))
-                : Container(),
-          ],
+        padding: const EdgeInsets.only(right: 10.0),
+        child: Container(
+          width: 36,
+          height: 36,
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(color: c.surface2, borderRadius: BorderRadius.circular(10)),
+          child: icon.endsWith('svg') ? SvgPicture.asset(icon) : Image.asset(icon),
         ),
       ),
       Expanded(
-        child: Container(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(title, style: text.titleMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
+              title2 != null
+                  ? AutoSizeText(title2!, maxLines: 1, style: text.bodySmall!.copyWith(color: c.accentDeep, fontWeight: FontWeight.w600))
+                  : Container(),
+              showSyncStatus && !synced
+                  ? Text('Not synced', style: SglTextStyles.mono.copyWith(color: c.warn, fontSize: 11))
+                  : Container(),
+            ],
+          ),
+        ),
       ),
     ];
     if (onShare != null && showControls) {
-      content.add(
-        IconButton(
-          icon: Icon(
-            Icons.share,
-            color: Colors.grey,
-          ),
-          onPressed: onShare,
-        ),
-      );
+      content.add(IconButton(icon: Icon(Icons.share_outlined, size: 20), onPressed: onShare));
     }
     if (onEdit != null && showControls) {
-      content.add(
-        IconButton(
-          icon: Icon(
-            Icons.edit,
-            color: Colors.grey,
-          ),
-          onPressed: onEdit,
-        ),
-      );
+      content.add(IconButton(icon: Icon(Icons.edit_outlined, size: 20), onPressed: onEdit));
     }
     if (onDelete != null && showControls) {
-      content.add(
-        IconButton(
-          icon: Icon(
-            Icons.delete,
-            color: Colors.grey,
-          ),
-          onPressed: () {
-            _deleteFeedEntry(context);
-          },
-        ),
-      );
+      content.add(IconButton(
+        icon: Icon(Icons.delete_outline, size: 20),
+        onPressed: () {
+          _deleteFeedEntry(context);
+        },
+      ));
     }
     content.addAll(actions ?? []);
     return Padding(
-      padding: const EdgeInsets.only(left: 12.0, right: 0, top: 3.0, bottom: 3.0),
+      padding: const EdgeInsets.only(left: 12.0, right: 4, top: 3.0, bottom: 3.0),
       child: Row(
         children: content,
       ),

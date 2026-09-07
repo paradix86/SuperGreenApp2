@@ -19,12 +19,10 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:card_swiper/card_swiper.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
@@ -43,11 +41,14 @@ import 'package:super_green_app/pages/feeds/home/plant_feeds/common/app_bar/plan
 import 'package:super_green_app/pages/feeds/home/plant_feeds/common/app_bar/plant_infos/plant_infos_page.dart';
 import 'package:super_green_app/pages/feeds/home/common/app_bar/products/products_bloc.dart';
 import 'package:super_green_app/pages/feeds/home/common/app_bar/products/products_page.dart';
+import 'package:super_green_app/pages/feeds/home/plant_feeds/local/widgets/lab_panels_row.dart';
+import 'package:super_green_app/pages/feeds/home/plant_feeds/local/widgets/plant_lab_header.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/theme/sgl_typography.dart';
+import 'package:super_green_app/widgets/sgl/sgl_card.dart';
 import 'package:super_green_app/pages/feeds/home/common/settings/plant_settings.dart';
 import 'package:super_green_app/pages/feeds/home/plant_feeds/common/widgets/plant_feed_filter_page.dart';
 import 'package:super_green_app/pages/feeds/home/plant_feeds/common/widgets/single_feed_entry.dart';
-import 'package:super_green_app/pages/feeds/home/plant_feeds/local/app_bar/status/plant_quick_view_bloc.dart';
-import 'package:super_green_app/pages/feeds/home/plant_feeds/local/app_bar/status/plant_quick_view_page.dart';
 import 'package:super_green_app/pages/feeds/home/plant_feeds/local/local_plant_feed_delegate.dart';
 import 'package:super_green_app/pages/feeds/home/plant_feeds/local/local_products_delegate.dart';
 import 'package:super_green_app/pages/feeds/home/plant_feeds/local/plant_feed_bloc.dart';
@@ -321,8 +322,6 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
   final _openCloseDial = ValueNotifier<int>(0);
   SpeedDialType _speedDialType = SpeedDialType.general;
 
-  int tabIndex = 0;
-
   bool _speedDialOpen = false;
   bool _showIP = false;
   bool _reachable = false;
@@ -421,7 +420,8 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
         heroTag: 'speed-dial-hero-tag',
         animationSpeed: 50,
         curve: Curves.bounceIn,
-        backgroundColor: Color(0xff3bb30b),
+        backgroundColor: context.sgl.accent,
+        foregroundColor: context.sgl.accentInk,
         child: PlantDialButton(
           openned: _speedDialOpen,
         ),
@@ -451,7 +451,7 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
       SpeedDialChild(
           child: SvgPicture.asset('assets/feed_card/icon_none.svg'),
           labelStyle: TextStyle(fontWeight: FontWeight.bold),
-          backgroundColor: Colors.white,
+          backgroundColor: context.sgl.surface,
           onTap: () {
             setState(() {
               _speedDialType = SpeedDialType.general;
@@ -527,7 +527,7 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
       SpeedDialChild(
           child: SvgPicture.asset('assets/feed_card/icon_none.svg'),
           labelStyle: TextStyle(fontWeight: FontWeight.bold),
-          backgroundColor: Colors.white,
+          backgroundColor: context.sgl.surface,
           onTap: () {
             setState(() {
               _speedDialType = SpeedDialType.general;
@@ -634,7 +634,7 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
           child: SvgPicture.asset('assets/feed_card/icon_training.svg'),
           label: PlantFeedPage.plantFeedPageMenuPlantTraining,
           labelStyle: TextStyle(fontWeight: FontWeight.bold),
-          backgroundColor: Colors.white,
+          backgroundColor: context.sgl.surface,
           onTap: () {
             setState(() {
               _speedDialType = SpeedDialType.trainings;
@@ -644,7 +644,7 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
           child: SvgPicture.asset('assets/feed_card/icon_life_events.svg'),
           label: PlantFeedPage.plantFeedPageMenuLifeEvents,
           labelStyle: TextStyle(fontWeight: FontWeight.bold),
-          backgroundColor: Colors.white,
+          backgroundColor: context.sgl.surface,
           onTap: () {
             setState(() {
               _speedDialType = SpeedDialType.lifeevents;
@@ -659,7 +659,7 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
       label: label,
       labelStyle: TextStyle(fontWeight: FontWeight.bold),
       onTap: navigateTo,
-      backgroundColor: Colors.white,
+      backgroundColor: context.sgl.surface,
     );
   }
 
@@ -681,12 +681,17 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
     if (state is PlantFeedBlocStateLoaded) {
       List<Widget> actions = [
         IconButton(
-          icon: Icon(Icons.remove_red_eye),
+          icon: Icon(Icons.videocam_outlined),
           tooltip: 'View live cams',
           onPressed: () {
             BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToTimelapseViewer(state.plant));
           },
         ),
+        if (state.box.device != null)
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: Center(child: _renderLiveChip()),
+          ),
       ];
       if (state.box.device != null && _reachable) {
         actions.insert(
@@ -748,8 +753,7 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
           actions: actions,
           bottomPadding: true,
           titleWidget: _renderName(context, state),
-          appBarHeight: 410,
-          appBar: _renderAppBar(context, state),
+          header: _renderHeader(context, state),
           firstItem: PlantFeedFilterPage(
             filters: filters,
             onSaveFilters: (f) {
@@ -842,58 +846,15 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
   }
 
   Widget _renderName(BuildContext context, PlantFeedBlocStateLoaded state) {
-    String name = state.plant.name;
-
-    Widget nameText;
-    if (_showIP) {
-      nameText = ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 145),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Text(
-                name,
-                maxLines: 1,
-                softWrap: false,
-                overflow: TextOverflow.fade,
-                style: TextStyle(color: Colors.white, fontSize: 15.0, fontWeight: FontWeight.normal),
-              ),
-              Text(_remote ? 'Remote controled!' : _deviceIP,
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: _remote ? Color(0xff3bb30b) : Colors.grey,
-                  ))
-            ],
-          ));
+    final SglColors c = context.sgl;
+    final TextTheme text = Theme.of(context).textTheme;
+    String subtitle;
+    if (_showIP && state.box.device != null) {
+      subtitle = _remote ? 'Remote control via SuperGreenLab' : (_deviceIP.isEmpty ? 'Resolving IP…' : _deviceIP);
     } else {
-      nameText = ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 145),
-        child: AutoSizeText(
-          name,
-          maxLines: 2,
-          overflow: TextOverflow.fade,
-          softWrap: true,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18.0,
-            fontWeight: FontWeight.w200,
-          ),
-        ),
-      );
-      if (state.box.device != null) {
-        nameText = Row(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: nameText,
-            ),
-            Icon(Icons.offline_bolt, color: _reachable ? Colors.green : Colors.grey, size: 20),
-          ],
-        );
-      }
+      subtitle = _phaseLine(state);
     }
-
-    nameText = InkWell(
+    return InkWell(
       onTap: () {
         if (state.box.device == null) {
           return;
@@ -902,50 +863,58 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
           _showIP = !_showIP;
         });
       },
-      child: nameText,
-    );
-
-    return nameText;
-  }
-
-  Widget _renderAppBar(BuildContext context, PlantFeedBlocStateLoaded state) {
-    List<Widget Function(BuildContext, PlantFeedBlocStateLoaded)> tabs = [
-      _renderQuickView,
-      _renderControls,
-      (c, s) => EnvironmentsPage(s.box, plant: s.plant, futureFn: futureFn(c, s)),
-      _renderPlantInfos,
-      _renderProducts,
-    ];
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 45.0),
-        child: Swiper(
-          onIndexChanged: (value) {
-            setState(() {
-              this.tabIndex = value;
-            });
-          },
-          itemCount: tabs.length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (BuildContext context, int index) {
-            return tabs[index](context, state);
-          },
-          pagination: SwiperPagination(
-            builder: new DotSwiperPaginationBuilder(color: Colors.white, activeColor: Color(0xff3bb30b)),
-          ),
-          loop: false,
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(state.plant.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: text.titleLarge),
+          Text(subtitle, maxLines: 1, overflow: TextOverflow.ellipsis, style: SglTextStyles.mono.copyWith(color: c.ink3, fontSize: 11)),
+        ],
       ),
     );
   }
 
-  Widget _renderQuickView(BuildContext context, PlantFeedBlocStateLoaded state) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<PlantQuickViewBloc>(create: (context) => PlantQuickViewBloc(state.plant, state.box)),
-        BlocProvider<AppBarMetricsBloc>(create: (context) => AppBarMetricsBloc(state.box)),
+  /// "DAY 47 · VEG · Box 1", or the box alone when no life event is set.
+  String _phaseLine(PlantFeedBlocStateLoaded state) {
+    const List<String> names = ['CLONE', 'GERM', 'VEG', 'BLOOM', 'DRY', 'CURE'];
+    final phase = PlantSettings.fromJSON(state.plant.settings).phaseAt(DateTime.now());
+    final String box = state.box.name.toUpperCase();
+    if (phase == null) {
+      return box;
+    }
+    return 'DAY ${phase.item3.inDays + 1} · ${names[phase.item1.index]} · $box';
+  }
+
+  Widget _renderLiveChip() {
+    if (_remote) {
+      return SglStatusChip(label: 'remote', status: SglStatus.info);
+    }
+    if (_reachable) {
+      return SglStatusChip(label: 'live', status: SglStatus.ok);
+    }
+    return SglStatusChip(label: 'offline', status: SglStatus.off);
+  }
+
+  Widget _renderHeader(BuildContext context, PlantFeedBlocStateLoaded state) {
+    final LabPanel controls = LabPanel(
+      label: 'Controls',
+      icon: Icons.tune,
+      builder: (c) => _renderControls(c, state),
+    );
+    return PlantLabHeader(
+      plant: state.plant,
+      box: state.box,
+      controlsPanel: state.box.device == null ? null : controls,
+      panels: [
+        controls,
+        LabPanel(
+          label: 'Graphs',
+          icon: Icons.show_chart,
+          builder: (c) => EnvironmentsPage(state.box, plant: state.plant, futureFn: futureFn(c, state)),
+        ),
+        LabPanel(label: 'Infos', icon: Icons.info_outline, builder: (c) => _renderPlantInfos(c, state)),
+        LabPanel(label: 'Products', icon: Icons.inventory_2_outlined, builder: (c) => _renderProducts(c, state)),
       ],
-      child: PlantQuickViewPage(),
     );
   }
 

@@ -22,6 +22,8 @@ import 'package:super_green_app/pages/feeds/feed/bloc/state/feed_entry_state.dar
 import 'package:super_green_app/pages/feeds/feed/bloc/state/feed_state.dart';
 import 'package:super_green_app/pages/feeds/home/plant_feeds/common/plant_feed_state.dart';
 import 'package:super_green_app/pages/feeds/home/common/settings/plant_settings.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/theme/sgl_typography.dart';
 
 enum FeedCardDateDisplay {
   ABSOLUTE,
@@ -72,8 +74,8 @@ class _FeedCardDateState extends State<FeedCardDate> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(format, style: TextStyle(color: Colors.black54, fontSize: 15)),
-            Text('Change', style: TextStyle(color: Colors.black12)),
+            Text(format, style: SglTextStyles.mono.copyWith(color: context.sgl.ink3, fontSize: 12)),
+            Icon(Icons.swap_horiz, size: 16, color: context.sgl.ink3),
           ],
         ));
   }
