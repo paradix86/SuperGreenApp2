@@ -240,6 +240,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         break;
 
       case AppLifecycleState.paused:
+      case AppLifecycleState.hidden:
       case AppLifecycleState.detached:
         break;
     }

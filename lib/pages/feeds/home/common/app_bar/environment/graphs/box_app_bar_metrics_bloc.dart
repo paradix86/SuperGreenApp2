@@ -24,7 +24,7 @@ import 'package:super_green_app/misc/bloc.dart';
 import 'package:super_green_app/data/api/backend/time_series/time_series_api.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:community_charts_flutter/community_charts_flutter.dart' as charts;
 
 abstract class PlantFeedAppBarBlocEvent extends Equatable {}
 

@@ -16,7 +16,7 @@ version: 1.2.42+128
 publish_to: none
 
 environment:
-  sdk: ">=2.14.0 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter_portal:
@@ -24,7 +24,7 @@ dependencies:
   cached_network_image:
   favicon:
   flutter_datetime_picker_plus:
-  webview_flutter_plus: ^0.3.0+2
+  webview_flutter_plus: ^0.4.20
   envied:
   envied_generator:
   qr_flutter:
@@ -32,11 +32,13 @@ dependencies:
   uuid:
   rive: 0.13.4
   animated_size_and_fade:
-  heic_to_jpg: ^0.2.0
+  # heic_to_jpg, uni_links and share_extend used the Android v1 embedding,
+  # removed in Flutter 3.29
+  flutter_image_compress: ^2.4.0
   enum_to_string:
-  uni_links:
+  app_links: ^6.4.0
   tuple:
-  share_extend:
+  share_plus: ^10.1.0
   fluttertoast:
   flutter_email_sender:
   visibility_detector:
@@ -47,7 +49,9 @@ dependencies:
   http:
   rxdart:
   flutter_svg:
-  permission_handler:
+  # 13.x (permission_handler_android 14) requires AGP 9 / Kotlin 2.3, the
+  # project is on AGP 8.11 (Flutter 3.41 template)
+  permission_handler: ^12.0.0
   drift:
   sqlite3_flutter_libs:
   path_provider:
@@ -70,13 +74,13 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl:
-  intl_generator:
+  # intl_generator / intl_translation (used only by generate_l10n.sh) pin
+  # intl < 0.20 and block the resolution: activate them globally when the
+  # translations need regenerating (see the script)
   card_swiper:
-  charts_flutter:
-    git: 
-      url: https://github.com/supergreenlab/charts.git
-      path: charts_flutter
-      ref: dc38a51beb07af54c9a53b195ec7bed98f4d481c
+  # community fork of google/charts (same API, import renamed): the
+  # supergreenlab fork pins intl ^0.19 and cannot resolve on Flutter >= 3.24
+  community_charts_flutter: ^1.0.4
   flutter_markdown:
   youtube_player_flutter:
   matrix_gesture_detector:
@@ -100,19 +104,10 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons:
-  package_info_plus: ^3.0.0
+  package_info_plus: ^8.0.0
   shared_preferences:
   flutter_screen_lock: ^9.0.1
-  intl_translation:
   crisp_chat: ^2.0.2
-
-dependency_overrides:
-  meta: 1.9.1
-  charts_common:
-    git:
-      url: https://github.com/supergreenlab/charts.git
-      path: charts_common
-      ref: dc38a51beb07af54c9a53b195ec7bed98f4d481c
 
 dev_dependencies:
   hive_generator:

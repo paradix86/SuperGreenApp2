@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/misc/bloc.dart';
-import 'package:uni_links/uni_links.dart';
+import 'package:app_links/app_links.dart';
 
 abstract class DeepLinkBlocEvent extends Equatable {}
 
@@ -47,15 +47,16 @@ class DeepLinkBloc extends LegacyBloc<DeepLinkBlocEvent, DeepLinkBlocState> {
 
   Stream<DeepLinkBlocState> mapEventToState(DeepLinkBlocEvent event) async* {
     if (event is DeepLinkBlocEventInit) {
-      Uri? initialUri = await getInitialUri();
+      final AppLinks appLinks = AppLinks();
+      Uri? initialUri = await appLinks.getInitialLink();
       if (initialUri != null) {
         // TODO find something better
         Timer(Duration(seconds: 2), () {
           add(DeepLinkBlocEventUri(initialUri));
         });
       }
-      _sub = uriLinkStream.listen((Uri? uri) {
-        add(DeepLinkBlocEventUri(uri!));
+      _sub = appLinks.uriLinkStream.listen((Uri uri) {
+        add(DeepLinkBlocEventUri(uri));
       });
     } else if (event is DeepLinkBlocEventUri) {
       if (event.uri.path == '/public/plant') {

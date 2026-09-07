@@ -36,25 +36,32 @@ class Captcha extends StatefulWidget {
 class _CaptchaState extends State<Captcha> {
   bool loaded = false;
   GlobalKey webviewKey = GlobalKey();
+  late final WebViewControllerPlus controller;
+
+  @override
+  void initState() {
+    super.initState();
+    // webview_flutter 4: the controller is built up front, the widget only displays it
+    controller = WebViewControllerPlus()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(widget.webViewColor ?? Colors.transparent)
+      ..setNavigationDelegate(NavigationDelegate(onPageFinished: (String url) {
+        RecaptchaHandler.instance.start();
+      }))
+      ..addJavaScriptChannel('readyCaptcha', onMessageReceived: (JavaScriptMessage message) {})
+      ..addJavaScriptChannel('Captcha', onMessageReceived: _onCaptchaMessage);
+    RecaptchaHandler.instance.updateController(controller);
+    controller.loadRequest(Uri.parse(widget.url));
+  }
 
   @override
   Widget build(BuildContext context) {
     Widget webview = SingleChildScrollView(
       child: SizedBox(
         height: 600,
-        child: WebViewPlus(
+        child: WebViewWidget(
           key: webviewKey,
-          zoomEnabled: false,
-          backgroundColor: widget.webViewColor,
-          javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (controller) {
-            RecaptchaHandler.instance.updateController(controller);
-            controller.loadUrl(widget.url);
-          },
-          onPageFinished: (url) {
-            RecaptchaHandler.instance.start();
-          },
-          javascriptChannels: _initializeJavascriptChannels(),
+          controller: controller,
         ),
       ),
     );
@@ -101,28 +108,17 @@ class _CaptchaState extends State<Captcha> {
     );
   }
 
-  Set<JavascriptChannel> _initializeJavascriptChannels() {
-    return {
-      JavascriptChannel(
-        name: 'readyCaptcha',
-        onMessageReceived: (JavascriptMessage message) {},
-      ),
-      JavascriptChannel(
-        name: 'Captcha',
-        onMessageReceived: (JavascriptMessage message) {
-          if (message.message == 'ready') {
-            setState(() {
-              loaded = true;
-            });
-            return;
-          } else if (message.message == 'error' || message.message == 'expired') {
-            Navigator.pop(context);
-            return;
-          }
-          widget.onTokenReceived(message.message);
-        },
-      ),
-    };
+  void _onCaptchaMessage(JavaScriptMessage message) {
+    if (message.message == 'ready') {
+      setState(() {
+        loaded = true;
+      });
+      return;
+    } else if (message.message == 'error' || message.message == 'expired') {
+      Navigator.pop(context);
+      return;
+    }
+    widget.onTokenReceived(message.message);
   }
 }
 
@@ -131,7 +127,7 @@ class RecaptchaHandler {
   RecaptchaHandler._();
 
   static RecaptchaHandler? _instance;
-  late WebViewPlusController controller;
+  late WebViewControllerPlus controller;
   late String _siteKey;
 
   String get siteKey => _siteKey;
@@ -140,17 +136,17 @@ class RecaptchaHandler {
   static RecaptchaHandler get instance => _instance ??= RecaptchaHandler._();
 
   /// updates the Web view controller
-  updateController(WebViewPlusController controller) {
+  updateController(WebViewControllerPlus controller) {
     _instance?.controller = controller;
   }
 
   start() {
-    controller.webViewController.runJavascript('readyCaptcha("${_instance?._siteKey}")');
+    controller.runJavaScript('readyCaptcha("${_instance?._siteKey}")');
   }
 
   /// setups the data site key
   setupSiteKey({required String dataSiteKey}) => _instance?._siteKey = dataSiteKey;
 
   /// Executes and call the  recaptcha API
-  static executeV3() => _instance?.controller.webViewController.runJavascript('readyCaptcha("${_instance?._siteKey}")');
+  static executeV3() => _instance?.controller.runJavaScript('readyCaptcha("${_instance?._siteKey}")');
 }

@@ -2,11 +2,340 @@
 
 part of 'rel_db.dart';
 
-// **************************************************************************
-// DriftDatabaseGenerator
-// **************************************************************************
-
 // ignore_for_file: type=lint
+class $DevicesTable extends Devices with TableInfo<$DevicesTable, Device> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DevicesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _identifierMeta =
+      const VerificationMeta('identifier');
+  @override
+  late final GeneratedColumn<String> identifier = GeneratedColumn<String>(
+      'identifier', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 16),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 24),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _isControllerMeta =
+      const VerificationMeta('isController');
+  @override
+  late final GeneratedColumn<bool> isController = GeneratedColumn<bool>(
+      'is_controller', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("is_controller" IN (0, 1))'),
+      defaultValue: Constant(true));
+  static const VerificationMeta _isScreenMeta =
+      const VerificationMeta('isScreen');
+  @override
+  late final GeneratedColumn<bool> isScreen = GeneratedColumn<bool>(
+      'is_screen', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_screen" IN (0, 1))'),
+      defaultValue: Constant(false));
+  static const VerificationMeta _ipMeta = const VerificationMeta('ip');
+  @override
+  late final GeneratedColumn<String> ip = GeneratedColumn<String>(
+      'ip', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 7, maxTextLength: 15),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _mdnsMeta = const VerificationMeta('mdns');
+  @override
+  late final GeneratedColumn<String> mdns = GeneratedColumn<String>(
+      'mdns', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _isReachableMeta =
+      const VerificationMeta('isReachable');
+  @override
+  late final GeneratedColumn<bool> isReachable = GeneratedColumn<bool>(
+      'is_reachable', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("is_reachable" IN (0, 1))'),
+      defaultValue: Constant(true));
+  static const VerificationMeta _isRemoteMeta =
+      const VerificationMeta('isRemote');
+  @override
+  late final GeneratedColumn<bool> isRemote = GeneratedColumn<bool>(
+      'is_remote', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_remote" IN (0, 1))'),
+      defaultValue: Constant(false));
+  static const VerificationMeta _isSetupMeta =
+      const VerificationMeta('isSetup');
+  @override
+  late final GeneratedColumn<bool> isSetup = GeneratedColumn<bool>(
+      'is_setup', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_setup" IN (0, 1))'),
+      defaultValue: Constant(false));
+  static const VerificationMeta _nBoxesMeta = const VerificationMeta('nBoxes');
+  @override
+  late final GeneratedColumn<int> nBoxes = GeneratedColumn<int>(
+      'n_boxes', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: Constant(0));
+  static const VerificationMeta _nSensorPortsMeta =
+      const VerificationMeta('nSensorPorts');
+  @override
+  late final GeneratedColumn<int> nSensorPorts = GeneratedColumn<int>(
+      'n_sensor_ports', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: Constant(0));
+  static const VerificationMeta _nLedsMeta = const VerificationMeta('nLeds');
+  @override
+  late final GeneratedColumn<int> nLeds = GeneratedColumn<int>(
+      'n_leds', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: Constant(0));
+  static const VerificationMeta _nMotorsMeta =
+      const VerificationMeta('nMotors');
+  @override
+  late final GeneratedColumn<int> nMotors = GeneratedColumn<int>(
+      'n_motors', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: Constant(0));
+  static const VerificationMeta _needsRefreshMeta =
+      const VerificationMeta('needsRefresh');
+  @override
+  late final GeneratedColumn<bool> needsRefresh = GeneratedColumn<bool>(
+      'needs_refresh', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("needs_refresh" IN (0, 1))'),
+      defaultValue: Constant(false));
+  static const VerificationMeta _configMeta = const VerificationMeta('config');
+  @override
+  late final GeneratedColumn<String> config = GeneratedColumn<String>(
+      'config', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _serverIDMeta =
+      const VerificationMeta('serverID');
+  @override
+  late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
+      'server_i_d', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  @override
+  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
+      'synced', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
+      defaultValue: Constant(false));
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        identifier,
+        name,
+        isController,
+        isScreen,
+        ip,
+        mdns,
+        isReachable,
+        isRemote,
+        isSetup,
+        nBoxes,
+        nSensorPorts,
+        nLeds,
+        nMotors,
+        needsRefresh,
+        config,
+        serverID,
+        synced
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'devices';
+  @override
+  VerificationContext validateIntegrity(Insertable<Device> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('identifier')) {
+      context.handle(
+          _identifierMeta,
+          identifier.isAcceptableOrUnknown(
+              data['identifier']!, _identifierMeta));
+    } else if (isInserting) {
+      context.missing(_identifierMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('is_controller')) {
+      context.handle(
+          _isControllerMeta,
+          isController.isAcceptableOrUnknown(
+              data['is_controller']!, _isControllerMeta));
+    }
+    if (data.containsKey('is_screen')) {
+      context.handle(_isScreenMeta,
+          isScreen.isAcceptableOrUnknown(data['is_screen']!, _isScreenMeta));
+    }
+    if (data.containsKey('ip')) {
+      context.handle(_ipMeta, ip.isAcceptableOrUnknown(data['ip']!, _ipMeta));
+    } else if (isInserting) {
+      context.missing(_ipMeta);
+    }
+    if (data.containsKey('mdns')) {
+      context.handle(
+          _mdnsMeta, mdns.isAcceptableOrUnknown(data['mdns']!, _mdnsMeta));
+    } else if (isInserting) {
+      context.missing(_mdnsMeta);
+    }
+    if (data.containsKey('is_reachable')) {
+      context.handle(
+          _isReachableMeta,
+          isReachable.isAcceptableOrUnknown(
+              data['is_reachable']!, _isReachableMeta));
+    }
+    if (data.containsKey('is_remote')) {
+      context.handle(_isRemoteMeta,
+          isRemote.isAcceptableOrUnknown(data['is_remote']!, _isRemoteMeta));
+    }
+    if (data.containsKey('is_setup')) {
+      context.handle(_isSetupMeta,
+          isSetup.isAcceptableOrUnknown(data['is_setup']!, _isSetupMeta));
+    }
+    if (data.containsKey('n_boxes')) {
+      context.handle(_nBoxesMeta,
+          nBoxes.isAcceptableOrUnknown(data['n_boxes']!, _nBoxesMeta));
+    }
+    if (data.containsKey('n_sensor_ports')) {
+      context.handle(
+          _nSensorPortsMeta,
+          nSensorPorts.isAcceptableOrUnknown(
+              data['n_sensor_ports']!, _nSensorPortsMeta));
+    }
+    if (data.containsKey('n_leds')) {
+      context.handle(
+          _nLedsMeta, nLeds.isAcceptableOrUnknown(data['n_leds']!, _nLedsMeta));
+    }
+    if (data.containsKey('n_motors')) {
+      context.handle(_nMotorsMeta,
+          nMotors.isAcceptableOrUnknown(data['n_motors']!, _nMotorsMeta));
+    }
+    if (data.containsKey('needs_refresh')) {
+      context.handle(
+          _needsRefreshMeta,
+          needsRefresh.isAcceptableOrUnknown(
+              data['needs_refresh']!, _needsRefreshMeta));
+    }
+    if (data.containsKey('config')) {
+      context.handle(_configMeta,
+          config.isAcceptableOrUnknown(data['config']!, _configMeta));
+    }
+    if (data.containsKey('server_i_d')) {
+      context.handle(_serverIDMeta,
+          serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
+    }
+    if (data.containsKey('synced')) {
+      context.handle(_syncedMeta,
+          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Device map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Device(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      identifier: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}identifier'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      isController: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_controller'])!,
+      isScreen: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_screen'])!,
+      ip: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}ip'])!,
+      mdns: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}mdns'])!,
+      isReachable: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_reachable'])!,
+      isRemote: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_remote'])!,
+      isSetup: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_setup'])!,
+      nBoxes: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}n_boxes'])!,
+      nSensorPorts: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}n_sensor_ports'])!,
+      nLeds: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}n_leds'])!,
+      nMotors: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}n_motors'])!,
+      needsRefresh: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}needs_refresh'])!,
+      config: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}config']),
+      serverID: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
+      synced: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
+    );
+  }
+
+  @override
+  $DevicesTable createAlias(String alias) {
+    return $DevicesTable(attachedDatabase, alias);
+  }
+}
+
 class Device extends DataClass implements Insertable<Device> {
   final int id;
   final String identifier;
@@ -187,6 +516,37 @@ class Device extends DataClass implements Insertable<Device> {
         serverID: serverID.present ? serverID.value : this.serverID,
         synced: synced ?? this.synced,
       );
+  Device copyWithCompanion(DevicesCompanion data) {
+    return Device(
+      id: data.id.present ? data.id.value : this.id,
+      identifier:
+          data.identifier.present ? data.identifier.value : this.identifier,
+      name: data.name.present ? data.name.value : this.name,
+      isController: data.isController.present
+          ? data.isController.value
+          : this.isController,
+      isScreen: data.isScreen.present ? data.isScreen.value : this.isScreen,
+      ip: data.ip.present ? data.ip.value : this.ip,
+      mdns: data.mdns.present ? data.mdns.value : this.mdns,
+      isReachable:
+          data.isReachable.present ? data.isReachable.value : this.isReachable,
+      isRemote: data.isRemote.present ? data.isRemote.value : this.isRemote,
+      isSetup: data.isSetup.present ? data.isSetup.value : this.isSetup,
+      nBoxes: data.nBoxes.present ? data.nBoxes.value : this.nBoxes,
+      nSensorPorts: data.nSensorPorts.present
+          ? data.nSensorPorts.value
+          : this.nSensorPorts,
+      nLeds: data.nLeds.present ? data.nLeds.value : this.nLeds,
+      nMotors: data.nMotors.present ? data.nMotors.value : this.nMotors,
+      needsRefresh: data.needsRefresh.present
+          ? data.needsRefresh.value
+          : this.needsRefresh,
+      config: data.config.present ? data.config.value : this.config,
+      serverID: data.serverID.present ? data.serverID.value : this.serverID,
+      synced: data.synced.present ? data.synced.value : this.synced,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('Device(')
@@ -487,27 +847,26 @@ class DevicesCompanion extends UpdateCompanion<Device> {
   }
 }
 
-class $DevicesTable extends Devices with TableInfo<$DevicesTable, Device> {
+class $ModulesTable extends Modules with TableInfo<$ModulesTable, Module> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DevicesTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $ModulesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _identifierMeta = const VerificationMeta('identifier');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _deviceMeta = const VerificationMeta('device');
   @override
-  late final GeneratedColumn<String> identifier = GeneratedColumn<String>(
-      'identifier', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 16),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  late final GeneratedColumn<int> device = GeneratedColumn<int>(
+      'device', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
@@ -515,163 +874,41 @@ class $DevicesTable extends Devices with TableInfo<$DevicesTable, Device> {
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 24),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  final VerificationMeta _isControllerMeta =
-      const VerificationMeta('isController');
+  static const VerificationMeta _isArrayMeta =
+      const VerificationMeta('isArray');
   @override
-  late final GeneratedColumn<bool> isController = GeneratedColumn<bool>(
-      'is_controller', aliasedName, false,
+  late final GeneratedColumn<bool> isArray = GeneratedColumn<bool>(
+      'is_array', aliasedName, false,
       type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_controller IN (0, 1))',
-      defaultValue: Constant(true));
-  final VerificationMeta _isScreenMeta = const VerificationMeta('isScreen');
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_array" IN (0, 1))'));
+  static const VerificationMeta _arrayLenMeta =
+      const VerificationMeta('arrayLen');
   @override
-  late final GeneratedColumn<bool> isScreen = GeneratedColumn<bool>(
-      'is_screen', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_screen IN (0, 1))',
-      defaultValue: Constant(false));
-  final VerificationMeta _ipMeta = const VerificationMeta('ip');
+  late final GeneratedColumn<int> arrayLen = GeneratedColumn<int>(
+      'array_len', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
   @override
-  late final GeneratedColumn<String> ip = GeneratedColumn<String>(
-      'ip', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 7, maxTextLength: 15),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  final VerificationMeta _mdnsMeta = const VerificationMeta('mdns');
+  List<GeneratedColumn> get $columns => [id, device, name, isArray, arrayLen];
   @override
-  late final GeneratedColumn<String> mdns = GeneratedColumn<String>(
-      'mdns', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  final VerificationMeta _isReachableMeta =
-      const VerificationMeta('isReachable');
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  late final GeneratedColumn<bool> isReachable = GeneratedColumn<bool>(
-      'is_reachable', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_reachable IN (0, 1))',
-      defaultValue: Constant(true));
-  final VerificationMeta _isRemoteMeta = const VerificationMeta('isRemote');
+  String get actualTableName => $name;
+  static const String $name = 'modules';
   @override
-  late final GeneratedColumn<bool> isRemote = GeneratedColumn<bool>(
-      'is_remote', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_remote IN (0, 1))',
-      defaultValue: Constant(false));
-  final VerificationMeta _isSetupMeta = const VerificationMeta('isSetup');
-  @override
-  late final GeneratedColumn<bool> isSetup = GeneratedColumn<bool>(
-      'is_setup', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_setup IN (0, 1))',
-      defaultValue: Constant(false));
-  final VerificationMeta _nBoxesMeta = const VerificationMeta('nBoxes');
-  @override
-  late final GeneratedColumn<int> nBoxes = GeneratedColumn<int>(
-      'n_boxes', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: Constant(0));
-  final VerificationMeta _nSensorPortsMeta =
-      const VerificationMeta('nSensorPorts');
-  @override
-  late final GeneratedColumn<int> nSensorPorts = GeneratedColumn<int>(
-      'n_sensor_ports', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: Constant(0));
-  final VerificationMeta _nLedsMeta = const VerificationMeta('nLeds');
-  @override
-  late final GeneratedColumn<int> nLeds = GeneratedColumn<int>(
-      'n_leds', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: Constant(0));
-  final VerificationMeta _nMotorsMeta = const VerificationMeta('nMotors');
-  @override
-  late final GeneratedColumn<int> nMotors = GeneratedColumn<int>(
-      'n_motors', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultValue: Constant(0));
-  final VerificationMeta _needsRefreshMeta =
-      const VerificationMeta('needsRefresh');
-  @override
-  late final GeneratedColumn<bool> needsRefresh = GeneratedColumn<bool>(
-      'needs_refresh', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (needs_refresh IN (0, 1))',
-      defaultValue: Constant(false));
-  final VerificationMeta _configMeta = const VerificationMeta('config');
-  @override
-  late final GeneratedColumn<String> config = GeneratedColumn<String>(
-      'config', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
-  @override
-  late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
-      'server_i_d', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
-  @override
-  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
-      'synced', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (synced IN (0, 1))',
-      defaultValue: Constant(false));
-  @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        identifier,
-        name,
-        isController,
-        isScreen,
-        ip,
-        mdns,
-        isReachable,
-        isRemote,
-        isSetup,
-        nBoxes,
-        nSensorPorts,
-        nLeds,
-        nMotors,
-        needsRefresh,
-        config,
-        serverID,
-        synced
-      ];
-  @override
-  String get aliasedName => _alias ?? 'devices';
-  @override
-  String get actualTableName => 'devices';
-  @override
-  VerificationContext validateIntegrity(Insertable<Device> instance,
+  VerificationContext validateIntegrity(Insertable<Module> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('identifier')) {
-      context.handle(
-          _identifierMeta,
-          identifier.isAcceptableOrUnknown(
-              data['identifier']!, _identifierMeta));
+    if (data.containsKey('device')) {
+      context.handle(_deviceMeta,
+          device.isAcceptableOrUnknown(data['device']!, _deviceMeta));
     } else if (isInserting) {
-      context.missing(_identifierMeta);
+      context.missing(_deviceMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -679,76 +916,17 @@ class $DevicesTable extends Devices with TableInfo<$DevicesTable, Device> {
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
-    if (data.containsKey('is_controller')) {
-      context.handle(
-          _isControllerMeta,
-          isController.isAcceptableOrUnknown(
-              data['is_controller']!, _isControllerMeta));
-    }
-    if (data.containsKey('is_screen')) {
-      context.handle(_isScreenMeta,
-          isScreen.isAcceptableOrUnknown(data['is_screen']!, _isScreenMeta));
-    }
-    if (data.containsKey('ip')) {
-      context.handle(_ipMeta, ip.isAcceptableOrUnknown(data['ip']!, _ipMeta));
+    if (data.containsKey('is_array')) {
+      context.handle(_isArrayMeta,
+          isArray.isAcceptableOrUnknown(data['is_array']!, _isArrayMeta));
     } else if (isInserting) {
-      context.missing(_ipMeta);
+      context.missing(_isArrayMeta);
     }
-    if (data.containsKey('mdns')) {
-      context.handle(
-          _mdnsMeta, mdns.isAcceptableOrUnknown(data['mdns']!, _mdnsMeta));
+    if (data.containsKey('array_len')) {
+      context.handle(_arrayLenMeta,
+          arrayLen.isAcceptableOrUnknown(data['array_len']!, _arrayLenMeta));
     } else if (isInserting) {
-      context.missing(_mdnsMeta);
-    }
-    if (data.containsKey('is_reachable')) {
-      context.handle(
-          _isReachableMeta,
-          isReachable.isAcceptableOrUnknown(
-              data['is_reachable']!, _isReachableMeta));
-    }
-    if (data.containsKey('is_remote')) {
-      context.handle(_isRemoteMeta,
-          isRemote.isAcceptableOrUnknown(data['is_remote']!, _isRemoteMeta));
-    }
-    if (data.containsKey('is_setup')) {
-      context.handle(_isSetupMeta,
-          isSetup.isAcceptableOrUnknown(data['is_setup']!, _isSetupMeta));
-    }
-    if (data.containsKey('n_boxes')) {
-      context.handle(_nBoxesMeta,
-          nBoxes.isAcceptableOrUnknown(data['n_boxes']!, _nBoxesMeta));
-    }
-    if (data.containsKey('n_sensor_ports')) {
-      context.handle(
-          _nSensorPortsMeta,
-          nSensorPorts.isAcceptableOrUnknown(
-              data['n_sensor_ports']!, _nSensorPortsMeta));
-    }
-    if (data.containsKey('n_leds')) {
-      context.handle(
-          _nLedsMeta, nLeds.isAcceptableOrUnknown(data['n_leds']!, _nLedsMeta));
-    }
-    if (data.containsKey('n_motors')) {
-      context.handle(_nMotorsMeta,
-          nMotors.isAcceptableOrUnknown(data['n_motors']!, _nMotorsMeta));
-    }
-    if (data.containsKey('needs_refresh')) {
-      context.handle(
-          _needsRefreshMeta,
-          needsRefresh.isAcceptableOrUnknown(
-              data['needs_refresh']!, _needsRefreshMeta));
-    }
-    if (data.containsKey('config')) {
-      context.handle(_configMeta,
-          config.isAcceptableOrUnknown(data['config']!, _configMeta));
-    }
-    if (data.containsKey('server_i_d')) {
-      context.handle(_serverIDMeta,
-          serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
-    }
-    if (data.containsKey('synced')) {
-      context.handle(_syncedMeta,
-          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
+      context.missing(_arrayLenMeta);
     }
     return context;
   }
@@ -756,51 +934,25 @@ class $DevicesTable extends Devices with TableInfo<$DevicesTable, Device> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Device map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Module map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Device(
-      id: attachedDatabase.options.types
+    return Module(
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      identifier: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}identifier'])!,
-      name: attachedDatabase.options.types
+      device: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}device'])!,
+      name: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      isController: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_controller'])!,
-      isScreen: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_screen'])!,
-      ip: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}ip'])!,
-      mdns: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}mdns'])!,
-      isReachable: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_reachable'])!,
-      isRemote: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_remote'])!,
-      isSetup: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_setup'])!,
-      nBoxes: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}n_boxes'])!,
-      nSensorPorts: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}n_sensor_ports'])!,
-      nLeds: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}n_leds'])!,
-      nMotors: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}n_motors'])!,
-      needsRefresh: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}needs_refresh'])!,
-      config: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}config']),
-      serverID: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
+      isArray: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_array'])!,
+      arrayLen: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}array_len'])!,
     );
   }
 
   @override
-  $DevicesTable createAlias(String alias) {
-    return $DevicesTable(attachedDatabase, alias);
+  $ModulesTable createAlias(String alias) {
+    return $ModulesTable(attachedDatabase, alias);
   }
 }
 
@@ -869,6 +1021,16 @@ class Module extends DataClass implements Insertable<Module> {
         isArray: isArray ?? this.isArray,
         arrayLen: arrayLen ?? this.arrayLen,
       );
+  Module copyWithCompanion(ModulesCompanion data) {
+    return Module(
+      id: data.id.present ? data.id.value : this.id,
+      device: data.device.present ? data.device.value : this.device,
+      name: data.name.present ? data.name.value : this.name,
+      isArray: data.isArray.present ? data.isArray.value : this.isArray,
+      arrayLen: data.arrayLen.present ? data.arrayLen.value : this.arrayLen,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('Module(')
@@ -982,51 +1144,66 @@ class ModulesCompanion extends UpdateCompanion<Module> {
   }
 }
 
-class $ModulesTable extends Modules with TableInfo<$ModulesTable, Module> {
+class $ParamsTable extends Params with TableInfo<$ParamsTable, Param> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $ModulesTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $ParamsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _deviceMeta = const VerificationMeta('device');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _deviceMeta = const VerificationMeta('device');
   @override
   late final GeneratedColumn<int> device = GeneratedColumn<int>(
       'device', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  static const VerificationMeta _moduleMeta = const VerificationMeta('module');
   @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, false,
+  late final GeneratedColumn<int> module = GeneratedColumn<int>(
+      'module', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _keyMeta = const VerificationMeta('key');
+  @override
+  late final GeneratedColumn<String> key = GeneratedColumn<String>(
+      'key', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 24),
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 30),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  final VerificationMeta _isArrayMeta = const VerificationMeta('isArray');
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
-  late final GeneratedColumn<bool> isArray = GeneratedColumn<bool>(
-      'is_array', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: true,
-      defaultConstraints: 'CHECK (is_array IN (0, 1))');
-  final VerificationMeta _arrayLenMeta = const VerificationMeta('arrayLen');
-  @override
-  late final GeneratedColumn<int> arrayLen = GeneratedColumn<int>(
-      'array_len', aliasedName, false,
+  late final GeneratedColumn<int> type = GeneratedColumn<int>(
+      'type', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _svalueMeta = const VerificationMeta('svalue');
   @override
-  List<GeneratedColumn> get $columns => [id, device, name, isArray, arrayLen];
+  late final GeneratedColumn<String> svalue = GeneratedColumn<String>(
+      'svalue', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  static const VerificationMeta _ivalueMeta = const VerificationMeta('ivalue');
   @override
-  String get aliasedName => _alias ?? 'modules';
+  late final GeneratedColumn<int> ivalue = GeneratedColumn<int>(
+      'ivalue', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
   @override
-  String get actualTableName => 'modules';
+  List<GeneratedColumn> get $columns =>
+      [id, device, module, key, type, svalue, ivalue];
   @override
-  VerificationContext validateIntegrity(Insertable<Module> instance,
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'params';
+  @override
+  VerificationContext validateIntegrity(Insertable<Param> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -1039,23 +1216,31 @@ class $ModulesTable extends Modules with TableInfo<$ModulesTable, Module> {
     } else if (isInserting) {
       context.missing(_deviceMeta);
     }
-    if (data.containsKey('name')) {
+    if (data.containsKey('module')) {
+      context.handle(_moduleMeta,
+          module.isAcceptableOrUnknown(data['module']!, _moduleMeta));
+    } else if (isInserting) {
+      context.missing(_moduleMeta);
+    }
+    if (data.containsKey('key')) {
       context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+          _keyMeta, key.isAcceptableOrUnknown(data['key']!, _keyMeta));
     } else if (isInserting) {
-      context.missing(_nameMeta);
+      context.missing(_keyMeta);
     }
-    if (data.containsKey('is_array')) {
-      context.handle(_isArrayMeta,
-          isArray.isAcceptableOrUnknown(data['is_array']!, _isArrayMeta));
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
     } else if (isInserting) {
-      context.missing(_isArrayMeta);
+      context.missing(_typeMeta);
     }
-    if (data.containsKey('array_len')) {
-      context.handle(_arrayLenMeta,
-          arrayLen.isAcceptableOrUnknown(data['array_len']!, _arrayLenMeta));
-    } else if (isInserting) {
-      context.missing(_arrayLenMeta);
+    if (data.containsKey('svalue')) {
+      context.handle(_svalueMeta,
+          svalue.isAcceptableOrUnknown(data['svalue']!, _svalueMeta));
+    }
+    if (data.containsKey('ivalue')) {
+      context.handle(_ivalueMeta,
+          ivalue.isAcceptableOrUnknown(data['ivalue']!, _ivalueMeta));
     }
     return context;
   }
@@ -1063,25 +1248,29 @@ class $ModulesTable extends Modules with TableInfo<$ModulesTable, Module> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Module map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Param map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Module(
-      id: attachedDatabase.options.types
+    return Param(
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      device: attachedDatabase.options.types
+      device: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}device'])!,
-      name: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      isArray: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_array'])!,
-      arrayLen: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}array_len'])!,
+      module: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}module'])!,
+      key: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}key'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}type'])!,
+      svalue: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}svalue']),
+      ivalue: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}ivalue']),
     );
   }
 
   @override
-  $ModulesTable createAlias(String alias) {
-    return $ModulesTable(attachedDatabase, alias);
+  $ParamsTable createAlias(String alias) {
+    return $ParamsTable(attachedDatabase, alias);
   }
 }
 
@@ -1176,6 +1365,18 @@ class Param extends DataClass implements Insertable<Param> {
         svalue: svalue.present ? svalue.value : this.svalue,
         ivalue: ivalue.present ? ivalue.value : this.ivalue,
       );
+  Param copyWithCompanion(ParamsCompanion data) {
+    return Param(
+      id: data.id.present ? data.id.value : this.id,
+      device: data.device.present ? data.device.value : this.device,
+      module: data.module.present ? data.module.value : this.module,
+      key: data.key.present ? data.key.value : this.key,
+      type: data.type.present ? data.type.value : this.type,
+      svalue: data.svalue.present ? data.svalue.value : this.svalue,
+      ivalue: data.ivalue.present ? data.ivalue.value : this.ivalue,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('Param(')
@@ -1316,100 +1517,148 @@ class ParamsCompanion extends UpdateCompanion<Param> {
   }
 }
 
-class $ParamsTable extends Params with TableInfo<$ParamsTable, Param> {
+class $PlantsTable extends Plants with TableInfo<$PlantsTable, Plant> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $ParamsTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $PlantsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _deviceMeta = const VerificationMeta('device');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _feedMeta = const VerificationMeta('feed');
   @override
-  late final GeneratedColumn<int> device = GeneratedColumn<int>(
-      'device', aliasedName, false,
+  late final GeneratedColumn<int> feed = GeneratedColumn<int>(
+      'feed', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _moduleMeta = const VerificationMeta('module');
+  static const VerificationMeta _boxMeta = const VerificationMeta('box');
   @override
-  late final GeneratedColumn<int> module = GeneratedColumn<int>(
-      'module', aliasedName, false,
+  late final GeneratedColumn<int> box = GeneratedColumn<int>(
+      'box', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _keyMeta = const VerificationMeta('key');
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
-  late final GeneratedColumn<String> key = GeneratedColumn<String>(
-      'key', aliasedName, false,
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 30),
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 32),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  final VerificationMeta _typeMeta = const VerificationMeta('type');
+  static const VerificationMeta _singleMeta = const VerificationMeta('single');
   @override
-  late final GeneratedColumn<int> type = GeneratedColumn<int>(
-      'type', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _svalueMeta = const VerificationMeta('svalue');
+  late final GeneratedColumn<bool> single = GeneratedColumn<bool>(
+      'single', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("single" IN (0, 1))'),
+      defaultValue: Constant(false));
+  static const VerificationMeta _publicMeta = const VerificationMeta('public');
   @override
-  late final GeneratedColumn<String> svalue = GeneratedColumn<String>(
-      'svalue', aliasedName, true,
+  late final GeneratedColumn<bool> public = GeneratedColumn<bool>(
+      'public', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("public" IN (0, 1))'),
+      defaultValue: Constant(false));
+  static const VerificationMeta _alertsMeta = const VerificationMeta('alerts');
+  @override
+  late final GeneratedColumn<bool> alerts = GeneratedColumn<bool>(
+      'alerts', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("alerts" IN (0, 1))'),
+      defaultValue: Constant(true));
+  static const VerificationMeta _settingsMeta =
+      const VerificationMeta('settings');
+  @override
+  late final GeneratedColumn<String> settings = GeneratedColumn<String>(
+      'settings', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant('{}'));
+  static const VerificationMeta _serverIDMeta =
+      const VerificationMeta('serverID');
+  @override
+  late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
+      'server_i_d', aliasedName, true,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 64),
+          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
       requiredDuringInsert: false);
-  final VerificationMeta _ivalueMeta = const VerificationMeta('ivalue');
+  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
   @override
-  late final GeneratedColumn<int> ivalue = GeneratedColumn<int>(
-      'ivalue', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
+  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
+      'synced', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
+      defaultValue: Constant(false));
   @override
   List<GeneratedColumn> get $columns =>
-      [id, device, module, key, type, svalue, ivalue];
+      [id, feed, box, name, single, public, alerts, settings, serverID, synced];
   @override
-  String get aliasedName => _alias ?? 'params';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'params';
+  String get actualTableName => $name;
+  static const String $name = 'plants';
   @override
-  VerificationContext validateIntegrity(Insertable<Param> instance,
+  VerificationContext validateIntegrity(Insertable<Plant> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('device')) {
-      context.handle(_deviceMeta,
-          device.isAcceptableOrUnknown(data['device']!, _deviceMeta));
-    } else if (isInserting) {
-      context.missing(_deviceMeta);
-    }
-    if (data.containsKey('module')) {
-      context.handle(_moduleMeta,
-          module.isAcceptableOrUnknown(data['module']!, _moduleMeta));
-    } else if (isInserting) {
-      context.missing(_moduleMeta);
-    }
-    if (data.containsKey('key')) {
+    if (data.containsKey('feed')) {
       context.handle(
-          _keyMeta, key.isAcceptableOrUnknown(data['key']!, _keyMeta));
+          _feedMeta, feed.isAcceptableOrUnknown(data['feed']!, _feedMeta));
     } else if (isInserting) {
-      context.missing(_keyMeta);
+      context.missing(_feedMeta);
     }
-    if (data.containsKey('type')) {
+    if (data.containsKey('box')) {
       context.handle(
-          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+          _boxMeta, box.isAcceptableOrUnknown(data['box']!, _boxMeta));
     } else if (isInserting) {
-      context.missing(_typeMeta);
+      context.missing(_boxMeta);
     }
-    if (data.containsKey('svalue')) {
-      context.handle(_svalueMeta,
-          svalue.isAcceptableOrUnknown(data['svalue']!, _svalueMeta));
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
     }
-    if (data.containsKey('ivalue')) {
-      context.handle(_ivalueMeta,
-          ivalue.isAcceptableOrUnknown(data['ivalue']!, _ivalueMeta));
+    if (data.containsKey('single')) {
+      context.handle(_singleMeta,
+          single.isAcceptableOrUnknown(data['single']!, _singleMeta));
+    }
+    if (data.containsKey('public')) {
+      context.handle(_publicMeta,
+          public.isAcceptableOrUnknown(data['public']!, _publicMeta));
+    }
+    if (data.containsKey('alerts')) {
+      context.handle(_alertsMeta,
+          alerts.isAcceptableOrUnknown(data['alerts']!, _alertsMeta));
+    }
+    if (data.containsKey('settings')) {
+      context.handle(_settingsMeta,
+          settings.isAcceptableOrUnknown(data['settings']!, _settingsMeta));
+    }
+    if (data.containsKey('server_i_d')) {
+      context.handle(_serverIDMeta,
+          serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
+    }
+    if (data.containsKey('synced')) {
+      context.handle(_syncedMeta,
+          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
     }
     return context;
   }
@@ -1417,29 +1666,35 @@ class $ParamsTable extends Params with TableInfo<$ParamsTable, Param> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Param map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Plant map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Param(
-      id: attachedDatabase.options.types
+    return Plant(
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      device: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}device'])!,
-      module: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}module'])!,
-      key: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}key'])!,
-      type: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}type'])!,
-      svalue: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}svalue']),
-      ivalue: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}ivalue']),
+      feed: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}feed'])!,
+      box: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}box'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      single: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}single'])!,
+      public: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}public'])!,
+      alerts: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}alerts'])!,
+      settings: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}settings'])!,
+      serverID: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
+      synced: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $ParamsTable createAlias(String alias) {
-    return $ParamsTable(attachedDatabase, alias);
+  $PlantsTable createAlias(String alias) {
+    return $PlantsTable(attachedDatabase, alias);
   }
 }
 
@@ -1556,6 +1811,21 @@ class Plant extends DataClass implements Insertable<Plant> {
         serverID: serverID.present ? serverID.value : this.serverID,
         synced: synced ?? this.synced,
       );
+  Plant copyWithCompanion(PlantsCompanion data) {
+    return Plant(
+      id: data.id.present ? data.id.value : this.id,
+      feed: data.feed.present ? data.feed.value : this.feed,
+      box: data.box.present ? data.box.value : this.box,
+      name: data.name.present ? data.name.value : this.name,
+      single: data.single.present ? data.single.value : this.single,
+      public: data.public.present ? data.public.value : this.public,
+      alerts: data.alerts.present ? data.alerts.value : this.alerts,
+      settings: data.settings.present ? data.settings.value : this.settings,
+      serverID: data.serverID.present ? data.serverID.value : this.serverID,
+      synced: data.synced.present ? data.synced.value : this.synced,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('Plant(')
@@ -1734,29 +2004,60 @@ class PlantsCompanion extends UpdateCompanion<Plant> {
   }
 }
 
-class $PlantsTable extends Plants with TableInfo<$PlantsTable, Plant> {
+class $BoxesTable extends Boxes with TableInfo<$BoxesTable, Box> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $PlantsTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $BoxesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _feedMeta = const VerificationMeta('feed');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _feedMeta = const VerificationMeta('feed');
   @override
   late final GeneratedColumn<int> feed = GeneratedColumn<int>(
-      'feed', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _boxMeta = const VerificationMeta('box');
+      'feed', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _deviceMeta = const VerificationMeta('device');
   @override
-  late final GeneratedColumn<int> box = GeneratedColumn<int>(
-      'box', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  late final GeneratedColumn<int> device = GeneratedColumn<int>(
+      'device', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _deviceBoxMeta =
+      const VerificationMeta('deviceBox');
+  @override
+  late final GeneratedColumn<int> deviceBox = GeneratedColumn<int>(
+      'device_box', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _screenDeviceMeta =
+      const VerificationMeta('screenDevice');
+  @override
+  late final GeneratedColumn<int> screenDevice = GeneratedColumn<int>(
+      'screen_device', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _screenDeviceTokenMeta =
+      const VerificationMeta('screenDeviceToken');
+  @override
+  late final GeneratedColumn<String> screenDeviceToken =
+      GeneratedColumn<String>('screen_device_token', aliasedName, true,
+          additionalChecks: GeneratedColumn.checkTextLength(
+              minTextLength: 36, maxTextLength: 36),
+          type: DriftSqlType.string,
+          requiredDuringInsert: false);
+  static const VerificationMeta _encKeyMeta = const VerificationMeta('encKey');
+  @override
+  late final GeneratedColumn<String> encKey = GeneratedColumn<String>(
+      'enc_key', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
@@ -1764,38 +2065,16 @@ class $PlantsTable extends Plants with TableInfo<$PlantsTable, Plant> {
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 32),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  final VerificationMeta _singleMeta = const VerificationMeta('single');
-  @override
-  late final GeneratedColumn<bool> single = GeneratedColumn<bool>(
-      'single', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (single IN (0, 1))',
-      defaultValue: Constant(false));
-  final VerificationMeta _publicMeta = const VerificationMeta('public');
-  @override
-  late final GeneratedColumn<bool> public = GeneratedColumn<bool>(
-      'public', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (public IN (0, 1))',
-      defaultValue: Constant(false));
-  final VerificationMeta _alertsMeta = const VerificationMeta('alerts');
-  @override
-  late final GeneratedColumn<bool> alerts = GeneratedColumn<bool>(
-      'alerts', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (alerts IN (0, 1))',
-      defaultValue: Constant(true));
-  final VerificationMeta _settingsMeta = const VerificationMeta('settings');
+  static const VerificationMeta _settingsMeta =
+      const VerificationMeta('settings');
   @override
   late final GeneratedColumn<String> settings = GeneratedColumn<String>(
       'settings', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
       defaultValue: Constant('{}'));
-  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
+  static const VerificationMeta _serverIDMeta =
+      const VerificationMeta('serverID');
   @override
   late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
       'server_i_d', aliasedName, true,
@@ -1803,23 +2082,36 @@ class $PlantsTable extends Plants with TableInfo<$PlantsTable, Plant> {
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
       requiredDuringInsert: false);
-  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
   @override
   late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
       'synced', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (synced IN (0, 1))',
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
       defaultValue: Constant(false));
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, feed, box, name, single, public, alerts, settings, serverID, synced];
+  List<GeneratedColumn> get $columns => [
+        id,
+        feed,
+        device,
+        deviceBox,
+        screenDevice,
+        screenDeviceToken,
+        encKey,
+        name,
+        settings,
+        serverID,
+        synced
+      ];
   @override
-  String get aliasedName => _alias ?? 'plants';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'plants';
+  String get actualTableName => $name;
+  static const String $name = 'boxes';
   @override
-  VerificationContext validateIntegrity(Insertable<Plant> instance,
+  VerificationContext validateIntegrity(Insertable<Box> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -1829,32 +2121,36 @@ class $PlantsTable extends Plants with TableInfo<$PlantsTable, Plant> {
     if (data.containsKey('feed')) {
       context.handle(
           _feedMeta, feed.isAcceptableOrUnknown(data['feed']!, _feedMeta));
-    } else if (isInserting) {
-      context.missing(_feedMeta);
     }
-    if (data.containsKey('box')) {
+    if (data.containsKey('device')) {
+      context.handle(_deviceMeta,
+          device.isAcceptableOrUnknown(data['device']!, _deviceMeta));
+    }
+    if (data.containsKey('device_box')) {
+      context.handle(_deviceBoxMeta,
+          deviceBox.isAcceptableOrUnknown(data['device_box']!, _deviceBoxMeta));
+    }
+    if (data.containsKey('screen_device')) {
       context.handle(
-          _boxMeta, box.isAcceptableOrUnknown(data['box']!, _boxMeta));
-    } else if (isInserting) {
-      context.missing(_boxMeta);
+          _screenDeviceMeta,
+          screenDevice.isAcceptableOrUnknown(
+              data['screen_device']!, _screenDeviceMeta));
+    }
+    if (data.containsKey('screen_device_token')) {
+      context.handle(
+          _screenDeviceTokenMeta,
+          screenDeviceToken.isAcceptableOrUnknown(
+              data['screen_device_token']!, _screenDeviceTokenMeta));
+    }
+    if (data.containsKey('enc_key')) {
+      context.handle(_encKeyMeta,
+          encKey.isAcceptableOrUnknown(data['enc_key']!, _encKeyMeta));
     }
     if (data.containsKey('name')) {
       context.handle(
           _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
-    }
-    if (data.containsKey('single')) {
-      context.handle(_singleMeta,
-          single.isAcceptableOrUnknown(data['single']!, _singleMeta));
-    }
-    if (data.containsKey('public')) {
-      context.handle(_publicMeta,
-          public.isAcceptableOrUnknown(data['public']!, _publicMeta));
-    }
-    if (data.containsKey('alerts')) {
-      context.handle(_alertsMeta,
-          alerts.isAcceptableOrUnknown(data['alerts']!, _alertsMeta));
     }
     if (data.containsKey('settings')) {
       context.handle(_settingsMeta,
@@ -1874,35 +2170,37 @@ class $PlantsTable extends Plants with TableInfo<$PlantsTable, Plant> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Plant map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Box map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Plant(
-      id: attachedDatabase.options.types
+    return Box(
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      feed: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}feed'])!,
-      box: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}box'])!,
-      name: attachedDatabase.options.types
+      feed: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}feed']),
+      device: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}device']),
+      deviceBox: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}device_box']),
+      screenDevice: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}screen_device']),
+      screenDeviceToken: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}screen_device_token']),
+      encKey: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}enc_key']),
+      name: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      single: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}single'])!,
-      public: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}public'])!,
-      alerts: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}alerts'])!,
-      settings: attachedDatabase.options.types
+      settings: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}settings'])!,
-      serverID: attachedDatabase.options.types
+      serverID: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.options.types
+      synced: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $PlantsTable createAlias(String alias) {
-    return $PlantsTable(attachedDatabase, alias);
+  $BoxesTable createAlias(String alias) {
+    return $BoxesTable(attachedDatabase, alias);
   }
 }
 
@@ -2051,6 +2349,26 @@ class Box extends DataClass implements Insertable<Box> {
         serverID: serverID.present ? serverID.value : this.serverID,
         synced: synced ?? this.synced,
       );
+  Box copyWithCompanion(BoxesCompanion data) {
+    return Box(
+      id: data.id.present ? data.id.value : this.id,
+      feed: data.feed.present ? data.feed.value : this.feed,
+      device: data.device.present ? data.device.value : this.device,
+      deviceBox: data.deviceBox.present ? data.deviceBox.value : this.deviceBox,
+      screenDevice: data.screenDevice.present
+          ? data.screenDevice.value
+          : this.screenDevice,
+      screenDeviceToken: data.screenDeviceToken.present
+          ? data.screenDeviceToken.value
+          : this.screenDeviceToken,
+      encKey: data.encKey.present ? data.encKey.value : this.encKey,
+      name: data.name.present ? data.name.value : this.name,
+      settings: data.settings.present ? data.settings.value : this.settings,
+      serverID: data.serverID.present ? data.serverID.value : this.serverID,
+      synced: data.synced.present ? data.synced.value : this.synced,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('Box(')
@@ -2240,57 +2558,27 @@ class BoxesCompanion extends UpdateCompanion<Box> {
   }
 }
 
-class $BoxesTable extends Boxes with TableInfo<$BoxesTable, Box> {
+class $ChartCachesTable extends ChartCaches
+    with TableInfo<$ChartCachesTable, ChartCache> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $BoxesTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $ChartCachesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _feedMeta = const VerificationMeta('feed');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _boxMeta = const VerificationMeta('box');
   @override
-  late final GeneratedColumn<int> feed = GeneratedColumn<int>(
-      'feed', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  final VerificationMeta _deviceMeta = const VerificationMeta('device');
-  @override
-  late final GeneratedColumn<int> device = GeneratedColumn<int>(
-      'device', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  final VerificationMeta _deviceBoxMeta = const VerificationMeta('deviceBox');
-  @override
-  late final GeneratedColumn<int> deviceBox = GeneratedColumn<int>(
-      'device_box', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  final VerificationMeta _screenDeviceMeta =
-      const VerificationMeta('screenDevice');
-  @override
-  late final GeneratedColumn<int> screenDevice = GeneratedColumn<int>(
-      'screen_device', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  final VerificationMeta _screenDeviceTokenMeta =
-      const VerificationMeta('screenDeviceToken');
-  @override
-  late final GeneratedColumn<String> screenDeviceToken =
-      GeneratedColumn<String>('screen_device_token', aliasedName, true,
-          additionalChecks: GeneratedColumn.checkTextLength(
-              minTextLength: 36, maxTextLength: 36),
-          type: DriftSqlType.string,
-          requiredDuringInsert: false);
-  final VerificationMeta _encKeyMeta = const VerificationMeta('encKey');
-  @override
-  late final GeneratedColumn<String> encKey = GeneratedColumn<String>(
-      'enc_key', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  late final GeneratedColumn<int> box = GeneratedColumn<int>(
+      'box', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
       'name', aliasedName, false,
@@ -2298,82 +2586,38 @@ class $BoxesTable extends Boxes with TableInfo<$BoxesTable, Box> {
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 32),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  final VerificationMeta _settingsMeta = const VerificationMeta('settings');
+  static const VerificationMeta _dateMeta = const VerificationMeta('date');
   @override
-  late final GeneratedColumn<String> settings = GeneratedColumn<String>(
-      'settings', aliasedName, false,
+  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
+      'date', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _valuesMeta = const VerificationMeta('values');
+  @override
+  late final GeneratedColumn<String> values = GeneratedColumn<String>(
+      'values', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
-      defaultValue: Constant('{}'));
-  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
+      defaultValue: Constant('[]'));
   @override
-  late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
-      'server_i_d', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  List<GeneratedColumn> get $columns => [id, box, name, date, values];
   @override
-  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
-      'synced', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (synced IN (0, 1))',
-      defaultValue: Constant(false));
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        feed,
-        device,
-        deviceBox,
-        screenDevice,
-        screenDeviceToken,
-        encKey,
-        name,
-        settings,
-        serverID,
-        synced
-      ];
+  String get actualTableName => $name;
+  static const String $name = 'chart_caches';
   @override
-  String get aliasedName => _alias ?? 'boxes';
-  @override
-  String get actualTableName => 'boxes';
-  @override
-  VerificationContext validateIntegrity(Insertable<Box> instance,
+  VerificationContext validateIntegrity(Insertable<ChartCache> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('feed')) {
+    if (data.containsKey('box')) {
       context.handle(
-          _feedMeta, feed.isAcceptableOrUnknown(data['feed']!, _feedMeta));
-    }
-    if (data.containsKey('device')) {
-      context.handle(_deviceMeta,
-          device.isAcceptableOrUnknown(data['device']!, _deviceMeta));
-    }
-    if (data.containsKey('device_box')) {
-      context.handle(_deviceBoxMeta,
-          deviceBox.isAcceptableOrUnknown(data['device_box']!, _deviceBoxMeta));
-    }
-    if (data.containsKey('screen_device')) {
-      context.handle(
-          _screenDeviceMeta,
-          screenDevice.isAcceptableOrUnknown(
-              data['screen_device']!, _screenDeviceMeta));
-    }
-    if (data.containsKey('screen_device_token')) {
-      context.handle(
-          _screenDeviceTokenMeta,
-          screenDeviceToken.isAcceptableOrUnknown(
-              data['screen_device_token']!, _screenDeviceTokenMeta));
-    }
-    if (data.containsKey('enc_key')) {
-      context.handle(_encKeyMeta,
-          encKey.isAcceptableOrUnknown(data['enc_key']!, _encKeyMeta));
+          _boxMeta, box.isAcceptableOrUnknown(data['box']!, _boxMeta));
+    } else if (isInserting) {
+      context.missing(_boxMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -2381,17 +2625,15 @@ class $BoxesTable extends Boxes with TableInfo<$BoxesTable, Box> {
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
-    if (data.containsKey('settings')) {
-      context.handle(_settingsMeta,
-          settings.isAcceptableOrUnknown(data['settings']!, _settingsMeta));
+    if (data.containsKey('date')) {
+      context.handle(
+          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
+    } else if (isInserting) {
+      context.missing(_dateMeta);
     }
-    if (data.containsKey('server_i_d')) {
-      context.handle(_serverIDMeta,
-          serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
-    }
-    if (data.containsKey('synced')) {
-      context.handle(_syncedMeta,
-          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
+    if (data.containsKey('values')) {
+      context.handle(_valuesMeta,
+          values.isAcceptableOrUnknown(data['values']!, _valuesMeta));
     }
     return context;
   }
@@ -2399,37 +2641,25 @@ class $BoxesTable extends Boxes with TableInfo<$BoxesTable, Box> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Box map(Map<String, dynamic> data, {String? tablePrefix}) {
+  ChartCache map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Box(
-      id: attachedDatabase.options.types
+    return ChartCache(
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      feed: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}feed']),
-      device: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}device']),
-      deviceBox: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}device_box']),
-      screenDevice: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}screen_device']),
-      screenDeviceToken: attachedDatabase.options.types.read(
-          DriftSqlType.string, data['${effectivePrefix}screen_device_token']),
-      encKey: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}enc_key']),
-      name: attachedDatabase.options.types
+      box: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}box'])!,
+      name: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      settings: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}settings'])!,
-      serverID: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
+      date: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
+      values: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}values'])!,
     );
   }
 
   @override
-  $BoxesTable createAlias(String alias) {
-    return $BoxesTable(attachedDatabase, alias);
+  $ChartCachesTable createAlias(String alias) {
+    return $ChartCachesTable(attachedDatabase, alias);
   }
 }
 
@@ -2498,6 +2728,16 @@ class ChartCache extends DataClass implements Insertable<ChartCache> {
         date: date ?? this.date,
         values: values ?? this.values,
       );
+  ChartCache copyWithCompanion(ChartCachesCompanion data) {
+    return ChartCache(
+      id: data.id.present ? data.id.value : this.id,
+      box: data.box.present ? data.box.value : this.box,
+      name: data.name.present ? data.name.value : this.name,
+      date: data.date.present ? data.date.value : this.date,
+      values: data.values.present ? data.values.value : this.values,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('ChartCache(')
@@ -2610,79 +2850,218 @@ class ChartCachesCompanion extends UpdateCompanion<ChartCache> {
   }
 }
 
-class $ChartCachesTable extends ChartCaches
-    with TableInfo<$ChartCachesTable, ChartCache> {
+class $TimelapsesTable extends Timelapses
+    with TableInfo<$TimelapsesTable, Timelapse> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $ChartCachesTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $TimelapsesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _boxMeta = const VerificationMeta('box');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _plantMeta = const VerificationMeta('plant');
   @override
-  late final GeneratedColumn<int> box = GeneratedColumn<int>(
-      'box', aliasedName, false,
+  late final GeneratedColumn<int> plant = GeneratedColumn<int>(
+      'plant', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, false,
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, false,
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 32),
       type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  final VerificationMeta _dateMeta = const VerificationMeta('date');
+      requiredDuringInsert: false,
+      defaultValue: Constant('dropbox'));
+  static const VerificationMeta _settingsMeta =
+      const VerificationMeta('settings');
   @override
-  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
-      'date', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  final VerificationMeta _valuesMeta = const VerificationMeta('values');
-  @override
-  late final GeneratedColumn<String> values = GeneratedColumn<String>(
-      'values', aliasedName, false,
+  late final GeneratedColumn<String> settings = GeneratedColumn<String>(
+      'settings', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
-      defaultValue: Constant('[]'));
+      defaultValue: Constant('{}'));
+  static const VerificationMeta _ssidMeta = const VerificationMeta('ssid');
   @override
-  List<GeneratedColumn> get $columns => [id, box, name, date, values];
+  late final GeneratedColumn<String> ssid = GeneratedColumn<String>(
+      'ssid', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  static const VerificationMeta _passwordMeta =
+      const VerificationMeta('password');
   @override
-  String get aliasedName => _alias ?? 'chart_caches';
+  late final GeneratedColumn<String> password = GeneratedColumn<String>(
+      'password', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  static const VerificationMeta _controllerIDMeta =
+      const VerificationMeta('controllerID');
   @override
-  String get actualTableName => 'chart_caches';
+  late final GeneratedColumn<String> controllerID = GeneratedColumn<String>(
+      'controller_i_d', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  static const VerificationMeta _rotateMeta = const VerificationMeta('rotate');
   @override
-  VerificationContext validateIntegrity(Insertable<ChartCache> instance,
+  late final GeneratedColumn<String> rotate = GeneratedColumn<String>(
+      'rotate', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  static const VerificationMeta _strainMeta = const VerificationMeta('strain');
+  @override
+  late final GeneratedColumn<String> strain = GeneratedColumn<String>(
+      'strain', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  static const VerificationMeta _dropboxTokenMeta =
+      const VerificationMeta('dropboxToken');
+  @override
+  late final GeneratedColumn<String> dropboxToken = GeneratedColumn<String>(
+      'dropbox_token', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  static const VerificationMeta _uploadNameMeta =
+      const VerificationMeta('uploadName');
+  @override
+  late final GeneratedColumn<String> uploadName = GeneratedColumn<String>(
+      'upload_name', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  static const VerificationMeta _serverIDMeta =
+      const VerificationMeta('serverID');
+  @override
+  late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
+      'server_i_d', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  @override
+  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
+      'synced', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
+      defaultValue: Constant(false));
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        plant,
+        type,
+        settings,
+        ssid,
+        password,
+        controllerID,
+        rotate,
+        name,
+        strain,
+        dropboxToken,
+        uploadName,
+        serverID,
+        synced
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'timelapses';
+  @override
+  VerificationContext validateIntegrity(Insertable<Timelapse> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('box')) {
+    if (data.containsKey('plant')) {
       context.handle(
-          _boxMeta, box.isAcceptableOrUnknown(data['box']!, _boxMeta));
+          _plantMeta, plant.isAcceptableOrUnknown(data['plant']!, _plantMeta));
     } else if (isInserting) {
-      context.missing(_boxMeta);
+      context.missing(_plantMeta);
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    }
+    if (data.containsKey('settings')) {
+      context.handle(_settingsMeta,
+          settings.isAcceptableOrUnknown(data['settings']!, _settingsMeta));
+    }
+    if (data.containsKey('ssid')) {
+      context.handle(
+          _ssidMeta, ssid.isAcceptableOrUnknown(data['ssid']!, _ssidMeta));
+    }
+    if (data.containsKey('password')) {
+      context.handle(_passwordMeta,
+          password.isAcceptableOrUnknown(data['password']!, _passwordMeta));
+    }
+    if (data.containsKey('controller_i_d')) {
+      context.handle(
+          _controllerIDMeta,
+          controllerID.isAcceptableOrUnknown(
+              data['controller_i_d']!, _controllerIDMeta));
+    }
+    if (data.containsKey('rotate')) {
+      context.handle(_rotateMeta,
+          rotate.isAcceptableOrUnknown(data['rotate']!, _rotateMeta));
     }
     if (data.containsKey('name')) {
       context.handle(
           _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
-    } else if (isInserting) {
-      context.missing(_nameMeta);
     }
-    if (data.containsKey('date')) {
+    if (data.containsKey('strain')) {
+      context.handle(_strainMeta,
+          strain.isAcceptableOrUnknown(data['strain']!, _strainMeta));
+    }
+    if (data.containsKey('dropbox_token')) {
       context.handle(
-          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
-    } else if (isInserting) {
-      context.missing(_dateMeta);
+          _dropboxTokenMeta,
+          dropboxToken.isAcceptableOrUnknown(
+              data['dropbox_token']!, _dropboxTokenMeta));
     }
-    if (data.containsKey('values')) {
-      context.handle(_valuesMeta,
-          values.isAcceptableOrUnknown(data['values']!, _valuesMeta));
+    if (data.containsKey('upload_name')) {
+      context.handle(
+          _uploadNameMeta,
+          uploadName.isAcceptableOrUnknown(
+              data['upload_name']!, _uploadNameMeta));
+    }
+    if (data.containsKey('server_i_d')) {
+      context.handle(_serverIDMeta,
+          serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
+    }
+    if (data.containsKey('synced')) {
+      context.handle(_syncedMeta,
+          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
     }
     return context;
   }
@@ -2690,25 +3069,43 @@ class $ChartCachesTable extends ChartCaches
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  ChartCache map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Timelapse map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return ChartCache(
-      id: attachedDatabase.options.types
+    return Timelapse(
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      box: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}box'])!,
-      name: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      date: attachedDatabase.options.types
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
-      values: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}values'])!,
+      plant: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}plant'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
+      settings: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}settings'])!,
+      ssid: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}ssid']),
+      password: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}password']),
+      controllerID: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}controller_i_d']),
+      rotate: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}rotate']),
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name']),
+      strain: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}strain']),
+      dropboxToken: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}dropbox_token']),
+      uploadName: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}upload_name']),
+      serverID: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
+      synced: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $ChartCachesTable createAlias(String alias) {
-    return $ChartCachesTable(attachedDatabase, alias);
+  $TimelapsesTable createAlias(String alias) {
+    return $TimelapsesTable(attachedDatabase, alias);
   }
 }
 
@@ -2885,6 +3282,30 @@ class Timelapse extends DataClass implements Insertable<Timelapse> {
         serverID: serverID.present ? serverID.value : this.serverID,
         synced: synced ?? this.synced,
       );
+  Timelapse copyWithCompanion(TimelapsesCompanion data) {
+    return Timelapse(
+      id: data.id.present ? data.id.value : this.id,
+      plant: data.plant.present ? data.plant.value : this.plant,
+      type: data.type.present ? data.type.value : this.type,
+      settings: data.settings.present ? data.settings.value : this.settings,
+      ssid: data.ssid.present ? data.ssid.value : this.ssid,
+      password: data.password.present ? data.password.value : this.password,
+      controllerID: data.controllerID.present
+          ? data.controllerID.value
+          : this.controllerID,
+      rotate: data.rotate.present ? data.rotate.value : this.rotate,
+      name: data.name.present ? data.name.value : this.name,
+      strain: data.strain.present ? data.strain.value : this.strain,
+      dropboxToken: data.dropboxToken.present
+          ? data.dropboxToken.value
+          : this.dropboxToken,
+      uploadName:
+          data.uploadName.present ? data.uploadName.value : this.uploadName,
+      serverID: data.serverID.present ? data.serverID.value : this.serverID,
+      synced: data.synced.present ? data.synced.value : this.synced,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('Timelapse(')
@@ -3126,107 +3547,40 @@ class TimelapsesCompanion extends UpdateCompanion<Timelapse> {
   }
 }
 
-class $TimelapsesTable extends Timelapses
-    with TableInfo<$TimelapsesTable, Timelapse> {
+class $FeedsTable extends Feeds with TableInfo<$FeedsTable, Feed> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $TimelapsesTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $FeedsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _plantMeta = const VerificationMeta('plant');
-  @override
-  late final GeneratedColumn<int> plant = GeneratedColumn<int>(
-      'plant', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _typeMeta = const VerificationMeta('type');
-  @override
-  late final GeneratedColumn<String> type = GeneratedColumn<String>(
-      'type', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 32),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant('dropbox'));
-  final VerificationMeta _settingsMeta = const VerificationMeta('settings');
-  @override
-  late final GeneratedColumn<String> settings = GeneratedColumn<String>(
-      'settings', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant('{}'));
-  final VerificationMeta _ssidMeta = const VerificationMeta('ssid');
-  @override
-  late final GeneratedColumn<String> ssid = GeneratedColumn<String>(
-      'ssid', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  final VerificationMeta _passwordMeta = const VerificationMeta('password');
-  @override
-  late final GeneratedColumn<String> password = GeneratedColumn<String>(
-      'password', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  final VerificationMeta _controllerIDMeta =
-      const VerificationMeta('controllerID');
-  @override
-  late final GeneratedColumn<String> controllerID = GeneratedColumn<String>(
-      'controller_i_d', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  final VerificationMeta _rotateMeta = const VerificationMeta('rotate');
-  @override
-  late final GeneratedColumn<String> rotate = GeneratedColumn<String>(
-      'rotate', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, true,
+      'name', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 24),
       type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  final VerificationMeta _strainMeta = const VerificationMeta('strain');
+      requiredDuringInsert: true);
+  static const VerificationMeta _isNewsFeedMeta =
+      const VerificationMeta('isNewsFeed');
   @override
-  late final GeneratedColumn<String> strain = GeneratedColumn<String>(
-      'strain', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  final VerificationMeta _dropboxTokenMeta =
-      const VerificationMeta('dropboxToken');
-  @override
-  late final GeneratedColumn<String> dropboxToken = GeneratedColumn<String>(
-      'dropbox_token', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  final VerificationMeta _uploadNameMeta = const VerificationMeta('uploadName');
-  @override
-  late final GeneratedColumn<String> uploadName = GeneratedColumn<String>(
-      'upload_name', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 64),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
+  late final GeneratedColumn<bool> isNewsFeed = GeneratedColumn<bool>(
+      'is_news_feed', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("is_news_feed" IN (0, 1))'),
+      defaultValue: Constant(false));
+  static const VerificationMeta _serverIDMeta =
+      const VerificationMeta('serverID');
   @override
   late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
       'server_i_d', aliasedName, true,
@@ -3234,94 +3588,42 @@ class $TimelapsesTable extends Timelapses
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
       requiredDuringInsert: false);
-  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
   @override
   late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
       'synced', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (synced IN (0, 1))',
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
       defaultValue: Constant(false));
   @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        plant,
-        type,
-        settings,
-        ssid,
-        password,
-        controllerID,
-        rotate,
-        name,
-        strain,
-        dropboxToken,
-        uploadName,
-        serverID,
-        synced
-      ];
+  List<GeneratedColumn> get $columns =>
+      [id, name, isNewsFeed, serverID, synced];
   @override
-  String get aliasedName => _alias ?? 'timelapses';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'timelapses';
+  String get actualTableName => $name;
+  static const String $name = 'feeds';
   @override
-  VerificationContext validateIntegrity(Insertable<Timelapse> instance,
+  VerificationContext validateIntegrity(Insertable<Feed> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('plant')) {
-      context.handle(
-          _plantMeta, plant.isAcceptableOrUnknown(data['plant']!, _plantMeta));
-    } else if (isInserting) {
-      context.missing(_plantMeta);
-    }
-    if (data.containsKey('type')) {
-      context.handle(
-          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
-    }
-    if (data.containsKey('settings')) {
-      context.handle(_settingsMeta,
-          settings.isAcceptableOrUnknown(data['settings']!, _settingsMeta));
-    }
-    if (data.containsKey('ssid')) {
-      context.handle(
-          _ssidMeta, ssid.isAcceptableOrUnknown(data['ssid']!, _ssidMeta));
-    }
-    if (data.containsKey('password')) {
-      context.handle(_passwordMeta,
-          password.isAcceptableOrUnknown(data['password']!, _passwordMeta));
-    }
-    if (data.containsKey('controller_i_d')) {
-      context.handle(
-          _controllerIDMeta,
-          controllerID.isAcceptableOrUnknown(
-              data['controller_i_d']!, _controllerIDMeta));
-    }
-    if (data.containsKey('rotate')) {
-      context.handle(_rotateMeta,
-          rotate.isAcceptableOrUnknown(data['rotate']!, _rotateMeta));
-    }
     if (data.containsKey('name')) {
       context.handle(
           _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
     }
-    if (data.containsKey('strain')) {
-      context.handle(_strainMeta,
-          strain.isAcceptableOrUnknown(data['strain']!, _strainMeta));
-    }
-    if (data.containsKey('dropbox_token')) {
+    if (data.containsKey('is_news_feed')) {
       context.handle(
-          _dropboxTokenMeta,
-          dropboxToken.isAcceptableOrUnknown(
-              data['dropbox_token']!, _dropboxTokenMeta));
-    }
-    if (data.containsKey('upload_name')) {
-      context.handle(
-          _uploadNameMeta,
-          uploadName.isAcceptableOrUnknown(
-              data['upload_name']!, _uploadNameMeta));
+          _isNewsFeedMeta,
+          isNewsFeed.isAcceptableOrUnknown(
+              data['is_news_feed']!, _isNewsFeedMeta));
     }
     if (data.containsKey('server_i_d')) {
       context.handle(_serverIDMeta,
@@ -3337,43 +3639,25 @@ class $TimelapsesTable extends Timelapses
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Timelapse map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Feed map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Timelapse(
-      id: attachedDatabase.options.types
+    return Feed(
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      plant: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}plant'])!,
-      type: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
-      settings: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}settings'])!,
-      ssid: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}ssid']),
-      password: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}password']),
-      controllerID: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}controller_i_d']),
-      rotate: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}rotate']),
-      name: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}name']),
-      strain: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}strain']),
-      dropboxToken: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}dropbox_token']),
-      uploadName: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}upload_name']),
-      serverID: attachedDatabase.options.types
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      isNewsFeed: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_news_feed'])!,
+      serverID: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.options.types
+      synced: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $TimelapsesTable createAlias(String alias) {
-    return $TimelapsesTable(attachedDatabase, alias);
+  $FeedsTable createAlias(String alias) {
+    return $FeedsTable(attachedDatabase, alias);
   }
 }
 
@@ -3450,6 +3734,17 @@ class Feed extends DataClass implements Insertable<Feed> {
         serverID: serverID.present ? serverID.value : this.serverID,
         synced: synced ?? this.synced,
       );
+  Feed copyWithCompanion(FeedsCompanion data) {
+    return Feed(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      isNewsFeed:
+          data.isNewsFeed.present ? data.isNewsFeed.value : this.isNewsFeed,
+      serverID: data.serverID.present ? data.serverID.value : this.serverID,
+      synced: data.synced.present ? data.synced.value : this.synced,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('Feed(')
@@ -3560,35 +3855,57 @@ class FeedsCompanion extends UpdateCompanion<Feed> {
   }
 }
 
-class $FeedsTable extends Feeds with TableInfo<$FeedsTable, Feed> {
+class $FeedEntriesTable extends FeedEntries
+    with TableInfo<$FeedEntriesTable, FeedEntry> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $FeedsTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $FeedEntriesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _feedMeta = const VerificationMeta('feed');
   @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, false,
+  late final GeneratedColumn<int> feed = GeneratedColumn<int>(
+      'feed', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _dateMeta = const VerificationMeta('date');
+  @override
+  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
+      'date', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, false,
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 24),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  final VerificationMeta _isNewsFeedMeta = const VerificationMeta('isNewsFeed');
+  static const VerificationMeta _isNewMeta = const VerificationMeta('isNew');
   @override
-  late final GeneratedColumn<bool> isNewsFeed = GeneratedColumn<bool>(
-      'is_news_feed', aliasedName, false,
+  late final GeneratedColumn<bool> isNew = GeneratedColumn<bool>(
+      'is_new', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_news_feed IN (0, 1))',
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_new" IN (0, 1))'),
       defaultValue: Constant(false));
-  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
+  static const VerificationMeta _paramsMeta = const VerificationMeta('params');
+  @override
+  late final GeneratedColumn<String> params = GeneratedColumn<String>(
+      'params', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant('{}'));
+  static const VerificationMeta _serverIDMeta =
+      const VerificationMeta('serverID');
   @override
   late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
       'server_i_d', aliasedName, true,
@@ -3596,40 +3913,56 @@ class $FeedsTable extends Feeds with TableInfo<$FeedsTable, Feed> {
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
       requiredDuringInsert: false);
-  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
   @override
   late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
       'synced', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (synced IN (0, 1))',
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
       defaultValue: Constant(false));
   @override
   List<GeneratedColumn> get $columns =>
-      [id, name, isNewsFeed, serverID, synced];
+      [id, feed, date, type, isNew, params, serverID, synced];
   @override
-  String get aliasedName => _alias ?? 'feeds';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'feeds';
+  String get actualTableName => $name;
+  static const String $name = 'feed_entries';
   @override
-  VerificationContext validateIntegrity(Insertable<Feed> instance,
+  VerificationContext validateIntegrity(Insertable<FeedEntry> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('name')) {
+    if (data.containsKey('feed')) {
       context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+          _feedMeta, feed.isAcceptableOrUnknown(data['feed']!, _feedMeta));
     } else if (isInserting) {
-      context.missing(_nameMeta);
+      context.missing(_feedMeta);
     }
-    if (data.containsKey('is_news_feed')) {
+    if (data.containsKey('date')) {
       context.handle(
-          _isNewsFeedMeta,
-          isNewsFeed.isAcceptableOrUnknown(
-              data['is_news_feed']!, _isNewsFeedMeta));
+          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
+    if (data.containsKey('is_new')) {
+      context.handle(
+          _isNewMeta, isNew.isAcceptableOrUnknown(data['is_new']!, _isNewMeta));
+    }
+    if (data.containsKey('params')) {
+      context.handle(_paramsMeta,
+          params.isAcceptableOrUnknown(data['params']!, _paramsMeta));
     }
     if (data.containsKey('server_i_d')) {
       context.handle(_serverIDMeta,
@@ -3645,25 +3978,31 @@ class $FeedsTable extends Feeds with TableInfo<$FeedsTable, Feed> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Feed map(Map<String, dynamic> data, {String? tablePrefix}) {
+  FeedEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Feed(
-      id: attachedDatabase.options.types
+    return FeedEntry(
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      name: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      isNewsFeed: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_news_feed'])!,
-      serverID: attachedDatabase.options.types
+      feed: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}feed'])!,
+      date: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
+      isNew: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_new'])!,
+      params: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}params'])!,
+      serverID: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.options.types
+      synced: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $FeedsTable createAlias(String alias) {
-    return $FeedsTable(attachedDatabase, alias);
+  $FeedEntriesTable createAlias(String alias) {
+    return $FeedEntriesTable(attachedDatabase, alias);
   }
 }
 
@@ -3764,6 +4103,19 @@ class FeedEntry extends DataClass implements Insertable<FeedEntry> {
         serverID: serverID.present ? serverID.value : this.serverID,
         synced: synced ?? this.synced,
       );
+  FeedEntry copyWithCompanion(FeedEntriesCompanion data) {
+    return FeedEntry(
+      id: data.id.present ? data.id.value : this.id,
+      feed: data.feed.present ? data.feed.value : this.feed,
+      date: data.date.present ? data.date.value : this.date,
+      type: data.type.present ? data.type.value : this.type,
+      isNew: data.isNew.present ? data.isNew.value : this.isNew,
+      params: data.params.present ? data.params.value : this.params,
+      serverID: data.serverID.present ? data.serverID.value : this.serverID,
+      synced: data.synced.present ? data.synced.value : this.synced,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('FeedEntry(')
@@ -3916,30 +4268,27 @@ class FeedEntriesCompanion extends UpdateCompanion<FeedEntry> {
   }
 }
 
-class $FeedEntriesTable extends FeedEntries
-    with TableInfo<$FeedEntriesTable, FeedEntry> {
+class $FeedEntryDraftsTable extends FeedEntryDrafts
+    with TableInfo<$FeedEntryDraftsTable, FeedEntryDraft> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $FeedEntriesTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $FeedEntryDraftsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _feedMeta = const VerificationMeta('feed');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _feedMeta = const VerificationMeta('feed');
   @override
   late final GeneratedColumn<int> feed = GeneratedColumn<int>(
       'feed', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _dateMeta = const VerificationMeta('date');
-  @override
-  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
-      'date', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  final VerificationMeta _typeMeta = const VerificationMeta('type');
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
   late final GeneratedColumn<String> type = GeneratedColumn<String>(
       'type', aliasedName, false,
@@ -3947,46 +4296,22 @@ class $FeedEntriesTable extends FeedEntries
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 24),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  final VerificationMeta _isNewMeta = const VerificationMeta('isNew');
-  @override
-  late final GeneratedColumn<bool> isNew = GeneratedColumn<bool>(
-      'is_new', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (is_new IN (0, 1))',
-      defaultValue: Constant(false));
-  final VerificationMeta _paramsMeta = const VerificationMeta('params');
+  static const VerificationMeta _paramsMeta = const VerificationMeta('params');
   @override
   late final GeneratedColumn<String> params = GeneratedColumn<String>(
       'params', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
       defaultValue: Constant('{}'));
-  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
   @override
-  late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
-      'server_i_d', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  List<GeneratedColumn> get $columns => [id, feed, type, params];
   @override
-  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
-      'synced', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (synced IN (0, 1))',
-      defaultValue: Constant(false));
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, feed, date, type, isNew, params, serverID, synced];
+  String get actualTableName => $name;
+  static const String $name = 'feed_entry_drafts';
   @override
-  String get aliasedName => _alias ?? 'feed_entries';
-  @override
-  String get actualTableName => 'feed_entries';
-  @override
-  VerificationContext validateIntegrity(Insertable<FeedEntry> instance,
+  VerificationContext validateIntegrity(Insertable<FeedEntryDraft> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -3999,33 +4324,15 @@ class $FeedEntriesTable extends FeedEntries
     } else if (isInserting) {
       context.missing(_feedMeta);
     }
-    if (data.containsKey('date')) {
-      context.handle(
-          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
-    } else if (isInserting) {
-      context.missing(_dateMeta);
-    }
     if (data.containsKey('type')) {
       context.handle(
           _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
     } else if (isInserting) {
       context.missing(_typeMeta);
     }
-    if (data.containsKey('is_new')) {
-      context.handle(
-          _isNewMeta, isNew.isAcceptableOrUnknown(data['is_new']!, _isNewMeta));
-    }
     if (data.containsKey('params')) {
       context.handle(_paramsMeta,
           params.isAcceptableOrUnknown(data['params']!, _paramsMeta));
-    }
-    if (data.containsKey('server_i_d')) {
-      context.handle(_serverIDMeta,
-          serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
-    }
-    if (data.containsKey('synced')) {
-      context.handle(_syncedMeta,
-          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
     }
     return context;
   }
@@ -4033,31 +4340,23 @@ class $FeedEntriesTable extends FeedEntries
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  FeedEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
+  FeedEntryDraft map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return FeedEntry(
-      id: attachedDatabase.options.types
+    return FeedEntryDraft(
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      feed: attachedDatabase.options.types
+      feed: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}feed'])!,
-      date: attachedDatabase.options.types
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
-      type: attachedDatabase.options.types
+      type: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
-      isNew: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}is_new'])!,
-      params: attachedDatabase.options.types
+      params: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}params'])!,
-      serverID: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $FeedEntriesTable createAlias(String alias) {
-    return $FeedEntriesTable(attachedDatabase, alias);
+  $FeedEntryDraftsTable createAlias(String alias) {
+    return $FeedEntryDraftsTable(attachedDatabase, alias);
   }
 }
 
@@ -4118,6 +4417,15 @@ class FeedEntryDraft extends DataClass implements Insertable<FeedEntryDraft> {
         type: type ?? this.type,
         params: params ?? this.params,
       );
+  FeedEntryDraft copyWithCompanion(FeedEntryDraftsCompanion data) {
+    return FeedEntryDraft(
+      id: data.id.present ? data.id.value : this.id,
+      feed: data.feed.present ? data.feed.value : this.feed,
+      type: data.type.present ? data.type.value : this.type,
+      params: data.params.present ? data.params.value : this.params,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('FeedEntryDraft(')
@@ -4216,47 +4524,79 @@ class FeedEntryDraftsCompanion extends UpdateCompanion<FeedEntryDraft> {
   }
 }
 
-class $FeedEntryDraftsTable extends FeedEntryDrafts
-    with TableInfo<$FeedEntryDraftsTable, FeedEntryDraft> {
+class $FeedMediasTable extends FeedMedias
+    with TableInfo<$FeedMediasTable, FeedMedia> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $FeedEntryDraftsTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $FeedMediasTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _feedMeta = const VerificationMeta('feed');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _feedMeta = const VerificationMeta('feed');
   @override
   late final GeneratedColumn<int> feed = GeneratedColumn<int>(
       'feed', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _typeMeta = const VerificationMeta('type');
+  static const VerificationMeta _feedEntryMeta =
+      const VerificationMeta('feedEntry');
   @override
-  late final GeneratedColumn<String> type = GeneratedColumn<String>(
-      'type', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 24),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  final VerificationMeta _paramsMeta = const VerificationMeta('params');
+  late final GeneratedColumn<int> feedEntry = GeneratedColumn<int>(
+      'feed_entry', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _filePathMeta =
+      const VerificationMeta('filePath');
+  @override
+  late final GeneratedColumn<String> filePath = GeneratedColumn<String>(
+      'file_path', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _thumbnailPathMeta =
+      const VerificationMeta('thumbnailPath');
+  @override
+  late final GeneratedColumn<String> thumbnailPath = GeneratedColumn<String>(
+      'thumbnail_path', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _paramsMeta = const VerificationMeta('params');
   @override
   late final GeneratedColumn<String> params = GeneratedColumn<String>(
       'params', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
       defaultValue: Constant('{}'));
+  static const VerificationMeta _serverIDMeta =
+      const VerificationMeta('serverID');
   @override
-  List<GeneratedColumn> get $columns => [id, feed, type, params];
+  late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
+      'server_i_d', aliasedName, true,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
+      type: DriftSqlType.string,
+      requiredDuringInsert: false);
+  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
   @override
-  String get aliasedName => _alias ?? 'feed_entry_drafts';
+  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
+      'synced', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
+      defaultValue: Constant(false));
   @override
-  String get actualTableName => 'feed_entry_drafts';
+  List<GeneratedColumn> get $columns =>
+      [id, feed, feedEntry, filePath, thumbnailPath, params, serverID, synced];
   @override
-  VerificationContext validateIntegrity(Insertable<FeedEntryDraft> instance,
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'feed_medias';
+  @override
+  VerificationContext validateIntegrity(Insertable<FeedMedia> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -4269,15 +4609,37 @@ class $FeedEntryDraftsTable extends FeedEntryDrafts
     } else if (isInserting) {
       context.missing(_feedMeta);
     }
-    if (data.containsKey('type')) {
-      context.handle(
-          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    if (data.containsKey('feed_entry')) {
+      context.handle(_feedEntryMeta,
+          feedEntry.isAcceptableOrUnknown(data['feed_entry']!, _feedEntryMeta));
     } else if (isInserting) {
-      context.missing(_typeMeta);
+      context.missing(_feedEntryMeta);
+    }
+    if (data.containsKey('file_path')) {
+      context.handle(_filePathMeta,
+          filePath.isAcceptableOrUnknown(data['file_path']!, _filePathMeta));
+    } else if (isInserting) {
+      context.missing(_filePathMeta);
+    }
+    if (data.containsKey('thumbnail_path')) {
+      context.handle(
+          _thumbnailPathMeta,
+          thumbnailPath.isAcceptableOrUnknown(
+              data['thumbnail_path']!, _thumbnailPathMeta));
+    } else if (isInserting) {
+      context.missing(_thumbnailPathMeta);
     }
     if (data.containsKey('params')) {
       context.handle(_paramsMeta,
           params.isAcceptableOrUnknown(data['params']!, _paramsMeta));
+    }
+    if (data.containsKey('server_i_d')) {
+      context.handle(_serverIDMeta,
+          serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
+    }
+    if (data.containsKey('synced')) {
+      context.handle(_syncedMeta,
+          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
     }
     return context;
   }
@@ -4285,23 +4647,31 @@ class $FeedEntryDraftsTable extends FeedEntryDrafts
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  FeedEntryDraft map(Map<String, dynamic> data, {String? tablePrefix}) {
+  FeedMedia map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return FeedEntryDraft(
-      id: attachedDatabase.options.types
+    return FeedMedia(
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      feed: attachedDatabase.options.types
+      feed: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}feed'])!,
-      type: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
-      params: attachedDatabase.options.types
+      feedEntry: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}feed_entry'])!,
+      filePath: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}file_path'])!,
+      thumbnailPath: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}thumbnail_path'])!,
+      params: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}params'])!,
+      serverID: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
+      synced: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $FeedEntryDraftsTable createAlias(String alias) {
-    return $FeedEntryDraftsTable(attachedDatabase, alias);
+  $FeedMediasTable createAlias(String alias) {
+    return $FeedMediasTable(attachedDatabase, alias);
   }
 }
 
@@ -4402,6 +4772,21 @@ class FeedMedia extends DataClass implements Insertable<FeedMedia> {
         serverID: serverID.present ? serverID.value : this.serverID,
         synced: synced ?? this.synced,
       );
+  FeedMedia copyWithCompanion(FeedMediasCompanion data) {
+    return FeedMedia(
+      id: data.id.present ? data.id.value : this.id,
+      feed: data.feed.present ? data.feed.value : this.feed,
+      feedEntry: data.feedEntry.present ? data.feedEntry.value : this.feedEntry,
+      filePath: data.filePath.present ? data.filePath.value : this.filePath,
+      thumbnailPath: data.thumbnailPath.present
+          ? data.thumbnailPath.value
+          : this.thumbnailPath,
+      params: data.params.present ? data.params.value : this.params,
+      serverID: data.serverID.present ? data.serverID.value : this.serverID,
+      synced: data.synced.present ? data.synced.value : this.synced,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('FeedMedia(')
@@ -4555,115 +4940,63 @@ class FeedMediasCompanion extends UpdateCompanion<FeedMedia> {
   }
 }
 
-class $FeedMediasTable extends FeedMedias
-    with TableInfo<$FeedMediasTable, FeedMedia> {
+class $DeletesTable extends Deletes with TableInfo<$DeletesTable, Delete> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $FeedMediasTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $DeletesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _feedMeta = const VerificationMeta('feed');
-  @override
-  late final GeneratedColumn<int> feed = GeneratedColumn<int>(
-      'feed', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _feedEntryMeta = const VerificationMeta('feedEntry');
-  @override
-  late final GeneratedColumn<int> feedEntry = GeneratedColumn<int>(
-      'feed_entry', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _filePathMeta = const VerificationMeta('filePath');
-  @override
-  late final GeneratedColumn<String> filePath = GeneratedColumn<String>(
-      'file_path', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _thumbnailPathMeta =
-      const VerificationMeta('thumbnailPath');
-  @override
-  late final GeneratedColumn<String> thumbnailPath = GeneratedColumn<String>(
-      'thumbnail_path', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  final VerificationMeta _paramsMeta = const VerificationMeta('params');
-  @override
-  late final GeneratedColumn<String> params = GeneratedColumn<String>(
-      'params', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant('{}'));
-  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _serverIDMeta =
+      const VerificationMeta('serverID');
   @override
   late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
-      'server_i_d', aliasedName, true,
+      'server_i_d', aliasedName, false,
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
+      requiredDuringInsert: true);
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
-  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
-      'synced', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (synced IN (0, 1))',
-      defaultValue: Constant(false));
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 16),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, feed, feedEntry, filePath, thumbnailPath, params, serverID, synced];
+  List<GeneratedColumn> get $columns => [id, serverID, type];
   @override
-  String get aliasedName => _alias ?? 'feed_medias';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'feed_medias';
+  String get actualTableName => $name;
+  static const String $name = 'deletes';
   @override
-  VerificationContext validateIntegrity(Insertable<FeedMedia> instance,
+  VerificationContext validateIntegrity(Insertable<Delete> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('feed')) {
-      context.handle(
-          _feedMeta, feed.isAcceptableOrUnknown(data['feed']!, _feedMeta));
-    } else if (isInserting) {
-      context.missing(_feedMeta);
-    }
-    if (data.containsKey('feed_entry')) {
-      context.handle(_feedEntryMeta,
-          feedEntry.isAcceptableOrUnknown(data['feed_entry']!, _feedEntryMeta));
-    } else if (isInserting) {
-      context.missing(_feedEntryMeta);
-    }
-    if (data.containsKey('file_path')) {
-      context.handle(_filePathMeta,
-          filePath.isAcceptableOrUnknown(data['file_path']!, _filePathMeta));
-    } else if (isInserting) {
-      context.missing(_filePathMeta);
-    }
-    if (data.containsKey('thumbnail_path')) {
-      context.handle(
-          _thumbnailPathMeta,
-          thumbnailPath.isAcceptableOrUnknown(
-              data['thumbnail_path']!, _thumbnailPathMeta));
-    } else if (isInserting) {
-      context.missing(_thumbnailPathMeta);
-    }
-    if (data.containsKey('params')) {
-      context.handle(_paramsMeta,
-          params.isAcceptableOrUnknown(data['params']!, _paramsMeta));
-    }
     if (data.containsKey('server_i_d')) {
       context.handle(_serverIDMeta,
           serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
+    } else if (isInserting) {
+      context.missing(_serverIDMeta);
     }
-    if (data.containsKey('synced')) {
-      context.handle(_syncedMeta,
-          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    } else if (isInserting) {
+      context.missing(_typeMeta);
     }
     return context;
   }
@@ -4671,31 +5004,21 @@ class $FeedMediasTable extends FeedMedias
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  FeedMedia map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Delete map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return FeedMedia(
-      id: attachedDatabase.options.types
+    return Delete(
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      feed: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}feed'])!,
-      feedEntry: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}feed_entry'])!,
-      filePath: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}file_path'])!,
-      thumbnailPath: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}thumbnail_path'])!,
-      params: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}params'])!,
-      serverID: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
+      serverID: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
     );
   }
 
   @override
-  $FeedMediasTable createAlias(String alias) {
-    return $FeedMediasTable(attachedDatabase, alias);
+  $DeletesTable createAlias(String alias) {
+    return $DeletesTable(attachedDatabase, alias);
   }
 }
 
@@ -4745,6 +5068,14 @@ class Delete extends DataClass implements Insertable<Delete> {
         serverID: serverID ?? this.serverID,
         type: type ?? this.type,
       );
+  Delete copyWithCompanion(DeletesCompanion data) {
+    return Delete(
+      id: data.id.present ? data.id.value : this.id,
+      serverID: data.serverID.present ? data.serverID.value : this.serverID,
+      type: data.type.present ? data.type.value : this.type,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('Delete(')
@@ -4828,59 +5159,72 @@ class DeletesCompanion extends UpdateCompanion<Delete> {
   }
 }
 
-class $DeletesTable extends Deletes with TableInfo<$DeletesTable, Delete> {
+class $ChecklistsTable extends Checklists
+    with TableInfo<$ChecklistsTable, Checklist> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DeletesTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $ChecklistsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _plantMeta = const VerificationMeta('plant');
+  @override
+  late final GeneratedColumn<int> plant = GeneratedColumn<int>(
+      'plant', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _serverIDMeta =
+      const VerificationMeta('serverID');
   @override
   late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
-      'server_i_d', aliasedName, false,
+      'server_i_d', aliasedName, true,
       additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  final VerificationMeta _typeMeta = const VerificationMeta('type');
+      requiredDuringInsert: false);
+  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
   @override
-  late final GeneratedColumn<String> type = GeneratedColumn<String>(
-      'type', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 16),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
+  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
+      'synced', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
+      defaultValue: Constant(false));
   @override
-  List<GeneratedColumn> get $columns => [id, serverID, type];
+  List<GeneratedColumn> get $columns => [id, plant, serverID, synced];
   @override
-  String get aliasedName => _alias ?? 'deletes';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'deletes';
+  String get actualTableName => $name;
+  static const String $name = 'checklists';
   @override
-  VerificationContext validateIntegrity(Insertable<Delete> instance,
+  VerificationContext validateIntegrity(Insertable<Checklist> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
+    if (data.containsKey('plant')) {
+      context.handle(
+          _plantMeta, plant.isAcceptableOrUnknown(data['plant']!, _plantMeta));
+    } else if (isInserting) {
+      context.missing(_plantMeta);
+    }
     if (data.containsKey('server_i_d')) {
       context.handle(_serverIDMeta,
           serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
-    } else if (isInserting) {
-      context.missing(_serverIDMeta);
     }
-    if (data.containsKey('type')) {
-      context.handle(
-          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
-    } else if (isInserting) {
-      context.missing(_typeMeta);
+    if (data.containsKey('synced')) {
+      context.handle(_syncedMeta,
+          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
     }
     return context;
   }
@@ -4888,21 +5232,23 @@ class $DeletesTable extends Deletes with TableInfo<$DeletesTable, Delete> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Delete map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Checklist map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Delete(
-      id: attachedDatabase.options.types
+    return Checklist(
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      serverID: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d'])!,
-      type: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
+      plant: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}plant'])!,
+      serverID: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
+      synced: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $DeletesTable createAlias(String alias) {
-    return $DeletesTable(attachedDatabase, alias);
+  $ChecklistsTable createAlias(String alias) {
+    return $ChecklistsTable(attachedDatabase, alias);
   }
 }
 
@@ -4971,6 +5317,15 @@ class Checklist extends DataClass implements Insertable<Checklist> {
         serverID: serverID.present ? serverID.value : this.serverID,
         synced: synced ?? this.synced,
       );
+  Checklist copyWithCompanion(ChecklistsCompanion data) {
+    return Checklist(
+      id: data.id.present ? data.id.value : this.id,
+      plant: data.plant.present ? data.plant.value : this.plant,
+      serverID: data.serverID.present ? data.serverID.value : this.serverID,
+      synced: data.synced.present ? data.synced.value : this.synced,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('Checklist(')
@@ -5068,25 +5423,137 @@ class ChecklistsCompanion extends UpdateCompanion<Checklist> {
   }
 }
 
-class $ChecklistsTable extends Checklists
-    with TableInfo<$ChecklistsTable, Checklist> {
+class $ChecklistSeedsTable extends ChecklistSeeds
+    with TableInfo<$ChecklistSeedsTable, ChecklistSeed> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $ChecklistsTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $ChecklistSeedsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _plantMeta = const VerificationMeta('plant');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _checklistMeta =
+      const VerificationMeta('checklist');
   @override
-  late final GeneratedColumn<int> plant = GeneratedColumn<int>(
-      'plant', aliasedName, false,
+  late final GeneratedColumn<int> checklist = GeneratedColumn<int>(
+      'checklist', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
+  static const VerificationMeta _collectionMeta =
+      const VerificationMeta('collection');
+  @override
+  late final GeneratedColumn<int> collection = GeneratedColumn<int>(
+      'collection', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+      'title', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant(''));
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant(''));
+  static const VerificationMeta _categoryMeta =
+      const VerificationMeta('category');
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+      'category', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant(''));
+  static const VerificationMeta _fastMeta = const VerificationMeta('fast');
+  @override
+  late final GeneratedColumn<bool> fast = GeneratedColumn<bool>(
+      'fast', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("fast" IN (0, 1))'),
+      defaultValue: Constant(false));
+  static const VerificationMeta _publicMeta = const VerificationMeta('public');
+  @override
+  late final GeneratedColumn<bool> public = GeneratedColumn<bool>(
+      'public', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("public" IN (0, 1))'),
+      defaultValue: Constant(false));
+  static const VerificationMeta _repeatMeta = const VerificationMeta('repeat');
+  @override
+  late final GeneratedColumn<bool> repeat = GeneratedColumn<bool>(
+      'repeat', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("repeat" IN (0, 1))'),
+      defaultValue: Constant(false));
+  static const VerificationMeta _mineMeta = const VerificationMeta('mine');
+  @override
+  late final GeneratedColumn<bool> mine = GeneratedColumn<bool>(
+      'mine', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("mine" IN (0, 1))'),
+      defaultValue: Constant(true));
+  static const VerificationMeta _conditionsMeta =
+      const VerificationMeta('conditions');
+  @override
+  late final GeneratedColumn<String> conditions = GeneratedColumn<String>(
+      'conditions', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant('[]'));
+  static const VerificationMeta _exitConditionsMeta =
+      const VerificationMeta('exitConditions');
+  @override
+  late final GeneratedColumn<String> exitConditions = GeneratedColumn<String>(
+      'exit_conditions', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant('[]'));
+  static const VerificationMeta _actionsMeta =
+      const VerificationMeta('actions');
+  @override
+  late final GeneratedColumn<String> actions = GeneratedColumn<String>(
+      'actions', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant('[]'));
+  static const VerificationMeta _checklistServerIDMeta =
+      const VerificationMeta('checklistServerID');
+  @override
+  late final GeneratedColumn<String> checklistServerID =
+      GeneratedColumn<String>('checklist_server_i_d', aliasedName, true,
+          additionalChecks: GeneratedColumn.checkTextLength(
+              minTextLength: 36, maxTextLength: 36),
+          type: DriftSqlType.string,
+          requiredDuringInsert: false);
+  static const VerificationMeta _checklistCollectionServerIDMeta =
+      const VerificationMeta('checklistCollectionServerID');
+  @override
+  late final GeneratedColumn<String> checklistCollectionServerID =
+      GeneratedColumn<String>(
+          'checklist_collection_server_i_d', aliasedName, true,
+          additionalChecks: GeneratedColumn.checkTextLength(
+              minTextLength: 36, maxTextLength: 36),
+          type: DriftSqlType.string,
+          requiredDuringInsert: false);
+  static const VerificationMeta _serverIDMeta =
+      const VerificationMeta('serverID');
   @override
   late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
       'server_i_d', aliasedName, true,
@@ -5094,33 +5561,118 @@ class $ChecklistsTable extends Checklists
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
       requiredDuringInsert: false);
-  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
   @override
   late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
       'synced', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (synced IN (0, 1))',
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
       defaultValue: Constant(false));
   @override
-  List<GeneratedColumn> get $columns => [id, plant, serverID, synced];
+  List<GeneratedColumn> get $columns => [
+        id,
+        checklist,
+        collection,
+        title,
+        description,
+        category,
+        fast,
+        public,
+        repeat,
+        mine,
+        conditions,
+        exitConditions,
+        actions,
+        checklistServerID,
+        checklistCollectionServerID,
+        serverID,
+        synced
+      ];
   @override
-  String get aliasedName => _alias ?? 'checklists';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'checklists';
+  String get actualTableName => $name;
+  static const String $name = 'checklist_seeds';
   @override
-  VerificationContext validateIntegrity(Insertable<Checklist> instance,
+  VerificationContext validateIntegrity(Insertable<ChecklistSeed> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('plant')) {
-      context.handle(
-          _plantMeta, plant.isAcceptableOrUnknown(data['plant']!, _plantMeta));
+    if (data.containsKey('checklist')) {
+      context.handle(_checklistMeta,
+          checklist.isAcceptableOrUnknown(data['checklist']!, _checklistMeta));
     } else if (isInserting) {
-      context.missing(_plantMeta);
+      context.missing(_checklistMeta);
+    }
+    if (data.containsKey('collection')) {
+      context.handle(
+          _collectionMeta,
+          collection.isAcceptableOrUnknown(
+              data['collection']!, _collectionMeta));
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
+    if (data.containsKey('category')) {
+      context.handle(_categoryMeta,
+          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
+    }
+    if (data.containsKey('fast')) {
+      context.handle(
+          _fastMeta, fast.isAcceptableOrUnknown(data['fast']!, _fastMeta));
+    }
+    if (data.containsKey('public')) {
+      context.handle(_publicMeta,
+          public.isAcceptableOrUnknown(data['public']!, _publicMeta));
+    }
+    if (data.containsKey('repeat')) {
+      context.handle(_repeatMeta,
+          repeat.isAcceptableOrUnknown(data['repeat']!, _repeatMeta));
+    }
+    if (data.containsKey('mine')) {
+      context.handle(
+          _mineMeta, mine.isAcceptableOrUnknown(data['mine']!, _mineMeta));
+    }
+    if (data.containsKey('conditions')) {
+      context.handle(
+          _conditionsMeta,
+          conditions.isAcceptableOrUnknown(
+              data['conditions']!, _conditionsMeta));
+    }
+    if (data.containsKey('exit_conditions')) {
+      context.handle(
+          _exitConditionsMeta,
+          exitConditions.isAcceptableOrUnknown(
+              data['exit_conditions']!, _exitConditionsMeta));
+    }
+    if (data.containsKey('actions')) {
+      context.handle(_actionsMeta,
+          actions.isAcceptableOrUnknown(data['actions']!, _actionsMeta));
+    }
+    if (data.containsKey('checklist_server_i_d')) {
+      context.handle(
+          _checklistServerIDMeta,
+          checklistServerID.isAcceptableOrUnknown(
+              data['checklist_server_i_d']!, _checklistServerIDMeta));
+    }
+    if (data.containsKey('checklist_collection_server_i_d')) {
+      context.handle(
+          _checklistCollectionServerIDMeta,
+          checklistCollectionServerID.isAcceptableOrUnknown(
+              data['checklist_collection_server_i_d']!,
+              _checklistCollectionServerIDMeta));
     }
     if (data.containsKey('server_i_d')) {
       context.handle(_serverIDMeta,
@@ -5136,23 +5688,50 @@ class $ChecklistsTable extends Checklists
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Checklist map(Map<String, dynamic> data, {String? tablePrefix}) {
+  ChecklistSeed map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Checklist(
-      id: attachedDatabase.options.types
+    return ChecklistSeed(
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      plant: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}plant'])!,
-      serverID: attachedDatabase.options.types
+      checklist: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}checklist'])!,
+      collection: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}collection']),
+      title: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
+      category: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}category'])!,
+      fast: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}fast'])!,
+      public: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}public'])!,
+      repeat: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}repeat'])!,
+      mine: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}mine'])!,
+      conditions: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}conditions'])!,
+      exitConditions: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}exit_conditions'])!,
+      actions: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}actions'])!,
+      checklistServerID: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}checklist_server_i_d']),
+      checklistCollectionServerID: attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}checklist_collection_server_i_d']),
+      serverID: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.options.types
+      synced: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $ChecklistsTable createAlias(String alias) {
-    return $ChecklistsTable(attachedDatabase, alias);
+  $ChecklistSeedsTable createAlias(String alias) {
+    return $ChecklistSeedsTable(attachedDatabase, alias);
   }
 }
 
@@ -5346,6 +5925,37 @@ class ChecklistSeed extends DataClass implements Insertable<ChecklistSeed> {
         serverID: serverID.present ? serverID.value : this.serverID,
         synced: synced ?? this.synced,
       );
+  ChecklistSeed copyWithCompanion(ChecklistSeedsCompanion data) {
+    return ChecklistSeed(
+      id: data.id.present ? data.id.value : this.id,
+      checklist: data.checklist.present ? data.checklist.value : this.checklist,
+      collection:
+          data.collection.present ? data.collection.value : this.collection,
+      title: data.title.present ? data.title.value : this.title,
+      description:
+          data.description.present ? data.description.value : this.description,
+      category: data.category.present ? data.category.value : this.category,
+      fast: data.fast.present ? data.fast.value : this.fast,
+      public: data.public.present ? data.public.value : this.public,
+      repeat: data.repeat.present ? data.repeat.value : this.repeat,
+      mine: data.mine.present ? data.mine.value : this.mine,
+      conditions:
+          data.conditions.present ? data.conditions.value : this.conditions,
+      exitConditions: data.exitConditions.present
+          ? data.exitConditions.value
+          : this.exitConditions,
+      actions: data.actions.present ? data.actions.value : this.actions,
+      checklistServerID: data.checklistServerID.present
+          ? data.checklistServerID.value
+          : this.checklistServerID,
+      checklistCollectionServerID: data.checklistCollectionServerID.present
+          ? data.checklistCollectionServerID.value
+          : this.checklistCollectionServerID,
+      serverID: data.serverID.present ? data.serverID.value : this.serverID,
+      synced: data.synced.present ? data.synced.value : this.synced,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('ChecklistSeed(')
@@ -5633,125 +6243,77 @@ class ChecklistSeedsCompanion extends UpdateCompanion<ChecklistSeed> {
   }
 }
 
-class $ChecklistSeedsTable extends ChecklistSeeds
-    with TableInfo<$ChecklistSeedsTable, ChecklistSeed> {
+class $ChecklistLogsTable extends ChecklistLogs
+    with TableInfo<$ChecklistLogsTable, ChecklistLog> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $ChecklistSeedsTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $ChecklistLogsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _checklistMeta = const VerificationMeta('checklist');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _checklistSeedMeta =
+      const VerificationMeta('checklistSeed');
+  @override
+  late final GeneratedColumn<int> checklistSeed = GeneratedColumn<int>(
+      'checklist_seed', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _checklistMeta =
+      const VerificationMeta('checklist');
   @override
   late final GeneratedColumn<int> checklist = GeneratedColumn<int>(
       'checklist', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _collectionMeta = const VerificationMeta('collection');
+  static const VerificationMeta _actionMeta = const VerificationMeta('action');
   @override
-  late final GeneratedColumn<int> collection = GeneratedColumn<int>(
-      'collection', aliasedName, true,
-      type: DriftSqlType.int, requiredDuringInsert: false);
-  final VerificationMeta _titleMeta = const VerificationMeta('title');
-  @override
-  late final GeneratedColumn<String> title = GeneratedColumn<String>(
-      'title', aliasedName, false,
+  late final GeneratedColumn<String> action = GeneratedColumn<String>(
+      'action', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: false,
-      defaultValue: Constant(''));
-  final VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
+      defaultValue: Constant('{}'));
+  static const VerificationMeta _noRepeatMeta =
+      const VerificationMeta('noRepeat');
   @override
-  late final GeneratedColumn<String> description = GeneratedColumn<String>(
-      'description', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant(''));
-  final VerificationMeta _categoryMeta = const VerificationMeta('category');
-  @override
-  late final GeneratedColumn<String> category = GeneratedColumn<String>(
-      'category', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant(''));
-  final VerificationMeta _fastMeta = const VerificationMeta('fast');
-  @override
-  late final GeneratedColumn<bool> fast = GeneratedColumn<bool>(
-      'fast', aliasedName, false,
+  late final GeneratedColumn<bool> noRepeat = GeneratedColumn<bool>(
+      'no_repeat', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (fast IN (0, 1))',
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("no_repeat" IN (0, 1))'),
       defaultValue: Constant(false));
-  final VerificationMeta _publicMeta = const VerificationMeta('public');
+  static const VerificationMeta _checkedMeta =
+      const VerificationMeta('checked');
   @override
-  late final GeneratedColumn<bool> public = GeneratedColumn<bool>(
-      'public', aliasedName, false,
+  late final GeneratedColumn<bool> checked = GeneratedColumn<bool>(
+      'checked', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (public IN (0, 1))',
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("checked" IN (0, 1))'),
       defaultValue: Constant(false));
-  final VerificationMeta _repeatMeta = const VerificationMeta('repeat');
+  static const VerificationMeta _skippedMeta =
+      const VerificationMeta('skipped');
   @override
-  late final GeneratedColumn<bool> repeat = GeneratedColumn<bool>(
-      'repeat', aliasedName, false,
+  late final GeneratedColumn<bool> skipped = GeneratedColumn<bool>(
+      'skipped', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (repeat IN (0, 1))',
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("skipped" IN (0, 1))'),
       defaultValue: Constant(false));
-  final VerificationMeta _mineMeta = const VerificationMeta('mine');
+  static const VerificationMeta _dateMeta = const VerificationMeta('date');
   @override
-  late final GeneratedColumn<bool> mine = GeneratedColumn<bool>(
-      'mine', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (mine IN (0, 1))',
-      defaultValue: Constant(true));
-  final VerificationMeta _conditionsMeta = const VerificationMeta('conditions');
-  @override
-  late final GeneratedColumn<String> conditions = GeneratedColumn<String>(
-      'conditions', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant('[]'));
-  final VerificationMeta _exitConditionsMeta =
-      const VerificationMeta('exitConditions');
-  @override
-  late final GeneratedColumn<String> exitConditions = GeneratedColumn<String>(
-      'exit_conditions', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant('[]'));
-  final VerificationMeta _actionsMeta = const VerificationMeta('actions');
-  @override
-  late final GeneratedColumn<String> actions = GeneratedColumn<String>(
-      'actions', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant('[]'));
-  final VerificationMeta _checklistServerIDMeta =
-      const VerificationMeta('checklistServerID');
-  @override
-  late final GeneratedColumn<String> checklistServerID =
-      GeneratedColumn<String>('checklist_server_i_d', aliasedName, true,
-          additionalChecks: GeneratedColumn.checkTextLength(
-              minTextLength: 36, maxTextLength: 36),
-          type: DriftSqlType.string,
-          requiredDuringInsert: false);
-  final VerificationMeta _checklistCollectionServerIDMeta =
-      const VerificationMeta('checklistCollectionServerID');
-  @override
-  late final GeneratedColumn<String> checklistCollectionServerID =
-      GeneratedColumn<String>(
-          'checklist_collection_server_i_d', aliasedName, true,
-          additionalChecks: GeneratedColumn.checkTextLength(
-              minTextLength: 36, maxTextLength: 36),
-          type: DriftSqlType.string,
-          requiredDuringInsert: false);
-  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
+  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
+      'date', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _serverIDMeta =
+      const VerificationMeta('serverID');
   @override
   late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
       'server_i_d', aliasedName, true,
@@ -5759,45 +6321,48 @@ class $ChecklistSeedsTable extends ChecklistSeeds
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
       requiredDuringInsert: false);
-  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  static const VerificationMeta _syncedMeta = const VerificationMeta('synced');
   @override
   late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
       'synced', aliasedName, false,
       type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (synced IN (0, 1))',
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("synced" IN (0, 1))'),
       defaultValue: Constant(false));
   @override
   List<GeneratedColumn> get $columns => [
         id,
+        checklistSeed,
         checklist,
-        collection,
-        title,
-        description,
-        category,
-        fast,
-        public,
-        repeat,
-        mine,
-        conditions,
-        exitConditions,
-        actions,
-        checklistServerID,
-        checklistCollectionServerID,
+        action,
+        noRepeat,
+        checked,
+        skipped,
+        date,
         serverID,
         synced
       ];
   @override
-  String get aliasedName => _alias ?? 'checklist_seeds';
+  String get aliasedName => _alias ?? actualTableName;
   @override
-  String get actualTableName => 'checklist_seeds';
+  String get actualTableName => $name;
+  static const String $name = 'checklist_logs';
   @override
-  VerificationContext validateIntegrity(Insertable<ChecklistSeed> instance,
+  VerificationContext validateIntegrity(Insertable<ChecklistLog> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('checklist_seed')) {
+      context.handle(
+          _checklistSeedMeta,
+          checklistSeed.isAcceptableOrUnknown(
+              data['checklist_seed']!, _checklistSeedMeta));
+    } else if (isInserting) {
+      context.missing(_checklistSeedMeta);
     }
     if (data.containsKey('checklist')) {
       context.handle(_checklistMeta,
@@ -5805,70 +6370,27 @@ class $ChecklistSeedsTable extends ChecklistSeeds
     } else if (isInserting) {
       context.missing(_checklistMeta);
     }
-    if (data.containsKey('collection')) {
+    if (data.containsKey('action')) {
+      context.handle(_actionMeta,
+          action.isAcceptableOrUnknown(data['action']!, _actionMeta));
+    }
+    if (data.containsKey('no_repeat')) {
+      context.handle(_noRepeatMeta,
+          noRepeat.isAcceptableOrUnknown(data['no_repeat']!, _noRepeatMeta));
+    }
+    if (data.containsKey('checked')) {
+      context.handle(_checkedMeta,
+          checked.isAcceptableOrUnknown(data['checked']!, _checkedMeta));
+    }
+    if (data.containsKey('skipped')) {
+      context.handle(_skippedMeta,
+          skipped.isAcceptableOrUnknown(data['skipped']!, _skippedMeta));
+    }
+    if (data.containsKey('date')) {
       context.handle(
-          _collectionMeta,
-          collection.isAcceptableOrUnknown(
-              data['collection']!, _collectionMeta));
-    }
-    if (data.containsKey('title')) {
-      context.handle(
-          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
-    }
-    if (data.containsKey('description')) {
-      context.handle(
-          _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description']!, _descriptionMeta));
-    }
-    if (data.containsKey('category')) {
-      context.handle(_categoryMeta,
-          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
-    }
-    if (data.containsKey('fast')) {
-      context.handle(
-          _fastMeta, fast.isAcceptableOrUnknown(data['fast']!, _fastMeta));
-    }
-    if (data.containsKey('public')) {
-      context.handle(_publicMeta,
-          public.isAcceptableOrUnknown(data['public']!, _publicMeta));
-    }
-    if (data.containsKey('repeat')) {
-      context.handle(_repeatMeta,
-          repeat.isAcceptableOrUnknown(data['repeat']!, _repeatMeta));
-    }
-    if (data.containsKey('mine')) {
-      context.handle(
-          _mineMeta, mine.isAcceptableOrUnknown(data['mine']!, _mineMeta));
-    }
-    if (data.containsKey('conditions')) {
-      context.handle(
-          _conditionsMeta,
-          conditions.isAcceptableOrUnknown(
-              data['conditions']!, _conditionsMeta));
-    }
-    if (data.containsKey('exit_conditions')) {
-      context.handle(
-          _exitConditionsMeta,
-          exitConditions.isAcceptableOrUnknown(
-              data['exit_conditions']!, _exitConditionsMeta));
-    }
-    if (data.containsKey('actions')) {
-      context.handle(_actionsMeta,
-          actions.isAcceptableOrUnknown(data['actions']!, _actionsMeta));
-    }
-    if (data.containsKey('checklist_server_i_d')) {
-      context.handle(
-          _checklistServerIDMeta,
-          checklistServerID.isAcceptableOrUnknown(
-              data['checklist_server_i_d']!, _checklistServerIDMeta));
-    }
-    if (data.containsKey('checklist_collection_server_i_d')) {
-      context.handle(
-          _checklistCollectionServerIDMeta,
-          checklistCollectionServerID.isAcceptableOrUnknown(
-              data['checklist_collection_server_i_d']!,
-              _checklistCollectionServerIDMeta));
+          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
+    } else if (isInserting) {
+      context.missing(_dateMeta);
     }
     if (data.containsKey('server_i_d')) {
       context.handle(_serverIDMeta,
@@ -5884,50 +6406,35 @@ class $ChecklistSeedsTable extends ChecklistSeeds
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  ChecklistSeed map(Map<String, dynamic> data, {String? tablePrefix}) {
+  ChecklistLog map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return ChecklistSeed(
-      id: attachedDatabase.options.types
+    return ChecklistLog(
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      checklist: attachedDatabase.options.types
+      checklistSeed: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}checklist_seed'])!,
+      checklist: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}checklist'])!,
-      collection: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}collection']),
-      title: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      description: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
-      category: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}category'])!,
-      fast: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}fast'])!,
-      public: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}public'])!,
-      repeat: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}repeat'])!,
-      mine: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}mine'])!,
-      conditions: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}conditions'])!,
-      exitConditions: attachedDatabase.options.types.read(
-          DriftSqlType.string, data['${effectivePrefix}exit_conditions'])!,
-      actions: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}actions'])!,
-      checklistServerID: attachedDatabase.options.types.read(
-          DriftSqlType.string, data['${effectivePrefix}checklist_server_i_d']),
-      checklistCollectionServerID: attachedDatabase.options.types.read(
-          DriftSqlType.string,
-          data['${effectivePrefix}checklist_collection_server_i_d']),
-      serverID: attachedDatabase.options.types
+      action: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}action'])!,
+      noRepeat: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}no_repeat'])!,
+      checked: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}checked'])!,
+      skipped: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}skipped'])!,
+      date: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
+      serverID: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.options.types
+      synced: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
     );
   }
 
   @override
-  $ChecklistSeedsTable createAlias(String alias) {
-    return $ChecklistSeedsTable(attachedDatabase, alias);
+  $ChecklistLogsTable createAlias(String alias) {
+    return $ChecklistLogsTable(attachedDatabase, alias);
   }
 }
 
@@ -6044,6 +6551,23 @@ class ChecklistLog extends DataClass implements Insertable<ChecklistLog> {
         serverID: serverID.present ? serverID.value : this.serverID,
         synced: synced ?? this.synced,
       );
+  ChecklistLog copyWithCompanion(ChecklistLogsCompanion data) {
+    return ChecklistLog(
+      id: data.id.present ? data.id.value : this.id,
+      checklistSeed: data.checklistSeed.present
+          ? data.checklistSeed.value
+          : this.checklistSeed,
+      checklist: data.checklist.present ? data.checklist.value : this.checklist,
+      action: data.action.present ? data.action.value : this.action,
+      noRepeat: data.noRepeat.present ? data.noRepeat.value : this.noRepeat,
+      checked: data.checked.present ? data.checked.value : this.checked,
+      skipped: data.skipped.present ? data.skipped.value : this.skipped,
+      date: data.date.present ? data.date.value : this.date,
+      serverID: data.serverID.present ? data.serverID.value : this.serverID,
+      synced: data.synced.present ? data.synced.value : this.synced,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('ChecklistLog(')
@@ -6222,67 +6746,29 @@ class ChecklistLogsCompanion extends UpdateCompanion<ChecklistLog> {
   }
 }
 
-class $ChecklistLogsTable extends ChecklistLogs
-    with TableInfo<$ChecklistLogsTable, ChecklistLog> {
+class $ChecklistCollectionsTable extends ChecklistCollections
+    with TableInfo<$ChecklistCollectionsTable, ChecklistCollection> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $ChecklistLogsTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
+  $ChecklistCollectionsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _checklistSeedMeta =
-      const VerificationMeta('checklistSeed');
-  @override
-  late final GeneratedColumn<int> checklistSeed = GeneratedColumn<int>(
-      'checklist_seed', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _checklistMeta = const VerificationMeta('checklist');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _checklistMeta =
+      const VerificationMeta('checklist');
   @override
   late final GeneratedColumn<int> checklist = GeneratedColumn<int>(
       'checklist', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _actionMeta = const VerificationMeta('action');
-  @override
-  late final GeneratedColumn<String> action = GeneratedColumn<String>(
-      'action', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant('{}'));
-  final VerificationMeta _noRepeatMeta = const VerificationMeta('noRepeat');
-  @override
-  late final GeneratedColumn<bool> noRepeat = GeneratedColumn<bool>(
-      'no_repeat', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (no_repeat IN (0, 1))',
-      defaultValue: Constant(false));
-  final VerificationMeta _checkedMeta = const VerificationMeta('checked');
-  @override
-  late final GeneratedColumn<bool> checked = GeneratedColumn<bool>(
-      'checked', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (checked IN (0, 1))',
-      defaultValue: Constant(false));
-  final VerificationMeta _skippedMeta = const VerificationMeta('skipped');
-  @override
-  late final GeneratedColumn<bool> skipped = GeneratedColumn<bool>(
-      'skipped', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (skipped IN (0, 1))',
-      defaultValue: Constant(false));
-  final VerificationMeta _dateMeta = const VerificationMeta('date');
-  @override
-  late final GeneratedColumn<DateTime> date = GeneratedColumn<DateTime>(
-      'date', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
+  static const VerificationMeta _serverIDMeta =
+      const VerificationMeta('serverID');
   @override
   late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
       'server_i_d', aliasedName, true,
@@ -6290,46 +6776,45 @@ class $ChecklistLogsTable extends ChecklistLogs
           GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
       type: DriftSqlType.string,
       requiredDuringInsert: false);
-  final VerificationMeta _syncedMeta = const VerificationMeta('synced');
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
-  late final GeneratedColumn<bool> synced = GeneratedColumn<bool>(
-      'synced', aliasedName, false,
-      type: DriftSqlType.bool,
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+      'title', aliasedName, false,
+      type: DriftSqlType.string,
       requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (synced IN (0, 1))',
-      defaultValue: Constant(false));
+      defaultValue: Constant(''));
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
   @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        checklistSeed,
-        checklist,
-        action,
-        noRepeat,
-        checked,
-        skipped,
-        date,
-        serverID,
-        synced
-      ];
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant(''));
+  static const VerificationMeta _categoryMeta =
+      const VerificationMeta('category');
   @override
-  String get aliasedName => _alias ?? 'checklist_logs';
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+      'category', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: Constant(''));
   @override
-  String get actualTableName => 'checklist_logs';
+  List<GeneratedColumn> get $columns =>
+      [id, checklist, serverID, title, description, category];
   @override
-  VerificationContext validateIntegrity(Insertable<ChecklistLog> instance,
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'checklist_collections';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<ChecklistCollection> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('checklist_seed')) {
-      context.handle(
-          _checklistSeedMeta,
-          checklistSeed.isAcceptableOrUnknown(
-              data['checklist_seed']!, _checklistSeedMeta));
-    } else if (isInserting) {
-      context.missing(_checklistSeedMeta);
     }
     if (data.containsKey('checklist')) {
       context.handle(_checklistMeta,
@@ -6337,35 +6822,23 @@ class $ChecklistLogsTable extends ChecklistLogs
     } else if (isInserting) {
       context.missing(_checklistMeta);
     }
-    if (data.containsKey('action')) {
-      context.handle(_actionMeta,
-          action.isAcceptableOrUnknown(data['action']!, _actionMeta));
-    }
-    if (data.containsKey('no_repeat')) {
-      context.handle(_noRepeatMeta,
-          noRepeat.isAcceptableOrUnknown(data['no_repeat']!, _noRepeatMeta));
-    }
-    if (data.containsKey('checked')) {
-      context.handle(_checkedMeta,
-          checked.isAcceptableOrUnknown(data['checked']!, _checkedMeta));
-    }
-    if (data.containsKey('skipped')) {
-      context.handle(_skippedMeta,
-          skipped.isAcceptableOrUnknown(data['skipped']!, _skippedMeta));
-    }
-    if (data.containsKey('date')) {
-      context.handle(
-          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
-    } else if (isInserting) {
-      context.missing(_dateMeta);
-    }
     if (data.containsKey('server_i_d')) {
       context.handle(_serverIDMeta,
           serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
     }
-    if (data.containsKey('synced')) {
-      context.handle(_syncedMeta,
-          synced.isAcceptableOrUnknown(data['synced']!, _syncedMeta));
+    if (data.containsKey('title')) {
+      context.handle(
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
+    if (data.containsKey('category')) {
+      context.handle(_categoryMeta,
+          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
     }
     return context;
   }
@@ -6373,35 +6846,27 @@ class $ChecklistLogsTable extends ChecklistLogs
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  ChecklistLog map(Map<String, dynamic> data, {String? tablePrefix}) {
+  ChecklistCollection map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return ChecklistLog(
-      id: attachedDatabase.options.types
+    return ChecklistCollection(
+      id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      checklistSeed: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}checklist_seed'])!,
-      checklist: attachedDatabase.options.types
+      checklist: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}checklist'])!,
-      action: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}action'])!,
-      noRepeat: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}no_repeat'])!,
-      checked: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}checked'])!,
-      skipped: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}skipped'])!,
-      date: attachedDatabase.options.types
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}date'])!,
-      serverID: attachedDatabase.options.types
+      serverID: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      synced: attachedDatabase.options.types
-          .read(DriftSqlType.bool, data['${effectivePrefix}synced'])!,
+      title: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
+      category: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}category'])!,
     );
   }
 
   @override
-  $ChecklistLogsTable createAlias(String alias) {
-    return $ChecklistLogsTable(attachedDatabase, alias);
+  $ChecklistCollectionsTable createAlias(String alias) {
+    return $ChecklistCollectionsTable(attachedDatabase, alias);
   }
 }
 
@@ -6487,6 +6952,18 @@ class ChecklistCollection extends DataClass
         description: description ?? this.description,
         category: category ?? this.category,
       );
+  ChecklistCollection copyWithCompanion(ChecklistCollectionsCompanion data) {
+    return ChecklistCollection(
+      id: data.id.present ? data.id.value : this.id,
+      checklist: data.checklist.present ? data.checklist.value : this.checklist,
+      serverID: data.serverID.present ? data.serverID.value : this.serverID,
+      title: data.title.present ? data.title.value : this.title,
+      description:
+          data.description.present ? data.description.value : this.description,
+      category: data.category.present ? data.category.value : this.category,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('ChecklistCollection(')
@@ -6612,126 +7089,9 @@ class ChecklistCollectionsCompanion
   }
 }
 
-class $ChecklistCollectionsTable extends ChecklistCollections
-    with TableInfo<$ChecklistCollectionsTable, ChecklistCollection> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $ChecklistCollectionsTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _checklistMeta = const VerificationMeta('checklist');
-  @override
-  late final GeneratedColumn<int> checklist = GeneratedColumn<int>(
-      'checklist', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  final VerificationMeta _serverIDMeta = const VerificationMeta('serverID');
-  @override
-  late final GeneratedColumn<String> serverID = GeneratedColumn<String>(
-      'server_i_d', aliasedName, true,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 36, maxTextLength: 36),
-      type: DriftSqlType.string,
-      requiredDuringInsert: false);
-  final VerificationMeta _titleMeta = const VerificationMeta('title');
-  @override
-  late final GeneratedColumn<String> title = GeneratedColumn<String>(
-      'title', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant(''));
-  final VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
-  @override
-  late final GeneratedColumn<String> description = GeneratedColumn<String>(
-      'description', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant(''));
-  final VerificationMeta _categoryMeta = const VerificationMeta('category');
-  @override
-  late final GeneratedColumn<String> category = GeneratedColumn<String>(
-      'category', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      defaultValue: Constant(''));
-  @override
-  List<GeneratedColumn> get $columns =>
-      [id, checklist, serverID, title, description, category];
-  @override
-  String get aliasedName => _alias ?? 'checklist_collections';
-  @override
-  String get actualTableName => 'checklist_collections';
-  @override
-  VerificationContext validateIntegrity(
-      Insertable<ChecklistCollection> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('checklist')) {
-      context.handle(_checklistMeta,
-          checklist.isAcceptableOrUnknown(data['checklist']!, _checklistMeta));
-    } else if (isInserting) {
-      context.missing(_checklistMeta);
-    }
-    if (data.containsKey('server_i_d')) {
-      context.handle(_serverIDMeta,
-          serverID.isAcceptableOrUnknown(data['server_i_d']!, _serverIDMeta));
-    }
-    if (data.containsKey('title')) {
-      context.handle(
-          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
-    }
-    if (data.containsKey('description')) {
-      context.handle(
-          _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description']!, _descriptionMeta));
-    }
-    if (data.containsKey('category')) {
-      context.handle(_categoryMeta,
-          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  ChecklistCollection map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return ChecklistCollection(
-      id: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      checklist: attachedDatabase.options.types
-          .read(DriftSqlType.int, data['${effectivePrefix}checklist'])!,
-      serverID: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}server_i_d']),
-      title: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      description: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
-      category: attachedDatabase.options.types
-          .read(DriftSqlType.string, data['${effectivePrefix}category'])!,
-    );
-  }
-
-  @override
-  $ChecklistCollectionsTable createAlias(String alias) {
-    return $ChecklistCollectionsTable(attachedDatabase, alias);
-  }
-}
-
 abstract class _$RelDB extends GeneratedDatabase {
   _$RelDB(QueryExecutor e) : super(e);
+  $RelDBManager get managers => $RelDBManager(this);
   late final $DevicesTable devices = $DevicesTable(this);
   late final $ModulesTable modules = $ModulesTable(this);
   late final $ParamsTable params = $ParamsTable(this);
@@ -6756,7 +7116,7 @@ abstract class _$RelDB extends GeneratedDatabase {
   late final DeletesDAO deletesDAO = DeletesDAO(this as RelDB);
   late final ChecklistsDAO checklistsDAO = ChecklistsDAO(this as RelDB);
   @override
-  Iterable<TableInfo<Table, dynamic>> get allTables =>
+  Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
@@ -6777,4 +7137,3444 @@ abstract class _$RelDB extends GeneratedDatabase {
         checklistLogs,
         checklistCollections
       ];
+}
+
+typedef $$DevicesTableCreateCompanionBuilder = DevicesCompanion Function({
+  Value<int> id,
+  required String identifier,
+  required String name,
+  Value<bool> isController,
+  Value<bool> isScreen,
+  required String ip,
+  required String mdns,
+  Value<bool> isReachable,
+  Value<bool> isRemote,
+  Value<bool> isSetup,
+  Value<int> nBoxes,
+  Value<int> nSensorPorts,
+  Value<int> nLeds,
+  Value<int> nMotors,
+  Value<bool> needsRefresh,
+  Value<String?> config,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+typedef $$DevicesTableUpdateCompanionBuilder = DevicesCompanion Function({
+  Value<int> id,
+  Value<String> identifier,
+  Value<String> name,
+  Value<bool> isController,
+  Value<bool> isScreen,
+  Value<String> ip,
+  Value<String> mdns,
+  Value<bool> isReachable,
+  Value<bool> isRemote,
+  Value<bool> isSetup,
+  Value<int> nBoxes,
+  Value<int> nSensorPorts,
+  Value<int> nLeds,
+  Value<int> nMotors,
+  Value<bool> needsRefresh,
+  Value<String?> config,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+
+class $$DevicesTableFilterComposer extends Composer<_$RelDB, $DevicesTable> {
+  $$DevicesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get identifier => $composableBuilder(
+      column: $table.identifier, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isController => $composableBuilder(
+      column: $table.isController, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isScreen => $composableBuilder(
+      column: $table.isScreen, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get ip => $composableBuilder(
+      column: $table.ip, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get mdns => $composableBuilder(
+      column: $table.mdns, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isReachable => $composableBuilder(
+      column: $table.isReachable, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isRemote => $composableBuilder(
+      column: $table.isRemote, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isSetup => $composableBuilder(
+      column: $table.isSetup, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get nBoxes => $composableBuilder(
+      column: $table.nBoxes, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get nSensorPorts => $composableBuilder(
+      column: $table.nSensorPorts, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get nLeds => $composableBuilder(
+      column: $table.nLeds, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get nMotors => $composableBuilder(
+      column: $table.nMotors, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get needsRefresh => $composableBuilder(
+      column: $table.needsRefresh, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get config => $composableBuilder(
+      column: $table.config, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnFilters(column));
+}
+
+class $$DevicesTableOrderingComposer extends Composer<_$RelDB, $DevicesTable> {
+  $$DevicesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get identifier => $composableBuilder(
+      column: $table.identifier, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isController => $composableBuilder(
+      column: $table.isController,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isScreen => $composableBuilder(
+      column: $table.isScreen, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get ip => $composableBuilder(
+      column: $table.ip, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get mdns => $composableBuilder(
+      column: $table.mdns, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isReachable => $composableBuilder(
+      column: $table.isReachable, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isRemote => $composableBuilder(
+      column: $table.isRemote, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isSetup => $composableBuilder(
+      column: $table.isSetup, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get nBoxes => $composableBuilder(
+      column: $table.nBoxes, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get nSensorPorts => $composableBuilder(
+      column: $table.nSensorPorts,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get nLeds => $composableBuilder(
+      column: $table.nLeds, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get nMotors => $composableBuilder(
+      column: $table.nMotors, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get needsRefresh => $composableBuilder(
+      column: $table.needsRefresh,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get config => $composableBuilder(
+      column: $table.config, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnOrderings(column));
+}
+
+class $$DevicesTableAnnotationComposer
+    extends Composer<_$RelDB, $DevicesTable> {
+  $$DevicesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get identifier => $composableBuilder(
+      column: $table.identifier, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<bool> get isController => $composableBuilder(
+      column: $table.isController, builder: (column) => column);
+
+  GeneratedColumn<bool> get isScreen =>
+      $composableBuilder(column: $table.isScreen, builder: (column) => column);
+
+  GeneratedColumn<String> get ip =>
+      $composableBuilder(column: $table.ip, builder: (column) => column);
+
+  GeneratedColumn<String> get mdns =>
+      $composableBuilder(column: $table.mdns, builder: (column) => column);
+
+  GeneratedColumn<bool> get isReachable => $composableBuilder(
+      column: $table.isReachable, builder: (column) => column);
+
+  GeneratedColumn<bool> get isRemote =>
+      $composableBuilder(column: $table.isRemote, builder: (column) => column);
+
+  GeneratedColumn<bool> get isSetup =>
+      $composableBuilder(column: $table.isSetup, builder: (column) => column);
+
+  GeneratedColumn<int> get nBoxes =>
+      $composableBuilder(column: $table.nBoxes, builder: (column) => column);
+
+  GeneratedColumn<int> get nSensorPorts => $composableBuilder(
+      column: $table.nSensorPorts, builder: (column) => column);
+
+  GeneratedColumn<int> get nLeds =>
+      $composableBuilder(column: $table.nLeds, builder: (column) => column);
+
+  GeneratedColumn<int> get nMotors =>
+      $composableBuilder(column: $table.nMotors, builder: (column) => column);
+
+  GeneratedColumn<bool> get needsRefresh => $composableBuilder(
+      column: $table.needsRefresh, builder: (column) => column);
+
+  GeneratedColumn<String> get config =>
+      $composableBuilder(column: $table.config, builder: (column) => column);
+
+  GeneratedColumn<String> get serverID =>
+      $composableBuilder(column: $table.serverID, builder: (column) => column);
+
+  GeneratedColumn<bool> get synced =>
+      $composableBuilder(column: $table.synced, builder: (column) => column);
+}
+
+class $$DevicesTableTableManager extends RootTableManager<
+    _$RelDB,
+    $DevicesTable,
+    Device,
+    $$DevicesTableFilterComposer,
+    $$DevicesTableOrderingComposer,
+    $$DevicesTableAnnotationComposer,
+    $$DevicesTableCreateCompanionBuilder,
+    $$DevicesTableUpdateCompanionBuilder,
+    (Device, BaseReferences<_$RelDB, $DevicesTable, Device>),
+    Device,
+    PrefetchHooks Function()> {
+  $$DevicesTableTableManager(_$RelDB db, $DevicesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DevicesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DevicesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DevicesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> identifier = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<bool> isController = const Value.absent(),
+            Value<bool> isScreen = const Value.absent(),
+            Value<String> ip = const Value.absent(),
+            Value<String> mdns = const Value.absent(),
+            Value<bool> isReachable = const Value.absent(),
+            Value<bool> isRemote = const Value.absent(),
+            Value<bool> isSetup = const Value.absent(),
+            Value<int> nBoxes = const Value.absent(),
+            Value<int> nSensorPorts = const Value.absent(),
+            Value<int> nLeds = const Value.absent(),
+            Value<int> nMotors = const Value.absent(),
+            Value<bool> needsRefresh = const Value.absent(),
+            Value<String?> config = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              DevicesCompanion(
+            id: id,
+            identifier: identifier,
+            name: name,
+            isController: isController,
+            isScreen: isScreen,
+            ip: ip,
+            mdns: mdns,
+            isReachable: isReachable,
+            isRemote: isRemote,
+            isSetup: isSetup,
+            nBoxes: nBoxes,
+            nSensorPorts: nSensorPorts,
+            nLeds: nLeds,
+            nMotors: nMotors,
+            needsRefresh: needsRefresh,
+            config: config,
+            serverID: serverID,
+            synced: synced,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String identifier,
+            required String name,
+            Value<bool> isController = const Value.absent(),
+            Value<bool> isScreen = const Value.absent(),
+            required String ip,
+            required String mdns,
+            Value<bool> isReachable = const Value.absent(),
+            Value<bool> isRemote = const Value.absent(),
+            Value<bool> isSetup = const Value.absent(),
+            Value<int> nBoxes = const Value.absent(),
+            Value<int> nSensorPorts = const Value.absent(),
+            Value<int> nLeds = const Value.absent(),
+            Value<int> nMotors = const Value.absent(),
+            Value<bool> needsRefresh = const Value.absent(),
+            Value<String?> config = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              DevicesCompanion.insert(
+            id: id,
+            identifier: identifier,
+            name: name,
+            isController: isController,
+            isScreen: isScreen,
+            ip: ip,
+            mdns: mdns,
+            isReachable: isReachable,
+            isRemote: isRemote,
+            isSetup: isSetup,
+            nBoxes: nBoxes,
+            nSensorPorts: nSensorPorts,
+            nLeds: nLeds,
+            nMotors: nMotors,
+            needsRefresh: needsRefresh,
+            config: config,
+            serverID: serverID,
+            synced: synced,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$DevicesTableProcessedTableManager = ProcessedTableManager<
+    _$RelDB,
+    $DevicesTable,
+    Device,
+    $$DevicesTableFilterComposer,
+    $$DevicesTableOrderingComposer,
+    $$DevicesTableAnnotationComposer,
+    $$DevicesTableCreateCompanionBuilder,
+    $$DevicesTableUpdateCompanionBuilder,
+    (Device, BaseReferences<_$RelDB, $DevicesTable, Device>),
+    Device,
+    PrefetchHooks Function()>;
+typedef $$ModulesTableCreateCompanionBuilder = ModulesCompanion Function({
+  Value<int> id,
+  required int device,
+  required String name,
+  required bool isArray,
+  required int arrayLen,
+});
+typedef $$ModulesTableUpdateCompanionBuilder = ModulesCompanion Function({
+  Value<int> id,
+  Value<int> device,
+  Value<String> name,
+  Value<bool> isArray,
+  Value<int> arrayLen,
+});
+
+class $$ModulesTableFilterComposer extends Composer<_$RelDB, $ModulesTable> {
+  $$ModulesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get device => $composableBuilder(
+      column: $table.device, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isArray => $composableBuilder(
+      column: $table.isArray, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get arrayLen => $composableBuilder(
+      column: $table.arrayLen, builder: (column) => ColumnFilters(column));
+}
+
+class $$ModulesTableOrderingComposer extends Composer<_$RelDB, $ModulesTable> {
+  $$ModulesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get device => $composableBuilder(
+      column: $table.device, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isArray => $composableBuilder(
+      column: $table.isArray, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get arrayLen => $composableBuilder(
+      column: $table.arrayLen, builder: (column) => ColumnOrderings(column));
+}
+
+class $$ModulesTableAnnotationComposer
+    extends Composer<_$RelDB, $ModulesTable> {
+  $$ModulesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get device =>
+      $composableBuilder(column: $table.device, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<bool> get isArray =>
+      $composableBuilder(column: $table.isArray, builder: (column) => column);
+
+  GeneratedColumn<int> get arrayLen =>
+      $composableBuilder(column: $table.arrayLen, builder: (column) => column);
+}
+
+class $$ModulesTableTableManager extends RootTableManager<
+    _$RelDB,
+    $ModulesTable,
+    Module,
+    $$ModulesTableFilterComposer,
+    $$ModulesTableOrderingComposer,
+    $$ModulesTableAnnotationComposer,
+    $$ModulesTableCreateCompanionBuilder,
+    $$ModulesTableUpdateCompanionBuilder,
+    (Module, BaseReferences<_$RelDB, $ModulesTable, Module>),
+    Module,
+    PrefetchHooks Function()> {
+  $$ModulesTableTableManager(_$RelDB db, $ModulesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ModulesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ModulesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ModulesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> device = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<bool> isArray = const Value.absent(),
+            Value<int> arrayLen = const Value.absent(),
+          }) =>
+              ModulesCompanion(
+            id: id,
+            device: device,
+            name: name,
+            isArray: isArray,
+            arrayLen: arrayLen,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int device,
+            required String name,
+            required bool isArray,
+            required int arrayLen,
+          }) =>
+              ModulesCompanion.insert(
+            id: id,
+            device: device,
+            name: name,
+            isArray: isArray,
+            arrayLen: arrayLen,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$ModulesTableProcessedTableManager = ProcessedTableManager<
+    _$RelDB,
+    $ModulesTable,
+    Module,
+    $$ModulesTableFilterComposer,
+    $$ModulesTableOrderingComposer,
+    $$ModulesTableAnnotationComposer,
+    $$ModulesTableCreateCompanionBuilder,
+    $$ModulesTableUpdateCompanionBuilder,
+    (Module, BaseReferences<_$RelDB, $ModulesTable, Module>),
+    Module,
+    PrefetchHooks Function()>;
+typedef $$ParamsTableCreateCompanionBuilder = ParamsCompanion Function({
+  Value<int> id,
+  required int device,
+  required int module,
+  required String key,
+  required int type,
+  Value<String?> svalue,
+  Value<int?> ivalue,
+});
+typedef $$ParamsTableUpdateCompanionBuilder = ParamsCompanion Function({
+  Value<int> id,
+  Value<int> device,
+  Value<int> module,
+  Value<String> key,
+  Value<int> type,
+  Value<String?> svalue,
+  Value<int?> ivalue,
+});
+
+class $$ParamsTableFilterComposer extends Composer<_$RelDB, $ParamsTable> {
+  $$ParamsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get device => $composableBuilder(
+      column: $table.device, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get module => $composableBuilder(
+      column: $table.module, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get key => $composableBuilder(
+      column: $table.key, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get svalue => $composableBuilder(
+      column: $table.svalue, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get ivalue => $composableBuilder(
+      column: $table.ivalue, builder: (column) => ColumnFilters(column));
+}
+
+class $$ParamsTableOrderingComposer extends Composer<_$RelDB, $ParamsTable> {
+  $$ParamsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get device => $composableBuilder(
+      column: $table.device, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get module => $composableBuilder(
+      column: $table.module, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get key => $composableBuilder(
+      column: $table.key, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get svalue => $composableBuilder(
+      column: $table.svalue, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get ivalue => $composableBuilder(
+      column: $table.ivalue, builder: (column) => ColumnOrderings(column));
+}
+
+class $$ParamsTableAnnotationComposer extends Composer<_$RelDB, $ParamsTable> {
+  $$ParamsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get device =>
+      $composableBuilder(column: $table.device, builder: (column) => column);
+
+  GeneratedColumn<int> get module =>
+      $composableBuilder(column: $table.module, builder: (column) => column);
+
+  GeneratedColumn<String> get key =>
+      $composableBuilder(column: $table.key, builder: (column) => column);
+
+  GeneratedColumn<int> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get svalue =>
+      $composableBuilder(column: $table.svalue, builder: (column) => column);
+
+  GeneratedColumn<int> get ivalue =>
+      $composableBuilder(column: $table.ivalue, builder: (column) => column);
+}
+
+class $$ParamsTableTableManager extends RootTableManager<
+    _$RelDB,
+    $ParamsTable,
+    Param,
+    $$ParamsTableFilterComposer,
+    $$ParamsTableOrderingComposer,
+    $$ParamsTableAnnotationComposer,
+    $$ParamsTableCreateCompanionBuilder,
+    $$ParamsTableUpdateCompanionBuilder,
+    (Param, BaseReferences<_$RelDB, $ParamsTable, Param>),
+    Param,
+    PrefetchHooks Function()> {
+  $$ParamsTableTableManager(_$RelDB db, $ParamsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ParamsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ParamsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ParamsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> device = const Value.absent(),
+            Value<int> module = const Value.absent(),
+            Value<String> key = const Value.absent(),
+            Value<int> type = const Value.absent(),
+            Value<String?> svalue = const Value.absent(),
+            Value<int?> ivalue = const Value.absent(),
+          }) =>
+              ParamsCompanion(
+            id: id,
+            device: device,
+            module: module,
+            key: key,
+            type: type,
+            svalue: svalue,
+            ivalue: ivalue,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int device,
+            required int module,
+            required String key,
+            required int type,
+            Value<String?> svalue = const Value.absent(),
+            Value<int?> ivalue = const Value.absent(),
+          }) =>
+              ParamsCompanion.insert(
+            id: id,
+            device: device,
+            module: module,
+            key: key,
+            type: type,
+            svalue: svalue,
+            ivalue: ivalue,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$ParamsTableProcessedTableManager = ProcessedTableManager<
+    _$RelDB,
+    $ParamsTable,
+    Param,
+    $$ParamsTableFilterComposer,
+    $$ParamsTableOrderingComposer,
+    $$ParamsTableAnnotationComposer,
+    $$ParamsTableCreateCompanionBuilder,
+    $$ParamsTableUpdateCompanionBuilder,
+    (Param, BaseReferences<_$RelDB, $ParamsTable, Param>),
+    Param,
+    PrefetchHooks Function()>;
+typedef $$PlantsTableCreateCompanionBuilder = PlantsCompanion Function({
+  Value<int> id,
+  required int feed,
+  required int box,
+  required String name,
+  Value<bool> single,
+  Value<bool> public,
+  Value<bool> alerts,
+  Value<String> settings,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+typedef $$PlantsTableUpdateCompanionBuilder = PlantsCompanion Function({
+  Value<int> id,
+  Value<int> feed,
+  Value<int> box,
+  Value<String> name,
+  Value<bool> single,
+  Value<bool> public,
+  Value<bool> alerts,
+  Value<String> settings,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+
+class $$PlantsTableFilterComposer extends Composer<_$RelDB, $PlantsTable> {
+  $$PlantsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get feed => $composableBuilder(
+      column: $table.feed, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get box => $composableBuilder(
+      column: $table.box, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get single => $composableBuilder(
+      column: $table.single, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get public => $composableBuilder(
+      column: $table.public, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get alerts => $composableBuilder(
+      column: $table.alerts, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get settings => $composableBuilder(
+      column: $table.settings, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnFilters(column));
+}
+
+class $$PlantsTableOrderingComposer extends Composer<_$RelDB, $PlantsTable> {
+  $$PlantsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get feed => $composableBuilder(
+      column: $table.feed, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get box => $composableBuilder(
+      column: $table.box, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get single => $composableBuilder(
+      column: $table.single, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get public => $composableBuilder(
+      column: $table.public, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get alerts => $composableBuilder(
+      column: $table.alerts, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get settings => $composableBuilder(
+      column: $table.settings, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnOrderings(column));
+}
+
+class $$PlantsTableAnnotationComposer extends Composer<_$RelDB, $PlantsTable> {
+  $$PlantsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get feed =>
+      $composableBuilder(column: $table.feed, builder: (column) => column);
+
+  GeneratedColumn<int> get box =>
+      $composableBuilder(column: $table.box, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<bool> get single =>
+      $composableBuilder(column: $table.single, builder: (column) => column);
+
+  GeneratedColumn<bool> get public =>
+      $composableBuilder(column: $table.public, builder: (column) => column);
+
+  GeneratedColumn<bool> get alerts =>
+      $composableBuilder(column: $table.alerts, builder: (column) => column);
+
+  GeneratedColumn<String> get settings =>
+      $composableBuilder(column: $table.settings, builder: (column) => column);
+
+  GeneratedColumn<String> get serverID =>
+      $composableBuilder(column: $table.serverID, builder: (column) => column);
+
+  GeneratedColumn<bool> get synced =>
+      $composableBuilder(column: $table.synced, builder: (column) => column);
+}
+
+class $$PlantsTableTableManager extends RootTableManager<
+    _$RelDB,
+    $PlantsTable,
+    Plant,
+    $$PlantsTableFilterComposer,
+    $$PlantsTableOrderingComposer,
+    $$PlantsTableAnnotationComposer,
+    $$PlantsTableCreateCompanionBuilder,
+    $$PlantsTableUpdateCompanionBuilder,
+    (Plant, BaseReferences<_$RelDB, $PlantsTable, Plant>),
+    Plant,
+    PrefetchHooks Function()> {
+  $$PlantsTableTableManager(_$RelDB db, $PlantsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PlantsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PlantsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PlantsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> feed = const Value.absent(),
+            Value<int> box = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<bool> single = const Value.absent(),
+            Value<bool> public = const Value.absent(),
+            Value<bool> alerts = const Value.absent(),
+            Value<String> settings = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              PlantsCompanion(
+            id: id,
+            feed: feed,
+            box: box,
+            name: name,
+            single: single,
+            public: public,
+            alerts: alerts,
+            settings: settings,
+            serverID: serverID,
+            synced: synced,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int feed,
+            required int box,
+            required String name,
+            Value<bool> single = const Value.absent(),
+            Value<bool> public = const Value.absent(),
+            Value<bool> alerts = const Value.absent(),
+            Value<String> settings = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              PlantsCompanion.insert(
+            id: id,
+            feed: feed,
+            box: box,
+            name: name,
+            single: single,
+            public: public,
+            alerts: alerts,
+            settings: settings,
+            serverID: serverID,
+            synced: synced,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$PlantsTableProcessedTableManager = ProcessedTableManager<
+    _$RelDB,
+    $PlantsTable,
+    Plant,
+    $$PlantsTableFilterComposer,
+    $$PlantsTableOrderingComposer,
+    $$PlantsTableAnnotationComposer,
+    $$PlantsTableCreateCompanionBuilder,
+    $$PlantsTableUpdateCompanionBuilder,
+    (Plant, BaseReferences<_$RelDB, $PlantsTable, Plant>),
+    Plant,
+    PrefetchHooks Function()>;
+typedef $$BoxesTableCreateCompanionBuilder = BoxesCompanion Function({
+  Value<int> id,
+  Value<int?> feed,
+  Value<int?> device,
+  Value<int?> deviceBox,
+  Value<int?> screenDevice,
+  Value<String?> screenDeviceToken,
+  Value<String?> encKey,
+  required String name,
+  Value<String> settings,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+typedef $$BoxesTableUpdateCompanionBuilder = BoxesCompanion Function({
+  Value<int> id,
+  Value<int?> feed,
+  Value<int?> device,
+  Value<int?> deviceBox,
+  Value<int?> screenDevice,
+  Value<String?> screenDeviceToken,
+  Value<String?> encKey,
+  Value<String> name,
+  Value<String> settings,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+
+class $$BoxesTableFilterComposer extends Composer<_$RelDB, $BoxesTable> {
+  $$BoxesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get feed => $composableBuilder(
+      column: $table.feed, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get device => $composableBuilder(
+      column: $table.device, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get deviceBox => $composableBuilder(
+      column: $table.deviceBox, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get screenDevice => $composableBuilder(
+      column: $table.screenDevice, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get screenDeviceToken => $composableBuilder(
+      column: $table.screenDeviceToken,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get encKey => $composableBuilder(
+      column: $table.encKey, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get settings => $composableBuilder(
+      column: $table.settings, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnFilters(column));
+}
+
+class $$BoxesTableOrderingComposer extends Composer<_$RelDB, $BoxesTable> {
+  $$BoxesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get feed => $composableBuilder(
+      column: $table.feed, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get device => $composableBuilder(
+      column: $table.device, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get deviceBox => $composableBuilder(
+      column: $table.deviceBox, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get screenDevice => $composableBuilder(
+      column: $table.screenDevice,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get screenDeviceToken => $composableBuilder(
+      column: $table.screenDeviceToken,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get encKey => $composableBuilder(
+      column: $table.encKey, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get settings => $composableBuilder(
+      column: $table.settings, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnOrderings(column));
+}
+
+class $$BoxesTableAnnotationComposer extends Composer<_$RelDB, $BoxesTable> {
+  $$BoxesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get feed =>
+      $composableBuilder(column: $table.feed, builder: (column) => column);
+
+  GeneratedColumn<int> get device =>
+      $composableBuilder(column: $table.device, builder: (column) => column);
+
+  GeneratedColumn<int> get deviceBox =>
+      $composableBuilder(column: $table.deviceBox, builder: (column) => column);
+
+  GeneratedColumn<int> get screenDevice => $composableBuilder(
+      column: $table.screenDevice, builder: (column) => column);
+
+  GeneratedColumn<String> get screenDeviceToken => $composableBuilder(
+      column: $table.screenDeviceToken, builder: (column) => column);
+
+  GeneratedColumn<String> get encKey =>
+      $composableBuilder(column: $table.encKey, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get settings =>
+      $composableBuilder(column: $table.settings, builder: (column) => column);
+
+  GeneratedColumn<String> get serverID =>
+      $composableBuilder(column: $table.serverID, builder: (column) => column);
+
+  GeneratedColumn<bool> get synced =>
+      $composableBuilder(column: $table.synced, builder: (column) => column);
+}
+
+class $$BoxesTableTableManager extends RootTableManager<
+    _$RelDB,
+    $BoxesTable,
+    Box,
+    $$BoxesTableFilterComposer,
+    $$BoxesTableOrderingComposer,
+    $$BoxesTableAnnotationComposer,
+    $$BoxesTableCreateCompanionBuilder,
+    $$BoxesTableUpdateCompanionBuilder,
+    (Box, BaseReferences<_$RelDB, $BoxesTable, Box>),
+    Box,
+    PrefetchHooks Function()> {
+  $$BoxesTableTableManager(_$RelDB db, $BoxesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$BoxesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$BoxesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$BoxesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int?> feed = const Value.absent(),
+            Value<int?> device = const Value.absent(),
+            Value<int?> deviceBox = const Value.absent(),
+            Value<int?> screenDevice = const Value.absent(),
+            Value<String?> screenDeviceToken = const Value.absent(),
+            Value<String?> encKey = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<String> settings = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              BoxesCompanion(
+            id: id,
+            feed: feed,
+            device: device,
+            deviceBox: deviceBox,
+            screenDevice: screenDevice,
+            screenDeviceToken: screenDeviceToken,
+            encKey: encKey,
+            name: name,
+            settings: settings,
+            serverID: serverID,
+            synced: synced,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int?> feed = const Value.absent(),
+            Value<int?> device = const Value.absent(),
+            Value<int?> deviceBox = const Value.absent(),
+            Value<int?> screenDevice = const Value.absent(),
+            Value<String?> screenDeviceToken = const Value.absent(),
+            Value<String?> encKey = const Value.absent(),
+            required String name,
+            Value<String> settings = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              BoxesCompanion.insert(
+            id: id,
+            feed: feed,
+            device: device,
+            deviceBox: deviceBox,
+            screenDevice: screenDevice,
+            screenDeviceToken: screenDeviceToken,
+            encKey: encKey,
+            name: name,
+            settings: settings,
+            serverID: serverID,
+            synced: synced,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$BoxesTableProcessedTableManager = ProcessedTableManager<
+    _$RelDB,
+    $BoxesTable,
+    Box,
+    $$BoxesTableFilterComposer,
+    $$BoxesTableOrderingComposer,
+    $$BoxesTableAnnotationComposer,
+    $$BoxesTableCreateCompanionBuilder,
+    $$BoxesTableUpdateCompanionBuilder,
+    (Box, BaseReferences<_$RelDB, $BoxesTable, Box>),
+    Box,
+    PrefetchHooks Function()>;
+typedef $$ChartCachesTableCreateCompanionBuilder = ChartCachesCompanion
+    Function({
+  Value<int> id,
+  required int box,
+  required String name,
+  required DateTime date,
+  Value<String> values,
+});
+typedef $$ChartCachesTableUpdateCompanionBuilder = ChartCachesCompanion
+    Function({
+  Value<int> id,
+  Value<int> box,
+  Value<String> name,
+  Value<DateTime> date,
+  Value<String> values,
+});
+
+class $$ChartCachesTableFilterComposer
+    extends Composer<_$RelDB, $ChartCachesTable> {
+  $$ChartCachesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get box => $composableBuilder(
+      column: $table.box, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get date => $composableBuilder(
+      column: $table.date, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get values => $composableBuilder(
+      column: $table.values, builder: (column) => ColumnFilters(column));
+}
+
+class $$ChartCachesTableOrderingComposer
+    extends Composer<_$RelDB, $ChartCachesTable> {
+  $$ChartCachesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get box => $composableBuilder(
+      column: $table.box, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get date => $composableBuilder(
+      column: $table.date, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get values => $composableBuilder(
+      column: $table.values, builder: (column) => ColumnOrderings(column));
+}
+
+class $$ChartCachesTableAnnotationComposer
+    extends Composer<_$RelDB, $ChartCachesTable> {
+  $$ChartCachesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get box =>
+      $composableBuilder(column: $table.box, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => column);
+
+  GeneratedColumn<String> get values =>
+      $composableBuilder(column: $table.values, builder: (column) => column);
+}
+
+class $$ChartCachesTableTableManager extends RootTableManager<
+    _$RelDB,
+    $ChartCachesTable,
+    ChartCache,
+    $$ChartCachesTableFilterComposer,
+    $$ChartCachesTableOrderingComposer,
+    $$ChartCachesTableAnnotationComposer,
+    $$ChartCachesTableCreateCompanionBuilder,
+    $$ChartCachesTableUpdateCompanionBuilder,
+    (ChartCache, BaseReferences<_$RelDB, $ChartCachesTable, ChartCache>),
+    ChartCache,
+    PrefetchHooks Function()> {
+  $$ChartCachesTableTableManager(_$RelDB db, $ChartCachesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ChartCachesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ChartCachesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ChartCachesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> box = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<DateTime> date = const Value.absent(),
+            Value<String> values = const Value.absent(),
+          }) =>
+              ChartCachesCompanion(
+            id: id,
+            box: box,
+            name: name,
+            date: date,
+            values: values,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int box,
+            required String name,
+            required DateTime date,
+            Value<String> values = const Value.absent(),
+          }) =>
+              ChartCachesCompanion.insert(
+            id: id,
+            box: box,
+            name: name,
+            date: date,
+            values: values,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$ChartCachesTableProcessedTableManager = ProcessedTableManager<
+    _$RelDB,
+    $ChartCachesTable,
+    ChartCache,
+    $$ChartCachesTableFilterComposer,
+    $$ChartCachesTableOrderingComposer,
+    $$ChartCachesTableAnnotationComposer,
+    $$ChartCachesTableCreateCompanionBuilder,
+    $$ChartCachesTableUpdateCompanionBuilder,
+    (ChartCache, BaseReferences<_$RelDB, $ChartCachesTable, ChartCache>),
+    ChartCache,
+    PrefetchHooks Function()>;
+typedef $$TimelapsesTableCreateCompanionBuilder = TimelapsesCompanion Function({
+  Value<int> id,
+  required int plant,
+  Value<String> type,
+  Value<String> settings,
+  Value<String?> ssid,
+  Value<String?> password,
+  Value<String?> controllerID,
+  Value<String?> rotate,
+  Value<String?> name,
+  Value<String?> strain,
+  Value<String?> dropboxToken,
+  Value<String?> uploadName,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+typedef $$TimelapsesTableUpdateCompanionBuilder = TimelapsesCompanion Function({
+  Value<int> id,
+  Value<int> plant,
+  Value<String> type,
+  Value<String> settings,
+  Value<String?> ssid,
+  Value<String?> password,
+  Value<String?> controllerID,
+  Value<String?> rotate,
+  Value<String?> name,
+  Value<String?> strain,
+  Value<String?> dropboxToken,
+  Value<String?> uploadName,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+
+class $$TimelapsesTableFilterComposer
+    extends Composer<_$RelDB, $TimelapsesTable> {
+  $$TimelapsesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get plant => $composableBuilder(
+      column: $table.plant, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get settings => $composableBuilder(
+      column: $table.settings, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get ssid => $composableBuilder(
+      column: $table.ssid, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get password => $composableBuilder(
+      column: $table.password, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get controllerID => $composableBuilder(
+      column: $table.controllerID, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get rotate => $composableBuilder(
+      column: $table.rotate, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get strain => $composableBuilder(
+      column: $table.strain, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get dropboxToken => $composableBuilder(
+      column: $table.dropboxToken, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get uploadName => $composableBuilder(
+      column: $table.uploadName, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnFilters(column));
+}
+
+class $$TimelapsesTableOrderingComposer
+    extends Composer<_$RelDB, $TimelapsesTable> {
+  $$TimelapsesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get plant => $composableBuilder(
+      column: $table.plant, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get settings => $composableBuilder(
+      column: $table.settings, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get ssid => $composableBuilder(
+      column: $table.ssid, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get password => $composableBuilder(
+      column: $table.password, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get controllerID => $composableBuilder(
+      column: $table.controllerID,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get rotate => $composableBuilder(
+      column: $table.rotate, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get strain => $composableBuilder(
+      column: $table.strain, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get dropboxToken => $composableBuilder(
+      column: $table.dropboxToken,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get uploadName => $composableBuilder(
+      column: $table.uploadName, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnOrderings(column));
+}
+
+class $$TimelapsesTableAnnotationComposer
+    extends Composer<_$RelDB, $TimelapsesTable> {
+  $$TimelapsesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get plant =>
+      $composableBuilder(column: $table.plant, builder: (column) => column);
+
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get settings =>
+      $composableBuilder(column: $table.settings, builder: (column) => column);
+
+  GeneratedColumn<String> get ssid =>
+      $composableBuilder(column: $table.ssid, builder: (column) => column);
+
+  GeneratedColumn<String> get password =>
+      $composableBuilder(column: $table.password, builder: (column) => column);
+
+  GeneratedColumn<String> get controllerID => $composableBuilder(
+      column: $table.controllerID, builder: (column) => column);
+
+  GeneratedColumn<String> get rotate =>
+      $composableBuilder(column: $table.rotate, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get strain =>
+      $composableBuilder(column: $table.strain, builder: (column) => column);
+
+  GeneratedColumn<String> get dropboxToken => $composableBuilder(
+      column: $table.dropboxToken, builder: (column) => column);
+
+  GeneratedColumn<String> get uploadName => $composableBuilder(
+      column: $table.uploadName, builder: (column) => column);
+
+  GeneratedColumn<String> get serverID =>
+      $composableBuilder(column: $table.serverID, builder: (column) => column);
+
+  GeneratedColumn<bool> get synced =>
+      $composableBuilder(column: $table.synced, builder: (column) => column);
+}
+
+class $$TimelapsesTableTableManager extends RootTableManager<
+    _$RelDB,
+    $TimelapsesTable,
+    Timelapse,
+    $$TimelapsesTableFilterComposer,
+    $$TimelapsesTableOrderingComposer,
+    $$TimelapsesTableAnnotationComposer,
+    $$TimelapsesTableCreateCompanionBuilder,
+    $$TimelapsesTableUpdateCompanionBuilder,
+    (Timelapse, BaseReferences<_$RelDB, $TimelapsesTable, Timelapse>),
+    Timelapse,
+    PrefetchHooks Function()> {
+  $$TimelapsesTableTableManager(_$RelDB db, $TimelapsesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TimelapsesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TimelapsesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TimelapsesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> plant = const Value.absent(),
+            Value<String> type = const Value.absent(),
+            Value<String> settings = const Value.absent(),
+            Value<String?> ssid = const Value.absent(),
+            Value<String?> password = const Value.absent(),
+            Value<String?> controllerID = const Value.absent(),
+            Value<String?> rotate = const Value.absent(),
+            Value<String?> name = const Value.absent(),
+            Value<String?> strain = const Value.absent(),
+            Value<String?> dropboxToken = const Value.absent(),
+            Value<String?> uploadName = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              TimelapsesCompanion(
+            id: id,
+            plant: plant,
+            type: type,
+            settings: settings,
+            ssid: ssid,
+            password: password,
+            controllerID: controllerID,
+            rotate: rotate,
+            name: name,
+            strain: strain,
+            dropboxToken: dropboxToken,
+            uploadName: uploadName,
+            serverID: serverID,
+            synced: synced,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int plant,
+            Value<String> type = const Value.absent(),
+            Value<String> settings = const Value.absent(),
+            Value<String?> ssid = const Value.absent(),
+            Value<String?> password = const Value.absent(),
+            Value<String?> controllerID = const Value.absent(),
+            Value<String?> rotate = const Value.absent(),
+            Value<String?> name = const Value.absent(),
+            Value<String?> strain = const Value.absent(),
+            Value<String?> dropboxToken = const Value.absent(),
+            Value<String?> uploadName = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              TimelapsesCompanion.insert(
+            id: id,
+            plant: plant,
+            type: type,
+            settings: settings,
+            ssid: ssid,
+            password: password,
+            controllerID: controllerID,
+            rotate: rotate,
+            name: name,
+            strain: strain,
+            dropboxToken: dropboxToken,
+            uploadName: uploadName,
+            serverID: serverID,
+            synced: synced,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$TimelapsesTableProcessedTableManager = ProcessedTableManager<
+    _$RelDB,
+    $TimelapsesTable,
+    Timelapse,
+    $$TimelapsesTableFilterComposer,
+    $$TimelapsesTableOrderingComposer,
+    $$TimelapsesTableAnnotationComposer,
+    $$TimelapsesTableCreateCompanionBuilder,
+    $$TimelapsesTableUpdateCompanionBuilder,
+    (Timelapse, BaseReferences<_$RelDB, $TimelapsesTable, Timelapse>),
+    Timelapse,
+    PrefetchHooks Function()>;
+typedef $$FeedsTableCreateCompanionBuilder = FeedsCompanion Function({
+  Value<int> id,
+  required String name,
+  Value<bool> isNewsFeed,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+typedef $$FeedsTableUpdateCompanionBuilder = FeedsCompanion Function({
+  Value<int> id,
+  Value<String> name,
+  Value<bool> isNewsFeed,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+
+class $$FeedsTableFilterComposer extends Composer<_$RelDB, $FeedsTable> {
+  $$FeedsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isNewsFeed => $composableBuilder(
+      column: $table.isNewsFeed, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnFilters(column));
+}
+
+class $$FeedsTableOrderingComposer extends Composer<_$RelDB, $FeedsTable> {
+  $$FeedsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isNewsFeed => $composableBuilder(
+      column: $table.isNewsFeed, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnOrderings(column));
+}
+
+class $$FeedsTableAnnotationComposer extends Composer<_$RelDB, $FeedsTable> {
+  $$FeedsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<bool> get isNewsFeed => $composableBuilder(
+      column: $table.isNewsFeed, builder: (column) => column);
+
+  GeneratedColumn<String> get serverID =>
+      $composableBuilder(column: $table.serverID, builder: (column) => column);
+
+  GeneratedColumn<bool> get synced =>
+      $composableBuilder(column: $table.synced, builder: (column) => column);
+}
+
+class $$FeedsTableTableManager extends RootTableManager<
+    _$RelDB,
+    $FeedsTable,
+    Feed,
+    $$FeedsTableFilterComposer,
+    $$FeedsTableOrderingComposer,
+    $$FeedsTableAnnotationComposer,
+    $$FeedsTableCreateCompanionBuilder,
+    $$FeedsTableUpdateCompanionBuilder,
+    (Feed, BaseReferences<_$RelDB, $FeedsTable, Feed>),
+    Feed,
+    PrefetchHooks Function()> {
+  $$FeedsTableTableManager(_$RelDB db, $FeedsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$FeedsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FeedsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$FeedsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<bool> isNewsFeed = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              FeedsCompanion(
+            id: id,
+            name: name,
+            isNewsFeed: isNewsFeed,
+            serverID: serverID,
+            synced: synced,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String name,
+            Value<bool> isNewsFeed = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              FeedsCompanion.insert(
+            id: id,
+            name: name,
+            isNewsFeed: isNewsFeed,
+            serverID: serverID,
+            synced: synced,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$FeedsTableProcessedTableManager = ProcessedTableManager<
+    _$RelDB,
+    $FeedsTable,
+    Feed,
+    $$FeedsTableFilterComposer,
+    $$FeedsTableOrderingComposer,
+    $$FeedsTableAnnotationComposer,
+    $$FeedsTableCreateCompanionBuilder,
+    $$FeedsTableUpdateCompanionBuilder,
+    (Feed, BaseReferences<_$RelDB, $FeedsTable, Feed>),
+    Feed,
+    PrefetchHooks Function()>;
+typedef $$FeedEntriesTableCreateCompanionBuilder = FeedEntriesCompanion
+    Function({
+  Value<int> id,
+  required int feed,
+  required DateTime date,
+  required String type,
+  Value<bool> isNew,
+  Value<String> params,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+typedef $$FeedEntriesTableUpdateCompanionBuilder = FeedEntriesCompanion
+    Function({
+  Value<int> id,
+  Value<int> feed,
+  Value<DateTime> date,
+  Value<String> type,
+  Value<bool> isNew,
+  Value<String> params,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+
+class $$FeedEntriesTableFilterComposer
+    extends Composer<_$RelDB, $FeedEntriesTable> {
+  $$FeedEntriesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get feed => $composableBuilder(
+      column: $table.feed, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get date => $composableBuilder(
+      column: $table.date, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isNew => $composableBuilder(
+      column: $table.isNew, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get params => $composableBuilder(
+      column: $table.params, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnFilters(column));
+}
+
+class $$FeedEntriesTableOrderingComposer
+    extends Composer<_$RelDB, $FeedEntriesTable> {
+  $$FeedEntriesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get feed => $composableBuilder(
+      column: $table.feed, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get date => $composableBuilder(
+      column: $table.date, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isNew => $composableBuilder(
+      column: $table.isNew, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get params => $composableBuilder(
+      column: $table.params, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnOrderings(column));
+}
+
+class $$FeedEntriesTableAnnotationComposer
+    extends Composer<_$RelDB, $FeedEntriesTable> {
+  $$FeedEntriesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get feed =>
+      $composableBuilder(column: $table.feed, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => column);
+
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<bool> get isNew =>
+      $composableBuilder(column: $table.isNew, builder: (column) => column);
+
+  GeneratedColumn<String> get params =>
+      $composableBuilder(column: $table.params, builder: (column) => column);
+
+  GeneratedColumn<String> get serverID =>
+      $composableBuilder(column: $table.serverID, builder: (column) => column);
+
+  GeneratedColumn<bool> get synced =>
+      $composableBuilder(column: $table.synced, builder: (column) => column);
+}
+
+class $$FeedEntriesTableTableManager extends RootTableManager<
+    _$RelDB,
+    $FeedEntriesTable,
+    FeedEntry,
+    $$FeedEntriesTableFilterComposer,
+    $$FeedEntriesTableOrderingComposer,
+    $$FeedEntriesTableAnnotationComposer,
+    $$FeedEntriesTableCreateCompanionBuilder,
+    $$FeedEntriesTableUpdateCompanionBuilder,
+    (FeedEntry, BaseReferences<_$RelDB, $FeedEntriesTable, FeedEntry>),
+    FeedEntry,
+    PrefetchHooks Function()> {
+  $$FeedEntriesTableTableManager(_$RelDB db, $FeedEntriesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$FeedEntriesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FeedEntriesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$FeedEntriesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> feed = const Value.absent(),
+            Value<DateTime> date = const Value.absent(),
+            Value<String> type = const Value.absent(),
+            Value<bool> isNew = const Value.absent(),
+            Value<String> params = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              FeedEntriesCompanion(
+            id: id,
+            feed: feed,
+            date: date,
+            type: type,
+            isNew: isNew,
+            params: params,
+            serverID: serverID,
+            synced: synced,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int feed,
+            required DateTime date,
+            required String type,
+            Value<bool> isNew = const Value.absent(),
+            Value<String> params = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              FeedEntriesCompanion.insert(
+            id: id,
+            feed: feed,
+            date: date,
+            type: type,
+            isNew: isNew,
+            params: params,
+            serverID: serverID,
+            synced: synced,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$FeedEntriesTableProcessedTableManager = ProcessedTableManager<
+    _$RelDB,
+    $FeedEntriesTable,
+    FeedEntry,
+    $$FeedEntriesTableFilterComposer,
+    $$FeedEntriesTableOrderingComposer,
+    $$FeedEntriesTableAnnotationComposer,
+    $$FeedEntriesTableCreateCompanionBuilder,
+    $$FeedEntriesTableUpdateCompanionBuilder,
+    (FeedEntry, BaseReferences<_$RelDB, $FeedEntriesTable, FeedEntry>),
+    FeedEntry,
+    PrefetchHooks Function()>;
+typedef $$FeedEntryDraftsTableCreateCompanionBuilder = FeedEntryDraftsCompanion
+    Function({
+  Value<int> id,
+  required int feed,
+  required String type,
+  Value<String> params,
+});
+typedef $$FeedEntryDraftsTableUpdateCompanionBuilder = FeedEntryDraftsCompanion
+    Function({
+  Value<int> id,
+  Value<int> feed,
+  Value<String> type,
+  Value<String> params,
+});
+
+class $$FeedEntryDraftsTableFilterComposer
+    extends Composer<_$RelDB, $FeedEntryDraftsTable> {
+  $$FeedEntryDraftsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get feed => $composableBuilder(
+      column: $table.feed, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get params => $composableBuilder(
+      column: $table.params, builder: (column) => ColumnFilters(column));
+}
+
+class $$FeedEntryDraftsTableOrderingComposer
+    extends Composer<_$RelDB, $FeedEntryDraftsTable> {
+  $$FeedEntryDraftsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get feed => $composableBuilder(
+      column: $table.feed, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get params => $composableBuilder(
+      column: $table.params, builder: (column) => ColumnOrderings(column));
+}
+
+class $$FeedEntryDraftsTableAnnotationComposer
+    extends Composer<_$RelDB, $FeedEntryDraftsTable> {
+  $$FeedEntryDraftsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get feed =>
+      $composableBuilder(column: $table.feed, builder: (column) => column);
+
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get params =>
+      $composableBuilder(column: $table.params, builder: (column) => column);
+}
+
+class $$FeedEntryDraftsTableTableManager extends RootTableManager<
+    _$RelDB,
+    $FeedEntryDraftsTable,
+    FeedEntryDraft,
+    $$FeedEntryDraftsTableFilterComposer,
+    $$FeedEntryDraftsTableOrderingComposer,
+    $$FeedEntryDraftsTableAnnotationComposer,
+    $$FeedEntryDraftsTableCreateCompanionBuilder,
+    $$FeedEntryDraftsTableUpdateCompanionBuilder,
+    (
+      FeedEntryDraft,
+      BaseReferences<_$RelDB, $FeedEntryDraftsTable, FeedEntryDraft>
+    ),
+    FeedEntryDraft,
+    PrefetchHooks Function()> {
+  $$FeedEntryDraftsTableTableManager(_$RelDB db, $FeedEntryDraftsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$FeedEntryDraftsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FeedEntryDraftsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$FeedEntryDraftsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> feed = const Value.absent(),
+            Value<String> type = const Value.absent(),
+            Value<String> params = const Value.absent(),
+          }) =>
+              FeedEntryDraftsCompanion(
+            id: id,
+            feed: feed,
+            type: type,
+            params: params,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int feed,
+            required String type,
+            Value<String> params = const Value.absent(),
+          }) =>
+              FeedEntryDraftsCompanion.insert(
+            id: id,
+            feed: feed,
+            type: type,
+            params: params,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$FeedEntryDraftsTableProcessedTableManager = ProcessedTableManager<
+    _$RelDB,
+    $FeedEntryDraftsTable,
+    FeedEntryDraft,
+    $$FeedEntryDraftsTableFilterComposer,
+    $$FeedEntryDraftsTableOrderingComposer,
+    $$FeedEntryDraftsTableAnnotationComposer,
+    $$FeedEntryDraftsTableCreateCompanionBuilder,
+    $$FeedEntryDraftsTableUpdateCompanionBuilder,
+    (
+      FeedEntryDraft,
+      BaseReferences<_$RelDB, $FeedEntryDraftsTable, FeedEntryDraft>
+    ),
+    FeedEntryDraft,
+    PrefetchHooks Function()>;
+typedef $$FeedMediasTableCreateCompanionBuilder = FeedMediasCompanion Function({
+  Value<int> id,
+  required int feed,
+  required int feedEntry,
+  required String filePath,
+  required String thumbnailPath,
+  Value<String> params,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+typedef $$FeedMediasTableUpdateCompanionBuilder = FeedMediasCompanion Function({
+  Value<int> id,
+  Value<int> feed,
+  Value<int> feedEntry,
+  Value<String> filePath,
+  Value<String> thumbnailPath,
+  Value<String> params,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+
+class $$FeedMediasTableFilterComposer
+    extends Composer<_$RelDB, $FeedMediasTable> {
+  $$FeedMediasTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get feed => $composableBuilder(
+      column: $table.feed, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get feedEntry => $composableBuilder(
+      column: $table.feedEntry, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get filePath => $composableBuilder(
+      column: $table.filePath, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get thumbnailPath => $composableBuilder(
+      column: $table.thumbnailPath, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get params => $composableBuilder(
+      column: $table.params, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnFilters(column));
+}
+
+class $$FeedMediasTableOrderingComposer
+    extends Composer<_$RelDB, $FeedMediasTable> {
+  $$FeedMediasTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get feed => $composableBuilder(
+      column: $table.feed, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get feedEntry => $composableBuilder(
+      column: $table.feedEntry, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get filePath => $composableBuilder(
+      column: $table.filePath, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get thumbnailPath => $composableBuilder(
+      column: $table.thumbnailPath,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get params => $composableBuilder(
+      column: $table.params, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnOrderings(column));
+}
+
+class $$FeedMediasTableAnnotationComposer
+    extends Composer<_$RelDB, $FeedMediasTable> {
+  $$FeedMediasTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get feed =>
+      $composableBuilder(column: $table.feed, builder: (column) => column);
+
+  GeneratedColumn<int> get feedEntry =>
+      $composableBuilder(column: $table.feedEntry, builder: (column) => column);
+
+  GeneratedColumn<String> get filePath =>
+      $composableBuilder(column: $table.filePath, builder: (column) => column);
+
+  GeneratedColumn<String> get thumbnailPath => $composableBuilder(
+      column: $table.thumbnailPath, builder: (column) => column);
+
+  GeneratedColumn<String> get params =>
+      $composableBuilder(column: $table.params, builder: (column) => column);
+
+  GeneratedColumn<String> get serverID =>
+      $composableBuilder(column: $table.serverID, builder: (column) => column);
+
+  GeneratedColumn<bool> get synced =>
+      $composableBuilder(column: $table.synced, builder: (column) => column);
+}
+
+class $$FeedMediasTableTableManager extends RootTableManager<
+    _$RelDB,
+    $FeedMediasTable,
+    FeedMedia,
+    $$FeedMediasTableFilterComposer,
+    $$FeedMediasTableOrderingComposer,
+    $$FeedMediasTableAnnotationComposer,
+    $$FeedMediasTableCreateCompanionBuilder,
+    $$FeedMediasTableUpdateCompanionBuilder,
+    (FeedMedia, BaseReferences<_$RelDB, $FeedMediasTable, FeedMedia>),
+    FeedMedia,
+    PrefetchHooks Function()> {
+  $$FeedMediasTableTableManager(_$RelDB db, $FeedMediasTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$FeedMediasTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FeedMediasTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$FeedMediasTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> feed = const Value.absent(),
+            Value<int> feedEntry = const Value.absent(),
+            Value<String> filePath = const Value.absent(),
+            Value<String> thumbnailPath = const Value.absent(),
+            Value<String> params = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              FeedMediasCompanion(
+            id: id,
+            feed: feed,
+            feedEntry: feedEntry,
+            filePath: filePath,
+            thumbnailPath: thumbnailPath,
+            params: params,
+            serverID: serverID,
+            synced: synced,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int feed,
+            required int feedEntry,
+            required String filePath,
+            required String thumbnailPath,
+            Value<String> params = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              FeedMediasCompanion.insert(
+            id: id,
+            feed: feed,
+            feedEntry: feedEntry,
+            filePath: filePath,
+            thumbnailPath: thumbnailPath,
+            params: params,
+            serverID: serverID,
+            synced: synced,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$FeedMediasTableProcessedTableManager = ProcessedTableManager<
+    _$RelDB,
+    $FeedMediasTable,
+    FeedMedia,
+    $$FeedMediasTableFilterComposer,
+    $$FeedMediasTableOrderingComposer,
+    $$FeedMediasTableAnnotationComposer,
+    $$FeedMediasTableCreateCompanionBuilder,
+    $$FeedMediasTableUpdateCompanionBuilder,
+    (FeedMedia, BaseReferences<_$RelDB, $FeedMediasTable, FeedMedia>),
+    FeedMedia,
+    PrefetchHooks Function()>;
+typedef $$DeletesTableCreateCompanionBuilder = DeletesCompanion Function({
+  Value<int> id,
+  required String serverID,
+  required String type,
+});
+typedef $$DeletesTableUpdateCompanionBuilder = DeletesCompanion Function({
+  Value<int> id,
+  Value<String> serverID,
+  Value<String> type,
+});
+
+class $$DeletesTableFilterComposer extends Composer<_$RelDB, $DeletesTable> {
+  $$DeletesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnFilters(column));
+}
+
+class $$DeletesTableOrderingComposer extends Composer<_$RelDB, $DeletesTable> {
+  $$DeletesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnOrderings(column));
+}
+
+class $$DeletesTableAnnotationComposer
+    extends Composer<_$RelDB, $DeletesTable> {
+  $$DeletesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get serverID =>
+      $composableBuilder(column: $table.serverID, builder: (column) => column);
+
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+}
+
+class $$DeletesTableTableManager extends RootTableManager<
+    _$RelDB,
+    $DeletesTable,
+    Delete,
+    $$DeletesTableFilterComposer,
+    $$DeletesTableOrderingComposer,
+    $$DeletesTableAnnotationComposer,
+    $$DeletesTableCreateCompanionBuilder,
+    $$DeletesTableUpdateCompanionBuilder,
+    (Delete, BaseReferences<_$RelDB, $DeletesTable, Delete>),
+    Delete,
+    PrefetchHooks Function()> {
+  $$DeletesTableTableManager(_$RelDB db, $DeletesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DeletesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DeletesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DeletesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> serverID = const Value.absent(),
+            Value<String> type = const Value.absent(),
+          }) =>
+              DeletesCompanion(
+            id: id,
+            serverID: serverID,
+            type: type,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String serverID,
+            required String type,
+          }) =>
+              DeletesCompanion.insert(
+            id: id,
+            serverID: serverID,
+            type: type,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$DeletesTableProcessedTableManager = ProcessedTableManager<
+    _$RelDB,
+    $DeletesTable,
+    Delete,
+    $$DeletesTableFilterComposer,
+    $$DeletesTableOrderingComposer,
+    $$DeletesTableAnnotationComposer,
+    $$DeletesTableCreateCompanionBuilder,
+    $$DeletesTableUpdateCompanionBuilder,
+    (Delete, BaseReferences<_$RelDB, $DeletesTable, Delete>),
+    Delete,
+    PrefetchHooks Function()>;
+typedef $$ChecklistsTableCreateCompanionBuilder = ChecklistsCompanion Function({
+  Value<int> id,
+  required int plant,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+typedef $$ChecklistsTableUpdateCompanionBuilder = ChecklistsCompanion Function({
+  Value<int> id,
+  Value<int> plant,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+
+class $$ChecklistsTableFilterComposer
+    extends Composer<_$RelDB, $ChecklistsTable> {
+  $$ChecklistsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get plant => $composableBuilder(
+      column: $table.plant, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnFilters(column));
+}
+
+class $$ChecklistsTableOrderingComposer
+    extends Composer<_$RelDB, $ChecklistsTable> {
+  $$ChecklistsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get plant => $composableBuilder(
+      column: $table.plant, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnOrderings(column));
+}
+
+class $$ChecklistsTableAnnotationComposer
+    extends Composer<_$RelDB, $ChecklistsTable> {
+  $$ChecklistsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get plant =>
+      $composableBuilder(column: $table.plant, builder: (column) => column);
+
+  GeneratedColumn<String> get serverID =>
+      $composableBuilder(column: $table.serverID, builder: (column) => column);
+
+  GeneratedColumn<bool> get synced =>
+      $composableBuilder(column: $table.synced, builder: (column) => column);
+}
+
+class $$ChecklistsTableTableManager extends RootTableManager<
+    _$RelDB,
+    $ChecklistsTable,
+    Checklist,
+    $$ChecklistsTableFilterComposer,
+    $$ChecklistsTableOrderingComposer,
+    $$ChecklistsTableAnnotationComposer,
+    $$ChecklistsTableCreateCompanionBuilder,
+    $$ChecklistsTableUpdateCompanionBuilder,
+    (Checklist, BaseReferences<_$RelDB, $ChecklistsTable, Checklist>),
+    Checklist,
+    PrefetchHooks Function()> {
+  $$ChecklistsTableTableManager(_$RelDB db, $ChecklistsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ChecklistsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ChecklistsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ChecklistsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> plant = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              ChecklistsCompanion(
+            id: id,
+            plant: plant,
+            serverID: serverID,
+            synced: synced,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int plant,
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              ChecklistsCompanion.insert(
+            id: id,
+            plant: plant,
+            serverID: serverID,
+            synced: synced,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$ChecklistsTableProcessedTableManager = ProcessedTableManager<
+    _$RelDB,
+    $ChecklistsTable,
+    Checklist,
+    $$ChecklistsTableFilterComposer,
+    $$ChecklistsTableOrderingComposer,
+    $$ChecklistsTableAnnotationComposer,
+    $$ChecklistsTableCreateCompanionBuilder,
+    $$ChecklistsTableUpdateCompanionBuilder,
+    (Checklist, BaseReferences<_$RelDB, $ChecklistsTable, Checklist>),
+    Checklist,
+    PrefetchHooks Function()>;
+typedef $$ChecklistSeedsTableCreateCompanionBuilder = ChecklistSeedsCompanion
+    Function({
+  Value<int> id,
+  required int checklist,
+  Value<int?> collection,
+  Value<String> title,
+  Value<String> description,
+  Value<String> category,
+  Value<bool> fast,
+  Value<bool> public,
+  Value<bool> repeat,
+  Value<bool> mine,
+  Value<String> conditions,
+  Value<String> exitConditions,
+  Value<String> actions,
+  Value<String?> checklistServerID,
+  Value<String?> checklistCollectionServerID,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+typedef $$ChecklistSeedsTableUpdateCompanionBuilder = ChecklistSeedsCompanion
+    Function({
+  Value<int> id,
+  Value<int> checklist,
+  Value<int?> collection,
+  Value<String> title,
+  Value<String> description,
+  Value<String> category,
+  Value<bool> fast,
+  Value<bool> public,
+  Value<bool> repeat,
+  Value<bool> mine,
+  Value<String> conditions,
+  Value<String> exitConditions,
+  Value<String> actions,
+  Value<String?> checklistServerID,
+  Value<String?> checklistCollectionServerID,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+
+class $$ChecklistSeedsTableFilterComposer
+    extends Composer<_$RelDB, $ChecklistSeedsTable> {
+  $$ChecklistSeedsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get checklist => $composableBuilder(
+      column: $table.checklist, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get collection => $composableBuilder(
+      column: $table.collection, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get fast => $composableBuilder(
+      column: $table.fast, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get public => $composableBuilder(
+      column: $table.public, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get repeat => $composableBuilder(
+      column: $table.repeat, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get mine => $composableBuilder(
+      column: $table.mine, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get conditions => $composableBuilder(
+      column: $table.conditions, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get exitConditions => $composableBuilder(
+      column: $table.exitConditions,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get actions => $composableBuilder(
+      column: $table.actions, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get checklistServerID => $composableBuilder(
+      column: $table.checklistServerID,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get checklistCollectionServerID => $composableBuilder(
+      column: $table.checklistCollectionServerID,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnFilters(column));
+}
+
+class $$ChecklistSeedsTableOrderingComposer
+    extends Composer<_$RelDB, $ChecklistSeedsTable> {
+  $$ChecklistSeedsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get checklist => $composableBuilder(
+      column: $table.checklist, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get collection => $composableBuilder(
+      column: $table.collection, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get fast => $composableBuilder(
+      column: $table.fast, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get public => $composableBuilder(
+      column: $table.public, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get repeat => $composableBuilder(
+      column: $table.repeat, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get mine => $composableBuilder(
+      column: $table.mine, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get conditions => $composableBuilder(
+      column: $table.conditions, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get exitConditions => $composableBuilder(
+      column: $table.exitConditions,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get actions => $composableBuilder(
+      column: $table.actions, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get checklistServerID => $composableBuilder(
+      column: $table.checklistServerID,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get checklistCollectionServerID => $composableBuilder(
+      column: $table.checklistCollectionServerID,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnOrderings(column));
+}
+
+class $$ChecklistSeedsTableAnnotationComposer
+    extends Composer<_$RelDB, $ChecklistSeedsTable> {
+  $$ChecklistSeedsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get checklist =>
+      $composableBuilder(column: $table.checklist, builder: (column) => column);
+
+  GeneratedColumn<int> get collection => $composableBuilder(
+      column: $table.collection, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<bool> get fast =>
+      $composableBuilder(column: $table.fast, builder: (column) => column);
+
+  GeneratedColumn<bool> get public =>
+      $composableBuilder(column: $table.public, builder: (column) => column);
+
+  GeneratedColumn<bool> get repeat =>
+      $composableBuilder(column: $table.repeat, builder: (column) => column);
+
+  GeneratedColumn<bool> get mine =>
+      $composableBuilder(column: $table.mine, builder: (column) => column);
+
+  GeneratedColumn<String> get conditions => $composableBuilder(
+      column: $table.conditions, builder: (column) => column);
+
+  GeneratedColumn<String> get exitConditions => $composableBuilder(
+      column: $table.exitConditions, builder: (column) => column);
+
+  GeneratedColumn<String> get actions =>
+      $composableBuilder(column: $table.actions, builder: (column) => column);
+
+  GeneratedColumn<String> get checklistServerID => $composableBuilder(
+      column: $table.checklistServerID, builder: (column) => column);
+
+  GeneratedColumn<String> get checklistCollectionServerID => $composableBuilder(
+      column: $table.checklistCollectionServerID, builder: (column) => column);
+
+  GeneratedColumn<String> get serverID =>
+      $composableBuilder(column: $table.serverID, builder: (column) => column);
+
+  GeneratedColumn<bool> get synced =>
+      $composableBuilder(column: $table.synced, builder: (column) => column);
+}
+
+class $$ChecklistSeedsTableTableManager extends RootTableManager<
+    _$RelDB,
+    $ChecklistSeedsTable,
+    ChecklistSeed,
+    $$ChecklistSeedsTableFilterComposer,
+    $$ChecklistSeedsTableOrderingComposer,
+    $$ChecklistSeedsTableAnnotationComposer,
+    $$ChecklistSeedsTableCreateCompanionBuilder,
+    $$ChecklistSeedsTableUpdateCompanionBuilder,
+    (
+      ChecklistSeed,
+      BaseReferences<_$RelDB, $ChecklistSeedsTable, ChecklistSeed>
+    ),
+    ChecklistSeed,
+    PrefetchHooks Function()> {
+  $$ChecklistSeedsTableTableManager(_$RelDB db, $ChecklistSeedsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ChecklistSeedsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ChecklistSeedsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ChecklistSeedsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> checklist = const Value.absent(),
+            Value<int?> collection = const Value.absent(),
+            Value<String> title = const Value.absent(),
+            Value<String> description = const Value.absent(),
+            Value<String> category = const Value.absent(),
+            Value<bool> fast = const Value.absent(),
+            Value<bool> public = const Value.absent(),
+            Value<bool> repeat = const Value.absent(),
+            Value<bool> mine = const Value.absent(),
+            Value<String> conditions = const Value.absent(),
+            Value<String> exitConditions = const Value.absent(),
+            Value<String> actions = const Value.absent(),
+            Value<String?> checklistServerID = const Value.absent(),
+            Value<String?> checklistCollectionServerID = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              ChecklistSeedsCompanion(
+            id: id,
+            checklist: checklist,
+            collection: collection,
+            title: title,
+            description: description,
+            category: category,
+            fast: fast,
+            public: public,
+            repeat: repeat,
+            mine: mine,
+            conditions: conditions,
+            exitConditions: exitConditions,
+            actions: actions,
+            checklistServerID: checklistServerID,
+            checklistCollectionServerID: checklistCollectionServerID,
+            serverID: serverID,
+            synced: synced,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int checklist,
+            Value<int?> collection = const Value.absent(),
+            Value<String> title = const Value.absent(),
+            Value<String> description = const Value.absent(),
+            Value<String> category = const Value.absent(),
+            Value<bool> fast = const Value.absent(),
+            Value<bool> public = const Value.absent(),
+            Value<bool> repeat = const Value.absent(),
+            Value<bool> mine = const Value.absent(),
+            Value<String> conditions = const Value.absent(),
+            Value<String> exitConditions = const Value.absent(),
+            Value<String> actions = const Value.absent(),
+            Value<String?> checklistServerID = const Value.absent(),
+            Value<String?> checklistCollectionServerID = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              ChecklistSeedsCompanion.insert(
+            id: id,
+            checklist: checklist,
+            collection: collection,
+            title: title,
+            description: description,
+            category: category,
+            fast: fast,
+            public: public,
+            repeat: repeat,
+            mine: mine,
+            conditions: conditions,
+            exitConditions: exitConditions,
+            actions: actions,
+            checklistServerID: checklistServerID,
+            checklistCollectionServerID: checklistCollectionServerID,
+            serverID: serverID,
+            synced: synced,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$ChecklistSeedsTableProcessedTableManager = ProcessedTableManager<
+    _$RelDB,
+    $ChecklistSeedsTable,
+    ChecklistSeed,
+    $$ChecklistSeedsTableFilterComposer,
+    $$ChecklistSeedsTableOrderingComposer,
+    $$ChecklistSeedsTableAnnotationComposer,
+    $$ChecklistSeedsTableCreateCompanionBuilder,
+    $$ChecklistSeedsTableUpdateCompanionBuilder,
+    (
+      ChecklistSeed,
+      BaseReferences<_$RelDB, $ChecklistSeedsTable, ChecklistSeed>
+    ),
+    ChecklistSeed,
+    PrefetchHooks Function()>;
+typedef $$ChecklistLogsTableCreateCompanionBuilder = ChecklistLogsCompanion
+    Function({
+  Value<int> id,
+  required int checklistSeed,
+  required int checklist,
+  Value<String> action,
+  Value<bool> noRepeat,
+  Value<bool> checked,
+  Value<bool> skipped,
+  required DateTime date,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+typedef $$ChecklistLogsTableUpdateCompanionBuilder = ChecklistLogsCompanion
+    Function({
+  Value<int> id,
+  Value<int> checklistSeed,
+  Value<int> checklist,
+  Value<String> action,
+  Value<bool> noRepeat,
+  Value<bool> checked,
+  Value<bool> skipped,
+  Value<DateTime> date,
+  Value<String?> serverID,
+  Value<bool> synced,
+});
+
+class $$ChecklistLogsTableFilterComposer
+    extends Composer<_$RelDB, $ChecklistLogsTable> {
+  $$ChecklistLogsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get checklistSeed => $composableBuilder(
+      column: $table.checklistSeed, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get checklist => $composableBuilder(
+      column: $table.checklist, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get action => $composableBuilder(
+      column: $table.action, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get noRepeat => $composableBuilder(
+      column: $table.noRepeat, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get checked => $composableBuilder(
+      column: $table.checked, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get skipped => $composableBuilder(
+      column: $table.skipped, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get date => $composableBuilder(
+      column: $table.date, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnFilters(column));
+}
+
+class $$ChecklistLogsTableOrderingComposer
+    extends Composer<_$RelDB, $ChecklistLogsTable> {
+  $$ChecklistLogsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get checklistSeed => $composableBuilder(
+      column: $table.checklistSeed,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get checklist => $composableBuilder(
+      column: $table.checklist, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get action => $composableBuilder(
+      column: $table.action, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get noRepeat => $composableBuilder(
+      column: $table.noRepeat, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get checked => $composableBuilder(
+      column: $table.checked, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get skipped => $composableBuilder(
+      column: $table.skipped, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get date => $composableBuilder(
+      column: $table.date, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get synced => $composableBuilder(
+      column: $table.synced, builder: (column) => ColumnOrderings(column));
+}
+
+class $$ChecklistLogsTableAnnotationComposer
+    extends Composer<_$RelDB, $ChecklistLogsTable> {
+  $$ChecklistLogsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get checklistSeed => $composableBuilder(
+      column: $table.checklistSeed, builder: (column) => column);
+
+  GeneratedColumn<int> get checklist =>
+      $composableBuilder(column: $table.checklist, builder: (column) => column);
+
+  GeneratedColumn<String> get action =>
+      $composableBuilder(column: $table.action, builder: (column) => column);
+
+  GeneratedColumn<bool> get noRepeat =>
+      $composableBuilder(column: $table.noRepeat, builder: (column) => column);
+
+  GeneratedColumn<bool> get checked =>
+      $composableBuilder(column: $table.checked, builder: (column) => column);
+
+  GeneratedColumn<bool> get skipped =>
+      $composableBuilder(column: $table.skipped, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get date =>
+      $composableBuilder(column: $table.date, builder: (column) => column);
+
+  GeneratedColumn<String> get serverID =>
+      $composableBuilder(column: $table.serverID, builder: (column) => column);
+
+  GeneratedColumn<bool> get synced =>
+      $composableBuilder(column: $table.synced, builder: (column) => column);
+}
+
+class $$ChecklistLogsTableTableManager extends RootTableManager<
+    _$RelDB,
+    $ChecklistLogsTable,
+    ChecklistLog,
+    $$ChecklistLogsTableFilterComposer,
+    $$ChecklistLogsTableOrderingComposer,
+    $$ChecklistLogsTableAnnotationComposer,
+    $$ChecklistLogsTableCreateCompanionBuilder,
+    $$ChecklistLogsTableUpdateCompanionBuilder,
+    (ChecklistLog, BaseReferences<_$RelDB, $ChecklistLogsTable, ChecklistLog>),
+    ChecklistLog,
+    PrefetchHooks Function()> {
+  $$ChecklistLogsTableTableManager(_$RelDB db, $ChecklistLogsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ChecklistLogsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ChecklistLogsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ChecklistLogsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> checklistSeed = const Value.absent(),
+            Value<int> checklist = const Value.absent(),
+            Value<String> action = const Value.absent(),
+            Value<bool> noRepeat = const Value.absent(),
+            Value<bool> checked = const Value.absent(),
+            Value<bool> skipped = const Value.absent(),
+            Value<DateTime> date = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              ChecklistLogsCompanion(
+            id: id,
+            checklistSeed: checklistSeed,
+            checklist: checklist,
+            action: action,
+            noRepeat: noRepeat,
+            checked: checked,
+            skipped: skipped,
+            date: date,
+            serverID: serverID,
+            synced: synced,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int checklistSeed,
+            required int checklist,
+            Value<String> action = const Value.absent(),
+            Value<bool> noRepeat = const Value.absent(),
+            Value<bool> checked = const Value.absent(),
+            Value<bool> skipped = const Value.absent(),
+            required DateTime date,
+            Value<String?> serverID = const Value.absent(),
+            Value<bool> synced = const Value.absent(),
+          }) =>
+              ChecklistLogsCompanion.insert(
+            id: id,
+            checklistSeed: checklistSeed,
+            checklist: checklist,
+            action: action,
+            noRepeat: noRepeat,
+            checked: checked,
+            skipped: skipped,
+            date: date,
+            serverID: serverID,
+            synced: synced,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$ChecklistLogsTableProcessedTableManager = ProcessedTableManager<
+    _$RelDB,
+    $ChecklistLogsTable,
+    ChecklistLog,
+    $$ChecklistLogsTableFilterComposer,
+    $$ChecklistLogsTableOrderingComposer,
+    $$ChecklistLogsTableAnnotationComposer,
+    $$ChecklistLogsTableCreateCompanionBuilder,
+    $$ChecklistLogsTableUpdateCompanionBuilder,
+    (ChecklistLog, BaseReferences<_$RelDB, $ChecklistLogsTable, ChecklistLog>),
+    ChecklistLog,
+    PrefetchHooks Function()>;
+typedef $$ChecklistCollectionsTableCreateCompanionBuilder
+    = ChecklistCollectionsCompanion Function({
+  Value<int> id,
+  required int checklist,
+  Value<String?> serverID,
+  Value<String> title,
+  Value<String> description,
+  Value<String> category,
+});
+typedef $$ChecklistCollectionsTableUpdateCompanionBuilder
+    = ChecklistCollectionsCompanion Function({
+  Value<int> id,
+  Value<int> checklist,
+  Value<String?> serverID,
+  Value<String> title,
+  Value<String> description,
+  Value<String> category,
+});
+
+class $$ChecklistCollectionsTableFilterComposer
+    extends Composer<_$RelDB, $ChecklistCollectionsTable> {
+  $$ChecklistCollectionsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get checklist => $composableBuilder(
+      column: $table.checklist, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnFilters(column));
+}
+
+class $$ChecklistCollectionsTableOrderingComposer
+    extends Composer<_$RelDB, $ChecklistCollectionsTable> {
+  $$ChecklistCollectionsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get checklist => $composableBuilder(
+      column: $table.checklist, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get serverID => $composableBuilder(
+      column: $table.serverID, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnOrderings(column));
+}
+
+class $$ChecklistCollectionsTableAnnotationComposer
+    extends Composer<_$RelDB, $ChecklistCollectionsTable> {
+  $$ChecklistCollectionsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get checklist =>
+      $composableBuilder(column: $table.checklist, builder: (column) => column);
+
+  GeneratedColumn<String> get serverID =>
+      $composableBuilder(column: $table.serverID, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+}
+
+class $$ChecklistCollectionsTableTableManager extends RootTableManager<
+    _$RelDB,
+    $ChecklistCollectionsTable,
+    ChecklistCollection,
+    $$ChecklistCollectionsTableFilterComposer,
+    $$ChecklistCollectionsTableOrderingComposer,
+    $$ChecklistCollectionsTableAnnotationComposer,
+    $$ChecklistCollectionsTableCreateCompanionBuilder,
+    $$ChecklistCollectionsTableUpdateCompanionBuilder,
+    (
+      ChecklistCollection,
+      BaseReferences<_$RelDB, $ChecklistCollectionsTable, ChecklistCollection>
+    ),
+    ChecklistCollection,
+    PrefetchHooks Function()> {
+  $$ChecklistCollectionsTableTableManager(
+      _$RelDB db, $ChecklistCollectionsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ChecklistCollectionsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ChecklistCollectionsTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ChecklistCollectionsTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> checklist = const Value.absent(),
+            Value<String?> serverID = const Value.absent(),
+            Value<String> title = const Value.absent(),
+            Value<String> description = const Value.absent(),
+            Value<String> category = const Value.absent(),
+          }) =>
+              ChecklistCollectionsCompanion(
+            id: id,
+            checklist: checklist,
+            serverID: serverID,
+            title: title,
+            description: description,
+            category: category,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int checklist,
+            Value<String?> serverID = const Value.absent(),
+            Value<String> title = const Value.absent(),
+            Value<String> description = const Value.absent(),
+            Value<String> category = const Value.absent(),
+          }) =>
+              ChecklistCollectionsCompanion.insert(
+            id: id,
+            checklist: checklist,
+            serverID: serverID,
+            title: title,
+            description: description,
+            category: category,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$ChecklistCollectionsTableProcessedTableManager
+    = ProcessedTableManager<
+        _$RelDB,
+        $ChecklistCollectionsTable,
+        ChecklistCollection,
+        $$ChecklistCollectionsTableFilterComposer,
+        $$ChecklistCollectionsTableOrderingComposer,
+        $$ChecklistCollectionsTableAnnotationComposer,
+        $$ChecklistCollectionsTableCreateCompanionBuilder,
+        $$ChecklistCollectionsTableUpdateCompanionBuilder,
+        (
+          ChecklistCollection,
+          BaseReferences<_$RelDB, $ChecklistCollectionsTable,
+              ChecklistCollection>
+        ),
+        ChecklistCollection,
+        PrefetchHooks Function()>;
+
+class $RelDBManager {
+  final _$RelDB _db;
+  $RelDBManager(this._db);
+  $$DevicesTableTableManager get devices =>
+      $$DevicesTableTableManager(_db, _db.devices);
+  $$ModulesTableTableManager get modules =>
+      $$ModulesTableTableManager(_db, _db.modules);
+  $$ParamsTableTableManager get params =>
+      $$ParamsTableTableManager(_db, _db.params);
+  $$PlantsTableTableManager get plants =>
+      $$PlantsTableTableManager(_db, _db.plants);
+  $$BoxesTableTableManager get boxes =>
+      $$BoxesTableTableManager(_db, _db.boxes);
+  $$ChartCachesTableTableManager get chartCaches =>
+      $$ChartCachesTableTableManager(_db, _db.chartCaches);
+  $$TimelapsesTableTableManager get timelapses =>
+      $$TimelapsesTableTableManager(_db, _db.timelapses);
+  $$FeedsTableTableManager get feeds =>
+      $$FeedsTableTableManager(_db, _db.feeds);
+  $$FeedEntriesTableTableManager get feedEntries =>
+      $$FeedEntriesTableTableManager(_db, _db.feedEntries);
+  $$FeedEntryDraftsTableTableManager get feedEntryDrafts =>
+      $$FeedEntryDraftsTableTableManager(_db, _db.feedEntryDrafts);
+  $$FeedMediasTableTableManager get feedMedias =>
+      $$FeedMediasTableTableManager(_db, _db.feedMedias);
+  $$DeletesTableTableManager get deletes =>
+      $$DeletesTableTableManager(_db, _db.deletes);
+  $$ChecklistsTableTableManager get checklists =>
+      $$ChecklistsTableTableManager(_db, _db.checklists);
+  $$ChecklistSeedsTableTableManager get checklistSeeds =>
+      $$ChecklistSeedsTableTableManager(_db, _db.checklistSeeds);
+  $$ChecklistLogsTableTableManager get checklistLogs =>
+      $$ChecklistLogsTableTableManager(_db, _db.checklistLogs);
+  $$ChecklistCollectionsTableTableManager get checklistCollections =>
+      $$ChecklistCollectionsTableTableManager(_db, _db.checklistCollections);
 }

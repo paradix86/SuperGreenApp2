@@ -1,17 +1,5 @@
-buildscript {
-    ext.kotlin_version = '1.7.10'
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.google.gms:google-services:4.3.14'
-    }
-}
-
+// Plugin versions live in settings.gradle (plugins block), as required by
+// the Flutter Gradle plugin since Flutter 3.16+ (declarative plugin DSL).
 allprojects {
     repositories {
         google()
@@ -19,14 +7,43 @@ allprojects {
     }
 }
 
-rootProject.buildDir = '../build'
+rootProject.layout.buildDirectory.value(rootProject.layout.projectDirectory.dir("../build"))
 subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
+    project.layout.buildDirectory.value(rootProject.layout.buildDirectory.dir(project.name))
 }
+// AGP 8 requires every Android library to declare a namespace; older Flutter
+// plugins still rely on the package attribute of their manifest. Fill it in
+// from there so they keep building until they are upgraded. plugins.withId
+// runs as soon as the library plugin is applied (also on already-evaluated
+// projects), which afterEvaluate cannot do once :app forced their evaluation.
+subprojects { project ->
+    project.plugins.withId('com.android.library') {
+        def android = project.extensions.findByName('android')
+        if (android != null && android.namespace == null) {
+            def manifest = project.file('src/main/AndroidManifest.xml')
+            if (manifest.exists()) {
+                def pkg = new groovy.xml.XmlSlurper().parse(manifest).@package.text()
+                if (pkg) {
+                    android.namespace = pkg
+                }
+            }
+        }
+        // Old plugins compile Java at 1.8 while Kotlin defaults to the JDK
+        // (21), which AGP rejects: make Kotlin follow the plugin's Java target
+        // (heic_to_jpg, ...).
+        project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+            if (android != null) {
+                def javaTarget = android.compileOptions.targetCompatibility.toString()
+                compilerOptions.jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.fromTarget(javaTarget))
+            }
+        }
+    }
+}
+
 subprojects {
     project.evaluationDependsOn(':app')
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register("clean", Delete) {
+    delete rootProject.layout.buildDirectory
 }

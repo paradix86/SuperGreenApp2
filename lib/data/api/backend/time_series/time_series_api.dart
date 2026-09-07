@@ -19,7 +19,7 @@
 import 'dart:convert';
 import 'dart:math' as math;
 
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:community_charts_flutter/community_charts_flutter.dart' as charts;
 import 'package:http/http.dart';
 import 'package:drift/drift.dart';
 import 'package:super_green_app/data/api/backend/backend_api.dart';

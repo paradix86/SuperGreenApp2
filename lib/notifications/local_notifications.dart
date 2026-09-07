@@ -33,17 +33,11 @@ class LocalNotifications {
     var initializationSettingsIOS = DarwinInitializationSettings(
         requestSoundPermission: false,
         requestBadgePermission: false,
-        requestAlertPermission: false,
-        onDidReceiveLocalNotification: _onDidReceiveLocalNotification);
+        requestAlertPermission: false);
     var initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onDidReceiveNotificationResponse: _onSelectNotification);
-  }
-
-  Future _onDidReceiveLocalNotification(int id, String? title, String? body, String? payload) async {
-    NotificationData notificationData = NotificationData.fromJSON(payload ?? '{}');
-    onNotificationData(notificationData);
+    await flutterLocalNotificationsPlugin.initialize(
+        settings: initializationSettings, onDidReceiveNotificationResponse: _onSelectNotification);
   }
 
   Future _onSelectNotification(NotificationResponse? payload) async {
@@ -74,10 +68,12 @@ class LocalNotifications {
     NotificationDetails platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        id, notificationData.title, notificationData.body, tz.TZDateTime.from(scheduledNotificationDateTime, tz.UTC), platformChannelSpecifics,
+        id: id,
+        title: notificationData.title,
+        body: notificationData.body,
+        scheduledDate: tz.TZDateTime.from(scheduledNotificationDateTime, tz.UTC),
+        notificationDetails: platformChannelSpecifics,
         payload: notificationData.toJSON(),
-        androidScheduleMode: AndroidScheduleMode.alarmClock,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime);
+        androidScheduleMode: AndroidScheduleMode.alarmClock);
   }
 }

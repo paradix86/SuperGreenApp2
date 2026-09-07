@@ -2,10 +2,7 @@
 
 part of 'feeds.dart';
 
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
+// ignore_for_file: type=lint
 mixin _$FeedsDAOMixin on DatabaseAccessor<RelDB> {
   $FeedsTable get feeds => attachedDatabase.feeds;
   $FeedEntriesTable get feedEntries => attachedDatabase.feedEntries;
@@ -18,12 +15,10 @@ mixin _$FeedsDAOMixin on DatabaseAccessor<RelDB> {
         readsFrom: {
           feeds,
           feedEntries,
-        }).map((QueryRow row) {
-      return GetPendingFeedsResult(
-        id: row.read<int>('id'),
-        nNew: row.read<int>('nNew'),
-      );
-    });
+        }).map((QueryRow row) => GetPendingFeedsResult(
+          id: row.read<int>('id'),
+          nNew: row.read<int>('nNew'),
+        ));
   }
 
   Selectable<int> getNFeedEntriesWithType(String var1) {
