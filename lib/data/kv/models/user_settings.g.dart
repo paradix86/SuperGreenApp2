@@ -8,7 +8,7 @@ part of 'user_settings.dart';
 
 class UserSettingsAdapter extends TypeAdapter<UserSettings> {
   @override
-  final int typeId = 37;
+  final typeId = 37;
 
   @override
   UserSettings read(BinaryReader reader) {
@@ -17,8 +17,8 @@ class UserSettingsAdapter extends TypeAdapter<UserSettings> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return UserSettings(
-      timeOffset: fields[0] as int?,
-      preferredNotificationHour: fields[1] as int?,
+      timeOffset: (fields[0] as num?)?.toInt(),
+      preferredNotificationHour: (fields[1] as num?)?.toInt(),
       freedomUnits: fields[3] as bool?,
       userID: fields[4] as String?,
     );

@@ -18,7 +18,7 @@
 
 import 'dart:async';
 
-import 'package:hive/hive.dart' as hive;
+import 'package:hive_ce/hive.dart' as hive;
 import 'package:super_green_app/data/kv/app_db.dart';
 import 'package:super_green_app/data/kv/models/app_data.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';

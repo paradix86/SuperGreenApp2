@@ -8,7 +8,7 @@ part of 'device_data.dart';
 
 class DeviceDataAdapter extends TypeAdapter<DeviceData> {
   @override
-  final int typeId = 36;
+  final typeId = 36;
 
   @override
   DeviceData read(BinaryReader reader) {

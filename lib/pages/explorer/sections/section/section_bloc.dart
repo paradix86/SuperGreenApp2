@@ -18,7 +18,7 @@
 
 import 'dart:async';
 
-import 'package:hive/hive.dart' as hive;
+import 'package:hive_ce/hive.dart' as hive;
 import 'package:equatable/equatable.dart';
 import 'package:super_green_app/misc/bloc.dart';
 import 'package:super_green_app/data/api/backend/backend_api.dart';

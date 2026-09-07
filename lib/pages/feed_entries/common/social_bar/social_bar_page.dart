@@ -125,7 +125,7 @@ class SocialBarPage extends StatelessWidget {
   }
 
   void onShare(BuildContext context) async {
-    await Share.share(state.shareLink!);
+    await SharePlus.instance.share(ShareParams(text: state.shareLink!));
   }
 
   void onShowSimilar(BuildContext context) async {

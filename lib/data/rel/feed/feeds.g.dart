@@ -31,6 +31,22 @@ mixin _$FeedsDAOMixin on DatabaseAccessor<RelDB> {
           feedEntries,
         }).map((QueryRow row) => row.read<int>('_c0'));
   }
+
+  FeedsDAOManager get managers => FeedsDAOManager(this);
+}
+
+class FeedsDAOManager {
+  final _$FeedsDAOMixin _db;
+  FeedsDAOManager(this._db);
+  $$FeedsTableTableManager get feeds =>
+      $$FeedsTableTableManager(_db.attachedDatabase, _db.feeds);
+  $$FeedEntriesTableTableManager get feedEntries =>
+      $$FeedEntriesTableTableManager(_db.attachedDatabase, _db.feedEntries);
+  $$FeedEntryDraftsTableTableManager get feedEntryDrafts =>
+      $$FeedEntryDraftsTableTableManager(
+          _db.attachedDatabase, _db.feedEntryDrafts);
+  $$FeedMediasTableTableManager get feedMedias =>
+      $$FeedMediasTableTableManager(_db.attachedDatabase, _db.feedMedias);
 }
 
 class GetPendingFeedsResult {

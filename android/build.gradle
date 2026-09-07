@@ -18,6 +18,13 @@ subprojects {
 // projects), which afterEvaluate cannot do once :app forced their evaluation.
 subprojects { project ->
     project.plugins.withId('com.android.library') {
+        // permission_handler_android 14 configures `kotlin { compilerOptions }`
+        // in its build script, which only exists once the Kotlin plugin is
+        // applied (AGP 9 does it built-in, AGP 8 does not): apply it here for
+        // every library, before the rest of its script runs.
+        if (project.extensions.findByName('kotlin') == null) {
+            project.plugins.apply('org.jetbrains.kotlin.android')
+        }
         def android = project.extensions.findByName('android')
         if (android != null && android.namespace == null) {
             def manifest = project.file('src/main/AndroidManifest.xml')
@@ -25,6 +32,22 @@ subprojects { project ->
                 def pkg = new groovy.xml.XmlSlurper().parse(manifest).@package.text()
                 if (pkg) {
                     android.namespace = pkg
+                }
+            }
+        }
+        // Unmaintained plugins still declare compileSdk 31 while the androidx
+        // artifacts they now resolve to (fragment 1.7, window 1.2, ...) require
+        // 34+: raise them to the app's level once their own script has run.
+        def minLibraryCompileSdk = 37
+        def components = project.extensions.findByName('androidComponents')
+        if (components != null) {
+            components.finalizeDsl { dsl ->
+                def current = dsl.compileSdk
+                if (current == null && dsl.compileSdkVersion != null) {
+                    current = (dsl.compileSdkVersion - 'android-').isInteger() ? (dsl.compileSdkVersion - 'android-').toInteger() : null
+                }
+                if (current == null || current < minLibraryCompileSdk) {
+                    dsl.compileSdk = minLibraryCompileSdk
                 }
             }
         }

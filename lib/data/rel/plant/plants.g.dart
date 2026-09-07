@@ -44,4 +44,19 @@ mixin _$PlantsDAOMixin on DatabaseAccessor<RelDB> {
           plants,
         }).map((QueryRow row) => row.read<int>('_c0'));
   }
+
+  PlantsDAOManager get managers => PlantsDAOManager(this);
+}
+
+class PlantsDAOManager {
+  final _$PlantsDAOMixin _db;
+  PlantsDAOManager(this._db);
+  $$PlantsTableTableManager get plants =>
+      $$PlantsTableTableManager(_db.attachedDatabase, _db.plants);
+  $$BoxesTableTableManager get boxes =>
+      $$BoxesTableTableManager(_db.attachedDatabase, _db.boxes);
+  $$ChartCachesTableTableManager get chartCaches =>
+      $$ChartCachesTableTableManager(_db.attachedDatabase, _db.chartCaches);
+  $$TimelapsesTableTableManager get timelapses =>
+      $$TimelapsesTableTableManager(_db.attachedDatabase, _db.timelapses);
 }

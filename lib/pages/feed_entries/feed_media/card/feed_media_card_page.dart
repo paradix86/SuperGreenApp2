@@ -172,9 +172,9 @@ class _FeedMediaCardPageState extends State<FeedMediaCardPage> {
               onShare: () {
                 MediaState media = state.medias[mediaShown];
                 if (media.filePath.endsWith('.mp4')) {
-                  Share.shareXFiles([XFile(media.filePath)]);
+                  SharePlus.instance.share(ShareParams(files: [XFile(media.filePath)]));
                 } else if (media.filePath.endsWith('.jpg')) {
-                  Share.shareXFiles([XFile(media.filePath)]);
+                  SharePlus.instance.share(ShareParams(files: [XFile(media.filePath)]));
                 }
               },
               showSyncStatus: !state.isRemoteState,
