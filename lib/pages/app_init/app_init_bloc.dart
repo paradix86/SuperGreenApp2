@@ -63,6 +63,13 @@ class AppInitBlocStateDone extends AppInitBlocState {
 }
 
 class AppInitBloc extends LegacyBloc<AppInitBlocEvent, AppInitBlocState> {
+  /// How long the startup photo stays on screen once Flutter has drawn its
+  /// first frame (the native splash shows the same photo before that).
+  static const Duration photoDuration = Duration(milliseconds: 2500);
+
+  /// How long the logo stays on screen before entering the app.
+  static const Duration logoDuration = Duration(milliseconds: 2000);
+
   AppInitBloc() : super(AppInitBlocStateLoading()) {
     add(AppInitBlocEventInit());
   }
@@ -71,6 +78,8 @@ class AppInitBloc extends LegacyBloc<AppInitBlocEvent, AppInitBlocState> {
   Stream<AppInitBlocState> mapEventToState(AppInitBlocEvent event) async* {
     if (event is AppInitBlocEventInit) {
       final AppData appData = AppDB().getAppData();
+      // Hold the welcome screen so the photo and the logo are actually seen.
+      await Future.delayed(photoDuration + logoDuration);
       yield AppInitBlocStateReady(appData.firstStart);
     } else if (event is AppInitBlocEventAllowAnalytics) {
       AppDB().setFirstStart(false);

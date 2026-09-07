@@ -16,6 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
@@ -23,6 +25,7 @@ import 'package:intl/intl.dart';
 import 'package:super_green_app/l10n.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/app_init/app_init_bloc.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:super_green_app/widgets/green_button.dart';
 import 'package:super_green_app/widgets/super_alan_green_lab_logo.dart';
 
@@ -58,6 +61,27 @@ class _WelcomePageState extends State<WelcomePage> {
   bool _acceptCGU = false;
   bool _allowAnalytics = false;
 
+  /// The startup photo (same picture as the native splash) stays visible
+  /// for [AppInitBloc.photoDuration], then fades to the logo.
+  bool _showPhoto = true;
+  Timer? _photoTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _photoTimer = Timer(AppInitBloc.photoDuration, () {
+      if (mounted) {
+        setState(() => _showPhoto = false);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _photoTimer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final widgets = <Widget>[this._logo()];
@@ -73,17 +97,30 @@ class _WelcomePageState extends State<WelcomePage> {
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(textScaleFactor: 1, boldText: false),
         child: Scaffold(
-            body: Container(
-          padding: EdgeInsets.all(4),
-          child: AnimatedSwitcher(
-              duration: Duration(milliseconds: 250),
-              child: Column(
-                key: ValueKey<bool>(widget._loading),
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: widgets,
-              )),
-        )),
+          body: AnimatedSwitcher(
+            duration: Duration(milliseconds: 600),
+            child: _showPhoto
+                ? _photo()
+                : Container(
+                    key: ValueKey<bool>(widget._loading),
+                    padding: EdgeInsets.all(4),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: widgets,
+                    ),
+                  ),
+          ),
+        ),
       ),
+    );
+  }
+
+  Widget _photo() {
+    return Container(
+      key: const ValueKey<String>('photo'),
+      color: Colors.black,
+      alignment: Alignment.center,
+      child: Image.asset('assets/splash/alan_splash.jpg', fit: BoxFit.cover, width: double.infinity, height: double.infinity),
     );
   }
 
@@ -91,7 +128,8 @@ class _WelcomePageState extends State<WelcomePage> {
     List<Widget> body = <Widget>[
       Padding(
         padding: const EdgeInsets.only(top: 48.0),
-        child: const SuperAlanGreenLabLogo(width: 200, height: 200),
+        child: SuperAlanGreenLabLogo(
+            width: 200, height: 200, textColor: context.sgl.ink, greenColor: context.sgl.accent),
       ),
     ];
     if (!widget._loading) {
@@ -154,7 +192,7 @@ class _WelcomePageState extends State<WelcomePage> {
               child: MarkdownBody(
                 fitContent: true,
                 data: text,
-                styleSheet: MarkdownStyleSheet(p: TextStyle(color: Colors.black, fontSize: 14)),
+                styleSheet: MarkdownStyleSheet(p: TextStyle(color: context.sgl.ink, fontSize: 14)),
               ),
             ),
           ),

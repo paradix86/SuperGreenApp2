@@ -154,6 +154,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/splash/
     - assets/feed_form/
     - assets/plant_infos/
     - assets/feed_card/
