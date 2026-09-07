@@ -53,6 +53,23 @@ mixin _$ChecklistsDAOMixin on DatabaseAccessor<RelDB> {
           checklistSeeds,
         }).asyncMap(checklistSeeds.mapFromRow);
   }
+
+  ChecklistsDAOManager get managers => ChecklistsDAOManager(this);
+}
+
+class ChecklistsDAOManager {
+  final _$ChecklistsDAOMixin _db;
+  ChecklistsDAOManager(this._db);
+  $$ChecklistsTableTableManager get checklists =>
+      $$ChecklistsTableTableManager(_db.attachedDatabase, _db.checklists);
+  $$ChecklistSeedsTableTableManager get checklistSeeds =>
+      $$ChecklistSeedsTableTableManager(
+          _db.attachedDatabase, _db.checklistSeeds);
+  $$ChecklistLogsTableTableManager get checklistLogs =>
+      $$ChecklistLogsTableTableManager(_db.attachedDatabase, _db.checklistLogs);
+  $$ChecklistCollectionsTableTableManager get checklistCollections =>
+      $$ChecklistCollectionsTableTableManager(
+          _db.attachedDatabase, _db.checklistCollections);
 }
 
 class GetNLogsPerPlantsResult {

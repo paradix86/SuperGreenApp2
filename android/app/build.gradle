@@ -32,7 +32,9 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace "com.supergreenlab.app2"
-    compileSdk flutter.compileSdkVersion
+    // permission_handler_android 14 compiles against 37; keep the app at the
+    // highest plugin level so Gradle does not fall back to an unavailable one
+    compileSdk 37
     ndkVersion flutter.ndkVersion
 
     compileOptions {

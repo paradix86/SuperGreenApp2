@@ -14,4 +14,17 @@ mixin _$DevicesDAOMixin on DatabaseAccessor<RelDB> {
           devices,
         }).map((QueryRow row) => row.read<int>('_c0'));
   }
+
+  DevicesDAOManager get managers => DevicesDAOManager(this);
+}
+
+class DevicesDAOManager {
+  final _$DevicesDAOMixin _db;
+  DevicesDAOManager(this._db);
+  $$DevicesTableTableManager get devices =>
+      $$DevicesTableTableManager(_db.attachedDatabase, _db.devices);
+  $$ModulesTableTableManager get modules =>
+      $$ModulesTableTableManager(_db.attachedDatabase, _db.modules);
+  $$ParamsTableTableManager get params =>
+      $$ParamsTableTableManager(_db.attachedDatabase, _db.params);
 }

@@ -77,7 +77,8 @@ class _PlantPublicLinkState extends State<PlantPublicLink> {
       padding: const EdgeInsets.only(bottom: 30, top: 16.0, left: 16.0, right: 16.0),
       child: InkWell(
         onTap: () async {
-          await Share.share("https://supergreenlab.com/public/plant?id=${widget.state.plant.serverID}");
+          await SharePlus.instance
+              .share(ShareParams(text: "https://supergreenlab.com/public/plant?id=${widget.state.plant.serverID}"));
           Navigator.of(context).pop();
         },
         child: Column(

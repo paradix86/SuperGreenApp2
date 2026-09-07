@@ -17,54 +17,23 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:rive/rive.dart';
 
-class PlantDialButton extends StatefulWidget {
+/// The icon of the plant/box feed speed dial: a plus that turns into a cross
+/// while the dial is open. It used to be a Rive animation
+/// (assets/home/dial_button.riv); rive 0.14 rewrote its runtime and pulling a
+/// native renderer for one icon was not worth it.
+class PlantDialButton extends StatelessWidget {
   final bool openned;
 
   const PlantDialButton({Key? key, required this.openned}) : super(key: key);
 
   @override
-  _PlantDialButtonState createState() => _PlantDialButtonState();
-}
-
-class _PlantDialButtonState extends State<PlantDialButton> {
-  Artboard? _riveArtboard;
-  late RiveAnimationController _controller;
-
-  bool openned = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    rootBundle.load('assets/home/dial_button.riv').then((data) {
-      final file = RiveFile.import(data);
-      final artboard = file.mainArtboard;
-      _controller = SimpleAnimation('idle');
-      artboard.addController(_controller);
-      setState(() => _riveArtboard = artboard);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if (_riveArtboard != null && openned != widget.openned) {
-      if (widget.openned == true) {
-        _riveArtboard!.removeController(_controller);
-        _riveArtboard!.addController(_controller = SimpleAnimation('open'));
-      } else {
-        _riveArtboard!.removeController(_controller);
-        _riveArtboard!.addController(_controller = SimpleAnimation('close'));
-      }
-      openned = widget.openned;
-    }
-    return _riveArtboard == null
-        ? const SizedBox()
-        : Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Rive(artboard: _riveArtboard!),
-          );
+    return AnimatedRotation(
+      turns: openned ? 0.125 : 0,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeOut,
+      child: const Icon(Icons.add, size: 34, color: Colors.white),
+    );
   }
 }

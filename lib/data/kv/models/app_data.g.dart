@@ -8,7 +8,7 @@ part of 'app_data.dart';
 
 class AppDataAdapter extends TypeAdapter<AppData> {
   @override
-  final int typeId = 35;
+  final typeId = 35;
 
   @override
   AppData read(BinaryReader reader) {
@@ -18,7 +18,7 @@ class AppDataAdapter extends TypeAdapter<AppData> {
     };
     return AppData()
       ..firstStart = fields[0] as bool
-      ..lastPlantID = fields[1] as int?
+      ..lastPlantID = (fields[1] as num?)?.toInt()
       ..allowAnalytics = fields[2] as bool
       ..freedomUnits = fields[3] as bool
       ..jwt = fields[4] as String?

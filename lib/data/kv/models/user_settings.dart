@@ -18,7 +18,7 @@
 
 import 'dart:convert';
 
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 
 part 'user_settings.g.dart';
 

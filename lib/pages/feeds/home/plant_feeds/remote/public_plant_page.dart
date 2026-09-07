@@ -106,7 +106,8 @@ class _PublicPlantPageState extends State<PublicPlantPage> {
           color: Colors.white,
         ),
         onPressed: () async {
-          await Share.share("https://supergreenlab.com/public/plant?id=${state.plantID}");
+          await SharePlus.instance
+              .share(ShareParams(text: "https://supergreenlab.com/public/plant?id=${state.plantID}"));
         },
       ),
     ];

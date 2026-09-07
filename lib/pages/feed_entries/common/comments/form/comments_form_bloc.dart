@@ -19,7 +19,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:hive/hive.dart' as hive;
+import 'package:hive_ce/hive.dart' as hive;
 import 'package:equatable/equatable.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
 import 'package:super_green_app/data/kv/models/app_data.dart';
