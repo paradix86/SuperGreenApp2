@@ -10,7 +10,7 @@ This application is not yet ready for end-user usage.
 
 ### Prerequisites
 
-- [`flutter`] 3.7.12 (Dart 2.19.x)
+- [`flutter`] 3.41.x stable (Dart 3.x); the Android build needs JDK 17+ (Flutter picks Android Studio's bundled JDK), Gradle 8.14 / AGP 8.11 are configured in `android/`
 - Android Studio + Android SDK (for Android builds)
 - Xcode (for iOS builds on macOS)
 
