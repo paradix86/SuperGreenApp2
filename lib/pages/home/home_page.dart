@@ -23,8 +23,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:super_green_app/data/logger/logger.dart';
 import 'package:super_green_app/device_daemon/device_reachable_listener_bloc.dart';
 import 'package:super_green_app/l10n/common.dart';
-import 'package:super_green_app/pages/dashboard/dashboard_bloc.dart';
-import 'package:super_green_app/pages/dashboard/dashboard_page.dart';
+import 'package:super_green_app/pages/controllers/controllers_bloc.dart';
+import 'package:super_green_app/pages/controllers/controllers_page.dart';
 import 'package:super_green_app/pages/explorer/explorer_bloc.dart';
 import 'package:super_green_app/pages/explorer/explorer_page.dart';
 import 'package:super_green_app/pages/explorer/search/search_bloc.dart';
@@ -106,9 +106,9 @@ class HomePage extends StatelessWidget {
               selectedIndex: navigatorState.index,
               destinations: [
                 NavigationDestination(
-                  icon: Icon(Icons.notifications_outlined),
-                  selectedIcon: Icon(Icons.notifications),
-                  label: 'Dashboard',
+                  icon: Icon(Icons.developer_board_outlined),
+                  selectedIcon: Icon(Icons.developer_board),
+                  label: 'Controllers',
                 ),
                 NavigationDestination(
                   icon: homeIcon,
@@ -182,8 +182,8 @@ class HomePage extends StatelessWidget {
         return MaterialPageRoute(
             settings: settings,
             builder: (context) => BlocProvider(
-                  create: (context) => DashboardBloc(),
-                  child: TowelieHelper.wrapWidget(settings, context, DashboardPage()),
+                  create: (context) => ControllersBloc(),
+                  child: TowelieHelper.wrapWidget(settings, context, const ControllersPage()),
                 ));
       case '/feed/plant':
         return _plantFeedRoute(context, settings, settings.arguments as HomeNavigateToPlantFeedEvent, providers: [
@@ -218,8 +218,8 @@ class HomePage extends StatelessWidget {
         return MaterialPageRoute(
             settings: settings,
             builder: (context) => BlocProvider(
-                  create: (context) => DashboardBloc(),
-                  child: TowelieHelper.wrapWidget(settings, context, DashboardPage()),
+                  create: (context) => ControllersBloc(),
+                  child: TowelieHelper.wrapWidget(settings, context, const ControllersPage()),
                 ));
     }
   }

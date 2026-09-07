@@ -405,7 +405,18 @@ class DeviceAPI {
   static void noteDashApplied(int deviceID, DeviceDash dash, {DateTime? at}) {
     _dashAppliedAt[deviceID] = at ?? DateTime.now();
     _dashKeys[deviceID] = {...dash.intValues.keys, ...dash.stringValues.keys};
+    _lastDash[deviceID] = dash;
   }
+
+  static final Map<int, DeviceDash> _lastDash = {};
+
+  /// The most recent `/dash` payload applied for [deviceID], for values that
+  /// have no param row in the db (sensor health, time). Null before the first
+  /// successful poll.
+  static DeviceDash? lastDash(int deviceID) => _lastDash[deviceID];
+
+  /// When [lastDash] was received, null if never.
+  static DateTime? lastDashAt(int deviceID) => _dashAppliedAt[deviceID];
 
   /// True when [key] of [deviceID] was written by `/dash` less than
   /// [dashFreshness] ago, i.e. the local db is as good as a fresh `GET /i`.

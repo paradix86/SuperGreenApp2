@@ -65,6 +65,10 @@ class DeviceStatus extends Equatable {
   final String? brokerUrl;
   final String? brokerClientId;
 
+  /// SPIFFS usage in bytes; null on firmwares that do not report it.
+  final int? fsUsed;
+  final int? fsTotal;
+
   const DeviceStatus({
     this.mqttStage,
     this.mqttDiscIdx,
@@ -86,6 +90,8 @@ class DeviceStatus extends Equatable {
     this.timeValid,
     this.brokerUrl,
     this.brokerClientId,
+    this.fsUsed,
+    this.fsTotal,
   });
 
   factory DeviceStatus.fromJson(Map<String, dynamic> json) {
@@ -110,6 +116,8 @@ class DeviceStatus extends Equatable {
       timeValid: parseInt(json['time_valid']),
       brokerUrl: parseString(json['broker_url']),
       brokerClientId: parseString(json['broker_clientid']),
+      fsUsed: parseInt(json['fs_used']),
+      fsTotal: parseInt(json['fs_total']),
     );
   }
 
