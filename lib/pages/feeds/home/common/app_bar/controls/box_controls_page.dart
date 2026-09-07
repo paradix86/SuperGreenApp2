@@ -18,27 +18,28 @@
 
 import 'dart:async';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/data/api/device/device_params.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/l10n.dart';
+import 'package:super_green_app/l10n/common.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
-import 'package:super_green_app/misc/date_renderer.dart';
 import 'package:super_green_app/pages/add_device/select_device/select_device_page.dart';
 import 'package:super_green_app/pages/feeds/home/common/app_bar/common/widgets/app_bar_missing_controller.dart';
-import 'package:super_green_app/pages/feeds/home/common/app_bar/common/widgets/app_bar_title.dart';
 import 'package:super_green_app/pages/feeds/home/common/app_bar/controls/box_controls_bloc.dart';
-import 'package:super_green_app/pages/feeds/home/common/app_bar/common/widgets/app_bar_action.dart';
-import 'package:super_green_app/pages/feeds/home/common/app_bar/common/metrics/app_bar_metrics_page.dart';
-import 'package:super_green_app/pages/feeds/home/common/app_bar/common/widgets/app_bar_tab.dart';
-import 'package:super_green_app/l10n/common.dart';
+import 'package:super_green_app/pages/feeds/home/common/app_bar/controls/widgets/schedule_timeline.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/theme/sgl_typography.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
+import 'package:super_green_app/widgets/sgl/sgl_card.dart';
 
+/// Box controls: what the controller is doing for this box (schedule, light,
+/// ventilation, alerts) with one card per control opening the matching form.
+/// Built on [BoxControlsBloc]; works both inside a bottom sheet and inside
+/// the box feed carousel because it is a plain scrollable list.
 class BoxControlsPage extends StatefulWidget {
   static String get boxControlPageLoadingPlantData {
     return Intl.message(
@@ -58,6 +59,8 @@ class BoxControlsPage extends StatefulWidget {
 }
 
 class _BoxControlsPageState extends State<BoxControlsPage> {
+  static const Duration staleAfter = Duration(seconds: 30);
+
   Timer? _clock;
   DateTime _now = DateTime.now();
 
@@ -82,376 +85,189 @@ class _BoxControlsPageState extends State<BoxControlsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<BoxControlsBloc, BoxControlsBlocState>(
-      listener: (BuildContext context, BoxControlsBlocState state) {
-        if (state is BoxControlsBlocStateLoaded) {}
+    return BlocBuilder<BoxControlsBloc, BoxControlsBlocState>(
+      builder: (BuildContext context, BoxControlsBlocState state) {
+        if (state is BoxControlsBlocStateNoDevice) {
+          return _renderNoDevice(context, state);
+        } else if (state is BoxControlsBlocStateLoaded) {
+          return _renderLoaded(context, state);
+        }
+        return FullscreenLoading(title: BoxControlsPage.boxControlPageLoadingPlantData);
       },
-      child: BlocBuilder<BoxControlsBloc, BoxControlsBlocState>(
-          bloc: BlocProvider.of<BoxControlsBloc>(context),
-          builder: (BuildContext context, BoxControlsBlocState state) {
-            if (state is BoxControlsBlocStateInit) {
-              return AppBarTab(child: _renderLoading(context, state));
-            } else if (state is BoxControlsBlocStateNoDevice) {
-              return AppBarTab(child: _renderNoDevice(context, state));
-            }
-            return AppBarTab(child: _renderLoaded(context, state as BoxControlsBlocStateLoaded));
-          }),
     );
   }
 
   Widget _renderNoDevice(BuildContext context, BoxControlsBlocStateNoDevice state) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Stack(
       children: [
-        _renderStatus(
-          context,
-          state.plant,
+        ListView(
+          padding: const EdgeInsets.fromLTRB(12, 4, 12, 24),
+          children: [
+            Row(children: [SglStatusChip(label: CommonL10N.connectionBadgeNoController, status: SglStatus.crit)]),
+            const SizedBox(height: 10),
+            _ScheduleCard(onMinutes: 6 * 60, offMinutes: 24 * 60, now: _now, onTap: null),
+            const SizedBox(height: 10),
+            _LevelCard(title: 'LED dim', icon: Icons.wb_sunny_outlined, value: 66, subtitle: '1 channel', onTap: null),
+            const SizedBox(height: 10),
+            _LevelCard(title: 'Blower', icon: Icons.air, value: 12, subtitle: 'duty right now', onTap: null),
+          ],
         ),
-        _renderNoDeviceConnectionBadge(),
-        Expanded(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              _renderButtons(
-                context,
-                state.box,
-                state.plant,
-                true,
-                '12%',
-                true,
-                '18/6',
-                true,
-                '66%',
-                'ON',
-              ),
-              AppBarMissingController(state.box),
-            ],
-          ),
-        ),
+        Positioned.fill(child: AppBarMissingController(state.box)),
       ],
-    );
-  }
-
-  Widget _renderLoading(BuildContext context, BoxControlsBlocStateInit state) {
-    return FullscreenLoading(
-      title: BoxControlsPage.boxControlPageLoadingPlantData,
     );
   }
 
   Widget _renderLoaded(BuildContext context, BoxControlsBlocStateLoaded state) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final BoxControlParamsController m = state.metrics;
+    final Box box = state.box;
+    final Plant? plant = state.plant;
+
+    final bool scheduleAvailable = m.onHour.available && m.offHour.available;
+    final bool lightAvailable = m.nLights > 0;
+    final int dim = _averageDim(m.lightsDimming);
+    final int lightNow = (dim * m.light.ivalue / 100.0).floor();
+
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(12, 4, 12, 24),
       children: [
-        _renderStatus(context, state.plant),
-        _renderConnectionBadge(state),
-        _renderActions(context, state),
+        _renderStatusRow(context, state),
+        const SizedBox(height: 10),
+        _ScheduleCard(
+          onMinutes: m.onHour.ivalue * 60 + m.onMin.ivalue,
+          offMinutes: m.offHour.ivalue * 60 + m.offMin.ivalue,
+          now: _now,
+          onTap: !scheduleAvailable
+              ? null
+              : _onEnvironmentControlTapped(
+                  context,
+                  ({pushAsReplacement = false}) => MainNavigateToFeedScheduleFormEvent(box,
+                      pushAsReplacement: pushAsReplacement, futureFn: widget.futureFn),
+                  tipID: 'TIP_BLOOM',
+                  tipPaths: ['t/supergreenlab/SuperGreenTips/master/s/when_to_switch_to_bloom/l/en']),
+        ),
+        const SizedBox(height: 10),
+        _LevelCard(
+          title: 'LED dim',
+          icon: Icons.wb_sunny_outlined,
+          value: lightAvailable ? dim : null,
+          subtitle: !lightAvailable
+              ? 'No LED channel assigned to this box'
+              : '${m.nLights} channel${m.nLights > 1 ? 's' : ''} · timer output ${m.light.ivalue} % · now $lightNow %',
+          onTap: !lightAvailable
+              ? null
+              : _onEnvironmentControlTapped(
+                  context,
+                  ({pushAsReplacement = false}) => MainNavigateToFeedLightFormEvent(box,
+                      pushAsReplacement: pushAsReplacement, futureFn: widget.futureFn),
+                  tipID: 'TIP_STRETCH',
+                  tipPaths: [
+                      't/supergreenlab/SuperGreenTips/master/s/when_to_control_stretch_in_seedling/l/en',
+                      't/supergreenlab/SuperGreenTips/master/s/how_to_control_stretch_in_seedling/l/en'
+                    ]),
+        ),
+        const SizedBox(height: 10),
+        _LevelCard(
+          title: 'Blower',
+          icon: Icons.air,
+          value: m.blower.available ? m.blower.ivalue : null,
+          subtitle: m.blower.available ? 'duty right now · tap to set min/max and reference' : 'No blower on this controller',
+          onTap: !m.blower.available
+              ? null
+              : _onEnvironmentControlTapped(
+                  context,
+                  ({pushAsReplacement = false}) => MainNavigateToFeedVentilationFormEvent(box,
+                      pushAsReplacement: pushAsReplacement, futureFn: widget.futureFn)),
+        ),
+        if (plant != null) ...[
+          const SizedBox(height: 10),
+          _AlertsCard(
+            enabled: plant.alerts,
+            onTap: () => BlocProvider.of<MainNavigatorBloc>(context)
+                .add(MainNavigateToSettingsPlantAlerts(plant, futureFn: widget.futureFn)),
+          ),
+        ],
+        const SizedBox(height: 10),
+        _renderScreenRow(context, state),
       ],
     );
   }
 
-  Widget _renderStatus(BuildContext context, Plant? plant) {
-    return AppBarTitle(
-      title: 'Controls',
-      plant: plant,
-      body: AppBarBoxMetricsPage(),
-    );
-  }
-
-  Widget _renderNoDeviceConnectionBadge() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 6.0, bottom: 4.0),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        decoration: BoxDecoration(
-          color: const Color(0xfff5d7d7),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Text(
-          CommonL10N.connectionBadgeNoController,
-          style: const TextStyle(color: Color(0xff8f2d2d), fontWeight: FontWeight.bold, fontSize: 12),
-        ),
-      ),
-    );
-  }
-
-  Widget _renderConnectionBadge(BoxControlsBlocStateLoaded state) {
-    final _ConnectionBadgeData badge = _buildConnectionBadgeData(state);
+  Widget _renderStatusRow(BuildContext context, BoxControlsBlocStateLoaded state) {
+    final SglColors c = context.sgl;
+    final Device device = state.device;
     final Duration age = _now.difference(state.updatedAt);
-    return Padding(
-      padding: const EdgeInsets.only(top: 6.0, bottom: 4.0),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: badge.backgroundColor,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(badge.icon, color: badge.textColor, size: 16),
-            const SizedBox(width: 8),
-            Text(
-              badge.label,
-              style: TextStyle(color: badge.textColor, fontWeight: FontWeight.bold, fontSize: 12),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              CommonL10N.updatedAgo(_renderAge(age)),
-              style: TextStyle(color: badge.textColor.withOpacity(0.9), fontSize: 11),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  _ConnectionBadgeData _buildConnectionBadgeData(BoxControlsBlocStateLoaded state) {
-    final bool isOffline = !state.device.isReachable && !state.device.isRemote;
-    if (isOffline) {
-      return _ConnectionBadgeData(
-        label: CommonL10N.connectionBadgeOffline,
-        icon: Icons.cloud_off,
-        textColor: const Color(0xff8f2d2d),
-        backgroundColor: const Color(0xfff5d7d7),
-      );
-    }
-    if (_now.difference(state.updatedAt) > const Duration(seconds: 30)) {
-      return _ConnectionBadgeData(
-        label: CommonL10N.connectionBadgeStale,
-        icon: Icons.schedule,
-        textColor: const Color(0xff8a5a00),
-        backgroundColor: const Color(0xfffff0cc),
-      );
-    }
-    if (state.device.isRemote) {
-      return _ConnectionBadgeData(
-        label: CommonL10N.connectionBadgeRemote,
-        icon: Icons.cloud_done,
-        textColor: const Color(0xff0b5ea8),
-        backgroundColor: const Color(0xffd8eafc),
-      );
-    }
-    return _ConnectionBadgeData(
-      label: CommonL10N.connectionBadgeLocal,
-      icon: Icons.wifi,
-      textColor: const Color(0xff2f6f2f),
-      backgroundColor: const Color(0xffdcf4dc),
-    );
-  }
-
-  String _renderAge(Duration age) {
-    if (age.isNegative || age.inSeconds < 5) {
-      return CommonL10N.justNow;
-    }
-    if (age.inSeconds < 60) {
-      return '${age.inSeconds}s';
-    }
-    if (age.inMinutes < 60) {
-      return '${age.inMinutes}m';
-    }
-    return '${age.inHours}h';
-  }
-
-  Widget _renderActions(BuildContext context, BoxControlsBlocStateLoaded state) {
-    double totalDimming = 0;
-    List<ParamController> dimmings = state.metrics.lightsDimming;
-    for (ParamController dimming in dimmings) {
-      totalDimming += dimming.ivalue;
-    }
-    if (dimmings.length != 0) {
-      totalDimming /= dimmings.length;
-      totalDimming *= state.metrics.light.ivalue / 100.0;
-    }
-    Widget buttons = _renderButtons(
-      context,
-      state.box,
-      state.plant,
-      state.metrics.blower.available,
-      state.metrics.blower.available ? '${state.metrics.blower.ivalue}%' : 'N/A%',
-      state.metrics.onHour.available && state.metrics.offHour.available,
-      state.metrics.onHour.available && state.metrics.offHour.available
-          ? DateRenderer.renderSchedule(state.metrics.onHour.param!, state.metrics.onMin.param!,
-              state.metrics.offHour.param!, state.metrics.offMin.param!)
-          : 'N/A',
-      state.metrics.nLights > 0,
-      state.metrics.nLights > 0 ? '${totalDimming.floor()}%' : 'N/A%',
-      state.plant == null ? '' : '${state.plant!.alerts ? "ON" : "OFF"}',
-    );
-    if (state.box.device != null && !state.device.isScreen && state.box.screenDevice == null) {
-      buttons = Column(
-        children: [
-          _renderScreenButton(context),
-          Expanded(child: buttons),
-        ],
-      );
+    final SglStatusChip chip;
+    if (!device.isReachable && !device.isRemote) {
+      chip = SglStatusChip(label: CommonL10N.connectionBadgeOffline, status: SglStatus.crit);
+    } else if (age > staleAfter) {
+      chip = SglStatusChip(label: CommonL10N.connectionBadgeStale, status: SglStatus.warn);
+    } else if (device.isRemote) {
+      chip = SglStatusChip(label: CommonL10N.connectionBadgeRemote, status: SglStatus.info);
     } else {
-      buttons = Column(
-        children: [
-          _renderScreenStatus(context, state),
-          Expanded(child: buttons),
-        ],
-      );
+      chip = SglStatusChip(label: CommonL10N.connectionBadgeLocal, status: SglStatus.ok);
     }
-    return Expanded(
-      child: buttons,
-    );
-  }
-
-  Widget _renderScreenStatus(BuildContext context, BoxControlsBlocStateLoaded state) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: SizedBox(child: SvgPicture.asset('assets/app_bar/icon_screen.svg'), width: 40, height: 40, ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0, bottom: 10.0, right: 8.0),
-          child:
-              Text('SCREEN LINKED.', style: TextStyle(color: Color(0xff3bb30b),)),
-        ),
-      ],
-    );
-  }
-
-  Widget _renderScreenButton(BuildContext context) {
-    return InkWell(
-        onTap: () {
-          BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSelectDeviceEvent(
-              isScreen: true,
-              isController: false,
-              futureFn: (future) async {
-                dynamic res = await future;
-                if (res is SelectBoxDeviceData) {
-                  BlocProvider.of<BoxControlsBloc>(context)
-                      .add(BoxControlsBlocEventSetScreenDevice(res.device, res.deviceBox));
-                }
-              }));
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: SizedBox(child: SvgPicture.asset('assets/app_bar/icon_screen.svg'), width: 40, height: 40, ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 10.0, right: 8.0),
-              child: Text('ADD A SCREEN!',
-                  style: TextStyle(color: Color(0xff3bb30b), decoration: TextDecoration.underline)),
-            ),
-          ],
-        ));
-  }
-
-  Widget _renderButtons(BuildContext context, Box box, Plant? plant, bool blowerAvailable, String blower,
-      bool scheduleAvailable, String schedule, bool lightAvailable, String light, String alerts) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
+        chip,
+        const SizedBox(width: 10),
         Expanded(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 5.5),
-                child: AppBarAction(
-                  center: true,
-                  disabled: !blowerAvailable,
-                  icon: 'assets/app_bar/icon_ventilation.svg',
-                  color: Color(0xFF8EB5FF),
-                  title: 'VENTILATION',
-                  content: AutoSizeText(
-                    blower,
-                    maxLines: 1,
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Color(0xFF454545)),
-                  ),
-                  action: !blowerAvailable
-                      ? null
-                      : _onEnvironmentControlTapped(
-                          context,
-                          ({pushAsReplacement = false}) => MainNavigateToFeedVentilationFormEvent(box,
-                              pushAsReplacement: pushAsReplacement, futureFn: widget.futureFn)),
-                ),
-              ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 12.0),
-                  child: AppBarAction(
-                    center: true,
-                    disabled: !scheduleAvailable,
-                    icon: 'assets/app_bar/icon_schedule.svg',
-                    color: Color(0xFF61A649),
-                    title: 'SCHEDULE',
-                    content: AutoSizeText(
-                      schedule,
-                      maxLines: 1,
-                      style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Color(0xFF454545)),
-                    ),
-                    action: !scheduleAvailable
-                        ? null
-                        : _onEnvironmentControlTapped(
-                            context,
-                            ({pushAsReplacement = false}) => MainNavigateToFeedScheduleFormEvent(box,
-                                pushAsReplacement: pushAsReplacement, futureFn: widget.futureFn),
-                            tipID: 'TIP_BLOOM',
-                            tipPaths: ['t/supergreenlab/SuperGreenTips/master/s/when_to_switch_to_bloom/l/en']),
-                  )),
-            ],
-          ),
-        ),
-        Expanded(
-          child: Column(
-            children: [
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 5.5),
-                  child: AppBarAction(
-                      center: true,
-                      disabled: !lightAvailable,
-                      icon: 'assets/app_bar/icon_light.svg',
-                      color: Color(0xFFDABA48),
-                      title: 'LIGHT',
-                      content: AutoSizeText(
-                        light,
-                        maxLines: 1,
-                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Color(0xFF454545)),
-                      ),
-                      action: !lightAvailable
-                          ? null
-                          : _onEnvironmentControlTapped(
-                               context,
-                               ({pushAsReplacement = false}) => MainNavigateToFeedLightFormEvent(box,
-                                   pushAsReplacement: pushAsReplacement, futureFn: widget.futureFn),
-                              tipID: 'TIP_STRETCH',
-                              tipPaths: [
-                                  't/supergreenlab/SuperGreenTips/master/s/when_to_control_stretch_in_seedling/l/en',
-                                  't/supergreenlab/SuperGreenTips/master/s/how_to_control_stretch_in_seedling/l/en'
-                                ]))),
-              plant != null
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 12.0),
-                      child: AppBarAction(
-                        center: true,
-                        icon: 'assets/app_bar/icon_alerts.svg',
-                        color: Color(0xFF8848DA),
-                        title: 'ALERTS',
-                        content: AutoSizeText(
-                          alerts,
-                          maxLines: 1,
-                          style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: plant.alerts ? Color(0xFF3BB28B) : Color(0xFFD7352B)),
-                        ),
-                        action: () => BlocProvider.of<MainNavigatorBloc>(context).add(
-                          MainNavigateToSettingsPlantAlerts(plant, futureFn: widget.futureFn),
-                        ),
-                      ))
-                  : Container(),
-            ],
+          child: Text(
+            '${device.name} · updated ${_renderAge(age)}',
+            style: SglTextStyles.mono.copyWith(color: c.ink3, fontSize: 11),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],
     );
+  }
+
+  Widget _renderScreenRow(BuildContext context, BoxControlsBlocStateLoaded state) {
+    final SglColors c = context.sgl;
+    final bool canAdd = !state.device.isScreen && state.box.screenDevice == null;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Icon(Icons.tv_outlined, size: 18, color: c.ink3),
+        const SizedBox(width: 6),
+        if (canAdd)
+          TextButton(
+            onPressed: () {
+              BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSelectDeviceEvent(
+                  isScreen: true,
+                  isController: false,
+                  futureFn: (future) async {
+                    dynamic res = await future;
+                    if (res is SelectBoxDeviceData) {
+                      BlocProvider.of<BoxControlsBloc>(context)
+                          .add(BoxControlsBlocEventSetScreenDevice(res.device, res.deviceBox));
+                    }
+                  }));
+            },
+            child: const Text('Add a screen'),
+          )
+        else
+          Text('Screen linked', style: Theme.of(context).textTheme.bodySmall!.copyWith(color: c.ink3)),
+      ],
+    );
+  }
+
+  static int _averageDim(List<ParamController> dims) {
+    if (dims.isEmpty) {
+      return 0;
+    }
+    return dims.fold<int>(0, (sum, d) => sum + d.ivalue) ~/ dims.length;
+  }
+
+  static String _renderAge(Duration age) {
+    if (age.inSeconds < 5) {
+      return 'just now';
+    } else if (age.inSeconds < 60) {
+      return '${age.inSeconds}s ago';
+    } else if (age.inMinutes < 60) {
+      return '${age.inMinutes}m ago';
+    }
+    return '${age.inHours}h ago';
   }
 
   // TODO DRY this with plant_feed_page
@@ -469,16 +285,139 @@ class _BoxControlsPageState extends State<BoxControlsPage> {
   }
 }
 
-class _ConnectionBadgeData {
-  final String label;
-  final IconData icon;
-  final Color textColor;
-  final Color backgroundColor;
+/// Light schedule as a 24 h timeline with the "on" window highlighted.
+class _ScheduleCard extends StatelessWidget {
+  final int onMinutes;
+  final int offMinutes;
+  final DateTime now;
+  final VoidCallback? onTap;
 
-  const _ConnectionBadgeData({
-    required this.label,
-    required this.icon,
-    required this.textColor,
-    required this.backgroundColor,
-  });
+  const _ScheduleCard({required this.onMinutes, required this.offMinutes, required this.now, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final SglColors c = context.sgl;
+    final TextTheme text = Theme.of(context).textTheme;
+    final int onLength = ((offMinutes - onMinutes) % 1440 + 1440) % 1440;
+    final String hours = onLength % 60 == 0 ? '${onLength ~/ 60} h' : '${onLength ~/ 60} h ${onLength % 60} min';
+    return SglCard(
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SglCardHeader(
+            title: 'Schedule',
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SglStatusChip(label: '$hours on', status: SglStatus.warn),
+                if (onTap != null) ...[const SizedBox(width: 4), Icon(Icons.chevron_right, color: c.ink3)],
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(_hhmm(onMinutes), style: SglTextStyles.reading.copyWith(color: c.ink, fontSize: 26)),
+              Icon(Icons.arrow_forward, size: 18, color: c.ink3),
+              Text(_hhmm(offMinutes), style: SglTextStyles.reading.copyWith(color: c.ink, fontSize: 26)),
+            ],
+          ),
+          const SizedBox(height: 10),
+          ScheduleTimeline(onMinutes: onMinutes, offMinutes: offMinutes, nowMinutes: now.hour * 60 + now.minute),
+          const SizedBox(height: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: ['00', '06', '12', '18', '24']
+                .map((h) => Text(h, style: SglTextStyles.mono.copyWith(color: c.ink3, fontSize: 10.5)))
+                .toList(),
+          ),
+          const SizedBox(height: 6),
+          Text('Timer on the controller, shown in local time.', style: text.bodySmall!.copyWith(color: c.ink3)),
+        ],
+      ),
+    );
+  }
+
+  static String _hhmm(int minutes) {
+    final int m = ((minutes % 1440) + 1440) % 1440;
+    return '${(m ~/ 60).toString().padLeft(2, '0')}:${(m % 60).toString().padLeft(2, '0')}';
+  }
+}
+
+/// A 0–100 % level (LED dim, blower duty) with a read-only bar.
+class _LevelCard extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final int? value;
+  final String subtitle;
+  final VoidCallback? onTap;
+
+  const _LevelCard({required this.title, required this.icon, required this.value, required this.subtitle, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final SglColors c = context.sgl;
+    final TextTheme text = Theme.of(context).textTheme;
+    final bool available = value != null;
+    return Opacity(
+      opacity: available ? 1 : 0.6,
+      child: SglCard(
+        onTap: onTap,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                Icon(icon, size: 20, color: available ? c.amber : c.ink3),
+                const SizedBox(width: 8),
+                Expanded(child: Text(title, style: text.titleMedium)),
+                Text(available ? '$value %' : 'n/a', style: SglTextStyles.reading.copyWith(color: c.ink, fontSize: 24)),
+                if (onTap != null) ...[const SizedBox(width: 4), Icon(Icons.chevron_right, color: c.ink3)],
+              ],
+            ),
+            const SizedBox(height: 10),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(999),
+              child: LinearProgressIndicator(
+                value: (value ?? 0) / 100.0,
+                minHeight: 6,
+                color: c.accent,
+                backgroundColor: c.bg2,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(subtitle, style: text.bodySmall!.copyWith(color: c.ink2)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _AlertsCard extends StatelessWidget {
+  final bool enabled;
+  final VoidCallback onTap;
+
+  const _AlertsCard({required this.enabled, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final SglColors c = context.sgl;
+    return SglCard(
+      onTap: onTap,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      child: Row(
+        children: [
+          Icon(Icons.notifications_active_outlined, size: 20, color: enabled ? c.accent : c.ink3),
+          const SizedBox(width: 8),
+          Expanded(child: Text('Alerts', style: Theme.of(context).textTheme.titleMedium)),
+          SglStatusChip(label: enabled ? 'on' : 'off', status: enabled ? SglStatus.ok : SglStatus.off),
+          const SizedBox(width: 4),
+          Icon(Icons.chevron_right, color: c.ink3),
+        ],
+      ),
+    );
+  }
 }

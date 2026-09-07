@@ -91,7 +91,8 @@ class AppBarMissingController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white.withAlpha(220)),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5), color: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.88)),
       child: Fullscreen(
         fontSize: 15,
         fontWeight: FontWeight.normal,
