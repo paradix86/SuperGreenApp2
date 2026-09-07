@@ -24,6 +24,7 @@ import 'package:super_green_app/misc/bloc.dart';
 import 'package:drift/drift.dart';
 import 'package:super_green_app/data/api/backend/devices/websocket.dart';
 import 'package:super_green_app/data/api/device/device_api.dart';
+import 'package:super_green_app/data/api/device/device_dash.dart';
 import 'package:super_green_app/data/api/device/device_helper.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
 import 'package:super_green_app/data/logger/logger.dart';
@@ -85,6 +86,11 @@ class DeviceDaemonBloc extends LegacyBloc<DeviceDaemonBlocEvent, DeviceDaemonBlo
   List<Device> _devices = [];
   Map<int, bool> _deviceWorker = {};
 
+  /// Devices whose firmware answered 404 to `GET /dash` (older than
+  /// 2026-09-07): they keep the single `TIME` read per poll. Reset on restart of
+  /// the app, so an OTA is picked up at the next launch.
+  final Set<int> _dashUnsupported = {};
+
   DeviceDaemonBloc() : super(DeviceDaemonBlocStateInit());
 
   @override
@@ -137,7 +143,7 @@ class DeviceDaemonBloc extends LegacyBloc<DeviceDaemonBlocEvent, DeviceDaemonBlo
             await DeviceAPI.fetchAllParams(device.ip, device.id, (_) => null, auth: auth);
           }
           await ddb.updateDevice(DevicesCompanion(id: Value(device.id), isReachable: Value(true)));
-          await _updateDeviceTime(device, auth);
+          await _refreshLiveValues(device, auth);
         } else {
           await ddb.updateDevice(DevicesCompanion(id: Value(device.id), isReachable: Value(false)));
           Logger.throwError("Wrong identifier for device ${device.name}", data: {"identifier": identifier});
@@ -199,9 +205,43 @@ class DeviceDaemonBloc extends LegacyBloc<DeviceDaemonBlocEvent, DeviceDaemonBlo
     }
   }
 
+  /// One `GET /dash` per poll refreshes the sensors, timers, LEDs and sensor
+  /// health of every box in the local db (so the feed pages stop reading them
+  /// key by key) and gives the controller clock for the drift check. Older
+  /// firmwares (404) keep the single `TIME` read.
+  Future<void> _refreshLiveValues(Device device, String? auth) async {
+    if (_dashUnsupported.contains(device.id)) {
+      await _updateDeviceTime(device, auth);
+      return;
+    }
+    DeviceDash dash;
+    try {
+      dash = await DeviceAPI.fetchDash(device.ip, auth: auth);
+    } on DeviceRequestException catch (e) {
+      if (e.statusCode == 404) {
+        Logger.log("Controller ${device.name} has no /dash, falling back to TIME polling");
+        _dashUnsupported.add(device.id);
+        await _updateDeviceTime(device, auth);
+        return;
+      }
+      rethrow;
+    }
+    await DeviceAPI.applyDash(device.id, dash);
+    final int? deviceTime = dash.time;
+    if (deviceTime == null) {
+      await _updateDeviceTime(device, auth);
+      return;
+    }
+    await _pushPhoneTimeIfDrifted(device, deviceTime);
+  }
+
   Future<void> _updateDeviceTime(Device device, String? auth) async {
-    final int now = DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000;
     final int deviceTime = await DeviceAPI.fetchIntParam(device.ip, 'TIME', nRetries: 1, auth: auth);
+    await _pushPhoneTimeIfDrifted(device, deviceTime);
+  }
+
+  Future<void> _pushPhoneTimeIfDrifted(Device device, int deviceTime) async {
+    final int now = DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000;
     if ((now - deviceTime).abs() <= maxClockDrift.inSeconds) {
       return;
     }

@@ -54,6 +54,48 @@ void main() {
     });
   });
 
+  group('fetchDash', () {
+    test('parses the /dash JSON (chunked, like the firmware sends it)', () async {
+      final String fixture = File('test/data/api/device/dash_fixture.json').readAsStringSync();
+      controller.handler = (HttpRequest req) {
+        req.response.headers.contentType = ContentType.json;
+        // chunked transfer: no content-length, several writes
+        req.response.write(fixture.substring(0, 700));
+        req.response.write(fixture.substring(700));
+        req.response.close();
+      };
+
+      final dash = await DeviceAPI.fetchDash(controller.ip);
+
+      expect(controller.requestedPaths, ['/dash']);
+      expect(dash.intValues['BOX_0_TEMP'], isNotNull);
+      expect(dash.stringValues['SENSOR_HEALTH_LAST_ALERT'], 'box_0_temp_stuck');
+      expect(dash.time, 1788772038);
+    });
+
+    test('throws DeviceRequestException 404 on firmwares without /dash', () async {
+      controller.handler = (HttpRequest req) {
+        req.response.statusCode = 404;
+        req.response.close();
+      };
+
+      await expectLater(
+          DeviceAPI.fetchDash(controller.ip),
+          throwsA(isA<DeviceRequestException>().having((e) => e.statusCode, 'statusCode', 404)));
+    });
+
+    test('wraps a malformed body in a DeviceRequestException', () async {
+      controller.handler = (HttpRequest req) {
+        req.response.write('{"boxes":[');
+        req.response.close();
+      };
+
+      await expectLater(
+          DeviceAPI.fetchDash(controller.ip),
+          throwsA(isA<DeviceRequestException>().having((e) => e.statusCode, 'statusCode', isNull)));
+    });
+  });
+
   group('fetchIntParam', () {
     test('parses the /i?k= body and upper-cases the key', () async {
       controller.handler = (HttpRequest req) {

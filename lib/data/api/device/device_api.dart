@@ -23,6 +23,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:drift/drift.dart';
 import 'package:multicast_dns/multicast_dns.dart';
+import 'package:super_green_app/data/api/device/device_dash.dart';
 import 'package:super_green_app/data/api/device/request_limiter.dart';
 import 'package:super_green_app/data/logger/logger.dart';
 import 'package:super_green_app/data/rel/device/devices.dart';
@@ -372,6 +373,51 @@ class DeviceAPI {
       client.close(force: true);
       DeviceAPI.fetchingAllParams[deviceID] = false;
     }
+  }
+
+  /// One `GET /dash`: every box, the LEDs, the sensor health and the clock.
+  /// Throws a [DeviceRequestException] with status 404 on firmwares that do
+  /// not have the endpoint (before 2026-09-07).
+  static Future<DeviceDash> fetchDash(String controllerIP, {int? timeout = 5, String? auth}) async {
+    final String url = 'http://$controllerIP/dash';
+    final String contents = await _exchange('GET', url, timeout: timeout, auth: auth);
+    try {
+      final dynamic decoded = json.decode(contents);
+      if (decoded is! Map<String, dynamic>) {
+        throw DeviceRequestException(url, cause: 'unexpected /dash payload');
+      }
+      return DeviceDash.fromJson(decoded);
+    } on FormatException catch (e) {
+      throw DeviceRequestException(url, cause: e);
+    }
+  }
+
+  /// Writes the values of [dash] into the params the local db already has for
+  /// [deviceID], skipping unknown keys and unchanged values (every write wakes
+  /// up the widgets watching that param). Returns the number of params updated.
+  static Future<int> applyDash(int deviceID, DeviceDash dash) async {
+    final db = RelDB.get().devicesDAO;
+    final List<Param> params = await db.getParams(deviceID);
+    int updated = 0;
+    for (final Param param in params) {
+      Param? changed;
+      if (param.type == INTEGER_TYPE) {
+        final int? value = dash.intValues[param.key];
+        if (value != null && value != param.ivalue) {
+          changed = param.copyWith(ivalue: Value(value));
+        }
+      } else {
+        final String? value = dash.stringValues[param.key];
+        if (value != null && value != param.svalue) {
+          changed = param.copyWith(svalue: Value(value));
+        }
+      }
+      if (changed != null) {
+        await db.updateParam(changed);
+        ++updated;
+      }
+    }
+    return updated;
   }
 
   /// 0 when the controller does not expose [moduleName] (getModule throws).

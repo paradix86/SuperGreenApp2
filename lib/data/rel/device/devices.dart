@@ -179,6 +179,10 @@ class DevicesDAO extends DatabaseAccessor<RelDB> with _$DevicesDAOMixin {
     return _getParam(deviceID, key).getSingle();
   }
 
+  Future<List<Param>> getParams(int deviceID) {
+    return (select(params)..where((p) => p.device.equals(deviceID))).get();
+  }
+
   Stream<Param> watchParam(int deviceID, String key) {
     return _getParam(deviceID, key).watchSingle();
   }
