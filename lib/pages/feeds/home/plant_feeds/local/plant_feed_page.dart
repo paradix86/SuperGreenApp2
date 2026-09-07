@@ -704,7 +704,8 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
                     return Opacity(
                       opacity: state.sunglassesOn ? 0.5 : 1,
                       child: IconButton(
-                        icon: SvgPicture.asset('assets/home/icon_sunglasses.svg'),
+                        icon: SvgPicture.asset('assets/home/icon_sunglasses.svg',
+                            colorFilter: ColorFilter.mode(context.sgl.ink2, BlendMode.srcIn)),
                         tooltip: 'Sunglasses mode',
                         onPressed: () {
                           BlocProvider.of<SunglassesBloc>(context).add(SunglassesBlocEventOnOff());
@@ -721,7 +722,8 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
         actions.insert(
           0,
           IconButton(
-            icon: SvgPicture.asset('assets/home/icon_share_link.svg'),
+            icon: SvgPicture.asset('assets/home/icon_share_link.svg',
+                colorFilter: ColorFilter.mode(context.sgl.ink2, BlendMode.srcIn)),
             tooltip: 'Share link',
             onPressed: () {
               _showSharingLink(context, state);

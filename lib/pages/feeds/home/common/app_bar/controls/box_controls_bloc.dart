@@ -69,8 +69,10 @@ class BoxControlParamsController extends ParamsController {
     return c;
   }
 
+  // `nLights` is only set by load(): every copy made on a param update must
+  // carry it over or `lightsDimming` throws a LateInitializationError.
   ParamsController copyWith({Map<String, ParamController>? params}) =>
-      BoxControlParamsController(params: params ?? this.params);
+      BoxControlParamsController(params: params ?? this.params)..nLights = nLights;
 }
 
 abstract class BoxControlsBlocEvent extends Equatable {}
