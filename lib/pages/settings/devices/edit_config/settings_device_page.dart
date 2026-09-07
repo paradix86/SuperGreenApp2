@@ -16,27 +16,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/l10n.dart';
 import 'package:super_green_app/l10n/common.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/settings/devices/edit_config/settings_device_bloc.dart';
-import 'package:super_green_app/widgets/appbar.dart';
-import 'package:super_green_app/widgets/fullscreen.dart';
+import 'package:super_green_app/pages/settings/devices/edit_config/widgets/settings_group.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/theme/sgl_typography.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
-import 'package:super_green_app/widgets/green_button.dart';
-import 'package:super_green_app/widgets/section_title.dart';
-import 'package:super_green_app/widgets/textfield.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SettingsDevicePage extends StatefulWidget {
+class SettingsDevicePage extends StatelessWidget {
   static String get settingsDevicePageLoading {
     return Intl.message(
       'Refreshing..',
@@ -128,331 +123,274 @@ class SettingsDevicePage extends StatefulWidget {
     );
   }
 
-  @override
-  _SettingsDevicePageState createState() => _SettingsDevicePageState();
-}
-
-class _SettingsDevicePageState extends State<SettingsDevicePage> {
-  late TextEditingController _nameController;
-
-  final KeyboardVisibilityController _keyboardVisibility = KeyboardVisibilityController();
-  late StreamSubscription<bool> _listener;
-  bool _keyboardVisible = false;
-
-  @protected
-  void initState() {
-    super.initState();
-    _listener = _keyboardVisibility.onChange.listen(
-      (bool visible) {
-        setState(() {
-          _keyboardVisible = visible;
-        });
-        if (!_keyboardVisible) {
-          FocusScopeNode currentFocus = FocusScope.of(context);
-
-          if (!currentFocus.hasPrimaryFocus) {
-            currentFocus.unfocus();
-          }
-        }
-      },
-    );
-  }
+  const SettingsDevicePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener(
-      bloc: BlocProvider.of<SettingsDeviceBloc>(context),
-      listener: (BuildContext context, SettingsDeviceBlocState state) async {
-        if (state is SettingsDeviceBlocStateLoaded) {
-          _nameController = TextEditingController(text: state.device.name);
-        } else if (state is SettingsDeviceBlocStateDone) {
-          Timer(const Duration(milliseconds: 2000), () {
-            BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigatorActionPop(mustPop: true));
-          });
+    return BlocListener<SettingsDeviceBloc, SettingsDeviceBlocState>(
+      listener: (BuildContext context, SettingsDeviceBlocState state) {
+        if (state is SettingsDeviceBlocStateLoaded && state.renamedTo != null) {
+          _snack(context, settingsDevicePageControllerDone(state.renamedTo!));
+        } else if (state is SettingsDeviceBlocStateUpdateFailed) {
+          _snack(context, 'Rename failed, is the controller reachable?', error: true);
+        } else if (state is SettingsDeviceBlocStateForgotten) {
+          BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigatorActionPop(mustPop: true));
         }
       },
       child: BlocBuilder<SettingsDeviceBloc, SettingsDeviceBlocState>(
-          bloc: BlocProvider.of<SettingsDeviceBloc>(context),
-          builder: (BuildContext context, SettingsDeviceBlocState state) {
-            Widget body = FullscreenLoading(
-              title: 'Loading..',
-            );
-            if (state is SettingsDeviceBlocStateLoading) {
-              body = FullscreenLoading(
-                title: CommonL10N.loading,
-              );
-            } else if (state is SettingsDeviceBlocStateDone) {
-              body = _renderDone(state);
-            } else if (state is SettingsDeviceBlocStateLoaded) {
-              body = _renderForm(context, state);
-            }
-            return WillPopScope(
-              onWillPop: () async {
-                return (await showDialog<bool>(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text(CommonL10N.unsavedChangeDialogTitle),
-                            content: Text(CommonL10N.unsavedChangeDialogBody),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context, false);
-                                },
-                                child: Text(CommonL10N.no),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context, true);
-                                },
-                                child: Text(CommonL10N.yes),
-                              ),
-                            ],
-                          );
-                        })) ??
-                    false;
-              },
-              child: Scaffold(
-                  appBar: SGLAppBar(
-                    '🤖',
-                    fontSize: 40,
-                    backgroundColor: Color(0xff0b6ab3),
-                    titleColor: Colors.white,
-                    iconColor: Colors.white,
-                    hideBackButton: state is SettingsDeviceBlocStateDone,
-                  ),
-                  backgroundColor: Colors.white,
-                  body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body)),
-            );
-          }),
+        builder: (BuildContext context, SettingsDeviceBlocState state) {
+          final SettingsDeviceBlocStateLoaded? loaded = state is SettingsDeviceBlocStateLoaded ? state : null;
+          return Scaffold(
+            appBar: AppBar(
+              title: _renderTitle(context, loaded),
+            ),
+            body: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 200),
+              child: loaded == null ? FullscreenLoading(title: CommonL10N.loading) : _renderBody(context, loaded),
+            ),
+          );
+        },
+      ),
     );
   }
 
-  Widget _renderDone(SettingsDeviceBlocStateDone state) {
-    String subtitle = SettingsDevicePage.settingsDevicePageControllerDone(_nameController.value.text);
-    return Fullscreen(
-        title: CommonL10N.done, subtitle: subtitle, child: Icon(Icons.done, color: Color(0xff0bb354), size: 100));
-  }
-
-  Widget _renderForm(BuildContext context, SettingsDeviceBlocStateLoaded state) {
+  Widget _renderTitle(BuildContext context, SettingsDeviceBlocStateLoaded? state) {
+    final SglColors c = context.sgl;
     return Column(
-      children: <Widget>[
-        Expanded(
-          child: ListView(
-            children: <Widget>[
-              SectionTitle(
-                title: SettingsDevicePage.settingsDevicePageControllerNameSection,
-                icon: 'assets/settings/icon_controller.svg',
-                backgroundColor: Color(0xff0b6ab3),
-                titleColor: Colors.white,
-                elevation: 5,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 24.0),
-                child: SGLTextField(
-                    hintText: 'Ex: SuperGreenController',
-                    controller: _nameController,
-                    onChanged: (_) {
-                      setState(() {});
-                    }),
-              ),
-              SectionTitle(
-                title: SettingsDevicePage.settingsDevicePageControllerSettingsSection,
-                icon: 'assets/settings/icon_controller.svg',
-                backgroundColor: Color(0xff0b6ab3),
-                titleColor: Colors.white,
-                elevation: 5,
-              ),
-              ListTile(
-                leading: SvgPicture.asset('assets/settings/icon_wifi.svg'),
-                trailing: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: SvgPicture.asset('assets/settings/icon_go.svg'),
-                ),
-                title: Text(SettingsDevicePage.settingsDevicePageWifiSettingsSection),
-                subtitle: Text(SettingsDevicePage.settingsDevicePageWifiSettingsLabel),
-                onTap: () {
-                  BlocProvider.of<MainNavigatorBloc>(context)
-                      .add(MainNavigateToDeviceWifiEvent(state.device, futureFn: (future) async {
-                    dynamic error = await future;
-                    if (error == null) {
-                      return;
-                    }
-                    if (error != true) {
-                      await Fluttertoast.showToast(msg: SettingsDevicePage.settingsDevicePageWifiConfigSuccess);
-                    } else {
-                      await Fluttertoast.showToast(msg: SettingsDevicePage.settingsDevicePageWifiConfigFailed);
-                    }
-                  }));
-                },
-              ),
-              state.device.isScreen && state.device.isController == false
-                  ? Container()
-                  : ListTile(
-                      leading: SvgPicture.asset('assets/settings/icon_boxslot.svg'),
-                      trailing: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: SvgPicture.asset('assets/settings/icon_go.svg'),
-                      ),
-                      title: Text('View box slots'),
-                      subtitle: Text('Tap to view this controller\'s box slots'),
-                      onTap: () {
-                        BlocProvider.of<MainNavigatorBloc>(context)
-                            .add(MainNavigateToSelectDeviceBoxEvent(state.device));
-                      },
-                    ),
-              state.device.isScreen && state.device.isController == false
-                  ? Container()
-                  : ListTile(
-                      leading: SvgPicture.asset('assets/settings/icon_motor.svg'),
-                      trailing: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: SvgPicture.asset('assets/settings/icon_go.svg'),
-                      ),
-                      title: Text('View motor ports'),
-                      subtitle: Text('Tap to view this controller\'s motor ports'),
-                      onTap: () {
-                        BlocProvider.of<MainNavigatorBloc>(context)
-                            .add(MainNavigateToMotorPortEvent(state.device, null));
-                      },
-                    ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ListTile(
-                  leading: SvgPicture.asset('assets/settings/icon_refresh.svg'),
-                  trailing: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: SvgPicture.asset('assets/settings/icon_go.svg'),
-                  ),
-                  title: Text('Refresh params'),
-                  subtitle: Text('Use this button if there were changes made to the controller outside the app.'),
-                  onTap: () {
-                    BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToRefreshParameters(state.device));
-                  },
-                ),
-              ),
-              SectionTitle(
-                title: 'Red zone',
-                icon: 'assets/settings/icon_controller.svg',
-                backgroundColor: Colors.red,
-                titleColor: Colors.white,
-                elevation: 5,
-              ),
-              state.device.isScreen && state.device.isController == false
-                  ? Container()
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: ListTile(
-                        leading: SvgPicture.asset('assets/settings/icon_remotecontrol.svg'),
-                        trailing: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          child: SvgPicture.asset('assets/settings/icon_go.svg'),
-                        ),
-                        title: Text('Remote control'),
-                        subtitle: Text(
-                            'Remote control allows you to change your controller parameters from anywhere on the planet.'),
-                        onTap: () {
-                          BlocProvider.of<MainNavigatorBloc>(context)
-                              .add(MainNavigateToSettingsRemoteControl(state.device));
-                        },
-                      ),
-                    ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ListTile(
-                  leading: SvgPicture.asset('assets/settings/icon_lock.svg'),
-                  trailing: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: SvgPicture.asset('assets/settings/icon_go.svg'),
-                  ),
-                  title: Text('Password lock'),
-                  subtitle: Text('Prevent unsollicited access from your roommate/siblings.'),
-                  onTap: () {
-                    BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsDeviceAuth(state.device));
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ListTile(
-                  leading: SvgPicture.asset('assets/settings/icon_upgrade.svg'),
-                  trailing: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: SvgPicture.asset('assets/settings/icon_go.svg'),
-                  ),
-                  title: Text('Firmware upgrade'),
-                  subtitle:
-                      Text('Check and perform controller firmware upgrade. Requires the controller to be reachable.'),
-                  onTap: () {
-                    BlocProvider.of<MainNavigatorBloc>(context)
-                        .add(MainNavigateToSettingsUpgradeDevice(state.device, futureFn: (future) async {
-                      dynamic ret = await future;
-                      if (ret is bool && ret == true) {
-                        BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToRefreshParameters(state.device));
-                      }
-                    }));
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ListTile(
-                  leading: SvgPicture.asset('assets/settings/icon_controller.svg'),
-                  trailing: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: SvgPicture.asset('assets/settings/icon_go.svg'),
-                  ),
-                  title: Text(SettingsDevicePage.settingsDevicePageControllerStatusTitle),
-                  subtitle: Text(SettingsDevicePage.settingsDevicePageControllerStatusLabel),
-                  onTap: () {
-                    BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsDeviceStatus(state.device));
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ListTile(
-                  leading: SvgPicture.asset('assets/settings/icon_warning.svg'),
-                  trailing: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: SvgPicture.asset('assets/settings/icon_go.svg'),
-                  ),
-                  title: Text('Access admin'),
-                  subtitle: Text(
-                      'Open the controller\'s admin interface. Make sure you know what you\'re doing before going there.'),
-                  onTap: () {
-                    launchUrl(Uri.parse('http://${state.device.ip}/fs/app.html'));
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8.0, right: 8.0),
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: GreenButton(
-              title: 'UPDATE CONTROLLER',
-              onPressed: _nameController.value.text != '' ? () => _handleInput(context) : null,
-            ),
-          ),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(state?.device.name ?? 'Device', maxLines: 1, overflow: TextOverflow.ellipsis),
+        Text(
+          state == null
+              ? 'DEVICE SETTINGS'
+              : (state.isScreenOnly ? 'SCREEN SETTINGS' : 'CONTROLLER SETTINGS'),
+          style: SglTextStyles.eyebrow.copyWith(color: c.ink3),
         ),
       ],
     );
   }
 
-  void _handleInput(BuildContext context) async {
-    BlocProvider.of<SettingsDeviceBloc>(context).add(SettingsDeviceBlocEventUpdate(
-      _nameController.text,
-    ));
+  Widget _renderBody(BuildContext context, SettingsDeviceBlocStateLoaded state) {
+    final SglColors c = context.sgl;
+    final Device device = state.device;
+    final MainNavigatorBloc nav = BlocProvider.of<MainNavigatorBloc>(context);
+    final SettingsDeviceBloc bloc = BlocProvider.of<SettingsDeviceBloc>(context);
+
+    void reload() => bloc.add(SettingsDeviceBlocEventReload());
+
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(12, 4, 12, 24),
+      children: [
+        SettingsGroup(
+          title: 'Identity',
+          rows: [
+            SettingsRow(
+              icon: Icons.badge_outlined,
+              title: 'Name',
+              subtitle: '${device.name} · ${state.mdnsDomain ?? device.mdns}.local',
+              trailing: const SettingsRowAction('edit'),
+              onTap: () => _rename(context, device.name),
+            ),
+            SettingsRow(
+              icon: Icons.memory_outlined,
+              title: 'Hardware',
+              subtitle: state.isScreenOnly
+                  ? 'Screen · ${device.identifier}'
+                  : '${device.identifier} · ${device.nBoxes} box · ${device.nLeds} LED ch · ${device.nMotors} motors',
+              trailing: const SettingsRowAction('copy'),
+              onTap: () => _copy(context, device.identifier, 'Identifier copied'),
+            ),
+          ],
+        ),
+        SettingsGroup(
+          title: 'Connection',
+          rows: [
+            SettingsRow(
+              icon: Icons.wifi,
+              title: 'Wi-Fi',
+              subtitle: state.wifiSsid ?? 'Network not known, tap to configure',
+              onTap: () => nav.add(MainNavigateToDeviceWifiEvent(device, futureFn: (future) async {
+                dynamic error = await future;
+                reload();
+                if (error == null) {
+                  return;
+                }
+                _snack(context, error != true ? settingsDevicePageWifiConfigSuccess : settingsDevicePageWifiConfigFailed,
+                    error: error == true);
+              })),
+            ),
+            SettingsRow(
+              icon: Icons.lan_outlined,
+              title: 'Local address',
+              subtitle: device.isReachable ? '${device.ip} · reachable' : '${device.ip} · not reachable right now',
+              subtitleColor: device.isReachable ? null : c.warn,
+              trailing: const SettingsRowAction('copy'),
+              onTap: () => _copy(context, device.ip, 'Address copied'),
+            ),
+            if (!state.isScreenOnly)
+              SettingsRow(
+                icon: Icons.cloud_outlined,
+                title: 'Remote control',
+                subtitle: state.isPaired ? 'Paired · via SuperGreenLab broker' : 'Not paired, local network only',
+                trailing: SettingsRowChip(state.isPaired ? 'paired' : 'off', on: state.isPaired),
+                onTap: () => nav.add(MainNavigateToSettingsRemoteControl(device)),
+              ),
+            SettingsRow(
+              icon: Icons.lock_outline,
+              title: 'Password lock',
+              subtitle: state.hasPassword ? 'Enabled on this phone' : 'Off · anyone on the Wi-Fi can change settings',
+              trailing: SettingsRowChip(state.hasPassword ? 'on' : 'off', on: state.hasPassword),
+              onTap: () => nav.add(MainNavigateToSettingsDeviceAuth(device)),
+            ),
+          ],
+        ),
+        if (!state.isScreenOnly)
+          SettingsGroup(
+            title: 'Ports',
+            rows: [
+              SettingsRow(
+                icon: Icons.grid_view_outlined,
+                title: 'Box slots',
+                subtitle: '${device.nBoxes} slots · which box drives which plant',
+                onTap: () => nav.add(MainNavigateToSelectDeviceBoxEvent(device)),
+              ),
+              SettingsRow(
+                icon: Icons.settings_input_component_outlined,
+                title: 'Motor ports',
+                subtitle: '${device.nMotors} ports · fans, blowers and pumps',
+                onTap: () => nav.add(MainNavigateToMotorPortEvent(device, null)),
+              ),
+            ],
+          ),
+        SettingsGroup(
+          title: 'Firmware',
+          rows: [
+            SettingsRow(
+              icon: Icons.system_update_alt_outlined,
+              title: 'Update',
+              subtitle: state.firmwareBuiltAt == null
+                  ? 'Build date unknown · tap to check'
+                  : 'Built ${DateFormat.yMMMd().format(state.firmwareBuiltAt!)} · tap to check',
+              trailing: const SettingsRowAction('check'),
+              onTap: () => nav.add(MainNavigateToSettingsUpgradeDevice(device, futureFn: (future) async {
+                dynamic ret = await future;
+                if (ret is bool && ret == true) {
+                  nav.add(MainNavigateToRefreshParameters(device));
+                }
+                reload();
+              })),
+            ),
+            SettingsRow(
+              icon: Icons.monitor_heart_outlined,
+              title: settingsDevicePageControllerStatusTitle,
+              subtitle: 'Wi-Fi, MQTT, heap, uptime and reboot history',
+              onTap: () => nav.add(MainNavigateToSettingsDeviceStatus(device)),
+            ),
+            SettingsRow(
+              icon: Icons.sync_outlined,
+              title: 'Refresh parameters',
+              subtitle: '${state.nParams} keys in the app · re-read them all from the controller',
+              onTap: () => nav.add(MainNavigateToRefreshParameters(device, futureFn: (future) async {
+                await future;
+                reload();
+              })),
+            ),
+            SettingsRow(
+              icon: Icons.terminal_outlined,
+              title: 'Admin interface',
+              subtitle: 'http://${device.ip}/fs/app.html · opens in the browser',
+              trailing: const SettingsRowAction('open'),
+              onTap: () => launchUrl(Uri.parse('http://${device.ip}/fs/app.html'), mode: LaunchMode.externalApplication),
+            ),
+          ],
+        ),
+        SettingsGroup(
+          title: 'Danger zone',
+          rows: [
+            SettingsRow(
+              icon: Icons.delete_outline,
+              title: 'Forget this device',
+              subtitle: 'Removes it from the app only, the controller keeps running',
+              titleColor: c.crit,
+              iconColor: c.crit,
+              onTap: () => _forget(context, device),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 
-  @override
-  void dispose() {
-    _listener.cancel();
-    _nameController.dispose();
-    super.dispose();
+  Future<void> _rename(BuildContext context, String current) async {
+    final SettingsDeviceBloc bloc = BlocProvider.of<SettingsDeviceBloc>(context);
+    final TextEditingController controller = TextEditingController(text: current);
+    final String? name = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(settingsDevicePageControllerNameSection),
+          content: TextField(
+            controller: controller,
+            autofocus: true,
+            maxLength: 24,
+            textCapitalization: TextCapitalization.words,
+            decoration: const InputDecoration(hintText: 'Ex: SuperGreenController'),
+            onSubmitted: (value) => Navigator.pop(context, value.trim()),
+          ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(context), child: Text(CommonL10N.cancel)),
+            FilledButton(onPressed: () => Navigator.pop(context, controller.text.trim()), child: const Text('Rename')),
+          ],
+        );
+      },
+    );
+    controller.dispose();
+    if (name == null || name.isEmpty || name == current) {
+      return;
+    }
+    bloc.add(SettingsDeviceBlocEventUpdate(name));
+  }
+
+  Future<void> _forget(BuildContext context, Device device) async {
+    final SettingsDeviceBloc bloc = BlocProvider.of<SettingsDeviceBloc>(context);
+    final SglColors c = context.sgl;
+    final bool? confirm = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Forget ${device.name}?'),
+          content: const Text(
+              'The controller is removed from this app and from your account. Plants in its boxes lose their controller. This can\'t be undone.'),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(context, false), child: Text(CommonL10N.cancel)),
+            FilledButton(
+              style: FilledButton.styleFrom(backgroundColor: c.crit, foregroundColor: Colors.white),
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Forget'),
+            ),
+          ],
+        );
+      },
+    );
+    if (confirm ?? false) {
+      bloc.add(SettingsDeviceBlocEventForget());
+    }
+  }
+
+  Future<void> _copy(BuildContext context, String value, String message) async {
+    await Clipboard.setData(ClipboardData(text: value));
+    if (context.mounted) {
+      _snack(context, message);
+    }
+  }
+
+  void _snack(BuildContext context, String message, {bool error = false}) {
+    final ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
+    messenger.hideCurrentSnackBar();
+    messenger.showSnackBar(SnackBar(
+      content: Text(message),
+      backgroundColor: error ? context.sgl.crit : null,
+    ));
   }
 }

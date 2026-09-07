@@ -16,17 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
-import 'package:super_green_app/misc/bloc.dart';
 import 'package:super_green_app/data/api/device/device_helper.dart';
+import 'package:super_green_app/data/kv/app_db.dart';
+import 'package:super_green_app/data/kv/models/device_data.dart';
+import 'package:super_green_app/data/logger/logger.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
+import 'package:super_green_app/misc/bloc.dart';
 
 abstract class SettingsDeviceBlocEvent extends Equatable {}
 
 class SettingsDeviceBlocEventInit extends SettingsDeviceBlocEvent {
   @override
   List<Object> get props => [];
+}
+
+/// Re-read the device row and its params (after a sub-page popped).
+class SettingsDeviceBlocEventReload extends SettingsDeviceBlocEvent {
+  final int rand = DateTime.now().microsecondsSinceEpoch;
+
+  @override
+  List<Object> get props => [rand];
 }
 
 class SettingsDeviceBlocEventUpdate extends SettingsDeviceBlocEvent {
@@ -38,6 +51,12 @@ class SettingsDeviceBlocEventUpdate extends SettingsDeviceBlocEvent {
   List<Object> get props => [name];
 }
 
+/// Remove the device from the app only (the controller keeps running).
+class SettingsDeviceBlocEventForget extends SettingsDeviceBlocEvent {
+  @override
+  List<Object> get props => [];
+}
+
 abstract class SettingsDeviceBlocState extends Equatable {}
 
 class SettingsDeviceBlocStateLoading extends SettingsDeviceBlocState {
@@ -45,28 +64,59 @@ class SettingsDeviceBlocStateLoading extends SettingsDeviceBlocState {
   List<Object> get props => [];
 }
 
+/// What the settings screen shows for one device. Every optional field is
+/// null when the param is missing from the local db.
 class SettingsDeviceBlocStateLoaded extends SettingsDeviceBlocState {
   final Device device;
+  final String? wifiSsid;
+  final String? mdnsDomain;
 
-  SettingsDeviceBlocStateLoaded(this.device);
+  /// Firmware build time, from OTA_TIMESTAMP.
+  final DateTime? firmwareBuiltAt;
+  final int nParams;
+  final bool isPaired;
+  final bool hasPassword;
+
+  /// Set once after a successful rename, cleared on the next reload.
+  final String? renamedTo;
+
+  SettingsDeviceBlocStateLoaded(
+    this.device, {
+    this.wifiSsid,
+    this.mdnsDomain,
+    this.firmwareBuiltAt,
+    this.nParams = 0,
+    this.isPaired = false,
+    this.hasPassword = false,
+    this.renamedTo,
+  });
+
+  bool get isScreenOnly => device.isScreen && device.isController == false;
 
   @override
-  List<Object> get props => [device];
+  List<Object?> get props => [device, wifiSsid, mdnsDomain, firmwareBuiltAt, nParams, isPaired, hasPassword, renamedTo];
 }
 
-class SettingsDeviceBlocStateDone extends SettingsDeviceBlocState {
-  final Device device;
-
-  SettingsDeviceBlocStateDone(this.device);
+/// Rename failed (controller unreachable, ...). The screen shows a snackbar
+/// and stays on the loaded state that follows.
+class SettingsDeviceBlocStateUpdateFailed extends SettingsDeviceBlocState {
+  final int rand = DateTime.now().microsecondsSinceEpoch;
 
   @override
-  List<Object> get props => [device];
+  List<Object> get props => [rand];
+}
+
+class SettingsDeviceBlocStateForgotten extends SettingsDeviceBlocState {
+  final String name;
+
+  SettingsDeviceBlocStateForgotten(this.name);
+
+  @override
+  List<Object> get props => [name];
 }
 
 class SettingsDeviceBloc extends LegacyBloc<SettingsDeviceBlocEvent, SettingsDeviceBlocState> {
-  //ignore: unused_field
   final MainNavigateToSettingsDevice args;
-  late Device device;
 
   SettingsDeviceBloc(this.args) : super(SettingsDeviceBlocStateLoading()) {
     add(SettingsDeviceBlocEventInit());
@@ -74,13 +124,45 @@ class SettingsDeviceBloc extends LegacyBloc<SettingsDeviceBlocEvent, SettingsDev
 
   @override
   Stream<SettingsDeviceBlocState> mapEventToState(SettingsDeviceBlocEvent event) async* {
-    if (event is SettingsDeviceBlocEventInit) {
-      device = await RelDB.get().devicesDAO.getDevice(args.device.id);
-      yield SettingsDeviceBlocStateLoaded(device);
+    if (event is SettingsDeviceBlocEventInit || event is SettingsDeviceBlocEventReload) {
+      yield await _load();
     } else if (event is SettingsDeviceBlocEventUpdate) {
       yield SettingsDeviceBlocStateLoading();
-      await DeviceHelper.updateDeviceName(args.device, event.name);
-      yield SettingsDeviceBlocStateDone(device);
+      try {
+        await DeviceHelper.updateDeviceName(args.device, event.name);
+        yield await _load(renamedTo: event.name);
+      } catch (e, trace) {
+        Logger.logError(e, trace, data: {'deviceID': args.device.identifier});
+        yield SettingsDeviceBlocStateUpdateFailed();
+        yield await _load();
+      }
+    } else if (event is SettingsDeviceBlocEventForget) {
+      yield SettingsDeviceBlocStateLoading();
+      final String name = args.device.name;
+      await DeviceHelper.deleteDevice(args.device);
+      yield SettingsDeviceBlocStateForgotten(name);
     }
   }
+
+  Future<SettingsDeviceBlocStateLoaded> _load({String? renamedTo}) async {
+    final RelDB db = RelDB.get();
+    final Device device = await db.devicesDAO.getDevice(args.device.id);
+    final DeviceData deviceData = AppDB().getDeviceData(device.identifier);
+    final List<Param> params = await db.devicesDAO.getParams(device.id);
+    final Map<String, Param> byKey = {for (final Param p in params) p.key: p};
+    final int? otaTimestamp = byKey['OTA_TIMESTAMP']?.ivalue;
+    return SettingsDeviceBlocStateLoaded(
+      device,
+      wifiSsid: _nonEmpty(byKey['WIFI_SSID']?.svalue),
+      mdnsDomain: _nonEmpty(byKey['MDNS_DOMAIN']?.svalue) ?? _nonEmpty(device.mdns),
+      firmwareBuiltAt:
+          otaTimestamp == null || otaTimestamp <= 0 ? null : DateTime.fromMillisecondsSinceEpoch(otaTimestamp * 1000),
+      nParams: params.length,
+      isPaired: deviceData.signing != null && deviceData.signing!.isNotEmpty,
+      hasPassword: deviceData.auth != null && deviceData.auth!.isNotEmpty,
+      renamedTo: renamedTo,
+    );
+  }
+
+  static String? _nonEmpty(String? value) => value == null || value.isEmpty ? null : value;
 }

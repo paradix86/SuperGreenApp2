@@ -24,7 +24,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/l10n.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
-import 'package:super_green_app/pages/settings/devices/edit_config/settings_device_bloc.dart';
 import 'package:super_green_app/pages/settings/devices/upgrade/settings_upgrade_device_bloc.dart';
 import 'package:super_green_app/widgets/appbar.dart';
 import 'package:super_green_app/widgets/fullscreen.dart';
@@ -101,7 +100,7 @@ class SettingsUpgradeDevicePage extends StatelessWidget {
                 backgroundColor: Color(0xff0b6ab3),
                 titleColor: Colors.white,
                 iconColor: Colors.white,
-                hideBackButton: state is SettingsDeviceBlocStateDone,
+                hideBackButton: state is SettingsUpgradeDeviceBlocStateUpgradeDone,
               ),
               backgroundColor: Colors.white,
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
