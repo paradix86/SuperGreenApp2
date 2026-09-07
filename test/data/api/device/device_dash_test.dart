@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:super_green_app/data/api/device/device_api.dart';
 import 'package:super_green_app/data/api/device/device_dash.dart';
 
 void main() {
@@ -32,6 +33,19 @@ void main() {
     expect(dash.intValues['SENSOR_HEALTH_STUCK_SAMPLES'], 15);
     expect(dash.stringValues['SENSOR_HEALTH_LAST_ALERT'], 'box_0_temp_stuck');
     expect(dash.time, fixture['time']);
+  });
+
+  test('a key written by /dash counts as fresh for dashFreshness, unknown keys never do', () {
+    final DeviceDash dash = DeviceDash.fromJson(fixture);
+    final DateTime applied = DateTime(2026, 9, 7, 12, 0, 0);
+    DeviceAPI.noteDashApplied(7, dash, at: applied);
+
+    expect(DeviceAPI.isFreshFromDash(7, 'BOX_0_TEMP', now: applied.add(const Duration(seconds: 10))), isTrue);
+    expect(DeviceAPI.isFreshFromDash(7, 'SENSOR_HEALTH_LAST_ALERT', now: applied.add(const Duration(seconds: 44))),
+        isTrue);
+    expect(DeviceAPI.isFreshFromDash(7, 'BOX_0_TEMP', now: applied.add(DeviceAPI.dashFreshness)), isFalse);
+    expect(DeviceAPI.isFreshFromDash(7, 'WIFI_SSID', now: applied.add(const Duration(seconds: 1))), isFalse);
+    expect(DeviceAPI.isFreshFromDash(8, 'BOX_0_TEMP', now: applied.add(const Duration(seconds: 1))), isFalse);
   });
 
   test('tolerates a partial payload and uses the list position when "i" is missing', () {

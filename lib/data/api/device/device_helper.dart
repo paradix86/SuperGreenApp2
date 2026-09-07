@@ -155,6 +155,10 @@ class DeviceHelper {
       await DeviceWebsocket.getWebsocket(device)!.sendRemoteCommand('gets -k ${param.key}');
       return future;
     }
+    if (DeviceAPI.isFreshFromDash(device.id, param.key)) {
+      // the daemon wrote this key from /dash a few seconds ago: no GET needed
+      return RelDB.get().devicesDAO.getParam(device.id, param.key);
+    }
     String? auth = AppDB().getDeviceAuth(device.identifier);
     String value = await DeviceAPI.fetchStringParam(device.ip, param.key,
         timeout: timeout, nRetries: nRetries, wait: wait, auth: auth);
@@ -170,6 +174,11 @@ class DeviceHelper {
       return future;
     }
 
+    if (DeviceAPI.isFreshFromDash(device.id, param.key)) {
+      // the daemon wrote this key from /dash a few seconds ago: no GET needed
+      // (the box app bar alone re-read ~10 keys every 10 s through here)
+      return RelDB.get().devicesDAO.getParam(device.id, param.key);
+    }
     String? auth = AppDB().getDeviceAuth(device.identifier);
     int value = await DeviceAPI.fetchIntParam(device.ip, param.key,
         timeout: timeout, nRetries: nRetries, wait: wait, auth: auth);

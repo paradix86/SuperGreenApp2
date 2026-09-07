@@ -392,6 +392,30 @@ class DeviceAPI {
     }
   }
 
+  /// A param refreshed by `/dash` within this window is served from the local
+  /// db instead of a `GET /i`: the daemon polls every 15 s, so three missed
+  /// polls make the value stale again.
+  static const Duration dashFreshness = Duration(seconds: 45);
+
+  static final Map<int, DateTime> _dashAppliedAt = {};
+  static final Map<int, Set<String>> _dashKeys = {};
+
+  /// Records that [dash] was applied to [deviceID]'s params at [at].
+  static void noteDashApplied(int deviceID, DeviceDash dash, {DateTime? at}) {
+    _dashAppliedAt[deviceID] = at ?? DateTime.now();
+    _dashKeys[deviceID] = {...dash.intValues.keys, ...dash.stringValues.keys};
+  }
+
+  /// True when [key] of [deviceID] was written by `/dash` less than
+  /// [dashFreshness] ago, i.e. the local db is as good as a fresh `GET /i`.
+  static bool isFreshFromDash(int deviceID, String key, {DateTime? now}) {
+    final DateTime? appliedAt = _dashAppliedAt[deviceID];
+    if (appliedAt == null || !(_dashKeys[deviceID]?.contains(key) ?? false)) {
+      return false;
+    }
+    return (now ?? DateTime.now()).difference(appliedAt) < dashFreshness;
+  }
+
   /// Writes the values of [dash] into the params the local db already has for
   /// [deviceID], skipping unknown keys and unchanged values (every write wakes
   /// up the widgets watching that param). Returns the number of params updated.
@@ -417,6 +441,7 @@ class DeviceAPI {
         ++updated;
       }
     }
+    noteDashApplied(deviceID, dash);
     return updated;
   }
 
