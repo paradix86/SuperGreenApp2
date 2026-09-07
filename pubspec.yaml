@@ -83,11 +83,11 @@ dependencies:
   # community fork of google/charts (same API, import renamed): the
   # supergreenlab fork pins intl ^0.19 and cannot resolve on Flutter >= 3.24
   community_charts_flutter: ^1.0.4
-  flutter_markdown:
-  youtube_player_flutter:
+  # flutter_markdown is discontinued; flutter_markdown_plus is its drop-in successor
+  flutter_markdown_plus: ^1.0.12
   matrix_gesture_detector:
     path: ./vendor/matrix_gesture_detector
-  connectivity_plus: ^4.0.0
+  connectivity_plus: ^7.0.0
   firebase_messaging:
   firebase_core:
   flutter_local_notifications:

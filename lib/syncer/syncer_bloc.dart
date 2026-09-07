@@ -87,7 +87,7 @@ class SyncerBlocStateSyncing extends SyncerBlocState {
 class SyncerBloc extends LegacyBloc<SyncerBlocEvent, SyncerBlocState> {
   static late SyncerBloc instance;
 
-  late StreamSubscription<ConnectivityResult> _connectivity;
+  late StreamSubscription<List<ConnectivityResult>> _connectivity;
 
   Timer? _timerOut;
   bool _workingOut = false;
@@ -102,9 +102,9 @@ class SyncerBloc extends LegacyBloc<SyncerBlocEvent, SyncerBlocState> {
   @override
   Stream<SyncerBlocState> mapEventToState(SyncerBlocEvent event) async* {
     if (event is SyncerBlocEventInit) {
-      _usingWifi = await Connectivity().checkConnectivity() == ConnectivityResult.wifi;
-      _connectivity = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-        _usingWifi = (result == ConnectivityResult.wifi);
+      _usingWifi = (await Connectivity().checkConnectivity()).contains(ConnectivityResult.wifi);
+      _connectivity = Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> result) {
+        _usingWifi = result.contains(ConnectivityResult.wifi);
       });
       _timerOut = Timer.periodic(Duration(seconds: 5), (_) async {
         if (_workingOut == true) return;

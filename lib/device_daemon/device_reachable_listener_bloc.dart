@@ -80,7 +80,7 @@ class DeviceReachableListenerBloc
 
   late Device device;
 
-  StreamSubscription<ConnectivityResult>? connectivity;
+  StreamSubscription<List<ConnectivityResult>>? connectivity;
   bool _usingWifi = false;
 
   StreamSubscription? subscription;
@@ -92,9 +92,9 @@ class DeviceReachableListenerBloc
     if (event is DeviceReachableListenerBlocEventLoadDevice) {
       if (subscription == null) {
         device = await deviceArgHolder.getDevice() as Device;
-        _usingWifi = await Connectivity().checkConnectivity() == ConnectivityResult.wifi;
-        connectivity = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-          _usingWifi = (result == ConnectivityResult.wifi);
+        _usingWifi = (await Connectivity().checkConnectivity()).contains(ConnectivityResult.wifi);
+        connectivity = Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> result) {
+          _usingWifi = result.contains(ConnectivityResult.wifi);
         });
         subscription = RelDB.get().devicesDAO.watchDevice(device.id).listen((Device? newDevice) {
           add(DeviceReachableListenerBlocEventDeviceReachable(
