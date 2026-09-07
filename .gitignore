@@ -28,6 +28,8 @@
 .pub-cache/
 .pub/
 /build/
+android/build/
+ios/Flutter/ephemeral/
 .flutter-plugins-dependencies
 
 # Web related
