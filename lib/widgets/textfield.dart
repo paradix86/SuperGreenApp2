@@ -18,6 +18,7 @@
 
 import 'package:flutter/material.dart';
 
+/// Single-line text input styled by the theme's InputDecorationTheme.
 class SGLTextField extends StatelessWidget {
   final String hintText;
   final Function(String) onChanged;
@@ -30,54 +31,36 @@ class SGLTextField extends StatelessWidget {
   final String? error;
   final TextCapitalization textCapitalization;
 
-  SGLTextField(
-      {required this.hintText,
-      required this.controller,
-      required this.onChanged,
-      this.enabled,
-      this.textInputAction = TextInputAction.next,
-      this.onFieldSubmitted,
-      this.focusNode,
-      this.obscureText = false,
-      this.error,
-      this.textCapitalization = TextCapitalization.sentences});
+  const SGLTextField({
+    Key? key,
+    required this.hintText,
+    required this.controller,
+    required this.onChanged,
+    this.enabled,
+    this.textInputAction = TextInputAction.next,
+    this.onFieldSubmitted,
+    this.focusNode,
+    this.obscureText = false,
+    this.error,
+    this.textCapitalization = TextCapitalization.sentences,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Widget field = Container(
-      decoration:
-          BoxDecoration(border: Border.all(width: 1, color: Colors.black26), borderRadius: BorderRadius.circular(3)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0.0),
-        child: TextField(
-          textInputAction: textInputAction,
-          onSubmitted: onFieldSubmitted,
-          enabled: enabled,
-          textCapitalization: textCapitalization,
-          decoration: InputDecoration(
-            hintText: hintText,
-            border: InputBorder.none,
-          ),
-          style: TextStyle(fontSize: 15),
-          controller: controller,
-          onChanged: onChanged,
-          focusNode: focusNode,
-          obscureText: obscureText,
-        ),
+    return TextField(
+      textInputAction: textInputAction,
+      onSubmitted: onFieldSubmitted,
+      enabled: enabled,
+      textCapitalization: textCapitalization,
+      decoration: InputDecoration(
+        hintText: hintText,
+        errorText: error,
       ),
+      style: Theme.of(context).textTheme.bodyLarge,
+      controller: controller,
+      onChanged: onChanged,
+      focusNode: focusNode,
+      obscureText: obscureText,
     );
-    if (error != null) {
-      field = Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          field,
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text(error!, style: TextStyle(color: Colors.red)),
-          ),
-        ],
-      );
-    }
-    return field;
   }
 }

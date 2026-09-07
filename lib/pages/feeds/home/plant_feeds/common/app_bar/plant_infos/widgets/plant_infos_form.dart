@@ -58,7 +58,7 @@ class PlantInfosForm extends StatelessWidget {
           children: <Widget>[
             RedButton(
               title: 'Cancel',
-              onPressed: onCancel,
+              onPressed: () => onCancel(),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 4.0),

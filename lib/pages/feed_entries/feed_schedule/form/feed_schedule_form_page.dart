@@ -268,7 +268,7 @@ class _FeedScheduleFormPageState extends State<FeedScheduleFormPage> {
                   ),
                   GreenButton(
                     title: selected ? 'SELECTED' : 'SELECT',
-                    onPressed: onPressed,
+                    onPressed: () => onPressed(),
                     color: selected ? 0xff3bb30b : 0xff777777,
                   )
                 ],

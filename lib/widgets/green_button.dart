@@ -18,15 +18,32 @@
 
 import 'package:flutter/material.dart';
 
-class GreenButton extends ElevatedButton {
+/// Primary action button. Styling comes from the theme's FilledButton; the
+/// legacy `color` parameter (an ARGB int) is still honoured when a call site
+/// passes one explicitly.
+class GreenButton extends StatelessWidget {
+  final String title;
+  final VoidCallback? onPressed;
+  final int? color;
   final double? fontSize;
 
-  GreenButton({title, onPressed, color = 0xff3bb30b, this.fontSize})
-      : super(
-          style: ButtonStyle(
-            backgroundColor: onPressed != null ? MaterialStateProperty.resolveWith((state) => Color(color)) : MaterialStateProperty.resolveWith((state) => Color(0xffababab)),
-          ),
-          child: Text(title, style: TextStyle(color: Colors.white, fontSize: fontSize)),
-          onPressed: onPressed,
-        );
+  const GreenButton({Key? key, required this.title, this.onPressed, this.color, this.fontSize}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    ButtonStyle? style;
+    if (color != null || fontSize != null) {
+      final TextStyle? base = Theme.of(context).filledButtonTheme.style?.textStyle?.resolve({});
+      style = FilledButton.styleFrom(
+        backgroundColor: color != null ? Color(color!) : null,
+        foregroundColor: color != null ? Colors.white : null,
+        textStyle: fontSize != null ? base?.copyWith(fontSize: fontSize) : null,
+      );
+    }
+    return FilledButton(
+      style: style,
+      onPressed: onPressed,
+      child: Text(title),
+    );
+  }
 }

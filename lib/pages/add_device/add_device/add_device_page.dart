@@ -122,7 +122,7 @@ class AddDevicePage extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: GreenButton(
             title: buttonTitle,
-            onPressed: onPressed,
+            onPressed: () => onPressed(),
           ),
         ),
       )

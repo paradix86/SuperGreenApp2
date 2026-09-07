@@ -17,6 +17,8 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/theme/sgl_typography.dart';
 
 class Fullscreen extends StatelessWidget {
   final String? title;
@@ -41,18 +43,20 @@ class Fullscreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final SglColors c = context.sgl;
     List<Widget> titles = [];
     if (title != null) {
       titles.add(Text(
         title!,
-        style: TextStyle(fontSize: fontSize, fontWeight: fontWeight, color: textColor ?? Color(0xff565656)),
+        style: TextStyle(
+            fontFamily: SglFonts.display, fontSize: fontSize, fontWeight: fontWeight, color: textColor ?? c.ink2),
         textAlign: TextAlign.center,
       ));
     }
     if (subtitle != null) {
       titles.add(Text(
         subtitle!,
-        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: textColor ?? Colors.grey),
+        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: textColor ?? c.ink3),
         textAlign: TextAlign.center,
       ));
     }

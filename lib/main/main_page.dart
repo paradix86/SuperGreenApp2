@@ -178,6 +178,7 @@ import 'package:super_green_app/pin_lock/pin_lock_bloc.dart';
 import 'package:super_green_app/syncer/syncer_bloc.dart';
 import 'package:super_green_app/towelie/helpers/misc/towelie_action_help_notification.dart';
 import 'package:super_green_app/towelie/towelie_bloc.dart';
+import 'package:super_green_app/theme/sgl_theme.dart';
 import 'package:super_green_app/towelie/towelie_helper.dart';
 import 'package:super_green_app/widgets/permissions_banner.dart';
 
@@ -304,9 +305,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
                   ),
                 );
               }),
-          theme: ThemeData(
-            fontFamily: 'Roboto',
-          ),
+          theme: SglTheme.light(),
+          darkTheme: SglTheme.dark(),
+          themeMode: ThemeMode.system,
           home: BlocProvider<AppInitBloc>(
             create: (context) => AppInitBloc(),
             child: AppInitPage(),

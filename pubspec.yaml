@@ -121,6 +121,37 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  # Static instances of Google Fonts (OFL, see assets/fonts/OFL.txt):
+  # Bricolage Grotesque for display, Instrument Sans for body, IBM Plex Mono
+  # for readings. Declared here so the app never depends on the network.
+  fonts:
+    - family: BricolageGrotesque
+      fonts:
+        - asset: assets/fonts/BricolageGrotesque-500.ttf
+          weight: 500
+        - asset: assets/fonts/BricolageGrotesque-600.ttf
+          weight: 600
+        - asset: assets/fonts/BricolageGrotesque-700.ttf
+          weight: 700
+    - family: InstrumentSans
+      fonts:
+        - asset: assets/fonts/InstrumentSans-400.ttf
+          weight: 400
+        - asset: assets/fonts/InstrumentSans-500.ttf
+          weight: 500
+        - asset: assets/fonts/InstrumentSans-600.ttf
+          weight: 600
+        - asset: assets/fonts/InstrumentSans-700.ttf
+          weight: 700
+    - family: IBMPlexMono
+      fonts:
+        - asset: assets/fonts/IBMPlexMono-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/IBMPlexMono-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/IBMPlexMono-SemiBold.ttf
+          weight: 600
+
   assets:
     - assets/
     - assets/feed_form/

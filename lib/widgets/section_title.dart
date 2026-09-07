@@ -18,6 +18,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/theme/sgl_typography.dart';
 
 class SectionTitle extends StatefulWidget {
   final String title;
@@ -77,12 +79,17 @@ class _SectionTitleState extends State<SectionTitle> {
 
   @override
   Widget build(BuildContext context) {
+    final SglColors c = context.sgl;
+    final TextStyle titleStyle = TextStyle(
+      fontFamily: SglFonts.display,
+      fontWeight: widget.bold ? FontWeight.w700 : FontWeight.w500,
+      fontSize: widget.large ? 20 : 16,
+      color: widget.titleColor ?? c.ink,
+    );
     return Container(
       decoration: BoxDecoration(
-        boxShadow: widget.elevation != null
-            ? [BoxShadow(offset: Offset(0, widget.elevation!), color: Colors.black12, blurRadius: widget.elevation!)]
-            : null,
-        color: widget.backgroundColor ?? Color(0xFFECECEC),
+        border: Border(bottom: BorderSide(color: c.line)),
+        color: widget.backgroundColor ?? c.surface2,
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 3.0, vertical: widget.large ? 16.0 : 8.0),
@@ -95,29 +102,23 @@ class _SectionTitleState extends State<SectionTitle> {
                   ? TextField(
                       controller: _titleController,
                       focusNode: _focusNode,
-                      style: TextStyle(
-                        fontWeight: widget.bold ? FontWeight.bold : FontWeight.w300,
-                        fontSize: widget.large ? 20 : 16,
-                        color: widget.titleColor,
-                      ),
+                      style: titleStyle,
                       decoration: InputDecoration(
                         hintText: 'ex: Top light',
                         border: InputBorder.none,
+                        filled: false,
+                        isDense: true,
                       ),
                       onSubmitted: _handleSubmitted,
                     )
                   : Text(
                       widget.title,
-                      style: TextStyle(
-                        fontWeight: widget.bold ? FontWeight.bold : FontWeight.w300,
-                        fontSize: widget.large ? 20 : 16,
-                        color: widget.titleColor,
-                      ),
+                      style: titleStyle,
                     ),
             ),
             if (widget.onTitleEdited != null)
               IconButton(
-                icon: Icon(_isEditing ? Icons.check : Icons.edit, color: _isEditing ? Colors.green : null),
+                icon: Icon(_isEditing ? Icons.check : Icons.edit, color: _isEditing ? c.accent : null),
                 onPressed: () {
                   setState(() {
                     if (_isEditing) {
@@ -146,12 +147,17 @@ class _SectionTitleState extends State<SectionTitle> {
   }
 
   Widget _renderIcon() {
+    final SglColors c = context.sgl;
     return Padding(
       padding: const EdgeInsets.only(right: 8.0, left: 4.0),
       child: Container(
         width: widget.large ? 50 : 40,
         height: widget.large ? 50 : 40,
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(25))),
+        decoration: BoxDecoration(
+          color: c.surface,
+          border: Border.all(color: c.line),
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+        ),
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: widget.iconPadding, horizontal: widget.iconPadding),
           child: SvgPicture.asset(widget.icon),

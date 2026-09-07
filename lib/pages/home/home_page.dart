@@ -37,6 +37,7 @@ import 'package:super_green_app/pages/home/home_bloc.dart';
 import 'package:super_green_app/pages/home/home_navigator_bloc.dart';
 import 'package:super_green_app/pages/settings/settings_bloc.dart';
 import 'package:super_green_app/pages/settings/settings_page.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:super_green_app/towelie/towelie_bloc.dart';
 import 'package:super_green_app/towelie/towelie_helper.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
@@ -83,7 +84,7 @@ class HomePage extends StatelessWidget {
               onGenerateRoute: (settings) => this._onGenerateRoute(context, settings),
             );
 
-            Widget homeIcon = Icon(Icons.event_note);
+            Widget homeIcon = Icon(Icons.science_outlined);
             try {
               int nOthers = 0;
               try {
@@ -93,34 +94,35 @@ class HomePage extends StatelessWidget {
                 homeIcon = Stack(
                   children: [
                     homeIcon,
-                    _renderBadge(nOthers),
+                    _renderBadge(context, nOthers),
                   ],
                 );
               }
             } catch (e, trace) {
               Logger.logError(e, trace);
             }
-            navbar = BottomNavigationBar(
-              unselectedItemColor: Colors.black38,
-              selectedItemColor: Colors.green,
-              onTap: (i) => this._onNavigationBarItemSelect(context, i, navigatorState),
-              elevation: 10,
-              currentIndex: navigatorState.index,
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.feedback),
+            navbar = NavigationBar(
+              onDestinationSelected: (i) => this._onNavigationBarItemSelect(context, i, navigatorState),
+              selectedIndex: navigatorState.index,
+              destinations: [
+                NavigationDestination(
+                  icon: Icon(Icons.notifications_outlined),
+                  selectedIcon: Icon(Icons.notifications),
                   label: 'Dashboard',
                 ),
-                BottomNavigationBarItem(
+                NavigationDestination(
                   icon: homeIcon,
+                  selectedIcon: homeIcon,
                   label: 'Lab',
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.explore),
+                NavigationDestination(
+                  icon: Icon(Icons.explore_outlined),
+                  selectedIcon: Icon(Icons.explore),
                   label: 'Community',
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
+                NavigationDestination(
+                  icon: Icon(Icons.settings_outlined),
+                  selectedIcon: Icon(Icons.settings),
                   label: 'Settings',
                 ),
               ],
@@ -136,13 +138,13 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _renderBadge(int n) {
+  Widget _renderBadge(BuildContext context, int n) {
     return Positioned(
       right: 0,
       child: Container(
         padding: EdgeInsets.all(1),
         decoration: BoxDecoration(
-          color: Colors.red,
+          color: context.sgl.crit,
           borderRadius: BorderRadius.circular(7),
         ),
         constraints: BoxConstraints(

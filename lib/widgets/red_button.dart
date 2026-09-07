@@ -17,16 +17,35 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 
-class RedButton extends ElevatedButton {
+/// Destructive action button (delete, unpair...). Uses the theme's `crit`
+/// color; the legacy `color` parameter is ignored.
+class RedButton extends StatelessWidget {
+  final String title;
+  final VoidCallback? onPressed;
   final double? fontSize;
 
-  RedButton({title, onPressed, color = 0xffC06363, this.fontSize})
-      : super(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.resolveWith((state) => Color(color)),
-          ),
-          child: Text(title, style: TextStyle(color: Colors.white, fontSize: fontSize)),
-          onPressed: onPressed,
-        );
+  const RedButton({
+    Key? key,
+    required this.title,
+    this.onPressed,
+    @Deprecated('Colors come from the theme now') int? color,
+    this.fontSize,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final SglColors c = context.sgl;
+    final TextStyle? base = Theme.of(context).filledButtonTheme.style?.textStyle?.resolve({});
+    return FilledButton(
+      style: FilledButton.styleFrom(
+        backgroundColor: c.crit,
+        foregroundColor: Colors.white,
+        textStyle: fontSize != null ? base?.copyWith(fontSize: fontSize) : null,
+      ),
+      onPressed: onPressed,
+      child: Text(title),
+    );
+  }
 }
