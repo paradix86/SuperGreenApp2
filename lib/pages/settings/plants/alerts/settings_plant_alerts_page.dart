@@ -20,7 +20,6 @@ import 'package:flutter/material.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/data/api/backend/services/models/alerts.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
@@ -35,6 +34,7 @@ import 'package:super_green_app/widgets/fullscreen.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
 import 'package:super_green_app/widgets/green_button.dart';
 import 'package:super_green_app/widgets/section_title.dart';
+import 'package:super_green_app/widgets/sgl/sgl_info.dart';
 
 class SettingsPlantAlertsPage extends StatefulWidget {
   static String get settingsPlantAlertPageTitle {
@@ -138,6 +138,9 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
             }
             return WillPopScope(
               onWillPop: () async {
+                if (state is! SettingsPlantAlertsBlocStateLoaded) {
+                  return true;
+                }
                 return (await showDialog<bool>(
                         context: context,
                         barrierDismissible: false,
@@ -456,76 +459,69 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
     );
   }
 
+  /// Alerts are computed by the SuperGreenLab cloud, so they need three
+  /// things: a controller on the lab, an SGL account, and that controller
+  /// registered with the backend. Show all three so the user sees what is
+  /// done and what is missing, instead of one cryptic screen per case.
   Widget _renderNotLoaded(BuildContext context, SettingsPlantAlertsBlocStateNotLoaded state) {
-    if (state.hasController == false) {
-      return _renderNoDevice(context, state);
-    } else if (state.isSync == false) {
-      if (state.isLoggedIn == false) {
-        return _renderNotLoggedIn(context, state);
-      }
-      return _renderNotSynced(context, state);
-    }
-    return Fullscreen(
-      title: 'Unknown error',
-      child: Icon(
-        Icons.error,
-        color: context.sgl.crit,
-      ),
-    );
-  }
-
-  Widget _renderNoDevice(BuildContext context, SettingsPlantAlertsBlocStateNotLoaded state) {
-    return Fullscreen(
-      title: 'Alerts require a controller',
-      child: Column(
-        children: [
-          SvgPicture.asset(
-            'assets/settings/icon_nocontroller.svg',
-            width: 200,
-            height: 200,
-          ),
-          GreenButton(
-            title: 'Lab settings',
-            onPressed: () {
-              BlocProvider.of<MainNavigatorBloc>(context)
-                  .add(MainNavigateToSettingsBox(state.box, futureFn: (future) async {
-                await future;
-                BlocProvider.of<SettingsPlantAlertsBloc>(context).add(SettingsPlantAlertsBlocEventInit());
-              }));
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _renderNotSynced(BuildContext context, SettingsPlantAlertsBlocStateNotLoaded state) {
-    return FullscreenLoading(
-      title: 'Waiting for controller to sync with backend..',
-    );
-  }
-
-  Widget _renderNotLoggedIn(BuildContext context, SettingsPlantAlertsBlocStateNotLoaded state) {
-    return Fullscreen(
-      title: 'Please login to set your alerts.',
-      child: Column(
-        children: [
-          SvgPicture.asset(
-            'assets/settings/icon_account.svg',
-            width: 200,
-            height: 200,
-          ),
-          GreenButton(
-            title: 'Login/create account',
-            onPressed: () {
-              BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsAuth(futureFn: (future) async {
-                await future;
-                BlocProvider.of<SettingsPlantAlertsBloc>(context).add(SettingsPlantAlertsBlocEventInit());
-              }));
-            },
-          ),
-        ],
-      ),
+    final SglColors c = context.sgl;
+    final TextTheme t = Theme.of(context).textTheme;
+    final bool hasController = state.hasController != false;
+    final bool isLoggedIn = state.isLoggedIn ?? (AppDB().getAppData().jwt != null);
+    final bool isSynced = state.isSync == true;
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+      children: [
+        Row(children: [
+          Expanded(child: Text('Alerts are not available yet', style: t.titleLarge?.copyWith(color: c.ink))),
+          const SglInfoButton('alerts', size: 18),
+        ]),
+        const SizedBox(height: 8),
+        Text(
+          'Alerts are push notifications sent by the SuperGreenLab cloud when a reading leaves the range you set. They need:',
+          style: t.bodyMedium?.copyWith(color: c.ink2, height: 1.4),
+        ),
+        const SizedBox(height: 16),
+        _RequirementRow(
+          done: hasController,
+          title: 'A controller linked to this lab',
+          detail: hasController
+              ? 'Done: this lab is linked to a controller.'
+              : 'Link the controller from Lab settings (Change controller).',
+          action: hasController ? null : 'Lab settings',
+          onAction: () {
+            BlocProvider.of<MainNavigatorBloc>(context)
+                .add(MainNavigateToSettingsBox(state.box, futureFn: (future) async {
+              await future;
+              BlocProvider.of<SettingsPlantAlertsBloc>(context).add(SettingsPlantAlertsBlocEventInit());
+            }));
+          },
+        ),
+        _RequirementRow(
+          done: isLoggedIn,
+          title: 'An SGL account',
+          detail: isLoggedIn
+              ? 'Done: you are logged in.'
+              : 'The cloud sends the notifications to your account, so it needs one.',
+          action: isLoggedIn ? null : 'Login / create account',
+          onAction: () {
+            BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsAuth(futureFn: (future) async {
+              await future;
+              BlocProvider.of<SettingsPlantAlertsBloc>(context).add(SettingsPlantAlertsBlocEventInit());
+            }));
+          },
+        ),
+        _RequirementRow(
+          done: isSynced,
+          title: 'The controller registered with the cloud',
+          detail: isSynced
+              ? 'Done: the controller is known to the cloud.'
+              : isLoggedIn
+                  ? 'Waiting for the controller to sync with the backend. It needs internet and MQTT on.'
+                  : 'Happens automatically once you are logged in and the controller is online.',
+          waiting: !isSynced && isLoggedIn && hasController,
+        ),
+      ],
     );
   }
 
@@ -534,5 +530,77 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
       return temp * 9 / 5 + 32;
     }
     return temp;
+  }
+}
+
+class _RequirementRow extends StatelessWidget {
+  final bool done;
+  final bool waiting;
+  final String title;
+  final String detail;
+  final String? action;
+  final VoidCallback? onAction;
+
+  const _RequirementRow({
+    required this.done,
+    required this.title,
+    required this.detail,
+    this.waiting = false,
+    this.action,
+    this.onAction,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final SglColors c = context.sgl;
+    final TextTheme t = Theme.of(context).textTheme;
+    final Widget mark;
+    if (done) {
+      mark = Icon(Icons.check_circle, color: c.accent, size: 22);
+    } else if (waiting) {
+      mark = SizedBox(
+        width: 22,
+        height: 22,
+        child: Padding(
+          padding: const EdgeInsets.all(3),
+          child: CircularProgressIndicator(strokeWidth: 2, color: c.amber),
+        ),
+      );
+    } else {
+      mark = Icon(Icons.radio_button_unchecked, color: c.ink3, size: 22);
+    }
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(padding: const EdgeInsets.only(top: 1), child: mark),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: t.titleMedium?.copyWith(color: done ? c.ink2 : c.ink)),
+                const SizedBox(height: 2),
+                Text(detail, style: t.bodySmall?.copyWith(color: c.ink3, height: 1.35)),
+                if (action != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6),
+                    child: OutlinedButton(
+                      onPressed: onAction,
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: c.accentDeep,
+                        side: BorderSide(color: c.line2),
+                        visualDensity: VisualDensity.compact,
+                      ),
+                      child: Text(action!),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

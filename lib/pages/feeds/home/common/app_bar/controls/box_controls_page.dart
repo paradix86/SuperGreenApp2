@@ -230,7 +230,8 @@ class _BoxControlsPageState extends State<BoxControlsPage> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Icon(Icons.tv_outlined, size: 18, color: c.ink3),
-        const SizedBox(width: 6),
+        const SglInfoButton('screen', size: 14),
+        const SizedBox(width: 2),
         if (canAdd)
           TextButton(
             onPressed: () {
@@ -419,7 +420,9 @@ class _AlertsCard extends StatelessWidget {
         children: [
           Icon(Icons.notifications_active_outlined, size: 20, color: enabled ? c.accent : c.ink3),
           const SizedBox(width: 8),
-          Expanded(child: Text('Alerts', style: Theme.of(context).textTheme.titleMedium)),
+          Text('Alerts', style: Theme.of(context).textTheme.titleMedium),
+          const SglInfoButton('alerts', size: 15),
+          const Spacer(),
           SglStatusChip(label: enabled ? 'on' : 'off', status: enabled ? SglStatus.ok : SglStatus.off),
           const SizedBox(width: 4),
           Icon(Icons.chevron_right, color: c.ink3),

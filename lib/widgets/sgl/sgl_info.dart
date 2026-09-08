@@ -50,6 +50,12 @@ class SglExplanations {
         'Why the controller last rebooted: power-on (normal), software (update or restart), watchdog or panic (a crash), brownout (the power supply dipped).'),
     'flash': SglExplanation('Flash',
         'Space used by the settings and the web dashboard on the controller\'s flash memory.'),
+    'graph_source': SglExplanation('Where the graph data comes from',
+        'From the controller: readings the app polled directly from the controller every 15 seconds while it was open, kept for 24 hours on this phone. Cloud history: 72 hours of samples the controller uploads to the SuperGreenLab servers, available only with an SGL account and the controller online. The two can differ when the app was closed or the controller offline.'),
+    'alerts': SglExplanation('Alerts',
+        'Push notifications when temperature or humidity leave the range you set, day or night. They are computed by the SuperGreenLab cloud from the readings the controller uploads, so they need an SGL account and the controller online with MQTT on. Local control does not need them.'),
+    'screen': SglExplanation('Screen',
+        'An optional SuperGreenLab display (a second, screen-type device) that shows this lab\'s readings on a wall. It is not the controller: the controller is linked from Lab settings. Only add a screen if you own one.'),
     'heap': SglExplanation('Free heap',
         'RAM the firmware still has available. It should stay well above 8 KB; a value that keeps dropping over days points to a memory leak.'),
   };
