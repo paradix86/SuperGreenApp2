@@ -433,6 +433,8 @@ class SettingsDeviceStatusPage extends StatelessWidget {
         _renderRow(settingsDeviceStatusPageHeapMinFree, _renderValue(formatKb(status.heapMinFree))),
         _renderRow(settingsDeviceStatusPageHeapMinFreeAt, _renderValue(formatUptime(status.heapMinFreeAt))),
         _renderRow(settingsDeviceStatusPageHeapLowEvents, _renderHeapLowEvents(status.heapLowEvents)),
+        if (status.heapMinCtx != null && status.heapMinCtx != 'none')
+          _renderRow('At that moment', _renderValue(status.heapMinCtx)),
         _renderRow(settingsDeviceStatusPageNvs,
             _renderValue('${_orNa(status.nvsUsed?.toString())} / ${_orNa(status.nvsFree?.toString())}')),
         _renderRow(settingsDeviceStatusPageClock, _renderClockBadge(status)),

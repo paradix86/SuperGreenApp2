@@ -57,6 +57,9 @@ class DeviceStatus extends Equatable {
 
   /// Number of times free heap dipped below the firmware's 8 KB floor since boot.
   final int? heapLowEvents;
+
+  /// What the controller was doing when the heap minimum was reached (firmware 2026-09-09+).
+  final String? heapMinCtx;
   final int? uptimeS;
   final int? nvsUsed;
   final int? nvsFree;
@@ -83,6 +86,7 @@ class DeviceStatus extends Equatable {
     this.heapMinFree,
     this.heapMinFreeAt,
     this.heapLowEvents,
+    this.heapMinCtx,
     this.uptimeS,
     this.nvsUsed,
     this.nvsFree,
@@ -109,6 +113,7 @@ class DeviceStatus extends Equatable {
       heapMinFree: parseInt(json['heap_min_free']),
       heapMinFreeAt: parseInt(json['heap_min_free_at']),
       heapLowEvents: parseInt(json['heap_low_events']),
+      heapMinCtx: json['heap_min_ctx'] is String ? json['heap_min_ctx'] as String : null,
       uptimeS: parseInt(json['uptime_s']),
       nvsUsed: parseInt(json['nvs_used']),
       nvsFree: parseInt(json['nvs_free']),
@@ -235,6 +240,7 @@ class DeviceStatus extends Equatable {
         heapMinFree,
         heapMinFreeAt,
         heapLowEvents,
+        heapMinCtx,
         uptimeS,
         nvsUsed,
         nvsFree,
