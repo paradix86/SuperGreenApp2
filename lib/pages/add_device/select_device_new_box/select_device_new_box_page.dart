@@ -132,7 +132,7 @@ class SelectDeviceNewBoxPageState extends State<SelectDeviceNewBoxPage> {
     );
   }
 
-  Widget _renderNoLedsAvailable(context, state) {
+  Widget _renderNoLedsAvailable(BuildContext context, SelectDeviceNewBoxBlocState state) {
     return Fullscreen(
         title: SelectDeviceNewBoxPage.selectDeviceNewBoxNoMoreBox,
         child: Column(
@@ -152,7 +152,7 @@ class SelectDeviceNewBoxPageState extends State<SelectDeviceNewBoxPage> {
         ));
   }
 
-  Widget _renderLedSelection(context, state) {
+  Widget _renderLedSelection(BuildContext context, SelectDeviceNewBoxBlocState state) {
     return Column(
       children: <Widget>[
         AnimatedContainer(

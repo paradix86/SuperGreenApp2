@@ -947,6 +947,7 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
     await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
+      useRootNavigator: true,
       backgroundColor: Colors.transparent,
       builder: (BuildContext c) {
         return Column(
@@ -955,8 +956,8 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(5)),
+                color: context.sgl.surface,
+                borderRadius: BorderRadius.all(Radius.circular(16)),
               ),
               child: PlantPublicLink(
                 state: state,

@@ -39,6 +39,7 @@ class LabPanelsRow extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
+      useRootNavigator: true,
       builder: (BuildContext context) {
         final double height = MediaQuery.of(context).size.height * 0.82;
         return SizedBox(

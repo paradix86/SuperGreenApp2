@@ -93,6 +93,9 @@ class _SettingsPlantPageState extends State<SettingsPlantPage> {
             }
             return WillPopScope(
               onWillPop: () async {
+                if (!_hasChanges(state)) {
+                  return true;
+                }
                 return (await showDialog<bool>(
                         context: context,
                         barrierDismissible: false,
@@ -254,6 +257,13 @@ class _SettingsPlantPageState extends State<SettingsPlantPage> {
       _public,
       _box,
     ));
+  }
+
+  bool _hasChanges(SettingsPlantBlocState state) {
+    if (state is! SettingsPlantBlocStateLoaded) {
+      return false;
+    }
+    return _nameController.value.text != state.plant.name || _public != state.plant.public || _box.id != state.box.id;
   }
 
   Widget _renderOptionCheckbx(BuildContext context, String text, Function(bool?) onChanged, bool value) {

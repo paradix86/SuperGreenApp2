@@ -201,7 +201,8 @@ class AppBarAction extends StatelessWidget {
           child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
+                color: context.sgl.surface2,
+                border: Border.all(color: context.sgl.line),
               ),
               child: addIcon ? Stack(
                 clipBehavior: Clip.none,

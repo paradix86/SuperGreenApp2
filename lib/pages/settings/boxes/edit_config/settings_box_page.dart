@@ -101,6 +101,9 @@ class _SettingsBoxPageState extends State<SettingsBoxPage> {
             }
             return WillPopScope(
               onWillPop: () async {
+                if (!_hasChanges(state)) {
+                  return true;
+                }
                 return (await showDialog<bool>(
                         context: context,
                         barrierDismissible: false,
@@ -142,6 +145,15 @@ class _SettingsBoxPageState extends State<SettingsBoxPage> {
         ? 'Lab ${_nameController.value.text} on controller ${_device!.name} updated:)'
         : 'Lab ${_nameController.value.text}';
     return Fullscreen(title: 'Done!', subtitle: subtitle, child: Icon(Icons.done, color: context.sgl.accentDeep, size: 100));
+  }
+
+  bool _hasChanges(SettingsBoxBlocState state) {
+    if (state is! SettingsBoxBlocStateLoaded) {
+      return false;
+    }
+    return _nameController.value.text != state.box.name ||
+        _device?.id != state.device?.id ||
+        _deviceBox != state.deviceBox;
   }
 
   Widget _renderForm(BuildContext context, SettingsBoxBlocStateLoaded state) {

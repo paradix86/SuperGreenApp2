@@ -195,7 +195,7 @@ class _DeviceTestPageState extends State<DeviceTestPage> {
     );
   }
 
-  Widget _renderChannels(context, int nChannels, String prefix, String icon) {
+  Widget _renderChannels(BuildContext context, int nChannels, String prefix, String icon) {
     int i = 0;
     return GridView.count(
       crossAxisCount: 3,

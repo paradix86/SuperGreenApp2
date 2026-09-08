@@ -61,20 +61,25 @@ class _PlantDrawerPageState extends State<PlantDrawerPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
-              color: context.sgl.ink,
-              height: 120,
-              child: DrawerHeader(
-                  child: Row(children: <Widget>[
+              color: context.sgl.bg2,
+              padding: EdgeInsets.fromLTRB(20, MediaQuery.of(context).padding.top + 16, 20, 16),
+              child: Row(children: <Widget>[
                 SizedBox(
                   width: 50,
                   height: 50,
                   child: SuperAlanGreenLabLogo(
                     width: 50,
                     height: 50,
-                    textColor: Colors.white,
+                    textColor: context.sgl.ink,
+                    greenColor: context.sgl.accent,
                   ),
                 ),
-              ])),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text('Your plants',
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(color: context.sgl.ink)),
+                ),
+              ]),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
@@ -132,8 +137,8 @@ class _PlantDrawerPageState extends State<PlantDrawerPage> {
                     List<Widget> content = [
                       Container(
                         decoration: BoxDecoration(
-                          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 1, offset: Offset(0, 2))],
-                          color: Colors.white,
+                          color: context.sgl.surface2,
+                          border: Border(bottom: BorderSide(color: context.sgl.line)),
                         ),
                         child: ListTile(
                           onTap: () {
@@ -265,9 +270,9 @@ class _PlantDrawerPageState extends State<PlantDrawerPage> {
     return Container(
       height: 40,
       decoration: BoxDecoration(
-        color: Color(0xffe9e9e9),
-        border: Border.all(width: 1, color: Color(0xffd8d8d8)),
-        borderRadius: BorderRadius.circular(5.0),
+        color: context.sgl.surface,
+        border: Border.all(width: 1, color: context.sgl.line),
+        borderRadius: BorderRadius.circular(12.0),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),

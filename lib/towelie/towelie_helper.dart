@@ -23,6 +23,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:super_green_app/data/assets/feed_entry.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/theme/sgl_typography.dart';
 import 'package:super_green_app/towelie/towelie_bloc.dart';
 
 class TowelieHelper extends StatefulWidget {
@@ -48,26 +50,34 @@ class TowelieHelper extends StatefulWidget {
 }
 
 class _TowelieHelperState extends State<TowelieHelper> {
+  /// Hints the user already closed, per route: closing one must not bring it
+  /// back on the next rebuild of the page (keyboard, text field, checkbox).
+  static final Map<String, Set<String>> _dismissed = {};
+
   Timer? _timer;
   String text = '';
   bool visible = false;
-  double y = 350;
+  bool shown = false;
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<TowelieBloc, TowelieBlocState>(
       listener: (BuildContext context, TowelieBlocState state) {
         if (state is TowelieBlocStateHelper && state.settings.name == widget.settings.name) {
+          if (_dismissed[widget.settings.name ?? '']?.contains(state.text) ?? false) {
+            return;
+          }
           _prepareShow(state);
         } else if (state is TowelieBlocStateHelperPop && state.settings.name == widget.settings.name) {
+          _dismissed.remove(widget.settings.name ?? '');
           _prepareHide();
         }
       },
       child: BlocBuilder<TowelieBloc, TowelieBlocState>(
         buildWhen: (context, state) => state is TowelieBlocStateHelper && state.settings.name == widget.settings.name,
         builder: (BuildContext context, TowelieBlocState state) {
-          if (visible) {
-            return _renderBody(state as TowelieBlocStateHelper);
+          if (visible && state is TowelieBlocStateHelper) {
+            return _renderBody(state);
           }
           return Container();
         },
@@ -75,120 +85,123 @@ class _TowelieHelperState extends State<TowelieHelper> {
     );
   }
 
+  void _dismiss() {
+    (_dismissed[widget.settings.name ?? ''] ??= <String>{}).add(text);
+    _prepareHide();
+  }
+
   Widget _renderBody(TowelieBlocStateHelper state) {
-    List<Widget> content = <Widget>[
-      Padding(
-          padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: MarkdownBody(
-            data: state.text,
-            styleSheet: MarkdownStyleSheet(
-                strong: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.normal),
-                p: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w300)),
-          )),
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          '(Tap to close)',
-          style: TextStyle(color: Colors.grey.shade300),
-          textAlign: TextAlign.end,
+    final SglColors c = context.sgl;
+    final TextTheme t = Theme.of(context).textTheme;
+    final List<Widget> actions = [];
+    for (final Map<String, dynamic> button in state.buttons ?? const []) {
+      actions.add(TextButton(
+        style: TextButton.styleFrom(
+          foregroundColor: c.accentDeep,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          minimumSize: const Size(0, 34),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
-      ),
-    ];
-    List<Widget> buttons = [];
-    if ((state.buttons?.length ?? 0) > 0) {
-      for (int i = 0; i < state.buttons!.length; ++i) {
-        Map<String, dynamic> button = state.buttons![i];
-        buttons.add(TextButton(
-            style: ButtonStyle(
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
-            onPressed: () {
-              BlocProvider.of<TowelieBloc>(context).add(TowelieBlocEventButtonPressed(context, button));
-              _prepareHide();
-            },
-            child: Text(button['title'].toUpperCase(), style: TextStyle(color: Colors.blue, fontSize: 12))));
-      }
+        onPressed: () {
+          BlocProvider.of<TowelieBloc>(context).add(TowelieBlocEventButtonPressed(context, button));
+          _dismiss();
+        },
+        child: Text((button['title'] as String).toUpperCase(), style: SglTextStyles.mono.copyWith(fontSize: 12)),
+      ));
     }
     if (state.hasNext) {
-      buttons.add(TextButton(
-          style: ButtonStyle(
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          ),
-          onPressed: () {
-            BlocProvider.of<TowelieBloc>(context).add(TowelieBlocEventHelperNext(widget.settings));
-          },
-          child: Text('Next'.toUpperCase(), style: TextStyle(color: Colors.blue, fontSize: 12))));
-    }
-    if (buttons.length > 0) {
-      content.add(
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Container(
-            height: 40,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: buttons,
-            ),
-          ),
+      actions.add(TextButton(
+        style: TextButton.styleFrom(
+          foregroundColor: c.accentDeep,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          minimumSize: const Size(0, 34),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
-      );
+        onPressed: () {
+          BlocProvider.of<TowelieBloc>(context).add(TowelieBlocEventHelperNext(widget.settings));
+        },
+        child: Text('NEXT', style: SglTextStyles.mono.copyWith(fontSize: 12)),
+      ));
     }
+
     return Positioned(
-      bottom: 0,
-      left: 0,
-      child: Material(
-        color: Colors.transparent,
-        child: AnimatedContainer(
-          curve: Curves.elasticInOut,
-          duration: Duration(milliseconds: 1000),
-          transform: Matrix4.translationValues(0, y, 0),
-          width: MediaQuery.of(context).size.width,
-          color: Colors.transparent,
+      left: 12,
+      right: 12,
+      bottom: 12 + MediaQuery.of(context).padding.bottom,
+      child: AnimatedSlide(
+        offset: shown ? Offset.zero : const Offset(0, 1.2),
+        duration: const Duration(milliseconds: 260),
+        curve: Curves.easeOutCubic,
+        child: AnimatedOpacity(
+          opacity: shown ? 1 : 0,
+          duration: const Duration(milliseconds: 200),
           child: Dismissible(
             direction: DismissDirection.down,
-            key: Key('Towelie'),
-            onDismissed: (direction) {
-              setState(() {
-                visible = false;
-              });
-            },
-            child: InkWell(
-              onTap: () {
-                _prepareHide();
-              },
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          boxShadow: [BoxShadow(blurRadius: 2, color: Colors.black38, offset: Offset(2, 2))],
-                          border: Border.all(color: Colors.black26, width: 1),
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(5))),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: content,
+            key: const Key('Towelie'),
+            onDismissed: (direction) => _dismiss(),
+            child: Material(
+              color: c.surface,
+              elevation: 6,
+              shadowColor: Colors.black38,
+              borderRadius: BorderRadius.circular(16),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: c.line),
+                ),
+                padding: const EdgeInsets.fromLTRB(14, 12, 6, 8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(shape: BoxShape.circle, color: c.accentSoft),
+                          clipBehavior: Clip.antiAlias,
+                          child: Transform(
+                            alignment: Alignment.center,
+                            transform: Matrix4.rotationY(pi),
+                            child: Image.asset(FeedEntryIcons[FE_TOWELIE_INFO]!),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4, bottom: 4),
+                                child: Text('TOWELIE', style: SglTextStyles.eyebrow.copyWith(color: c.ink3)),
+                              ),
+                              MarkdownBody(
+                                data: state.text,
+                                styleSheet: MarkdownStyleSheet(
+                                  p: t.bodyMedium?.copyWith(color: c.ink2, height: 1.35),
+                                  strong: t.bodyMedium?.copyWith(color: c.ink, fontWeight: FontWeight.w600, height: 1.35),
+                                  listBullet: t.bodyMedium?.copyWith(color: c.ink2),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        IconButton(
+                          visualDensity: VisualDensity.compact,
+                          icon: Icon(Icons.close, size: 20, color: c.ink3),
+                          onPressed: _dismiss,
+                        ),
+                      ],
+                    ),
+                    if (actions.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 40, top: 4),
+                        child: Wrap(spacing: 4, children: actions),
                       ),
-                    ),
-                  )),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 4.0, bottom: 8.0, left: 2.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xffdedede), width: 2),
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(50))),
-                      child: Transform(
-                          alignment: Alignment.center,
-                          transform: Matrix4.rotationY(pi),
-                          child:
-                              SizedBox(width: 60, height: 60, child: Image.asset(FeedEntryIcons[FE_TOWELIE_INFO]!))),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -201,27 +214,31 @@ class _TowelieHelperState extends State<TowelieHelper> {
     setState(() {
       text = state.text;
       visible = true;
-      y = 350;
+      shown = false;
     });
     _timer?.cancel();
-    _timer = Timer(Duration(milliseconds: 50), () {
+    _timer = Timer(const Duration(milliseconds: 30), () {
       _timer = null;
-      setState(() {
-        y = 0;
-      });
+      if (mounted) {
+        setState(() {
+          shown = true;
+        });
+      }
     });
   }
 
   void _prepareHide() {
     setState(() {
-      y = 350;
+      shown = false;
     });
     _timer?.cancel();
-    _timer = Timer(Duration(milliseconds: 1000), () {
+    _timer = Timer(const Duration(milliseconds: 260), () {
       _timer = null;
-      setState(() {
-        visible = false;
-      });
+      if (mounted) {
+        setState(() {
+          visible = false;
+        });
+      }
     });
   }
 

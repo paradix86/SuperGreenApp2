@@ -55,7 +55,12 @@ class PlantInfosWidget extends StatelessWidget {
         content: content,
         action: onEdit,
         addIcon: false,
-        actionIcon: onEdit != null ? SvgPicture.asset("assets/plant_infos/edit.svg") : null,
+        actionIcon: onEdit != null
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(Icons.edit_outlined, size: 20, color: context.sgl.ink2),
+              )
+            : null,
       ),
     );
   }
