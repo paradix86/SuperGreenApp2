@@ -9,7 +9,7 @@ add the commit hash.
 - [x] (bugs batch A) Grow log / take pic: denying the camera permission leaves an endless "Loading.."
       with no Back and no tabs; only a force-stop recovers. Handle the refusal with a
       message and a way out (take-pic flow).
-- [x] (firmware d928330, OTA 1788893162 packaged, not flashed) Sensor health false positive (firmware): `box_0_sensor_stuck` still fires in a
+- [x] (firmware d928330, OTA 1788893162 flashed 2026-09-08 22:47) Sensor health false positive (firmware): `box_0_sensor_stuck` still fires in a
       still room because the firmware computes VPD from the integer temp/humi, so all
       three metrics stay flat together. Fix in `main/sht21/sht21.c`: compare the raw
       14-bit readings (or clear the alert while I2C reads succeed), then a new OTA.
@@ -34,6 +34,10 @@ add the commit hash.
 - [x] Graphs: the local series is preferred even when the last sample is hours old;
       fall back to cloud (or show "stale") when the newest local sample is older than
       a few minutes.
+
+- [ ] Firmware: before the 22:47 reboot /mqttdiag showed heap_min_free 2320 B at uptime
+      24205 s (about 22:20) while heap_low_events stayed 0 (the counter should trip
+      under 8 KB). Find what ate the heap at that moment and why the counter missed it.
 
 ## 2. Graphics to improve
 
