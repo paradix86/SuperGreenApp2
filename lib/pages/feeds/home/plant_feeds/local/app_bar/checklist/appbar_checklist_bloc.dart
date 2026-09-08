@@ -121,6 +121,9 @@ class AppbarChecklistBloc extends LegacyBloc<AppbarChecklistBlocEvent, AppbarChe
       } catch (e) {
         if (subChecklist == null) {
           subChecklist = RelDB.get().checklistsDAO.watchChecklistForPlant(this.plant.id).listen((event) {
+            if (event == null) {
+              return;
+            }
             add(AppbarChecklistBlocEventoad());
           });
         }

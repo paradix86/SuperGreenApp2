@@ -445,13 +445,13 @@ class FeedsDAO extends DatabaseAccessor<RelDB> with _$FeedsDAOMixin {
     return (select(feedMedias)..where((f) => f.id.equals(feedMediaID))).getSingle();
   }
 
-  Stream<FeedMedia> watchLastFeedMedia(int feedID) {
+  Stream<FeedMedia?> watchLastFeedMedia(int feedID) {
     JoinedSelectStatement query =
         select(feedMedias).join([leftOuterJoin(feedEntries, feedEntries.id.equalsExp(feedMedias.feedEntry))]);
     query.where(feedEntries.feed.equals(feedID));
     query.orderBy([OrderingTerm(expression: feedEntries.date, mode: OrderingMode.desc)]);
     query.limit(1);
-    return (query.watchSingle()).map((e) => e.readTable(feedMedias));
+    return (query.watchSingleOrNull()).map((e) => e?.readTable(feedMedias));
   }
 
   Stream<FeedMedia> watchFeedMedia(int feedMediaID) {

@@ -32,7 +32,7 @@ class LocalPlantInfosBlocDelegate extends PlantInfosBlocDelegate {
 
   StreamSubscription<Box>? boxStream;
   StreamSubscription<Plant>? plantStream;
-  StreamSubscription<FeedMedia>? feedMediaStream;
+  StreamSubscription<FeedMedia?>? feedMediaStream;
 
   LocalPlantInfosBlocDelegate(this.plant);
 
@@ -79,7 +79,10 @@ class LocalPlantInfosBlocDelegate extends PlantInfosBlocDelegate {
     plantInfosLoaded(plantInfos!.copyWith(boxSettings: settings));
   }
 
-  void feedMediaUpdated(FeedMedia feedMedia) {
+  void feedMediaUpdated(FeedMedia? feedMedia) {
+    if (feedMedia == null) {
+      return;
+    }
     plantInfosLoaded(plantInfos!.copyWith(
         filePath: FeedMedias.makeAbsoluteFilePath(feedMedia.filePath),
         thumbnailPath: FeedMedias.makeAbsoluteFilePath(feedMedia.thumbnailPath)));

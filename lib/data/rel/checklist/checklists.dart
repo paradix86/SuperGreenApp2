@@ -280,8 +280,8 @@ class ChecklistsDAO extends DatabaseAccessor<RelDB> with _$ChecklistsDAOMixin {
     return (select(checklists)..where((p) => p.plant.equals(plantID))).getSingle();
   }
 
-  Stream<Checklist> watchChecklistForPlant(int plantID) {
-    return (select(checklists)..where((p) => p.plant.equals(plantID))).watchSingle();
+  Stream<Checklist?> watchChecklistForPlant(int plantID) {
+    return (select(checklists)..where((p) => p.plant.equals(plantID))).watchSingleOrNull();
   }
 
   Future<ChecklistCollection> getChecklistCollection(int id) {

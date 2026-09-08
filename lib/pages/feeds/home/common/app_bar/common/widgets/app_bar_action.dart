@@ -18,6 +18,7 @@
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -87,7 +88,7 @@ class AppBarAction extends StatelessWidget {
             ? null
             : BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
-                color: Colors.white,
+                color: context.sgl.surface,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withAlpha(50),
@@ -112,8 +113,8 @@ class AppBarAction extends StatelessWidget {
           onPressed: (context) {
             onCheck!();
           },
-          backgroundColor: Color(0xFF7BC043),
-          foregroundColor: Colors.white,
+          backgroundColor: context.sgl.accent,
+          foregroundColor: context.sgl.accentInk,
           icon: Icons.done,
           label: 'Done',
         ),
@@ -121,7 +122,7 @@ class AppBarAction extends StatelessWidget {
           onPressed: (context) {
             onSkip!();
           },
-          backgroundColor: Color(0xFF0392CF),
+          backgroundColor: context.sgl.info,
           foregroundColor: Colors.white,
           icon: Icons.skip_next,
           label: 'Skip',

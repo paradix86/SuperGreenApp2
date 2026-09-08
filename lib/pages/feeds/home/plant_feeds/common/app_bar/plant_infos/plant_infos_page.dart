@@ -296,7 +296,7 @@ class _PlantInfosPageState extends State<PlantInfosPage> {
           ),
     };
     return Container(
-      color: Colors.white.withAlpha(127),
+      color: context.sgl.bg.withAlpha(200),
       child: Column(
         children: <Widget>[
           Center(
@@ -306,7 +306,7 @@ class _PlantInfosPageState extends State<PlantInfosPage> {
                 decoration: BoxDecoration(
                     color: context.sgl.ink,
                     borderRadius: BorderRadius.circular(2),
-                    border: Border.all(color: Colors.white)),
+                    border: Border.all(color: context.sgl.line2)),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: forms[form]!(),
