@@ -67,6 +67,7 @@ class SettingsRow extends StatelessWidget {
   final String subtitle;
   final Widget? trailing;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
   final Color? titleColor;
   final Color? iconColor;
   final Color? subtitleColor;
@@ -78,6 +79,7 @@ class SettingsRow extends StatelessWidget {
     required this.subtitle,
     this.trailing,
     this.onTap,
+    this.onLongPress,
     this.titleColor,
     this.iconColor,
     this.subtitleColor,
@@ -89,6 +91,7 @@ class SettingsRow extends StatelessWidget {
     final TextTheme t = Theme.of(context).textTheme;
     return InkWell(
       onTap: onTap,
+      onLongPress: onLongPress,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(12, 11, 12, 11),
         child: Row(

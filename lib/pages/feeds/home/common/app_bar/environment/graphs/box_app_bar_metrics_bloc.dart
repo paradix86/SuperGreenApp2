@@ -21,6 +21,7 @@ import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 import 'package:super_green_app/misc/bloc.dart';
+import 'package:super_green_app/theme/sgl_chart_palette.dart';
 import 'package:super_green_app/data/api/backend/time_series/time_series_api.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
@@ -112,16 +113,16 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
       int deviceBox = box!.deviceBox!;
       version = await TimeSeriesAPI.fetchMetric(box!, identifier, 'OTA_TIMESTAMP', 0, 10000000000);
       charts.Series<Metric, DateTime> temp = await TimeSeriesAPI.fetchTimeSeries(
-          box!, identifier, 'Temperature', 'BOX_${deviceBox}_TEMP', charts.MaterialPalette.green.shadeDefault, 0, 50,
+          box!, identifier, 'Temperature', 'BOX_${deviceBox}_TEMP', SglChartPalette.chart(SglChartPalette.temperature), 0, 50,
           transform: _tempUnit);
       charts.Series<Metric, DateTime> humi = await TimeSeriesAPI.fetchTimeSeries(
-          box!, identifier, 'Humidity', 'BOX_${deviceBox}_HUMI', charts.MaterialPalette.blue.shadeDefault, 0, 100);
+          box!, identifier, 'Humidity', 'BOX_${deviceBox}_HUMI', SglChartPalette.chart(SglChartPalette.humidity), 0, 100);
       charts.Series<Metric, DateTime> vpd = await TimeSeriesAPI.fetchTimeSeries(
-          box!, identifier, 'VPD', 'BOX_${deviceBox}_VPD', charts.MaterialPalette.deepOrange.shadeDefault, 0, 254,
+          box!, identifier, 'VPD', 'BOX_${deviceBox}_VPD', SglChartPalette.chart(SglChartPalette.vpd), 0, 254,
           transform: _vpd);
 
       charts.Series<Metric, DateTime> ventilation = await TimeSeriesAPI.fetchTimeSeries(
-          box!, identifier, 'Ventilation', 'BOX_${deviceBox}_BLOWER_DUTY', charts.MaterialPalette.cyan.shadeDefault, 0, 100);
+          box!, identifier, 'Ventilation', 'BOX_${deviceBox}_BLOWER_DUTY', SglChartPalette.chart(SglChartPalette.ventilation), 0, 100);
 
       late charts.Series<Metric, DateTime> light;
       try {
@@ -138,16 +139,16 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
         }
         List<int> avgDims = TimeSeriesAPI.avgMetrics(dims);
         light = TimeSeriesAPI.toTimeSeries(
-            TimeSeriesAPI.multiplyMetric(timerOutput, avgDims), 'Light', charts.MaterialPalette.yellow.shadeDefault);
+            TimeSeriesAPI.multiplyMetric(timerOutput, avgDims), 'Light', SglChartPalette.chart(SglChartPalette.light));
       } catch (e) {
-        light = light = TimeSeriesAPI.toTimeSeries([], 'Light', charts.MaterialPalette.yellow.shadeDefault);
+        light = light = TimeSeriesAPI.toTimeSeries([], 'Light', SglChartPalette.chart(SglChartPalette.light));
       }
 
       charts.Series<Metric, DateTime> co2 = await TimeSeriesAPI.fetchTimeSeries(
-          box!, identifier, 'CO2', 'BOX_${deviceBox}_CO2', charts.MaterialPalette.gray.shadeDefault, 0, 100000,
+          box!, identifier, 'CO2', 'BOX_${deviceBox}_CO2', SglChartPalette.chart(SglChartPalette.co2), 0, 100000,
           transform: _co2);
       charts.Series<Metric, DateTime> weight = await TimeSeriesAPI.fetchTimeSeries(
-          box!, identifier, 'Weight', 'BOX_${deviceBox}_WEIGHT', charts.MaterialPalette.purple.shadeDefault, 0, 100000,
+          box!, identifier, 'Weight', 'BOX_${deviceBox}_WEIGHT', SglChartPalette.chart(SglChartPalette.weight), 0, 100000,
           transform: _weight);
       return [temp, humi, vpd, light, ventilation, co2, weight];
     }
@@ -187,7 +188,7 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
       charts.Series<Metric, DateTime>(
         id: 'Temperature',
         strokeWidthPxFn: (_, __) => 3,
-        colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+        colorFn: (_, __) => SglChartPalette.chart(SglChartPalette.temperature),
         domainFn: (Metric metric, _) => metric.time,
         measureFn: (Metric metric, _) => metric.metric,
         data: tempData,
@@ -195,7 +196,7 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
       charts.Series<Metric, DateTime>(
         id: 'Humidity',
         strokeWidthPxFn: (_, __) => 3,
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        colorFn: (_, __) => SglChartPalette.chart(SglChartPalette.humidity),
         domainFn: (Metric metric, _) => metric.time,
         measureFn: (Metric metric, _) => metric.metric,
         data: humiData,
@@ -203,7 +204,7 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
       charts.Series<Metric, DateTime>(
         id: 'VPD',
         strokeWidthPxFn: (_, __) => 3,
-        colorFn: (_, __) => charts.MaterialPalette.deepOrange.shadeDefault,
+        colorFn: (_, __) => SglChartPalette.chart(SglChartPalette.vpd),
         domainFn: (Metric metric, _) => metric.time,
         measureFn: (Metric metric, _) => metric.metric,
         data: vpdData,
@@ -211,7 +212,7 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
       charts.Series<Metric, DateTime>(
         id: 'Light',
         strokeWidthPxFn: (_, __) => 3,
-        colorFn: (_, __) => charts.MaterialPalette.yellow.shadeDefault,
+        colorFn: (_, __) => SglChartPalette.chart(SglChartPalette.light),
         domainFn: (Metric metric, _) => metric.time,
         measureFn: (Metric metric, _) => metric.metric,
         data: lightData,
@@ -219,7 +220,7 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
       charts.Series<Metric, DateTime>(
         id: 'Ventilation',
         strokeWidthPxFn: (_, __) => 3,
-        colorFn: (_, __) => charts.MaterialPalette.cyan.shadeDefault,
+        colorFn: (_, __) => SglChartPalette.chart(SglChartPalette.ventilation),
         domainFn: (Metric metric, _) => metric.time,
         measureFn: (Metric metric, _) => metric.metric,
         data: ventilationData,
@@ -227,7 +228,7 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
       charts.Series<Metric, DateTime>(
         id: 'CO2',
         strokeWidthPxFn: (_, __) => 3,
-        colorFn: (_, __) => charts.MaterialPalette.cyan.shadeDefault,
+        colorFn: (_, __) => SglChartPalette.chart(SglChartPalette.ventilation),
         domainFn: (Metric metric, _) => metric.time,
         measureFn: (Metric metric, _) => metric.metric,
         data: co2Data,
@@ -235,7 +236,7 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
       charts.Series<Metric, DateTime>(
         id: 'Weight',
         strokeWidthPxFn: (_, __) => 3,
-        colorFn: (_, __) => charts.MaterialPalette.cyan.shadeDefault,
+        colorFn: (_, __) => SglChartPalette.chart(SglChartPalette.ventilation),
         domainFn: (Metric metric, _) => metric.time,
         measureFn: (Metric metric, _) => metric.metric,
         data: weightData,

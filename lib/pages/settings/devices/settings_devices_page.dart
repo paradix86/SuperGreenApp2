@@ -19,7 +19,6 @@
 import 'package:flutter/material.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/settings/devices/settings_devices_bloc.dart';
@@ -27,6 +26,7 @@ import 'package:super_green_app/widgets/appbar.dart';
 import 'package:super_green_app/widgets/fullscreen.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
 import 'package:super_green_app/widgets/green_button.dart';
+import 'package:super_green_app/widgets/sgl/settings_group.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsDevicesPage extends StatelessWidget {
@@ -47,7 +47,7 @@ class SettingsDevicesPage extends StatelessWidget {
             );
           } else if (state is SettingsDevicesBlocStateNotEmptyBox) {
             body = Fullscreen(
-              child: Icon(Icons.do_not_disturb, color: Colors.red, size: 100),
+              child: Icon(Icons.do_not_disturb, color: context.sgl.crit, size: 100),
               title: 'Cannot delete lab',
               subtitle: 'Move all plants to another box first.',
             );
@@ -55,51 +55,41 @@ class SettingsDevicesPage extends StatelessWidget {
             if (state.devices.length == 0) {
               body = _renderNoController(context);
             } else {
-              body = ListView.builder(
-                itemCount: state.devices.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    leading:
-                        SizedBox(width: 40, height: 40, child: SvgPicture.asset(state.devices[index].isScreen && state.devices[index].isController == false ? 'assets/app_bar/icon_screen.svg' : 'assets/settings/icon_controller.svg')),
-                    onLongPress: () {
-                      _deleteBox(context, state.devices[index]);
-                    },
-                    onTap: () {
-                      BlocProvider.of<MainNavigatorBloc>(context)
-                          .add(MainNavigateToSettingsDevice(state.devices[index]));
-                    },
-                    title: Text('${index + 1}. ${state.devices[index].name}',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    subtitle: Text('Tap to open, Long press to delete.'),
-                    trailing: SizedBox(
-                        width: 30,
-                        height: 30,
-                        child: SvgPicture.asset(
-                            'assets/settings/icon_${state.devices[index].synced ? '' : 'un'}synced.svg')),
-                  );
-                },
+              body = ListView(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+                children: [
+                  SettingsGroup(
+                    title: 'Controllers',
+                    rows: state.devices.map((device) {
+                      bool isScreenOnly = device.isScreen && device.isController == false;
+                      return SettingsRow(
+                        icon: isScreenOnly ? Icons.tv_outlined : Icons.memory_outlined,
+                        title: device.name,
+                        subtitle: isScreenOnly ? 'Screen · hold to delete' : 'Hold to delete',
+                        trailing: SettingsRowChip(device.synced ? 'SYNCED' : 'LOCAL', on: device.synced),
+                        onLongPress: () => _deleteBox(context, device),
+                        onTap: () {
+                          BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsDevice(device));
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ],
               );
             }
           }
           return Scaffold(
               appBar: SGLAppBar(
                 'Controllers',
-                backgroundColor: Color(0xff0b6ab3),
-                titleColor: Colors.white,
-                iconColor: Colors.white,
                 hideBackButton: !(state is SettingsDevicesBlocStateLoaded),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
                       BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToAddDeviceEvent());
                     },
-                    child: Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    ),
+                    child: Icon(Icons.add, color: context.sgl.ink),
                   ),
                 ],
-                elevation: 10,
               ),
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
         },

@@ -19,7 +19,6 @@
 import 'package:flutter/material.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/settings/boxes/settings_boxes_bloc.dart';
@@ -27,6 +26,7 @@ import 'package:super_green_app/widgets/appbar.dart';
 import 'package:super_green_app/widgets/fullscreen.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
 import 'package:super_green_app/widgets/green_button.dart';
+import 'package:super_green_app/widgets/sgl/settings_group.dart';
 
 class SettingsBoxesPage extends StatelessWidget {
   @override
@@ -46,7 +46,7 @@ class SettingsBoxesPage extends StatelessWidget {
             );
           } else if (state is SettingsBoxesBlocStateNotEmptyBox) {
             body = Fullscreen(
-              child: Icon(Icons.do_not_disturb, color: Colors.red, size: 100),
+              child: Icon(Icons.do_not_disturb, color: context.sgl.crit, size: 100),
               title: 'Cannot delete lab',
               subtitle: 'Move all plants to another lab first.',
             );
@@ -54,49 +54,40 @@ class SettingsBoxesPage extends StatelessWidget {
             if (state.boxes.length == 0) {
               body = _renderNoBox(context);
             } else {
-              body = ListView.builder(
-                itemCount: state.boxes.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                      leading: SizedBox(width: 40, height: 40, child: SvgPicture.asset('assets/settings/icon_lab.svg')),
-                      onLongPress: () {
-                        _deleteBox(context, state.boxes[index]);
-                      },
-                      onTap: () {
-                        BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsBox(state.boxes[index]));
-                      },
-                      title: Text('${index + 1}. ${state.boxes[index].name}',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text('Tap to open, Long press to delete.'),
-                      trailing: SizedBox(
-                          width: 30,
-                          height: 30,
-                          child: SvgPicture.asset(
-                              'assets/settings/icon_${state.boxes[index].synced ? '' : 'un'}synced.svg')));
-                },
+              body = ListView(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+                children: [
+                  SettingsGroup(
+                    title: 'Labs',
+                    rows: state.boxes.map((box) {
+                      return SettingsRow(
+                        icon: Icons.science_outlined,
+                        title: box.name,
+                        subtitle: 'Hold to delete',
+                        trailing: SettingsRowChip(box.synced ? 'SYNCED' : 'LOCAL', on: box.synced),
+                        onLongPress: () => _deleteBox(context, box),
+                        onTap: () {
+                          BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsBox(box));
+                        },
+                      );
+                    }).toList(),
+                  ),
+                ],
               );
             }
           }
           return Scaffold(
               appBar: SGLAppBar(
-                '⚗️',
-                fontSize: 35,
-                backgroundColor: Colors.yellow,
-                titleColor: Colors.green,
-                iconColor: Colors.green,
+                'Labs',
                 hideBackButton: !(state is SettingsBoxesBlocStateLoaded),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
                       BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToCreateBoxEvent());
                     },
-                    child: Icon(
-                      Icons.add,
-                      color: Colors.green,
-                    ),
+                    child: Icon(Icons.add, color: context.sgl.ink),
                   ),
                 ],
-                elevation: 10,
               ),
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
         },

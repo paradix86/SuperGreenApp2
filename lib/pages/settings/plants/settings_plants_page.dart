@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/settings/plants/settings_plants_bloc.dart';
 import 'package:super_green_app/widgets/appbar.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
 import 'package:super_green_app/widgets/green_button.dart';
+import 'package:super_green_app/widgets/sgl/settings_group.dart';
 
 class SettingsPlantsPage extends StatelessWidget {
   @override
@@ -20,7 +20,6 @@ class SettingsPlantsPage extends StatelessWidget {
           Widget body = FullscreenLoading(
             title: 'Loading..',
           );
-          int i = 0;
 
           if (state is SettingsPlantsBlocStateLoading) {
             body = FullscreenLoading(
@@ -31,44 +30,29 @@ class SettingsPlantsPage extends StatelessWidget {
               body = _renderNoPlant(context);
             } else {
               body = ListView.builder(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
                 itemCount: state.boxes.length,
                 itemBuilder: (BuildContext context, int index) {
                   Box box = state.boxes[index];
-                  List<Widget> content = [
-                    Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 1, offset: Offset(0, 2))],
-                        color: Colors.white,
-                      ),
-                      child: ListTile(
-                        leading: SvgPicture.asset('assets/settings/icon_lab.svg'),
-                        title: Text(box.name),
-                      ),
+                  List<Plant> plants = state.plants.where((p) => p.box == box.id).toList();
+                  if (plants.isEmpty) return const SizedBox();
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: SettingsGroup(
+                      title: box.name,
+                      rows: plants.map((p) {
+                        return SettingsRow(
+                          icon: Icons.eco_outlined,
+                          title: p.name,
+                          subtitle: 'Hold to delete',
+                          trailing: SettingsRowChip(p.synced ? 'SYNCED' : 'LOCAL', on: p.synced),
+                          onLongPress: () => _deletePlant(context, p),
+                          onTap: () {
+                            BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsPlant(p));
+                          },
+                        );
+                      }).toList(),
                     ),
-                  ];
-                  content.addAll(state.plants.where((p) => p.box == box.id).map((p) {
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: ListTile(
-                        leading:
-                            SizedBox(width: 40, height: 40, child: SvgPicture.asset('assets/settings/icon_plants.svg')),
-                        onLongPress: () {
-                          _deletePlant(context, p);
-                        },
-                        onTap: () {
-                          BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsPlant(p));
-                        },
-                        title: Text('${++i}. ${p.name}', style: TextStyle(fontWeight: FontWeight.bold)),
-                        subtitle: Text('Tap to open, Long press to delete.'),
-                        trailing: SizedBox(
-                            width: 30,
-                            height: 30,
-                            child: SvgPicture.asset('assets/settings/icon_${p.synced ? '' : 'un'}synced.svg')),
-                      ),
-                    );
-                  }).toList());
-                  return Column(
-                    children: content,
                   );
                 },
               );
@@ -76,24 +60,16 @@ class SettingsPlantsPage extends StatelessWidget {
           }
           return Scaffold(
               appBar: SGLAppBar(
-                '🍁',
-                fontSize: 40,
-                backgroundColor: Color(0xff0bb354),
-                titleColor: Colors.white,
-                iconColor: Colors.white,
+                'Plants',
                 hideBackButton: !(state is SettingsPlantsBlocStateLoaded),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
                       BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToCreatePlantEvent());
                     },
-                    child: Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    ),
+                    child: Icon(Icons.add, color: context.sgl.ink),
                   ),
                 ],
-                elevation: 10,
               ),
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
         },

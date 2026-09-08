@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/theme/sgl_chart_palette.dart';
+import 'package:super_green_app/theme/sgl_typography.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:community_charts_flutter/community_charts_flutter.dart' as charts;
 import 'package:intl/intl.dart';
@@ -77,13 +79,13 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
     String weightUnit = AppDB().getUserSettings().freedomUnits! ? 'lb' : 'kg';
     String format = AppDB().getUserSettings().freedomUnits! ? 'MM/dd/yyyy HH:mm' : 'dd/MM/yyyy HH:mm';
     Widget dateText = Text('${DateFormat(format).format(metricDate)}',
-        style: TextStyle(color: context.sgl.ink, fontSize: 15, fontWeight: FontWeight.bold));
+        style: SglTextStyles.mono.copyWith(color: context.sgl.ink2, fontSize: 12));
     List<charts.LineAnnotationSegment<Object>>? annotations;
     if (selectedGraphIndex != null) {
       annotations = [
         charts.LineAnnotationSegment(metricDate, charts.RangeAnnotationAxisType.domain,
-            labelStyleSpec: charts.TextStyleSpec(color: charts.MaterialPalette.white),
-            color: charts.MaterialPalette.gray.shade500)
+            labelStyleSpec: charts.TextStyleSpec(color: _chartColor(context.sgl.ink)),
+            color: _chartColor(context.sgl.ink3))
       ];
       dateText = Row(
         children: <Widget>[
@@ -100,7 +102,7 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
     }
     Widget graphs = Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(12),
         color: context.sgl.surface,
         border: Border.all(color: context.sgl.line, width: 1),
       ),
@@ -111,6 +113,18 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
         child: charts.TimeSeriesChart(
           state.graphData.where((gd) => !(disabledGraphs[state.graphData.indexOf(gd)] ?? false)).toList(),
           animate: false,
+          domainAxis: charts.DateTimeAxisSpec(
+            renderSpec: charts.SmallTickRendererSpec(
+              labelStyle: charts.TextStyleSpec(fontSize: 10, color: _chartColor(context.sgl.ink3)),
+              lineStyle: charts.LineStyleSpec(color: _chartColor(context.sgl.line)),
+            ),
+          ),
+          primaryMeasureAxis: charts.NumericAxisSpec(
+            renderSpec: charts.GridlineRendererSpec(
+              labelStyle: charts.TextStyleSpec(fontSize: 10, color: _chartColor(context.sgl.ink3)),
+              lineStyle: charts.LineStyleSpec(color: _chartColor(context.sgl.line)),
+            ),
+          ),
           behaviors: selectedGraphIndex != null
               ? [
                   charts.RangeAnnotation(annotations!),
@@ -137,7 +151,7 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
         graphs,
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(12),
             color: context.sgl.surface,
             border: Border.all(color: context.sgl.line, width: 1),
           ),
@@ -179,7 +193,7 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
                   children: <Widget>[
                     Container(width: 4),
                     state.graphData[0].data.length == 0 ? Container() : _renderMetric(
-                        Colors.green,
+                        SglChartPalette.temperature,
                         'Temp',
                         '${state.graphData[0].data[selectedGraphIndex ?? state.graphData[0].data.length - 1].metric.toInt()}$tempUnit',
                         '${TimeSeriesAPI.min(state.graphData[0].data).metric.toInt()}$tempUnit',
@@ -189,7 +203,7 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
                       });
                     }, disabledGraphs[0] ?? false),
                     state.graphData[1].data.length == 0 ? Container() : _renderMetric(
-                        Colors.blue,
+                        SglChartPalette.humidity,
                         'Humi',
                         '${state.graphData[1].data[selectedGraphIndex ?? state.graphData[1].data.length - 1].metric.toInt()}%',
                         '${TimeSeriesAPI.min(state.graphData[1].data).metric.toInt()}%',
@@ -199,7 +213,7 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
                       });
                     }, disabledGraphs[1] ?? false),
                     state.graphData[2].data.length == 0 ? Container() : _renderMetric(
-                        Colors.orange,
+                        SglChartPalette.vpd,
                         'VPD',
                         '${(state.graphData[2].data[selectedGraphIndex ?? state.graphData[2].data.length - 1].metric / 40).toStringAsFixed(2)}',
                         '${(TimeSeriesAPI.min(state.graphData[2].data).metric / 40).toStringAsFixed(2)}',
@@ -209,7 +223,7 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
                       });
                     }, disabledGraphs[2] ?? false),
                     state.graphData[4].data.length == 0 ? Container() : _renderMetric(
-                        Colors.cyan,
+                        SglChartPalette.ventilation,
                         'Ventilation',
                         '${state.graphData[4].data[selectedGraphIndex ?? state.graphData[4].data.length - 1].metric.toInt()}%',
                         '${TimeSeriesAPI.min(state.graphData[4].data).metric.toInt()}%',
@@ -219,7 +233,7 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
                       });
                     }, disabledGraphs[4] ?? false),
                     state.graphData[3].data.length == 0 ? Container() : _renderMetric(
-                        Color(0xffB3B634),
+                        SglChartPalette.light,
                         'Light',
                         '${state.graphData[3].data[selectedGraphIndex ?? state.graphData[3].data.length - 1].metric.toInt()}%',
                         '${TimeSeriesAPI.min(state.graphData[3].data).metric.toInt()}%',
@@ -229,7 +243,7 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
                       });
                     }, disabledGraphs[3] ?? false),
                     state.graphData[5].data.length == 0 ? Container() : _renderMetric(
-                        Color(0xff595959),
+                        SglChartPalette.co2,
                         'CO2',
                         '${(state.graphData[5].data[selectedGraphIndex ?? state.graphData[5].data.length - 1].metric * 20).toInt()}',
                         '${(TimeSeriesAPI.min(state.graphData[5].data).metric * 20).toInt()}',
@@ -239,7 +253,7 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
                       });
                     }, disabledGraphs[5] ?? false),
                     state.graphData[6].data.length == 0 ? Container() : _renderMetric(
-                        Color(0xFF483581),
+                        SglChartPalette.weight,
                         'Weight ($weightUnit)',
                         '${state.graphData[6].data[selectedGraphIndex ?? state.graphData[6].data.length - 1].metric.toStringAsFixed(3)}',
                         '${TimeSeriesAPI.min(state.graphData[6].data).metric.toStringAsFixed(3)}',
@@ -274,20 +288,16 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             children: <Widget>[
-              Text(name, style: TextStyle(color: context.sgl.ink, fontWeight: FontWeight.bold)),
+              Text(name.toUpperCase(), style: SglTextStyles.eyebrow.copyWith(color: context.sgl.ink3, fontSize: 10)),
               Row(
                 children: <Widget>[
                   Text(value == "0" ? "N/A" : value,
-                      style: TextStyle(
-                        color: color,
-                        fontSize: value == "0" ? 20 : 30,
-                        fontWeight: FontWeight.bold,
-                      )),
+                      style: SglTextStyles.reading.copyWith(color: color, fontSize: value == "0" ? 18 : 26)),
                   value != "0"
                       ? Column(
                           children: <Widget>[
-                            Text(max, style: TextStyle(color: context.sgl.ink, fontWeight: FontWeight.w300)),
-                            Text(min, style: TextStyle(color: context.sgl.ink, fontWeight: FontWeight.w300)),
+                            Text(max, style: SglTextStyles.mono.copyWith(color: context.sgl.ink3, fontSize: 11)),
+                            Text(min, style: SglTextStyles.mono.copyWith(color: context.sgl.ink3, fontSize: 11)),
                           ],
                         )
                       : Container(),
@@ -299,4 +309,6 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
       ),
     );
   }
+
+  static charts.Color _chartColor(Color c) => SglChartPalette.chart(c);
 }
