@@ -98,11 +98,15 @@ class DiscussionsPage extends SectionPage<DiscussionsBloc, PublicFeedEntry> {
                       padding: const EdgeInsets.only(right: 4.0),
                       child: Image.asset(commentTypes[feedEntry.commentType]!['pic']!, width: 20, height: 20),
                     ),
-                    Text(feedEntry.plantName!,
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                        )),
+                    Flexible(
+                      child: Text(feedEntry.plantName!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
                   ],
                 ),
               ),

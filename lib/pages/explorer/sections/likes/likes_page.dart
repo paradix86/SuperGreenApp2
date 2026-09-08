@@ -89,6 +89,7 @@ class LikesPage extends SectionPage<LikesBloc, PublicFeedEntry> {
                     SvgPicture.asset(
                       'assets/explorer/heart_mask.svg',
                       fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(context.sgl.bg, BlendMode.srcIn),
                     ),
                     Positioned(
                       child: avatar,
@@ -108,16 +109,27 @@ class LikesPage extends SectionPage<LikesBloc, PublicFeedEntry> {
                   children: [
                     Row(
                       children: [
-                        Text(feedEntry.nickname!,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            )),
-                        Text(feedEntry.commentID != null
-                            ? (feedEntry.replyTo != null ? ' liked a reply' : ' liked a comment')
-                            : ' liked a diary entry'),
+                        Flexible(
+                          child: Text(feedEntry.nickname!,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              )),
+                        ),
+                        Flexible(
+                          child: Text(
+                              feedEntry.commentID != null
+                                  ? (feedEntry.replyTo != null ? ' liked a reply' : ' liked a comment')
+                                  : ' liked a diary entry',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis),
+                        ),
                       ],
                     ),
                     Text(feedEntry.plantName!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           fontSize: 16,
                           color: context.sgl.ink,

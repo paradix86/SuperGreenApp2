@@ -39,7 +39,7 @@ class PlantStrain extends StatelessWidget {
     } else {
       body = [
         Text(plantSettings.strain!,
-            maxLines: 2,
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontWeight: FontWeight.normal,
