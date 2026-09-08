@@ -145,17 +145,13 @@ class SelectDeviceBoxPageState extends State<SelectDeviceBoxPage> {
             } else if (state is SelectDeviceBoxBlocStateLoading) {
               body = FullscreenLoading(title: SelectDeviceBoxPage.selectDeviceBoxSettingUp);
             } else if (state is SelectDeviceBoxBlocStateDone) {
-              body = Fullscreen(title: CommonL10N.done, child: Icon(Icons.done, color: Color(0xff3bb30b), size: 100));
+              body = Fullscreen(title: CommonL10N.done, child: Icon(Icons.done, color: context.sgl.accentDeep, size: 100));
             } else {
               body = _renderBoxSelection(context, state as SelectDeviceBoxBlocStateLoaded);
             }
             return Scaffold(
                 appBar: SGLAppBar(
                   '🤖🔌',
-                  fontSize: 40,
-                  backgroundColor: Color(0xff0b6ab3),
-                  titleColor: Colors.white,
-                  iconColor: Colors.white,
                 ),
                 body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
           }),
@@ -173,9 +169,6 @@ class SelectDeviceBoxPageState extends State<SelectDeviceBoxPage> {
         SectionTitle(
           title: SelectDeviceBoxPage.selectDeviceBoxSlot,
           icon: 'assets/box_setup/icon_controller.svg',
-          backgroundColor: Color(0xff0b6ab3),
-          titleColor: Colors.white,
-          elevation: 5,
           large: true,
         ),
         _renderBoxes(state),
@@ -188,20 +181,20 @@ class SelectDeviceBoxPageState extends State<SelectDeviceBoxPage> {
     bool hasAvailableLeds = selectedLeds < state.nLeds;
     return Expanded(
       child: Container(
-        color: Colors.white,
+        color: context.sgl.surface,
         child: ListView.builder(
           itemCount: state.boxes.length,
           itemBuilder: (BuildContext context, int index) {
             Widget title;
             if (state.boxes[index].enabled) {
               title = Text(SelectDeviceBoxPage.selectDeviceBoxAlreadyRunning,
-                  style: TextStyle(color: Colors.red, fontWeight: FontWeight.w300));
+                  style: TextStyle(color: context.sgl.crit, fontWeight: FontWeight.w300));
             } else {
               title = Text(
                   hasAvailableLeds
                       ? SelectDeviceBoxPage.selectDeviceBoxAvailable
                       : SelectDeviceBoxPage.selectDeviceBoxNoMoreLED,
-                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.w300));
+                  style: TextStyle(color: context.sgl.accentDeep, fontWeight: FontWeight.w300));
             }
             return ListTile(
               onTap: () {

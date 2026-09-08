@@ -101,9 +101,6 @@ class _DeviceSetupPageState extends State<DeviceSetupPage> {
                 appBar: SGLAppBar(
                   'Add controller',
                   hideBackButton: !canGoBack,
-                  backgroundColor: Color(0xff0b6ab3),
-                  titleColor: Colors.white,
-                  iconColor: Colors.white,
                 ),
                 body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body),
               ),
@@ -115,12 +112,12 @@ class _DeviceSetupPageState extends State<DeviceSetupPage> {
   Widget _renderLoadingError(BuildContext context) {
     return Fullscreen(
         title: 'Oops looks like the controller is unreachable!',
-        child: Icon(Icons.warning, color: Color(0xff3bb30b), size: 100));
+        child: Icon(Icons.warning, color: context.sgl.accentDeep, size: 100));
   }
 
   Widget _renderAlreadyAdded(BuildContext context) {
     return Fullscreen(
-        title: 'This controller is already added!', child: Icon(Icons.warning, color: Color(0xff3bb30b), size: 100));
+        title: 'This controller is already added!', child: Icon(Icons.warning, color: context.sgl.accentDeep, size: 100));
   }
 
   Widget _renderAuthForm(BuildContext context) {
@@ -128,9 +125,6 @@ class _DeviceSetupPageState extends State<DeviceSetupPage> {
       SectionTitle(
         title: 'Controller is password protected',
         icon: 'assets/settings/icon_lock.svg',
-        backgroundColor: Color(0xff0b6ab3),
-        titleColor: Colors.white,
-        elevation: 5,
       ),
       Row(
         children: [
@@ -140,7 +134,7 @@ class _DeviceSetupPageState extends State<DeviceSetupPage> {
               child: MarkdownBody(
                 fitContent: true,
                 data: DeviceSetupPage.settingsDeviceSetupPagePasswordInstructions(),
-                styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 16)),
+                styleSheet: MarkdownStyleSheet(p: Theme.of(context).textTheme.bodyLarge?.copyWith(color: context.sgl.ink2)),
               ),
             ),
           ),
@@ -149,10 +143,7 @@ class _DeviceSetupPageState extends State<DeviceSetupPage> {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Text('Username',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            )),
+            style: Theme.of(context).textTheme.titleSmall),
       ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -167,10 +158,7 @@ class _DeviceSetupPageState extends State<DeviceSetupPage> {
       Padding(
         padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16),
         child: Text('Password',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            )),
+            style: Theme.of(context).textTheme.titleSmall),
       ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -215,10 +203,7 @@ class _DeviceSetupPageState extends State<DeviceSetupPage> {
         SectionTitle(
           title: 'Loading controller params',
           icon: 'assets/box_setup/icon_controller.svg',
-          backgroundColor: Color(0xff0b6ab3),
-          titleColor: Colors.white,
           large: true,
-          elevation: 5,
         ),
         Expanded(child: FullscreenLoading(title: 'Loading please wait..', percent: state.percent)),
       ],

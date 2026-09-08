@@ -122,7 +122,7 @@ class DevicePairingPageState extends State<DevicePairingPage> {
                 title: CommonL10N.done,
                 child: Icon(
                   Icons.check,
-                  color: Color(0xff3bb30b),
+                  color: context.sgl.accentDeep,
                   size: 100,
                 ),
               );
@@ -135,9 +135,6 @@ class DevicePairingPageState extends State<DevicePairingPage> {
                   appBar: SGLAppBar(
                     DevicePairingPage.devicePairingPageTitle,
                     hideBackButton: true,
-                    backgroundColor: Color(0xff0b6ab3),
-                    titleColor: Colors.white,
-                    iconColor: Colors.white,
                   ),
                   body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body)),
             );
@@ -159,10 +156,7 @@ class DevicePairingPageState extends State<DevicePairingPage> {
         SectionTitle(
           title: DevicePairingPage.devicePairingPagePairControllerSectionTitle,
           icon: 'assets/settings/icon_remotecontrol.svg',
-          backgroundColor: Color(0xff0b6ab3),
-          titleColor: Colors.white,
           large: true,
-          elevation: 5,
         ),
         Expanded(
           child: Column(
@@ -175,7 +169,7 @@ class DevicePairingPageState extends State<DevicePairingPage> {
                     data: state.needsUpgrade
                         ? DevicePairingPage.devicePairingPageInstructionsNeedUpgrade
                         : DevicePairingPage.devicePairingPageInstructions,
-                    styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 16)),
+                    styleSheet: MarkdownStyleSheet(p: Theme.of(context).textTheme.bodyLarge?.copyWith(color: context.sgl.ink2)),
                   ),
                 ),
               ),

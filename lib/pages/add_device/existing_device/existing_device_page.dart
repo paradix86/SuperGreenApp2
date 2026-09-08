@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:intl/intl.dart';
@@ -132,16 +133,13 @@ class _ExistingDevicePageState extends State<ExistingDevicePage> {
                 SectionTitle(
                   title: ExistingDevicePage.instructionsExistingDeviceTitle,
                   icon: 'assets/box_setup/icon_search.svg',
-                  backgroundColor: Color(0xff0b6ab3),
-                  titleColor: Colors.white,
                   large: true,
-                  elevation: 5,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: MarkdownBody(
                     data: ExistingDevicePage.instructionsExistingDevice,
-                    styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 16)),
+                    styleSheet: MarkdownStyleSheet(p: Theme.of(context).textTheme.bodyLarge?.copyWith(color: context.sgl.ink2)),
                   ),
                 ),
                 Padding(
@@ -158,7 +156,7 @@ class _ExistingDevicePageState extends State<ExistingDevicePage> {
                 form.add(Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(ExistingDevicePage.existingDeviceNotFound(_nameController.value.text),
-                      style: TextStyle(color: Colors.red, fontWeight: FontWeight.w500)),
+                      style: TextStyle(color: context.sgl.crit, fontWeight: FontWeight.w500)),
                 ));
               }
               body = Column(
@@ -170,7 +168,7 @@ class _ExistingDevicePageState extends State<ExistingDevicePage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 8.0, bottom: 8.0),
+                    padding: const EdgeInsets.only(right: 8.0, bottom: 24.0),
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: GreenButton(
@@ -185,9 +183,6 @@ class _ExistingDevicePageState extends State<ExistingDevicePage> {
             return Scaffold(
               appBar: SGLAppBar(
                 ExistingDevicePage.existingDevicePageTitle,
-                backgroundColor: Color(0xff0b6ab3),
-                titleColor: Colors.white,
-                iconColor: Colors.white,
                 hideBackButton: state is ExistingDeviceBlocStateResolving,
               ),
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body),

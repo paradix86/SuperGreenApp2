@@ -20,6 +20,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -143,14 +144,14 @@ class _DeviceTestPageState extends State<DeviceTestPage> {
                 title: DeviceTestPage.testingLEDTitle,
                 subtitle: DeviceTestPage.testLEDTiming(max(0, (millis / 1000)).toStringAsFixed(1)),
                 child: Text('${state.ledID + 1}',
-                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.w800, color: Color(0xff3bb30b))),
+                    style: Theme.of(context).textTheme.displayMedium?.copyWith(color: context.sgl.accentDeep)),
               );
             } else if (state is DeviceTestBlocStateDone) {
               body = Fullscreen(
                 title: DeviceTestPage.testingLEDDone,
                 child: Icon(
                   Icons.check,
-                  color: Color(0xff3bb30b),
+                  color: context.sgl.accentDeep,
                   size: 100,
                 ),
               );
@@ -162,9 +163,6 @@ class _DeviceTestPageState extends State<DeviceTestPage> {
                       SectionTitle(
                         title: DeviceTestPage.ledTestingInstructions,
                         icon: FeedEntryIcons[FE_LIGHT]!,
-                        backgroundColor: Color(0xff0b6ab3),
-                        titleColor: Colors.white,
-                        elevation: 5,
                       ),
                       Expanded(
                         child: _renderChannels(context, state.nLedChannels, DeviceTestPage.ledTestingChannelTitle,
@@ -191,9 +189,6 @@ class _DeviceTestPageState extends State<DeviceTestPage> {
                 appBar: SGLAppBar(
                   DeviceTestPage.ledTestingPageTitle,
                   hideBackButton: state is DeviceTestBlocStateDone || state is DeviceTestBlocStateTestingLed,
-                  backgroundColor: Color(0xff0b6ab3),
-                  titleColor: Colors.white,
-                  iconColor: Colors.white,
                 ),
                 body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
           }),

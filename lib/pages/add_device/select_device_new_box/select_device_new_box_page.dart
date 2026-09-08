@@ -126,10 +126,6 @@ class SelectDeviceNewBoxPageState extends State<SelectDeviceNewBoxPage> {
             return Scaffold(
                 appBar: SGLAppBar(
                   '🤖🔌',
-                  fontSize: 40,
-                  backgroundColor: Color(0xff0b6ab3),
-                  titleColor: Colors.white,
-                  iconColor: Colors.white,
                 ),
                 body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
           }),
@@ -141,7 +137,7 @@ class SelectDeviceNewBoxPageState extends State<SelectDeviceNewBoxPage> {
         title: SelectDeviceNewBoxPage.selectDeviceNewBoxNoMoreBox,
         child: Column(
           children: [
-            Icon(Icons.warning, color: Color(0xff3bb30b), size: 100),
+            Icon(Icons.warning, color: context.sgl.accentDeep, size: 100),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Align(
@@ -167,9 +163,6 @@ class SelectDeviceNewBoxPageState extends State<SelectDeviceNewBoxPage> {
         SectionTitle(
           title: SelectDeviceNewBoxPage.selectDeviceNewBoxAvailableLEDChannels,
           icon: 'assets/box_setup/icon_controller.svg',
-          backgroundColor: Color(0xff0b6ab3),
-          titleColor: Colors.white,
-          elevation: 5,
         ),
         _renderLeds(state.leds.where((l) => !_selectedLeds.contains(l)).toList(), (int led) {
           setState(() {
@@ -182,9 +175,6 @@ class SelectDeviceNewBoxPageState extends State<SelectDeviceNewBoxPage> {
           child: SectionTitle(
             title: SelectDeviceNewBoxPage.selectDeviceNewBoxSelectedLEDChannels,
             icon: 'assets/box_setup/icon_controller.svg',
-            backgroundColor: Color(0xff0b6ab3),
-            titleColor: Colors.white,
-            elevation: 5,
           ),
         ),
         _renderLeds(_selectedLeds, (int led) {
@@ -223,10 +213,10 @@ class SelectDeviceNewBoxPageState extends State<SelectDeviceNewBoxPage> {
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
                         children: <Widget>[
-                          Text(SelectDeviceNewBoxPage.selectDeviceNewBoxLEDChannel, style: TextStyle(fontSize: 10)),
+                          Text(SelectDeviceNewBoxPage.selectDeviceNewBoxLEDChannel, style: Theme.of(context).textTheme.labelSmall),
                           Text(
                             '${led + 1}',
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ],
                       ),
@@ -250,7 +240,7 @@ class SelectDeviceNewBoxPageState extends State<SelectDeviceNewBoxPage> {
           child: RawMaterialButton(
             onPressed: onPressed,
             child: Container(
-                decoration: BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.circular(10)),
+                decoration: BoxDecoration(color: context.sgl.surface2, borderRadius: BorderRadius.circular(10)),
                 child: content),
           ),
         ));

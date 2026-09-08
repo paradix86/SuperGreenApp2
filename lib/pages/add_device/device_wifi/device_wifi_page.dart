@@ -195,9 +195,6 @@ class _DeviceWifiPageState extends State<DeviceWifiPage> {
             return Scaffold(
                 appBar: SGLAppBar(
                   DeviceWifiPage.deviceWifiPageTitle,
-                  backgroundColor: Color(0xff0b6ab3),
-                  titleColor: Colors.white,
-                  iconColor: Colors.white,
                   hideBackButton: !canGoBack,
                 ),
                 body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
@@ -213,17 +210,17 @@ class _DeviceWifiPageState extends State<DeviceWifiPage> {
         Center(
             child: Column(
           children: <Widget>[
-            Icon(Icons.warning, color: Color(0xff3bb30b), size: 100),
+            Icon(Icons.warning, color: context.sgl.accentDeep, size: 100),
             Text(
               DeviceWifiPage.deviceWifiPageNoControllerFound,
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+              style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 24.0, left: 8.0, right: 8.0),
               child: Text(
                 DeviceWifiPage.deviceWifiPageNotFoundRetry,
-                style: TextStyle(fontSize: 14, color: Colors.grey),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(color: context.sgl.ink3),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -237,7 +234,7 @@ class _DeviceWifiPageState extends State<DeviceWifiPage> {
               padding: const EdgeInsets.only(top: 24.0, left: 8.0, right: 8.0),
               child: Text(
                 DeviceWifiPage.deviceWifiPageNotFoundInstructions,
-                style: TextStyle(fontSize: 14, color: Colors.grey),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(color: context.sgl.ink3),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -312,9 +309,6 @@ class _DeviceWifiPageState extends State<DeviceWifiPage> {
       SectionTitle(
         title: title,
         icon: 'assets/box_setup/icon_controller.svg',
-        backgroundColor: Color(0xff0b6ab3),
-        titleColor: Colors.white,
-        elevation: 5,
       ),
       Column(
         children: <Widget>[

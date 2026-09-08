@@ -198,17 +198,14 @@ class _SelectDevicePageState extends State<SelectDevicePage> {
                     SectionTitle(
                       title: SelectDevicePage.selectDeviceListTitle,
                       icon: 'assets/box_setup/icon_controller.svg',
-                      backgroundColor: Color(0xff0b6ab3),
-                      titleColor: Colors.white,
                       large: true,
-                      elevation: 5,
                     ),
                     Expanded(child: _deviceList(context, state)),
                     Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                       TextButton(
                         style: ButtonStyle(
                           textStyle: MaterialStateProperty.resolveWith((state) => TextStyle(
-                                color: Colors.red,
+                                color: context.sgl.crit,
                               )),
                         ),
                         child: Row(
@@ -224,7 +221,7 @@ class _SelectDevicePageState extends State<SelectDevicePage> {
                       TextButton(
                         style: ButtonStyle(
                           textStyle: MaterialStateProperty.resolveWith((state) => TextStyle(
-                                color: Colors.blue,
+                                color: context.sgl.info,
                               )),
                         ),
                         child: Row(
@@ -247,9 +244,6 @@ class _SelectDevicePageState extends State<SelectDevicePage> {
             return Scaffold(
                 appBar: SGLAppBar(
                   'Select controller',
-                  backgroundColor: Color(0xff0b6ab3),
-                  titleColor: Colors.white,
-                  iconColor: Colors.white,
                 ),
                 body: body);
           }),
@@ -264,12 +258,12 @@ class _SelectDevicePageState extends State<SelectDevicePage> {
             d,
           ) =>
               ListTile(
-                leading: Text('🤖', style: TextStyle(fontSize: 30)),
+                leading: Icon(Icons.memory_outlined, color: context.sgl.ink2),
                 onTap: () => _selectDevice(context, d),
                 onLongPress: () => _deleteDevice(context, d),
                 title: Text(
                   '${i++} - ${d.name}',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 subtitle: Text(SelectDevicePage.selectDeviceListItemInstruction),
               ))
@@ -354,7 +348,7 @@ class _SelectDevicePageState extends State<SelectDevicePage> {
               BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigatorActionPop(param: false));
             },
             child: Text(SelectDevicePage.selectDeviceContinueWithoutController,
-                style: TextStyle(decoration: TextDecoration.underline, fontSize: 15, color: Colors.grey)),
+                style: TextStyle(decoration: TextDecoration.underline, color: context.sgl.ink3)),
           ),
         ),
       ],

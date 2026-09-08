@@ -113,9 +113,6 @@ class NewDevicePage extends StatelessWidget {
             return Scaffold(
               appBar: SGLAppBar(
                 NewDevicePage.newDevicePageTitle,
-                backgroundColor: Color(0xff0b6ab3),
-                titleColor: Colors.white,
-                iconColor: Colors.white,
               ),
               body: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -128,10 +125,7 @@ class NewDevicePage extends StatelessWidget {
                   SectionTitle(
                     title: NewDevicePage.newDevicePageEmojiWifiSectionTitle,
                     icon: 'assets/box_setup/icon_search.svg',
-                    backgroundColor: Color(0xff0b6ab3),
-                    titleColor: Colors.white,
                     large: true,
-                    elevation: 5,
                   ),
                   body,
                 ],
@@ -150,7 +144,7 @@ class NewDevicePage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: MarkdownBody(
               data: NewDevicePage.instructionsNewDeviceWifiFailed,
-              styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 16)),
+              styleSheet: MarkdownStyleSheet(p: Theme.of(context).textTheme.bodyLarge?.copyWith(color: context.sgl.ink2)),
             ),
           ),
           Expanded(
@@ -162,7 +156,7 @@ class NewDevicePage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     NewDevicePage.instructionsNewDeviceWifiFailed2,
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                    style: Theme.of(context).textTheme.titleLarge,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -170,14 +164,14 @@ class NewDevicePage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: MarkdownBody(
                     data: NewDevicePage.instructionsNewDeviceWifiFailed3,
-                    styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 16)),
+                    styleSheet: MarkdownStyleSheet(p: Theme.of(context).textTheme.bodyLarge?.copyWith(color: context.sgl.ink2)),
                   ),
                 ),
               ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(right: 8.0, bottom: 8.0),
+            padding: const EdgeInsets.only(right: 8.0, bottom: 24.0),
             child: Align(
               alignment: Alignment.centerRight,
               child: GreenButton(

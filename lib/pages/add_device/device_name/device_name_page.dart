@@ -134,7 +134,7 @@ class DeviceNamePageState extends State<DeviceNamePage> {
                 title: CommonL10N.done,
                 child: Icon(
                   Icons.check,
-                  color: Color(0xff3bb30b),
+                  color: context.sgl.accentDeep,
                   size: 100,
                 ),
               );
@@ -147,9 +147,6 @@ class DeviceNamePageState extends State<DeviceNamePage> {
                   appBar: SGLAppBar(
                     DeviceNamePage.deviceNamePageTitle,
                     hideBackButton: true,
-                    backgroundColor: Color(0xff0b6ab3),
-                    titleColor: Colors.white,
-                    iconColor: Colors.white,
                   ),
                   body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body)),
             );
@@ -172,10 +169,7 @@ class DeviceNamePageState extends State<DeviceNamePage> {
         SectionTitle(
           title: DeviceNamePage.deviceNamePageSetNameSectionTitle,
           icon: 'assets/box_setup/icon_controller.svg',
-          backgroundColor: Color(0xff0b6ab3),
-          titleColor: Colors.white,
           large: true,
-          elevation: 5,
         ),
         Expanded(
           child: Column(

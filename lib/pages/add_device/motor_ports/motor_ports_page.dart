@@ -59,9 +59,6 @@ class _MotorPortPageState extends State<MotorPortPage> {
             return Scaffold(
                 appBar: SGLAppBar(
                   'Motor ports',
-                  backgroundColor: Color(0xff0b6ab3),
-                  titleColor: Colors.white,
-                  iconColor: Colors.white,
                 ),
                 body: body);
           }),
@@ -76,7 +73,7 @@ class _MotorPortPageState extends State<MotorPortPage> {
           padding: const EdgeInsets.all(32.0),
           child: Text(
             'Looks like you just upgraded the app, you need to refresh you controller\'s parameters. Make sure you are connected to the same wifi as the controller, then press the button below.',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+            style: Theme.of(context).textTheme.bodyLarge,
             textAlign: TextAlign.center,
           ),
         ),
