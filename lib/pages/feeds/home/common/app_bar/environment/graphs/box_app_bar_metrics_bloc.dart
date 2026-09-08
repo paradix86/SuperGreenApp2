@@ -65,7 +65,7 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
   final Plant? plant;
   Box? box;
 
-  late List<dynamic> version;
+  List<dynamic> version = [];
 
   BoxAppBarMetricsBloc({this.plant, this.box}) : super(PlantFeedAppBarBlocStateInit()) {
     add(PlantFeedAppBarBlocEventLoadChart());

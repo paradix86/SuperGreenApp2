@@ -165,8 +165,7 @@ class _FeedLifeEventFormPageState extends State<FeedLifeEventFormPage> {
               phaseTitle = phasesTitles[state.phase.index];
             }
             return FeedFormLayout(
-              title: '🎉',
-              fontSize: 35,
+              title: 'Life event',
               topBarPadding: 0,
               onOK: () {
                 BlocProvider.of<FeedLifeEventFormBloc>(context).add(FeedLifeEventFormBlocEventSetDate(date!));

@@ -127,8 +127,7 @@ class _ProductSupplierPageState extends State<ProductSupplierPage> {
           ]);
           return Scaffold(
               appBar: SGLAppBar(
-                '🛠',
-                fontSize: 40,
+                'Supplier',
                 backgroundColor: context.sgl.info,
               ),
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));

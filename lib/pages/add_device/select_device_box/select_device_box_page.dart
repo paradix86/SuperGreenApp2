@@ -151,7 +151,7 @@ class SelectDeviceBoxPageState extends State<SelectDeviceBoxPage> {
             }
             return Scaffold(
                 appBar: SGLAppBar(
-                  '🤖🔌',
+                  'Box slot',
                 ),
                 body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
           }),

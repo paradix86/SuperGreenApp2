@@ -93,8 +93,7 @@ class _CreateBoxPageState extends State<CreateBoxPage> {
             }
             return Scaffold(
                 appBar: SGLAppBar(
-                  '💬',
-                  fontSize: 40,
+                  'New lab',
                   hideBackButton: state is CreateBoxBlocStateDone,
                 ),
                 body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
@@ -111,8 +110,8 @@ class _CreateBoxPageState extends State<CreateBoxPage> {
       children: <Widget>[
         AnimatedContainer(
           duration: Duration(milliseconds: 100),
-          height: _keyboardVisible ? 0 : 100,
-          color: Colors.yellow,
+          height: _keyboardVisible ? 0 : 24,
+          color: context.sgl.bg2,
         ),
         SectionTitle(
           title: CreateBoxPage.createBoxPageNewLabLabel,

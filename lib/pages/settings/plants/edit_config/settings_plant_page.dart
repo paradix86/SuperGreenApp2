@@ -120,8 +120,7 @@ class _SettingsPlantPageState extends State<SettingsPlantPage> {
               },
               child: Scaffold(
                   appBar: SGLAppBar(
-                    '🍁',
-                    fontSize: 40,
+                    'Plant settings',
                     hideBackButton: state is SettingsPlantBlocStateDone,
                   ),
                   body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body)),

@@ -631,7 +631,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "productsPageToolboxInstructions": "List the items you used for this grow for future reference and/or kowledge sharing.",
+  "productsPageToolboxInstructions": "List the items you used for this grow for future reference and/or knowledge sharing.",
   "@productsPageToolboxInstructions": {
     "description": "Products toolbox instructions",
     "type": "text",

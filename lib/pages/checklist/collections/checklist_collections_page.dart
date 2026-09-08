@@ -43,7 +43,7 @@ class ChecklistCollectionsPage extends StatelessWidget {
         return Scaffold(
           backgroundColor: Color(0xffEDEDED),
           appBar: SGLAppBar(
-            '🦜',
+            'Checklist collections',
             backgroundColor: Colors.deepPurple,
           ),
           body: body,

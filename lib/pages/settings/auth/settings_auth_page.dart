@@ -98,8 +98,7 @@ class _SettingsAuthPageState extends State<SettingsAuthPage> {
           }
           return Scaffold(
               appBar: SGLAppBar(
-                '🔐',
-                fontSize: 35,
+                'SGL account',
                 backgroundColor: Colors.indigo,
                 hideBackButton: !(state is SettingsAuthBlocStateLoaded),
               ),

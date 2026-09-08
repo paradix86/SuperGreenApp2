@@ -116,8 +116,7 @@ class SelectBoxPage extends StatelessWidget {
           }
           return Scaffold(
               appBar: SGLAppBar(
-                '⚗️',
-                fontSize: 35,
+                'Select lab',
                 elevation: state is SelectBoxBlocStateLoaded && state.boxes.length == 0 ? 4 : 0,
               ),
               body: AnimatedSwitcher(

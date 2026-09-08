@@ -69,7 +69,7 @@ class ProductsPage extends StatefulWidget {
 
   static String get productsPageToolboxInstructions {
     return Intl.message(
-      'List the items you used for this grow for future reference and/or kowledge sharing.',
+      'List the items you used for this grow for future reference and/or knowledge sharing.',
       name: 'productsPageToolboxInstructions',
       desc: 'Products toolbox instructions',
       locale: SGLLocalizations.current?.localeName,

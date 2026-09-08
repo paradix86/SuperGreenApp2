@@ -149,7 +149,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
             return Scaffold(
               backgroundColor: Color(0xffEDEDED),
               appBar: SGLAppBar(
-                '🦜',
+                'Checklist',
                 backgroundColor: Colors.deepPurple,
                 actions: state is ChecklistBlocStateLoaded
                     ? [

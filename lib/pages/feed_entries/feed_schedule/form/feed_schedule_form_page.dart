@@ -163,7 +163,7 @@ class _FeedScheduleFormPageState extends State<FeedScheduleFormPage> {
               }
             }
             return FeedFormLayout(
-                title: '🌞🌙',
+                title: 'Schedule',
                 changed: changed,
                 valid: valid,
                 onOK: () => BlocProvider.of<FeedScheduleFormBloc>(context).add(FeedScheduleFormBlocEventCreate()),

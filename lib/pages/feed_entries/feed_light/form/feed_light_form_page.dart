@@ -239,8 +239,7 @@ class _FeedLightFormPageState extends State<FeedLightFormPage> {
                   child: content);
             }
             return FeedFormLayout(
-              title: '⛅',
-              fontSize: 35,
+              title: 'Light',
               changed: changed,
               valid: changed && _reachable,
               hideBackButton: ((_reachable == false && changed) ||

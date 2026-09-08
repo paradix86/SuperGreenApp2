@@ -118,7 +118,7 @@ class _PlantInfosPageState extends State<PlantInfosPage> {
 
     return ListView(controller: infosScrollController, key: const PageStorageKey<String>('infos'), children: [
       PlantInfosWidget(
-          color: Color(0xFFBA9650),
+          color: context.sgl.amberInk,
           icon: 'assets/plant_infos/icon_seed.svg',
           title: 'Strain name',
           value: strain,
@@ -143,19 +143,19 @@ class _PlantInfosPageState extends State<PlantInfosPage> {
                   }));
                 }),
       PlantInfosWidget(
-          color: Color(0xFF5F5F5F),
+          color: context.sgl.ink2,
           icon: 'assets/plant_infos/icon_plant_type.svg',
           title: 'Plant type',
           value: state.plantInfos.plantSettings!.plantType,
           onEdit: state.plantInfos.editable == false ? null : () => _openForm('PLANT_TYPE')),
       PlantInfosWidget(
-          color: Color(0xFF51220E),
+          color: context.sgl.ink,
           icon: 'assets/plant_infos/icon_medium.svg',
           title: 'Medium',
           value: state.plantInfos.plantSettings!.medium,
           onEdit: state.plantInfos.editable == false ? null : () => _openForm('MEDIUM')),
       PlantInfosWidget(
-          color: Color(0xFF20BBDD),
+          color: context.sgl.info,
           icon: 'assets/plant_infos/icon_dimension.svg',
           title: 'Lab dimensions',
           value: dimensions,
@@ -174,7 +174,7 @@ class _PlantInfosPageState extends State<PlantInfosPage> {
               : null,
           onEdit: state.plantInfos.editable == false ? null : () => _openForm('CLONING_DATE')),
       PlantInfosWidget(
-          color: Color(0xFF3BB30B),
+          color: context.sgl.accentDeep,
           icon: FeedEntryIcons[FE_LIFE_EVENT]!,
           title: 'Germination',
           value: state.plantInfos.plantSettings!.germinationDate != null
@@ -182,7 +182,7 @@ class _PlantInfosPageState extends State<PlantInfosPage> {
               : null,
           onEdit: state.plantInfos.editable == false ? null : () => _openForm('GERMINATION_DATE')),
       PlantInfosWidget(
-          color: Color(0xFFFAC13C),
+          color: context.sgl.warn,
           icon: 'assets/plant_infos/icon_vegging_since.svg',
           title: 'Vegging',
           value: state.plantInfos.plantSettings!.veggingStart != null
@@ -190,7 +190,7 @@ class _PlantInfosPageState extends State<PlantInfosPage> {
               : null,
           onEdit: state.plantInfos.editable == false ? null : () => _openForm('VEGGING_START')),
       PlantInfosWidget(
-          color: Color(0xFFE859DA),
+          color: Color(0xFFB03AA3),
           icon: 'assets/plant_infos/icon_blooming_since.svg',
           title: 'Blooming',
           value: state.plantInfos.plantSettings!.bloomingStart != null
@@ -198,7 +198,7 @@ class _PlantInfosPageState extends State<PlantInfosPage> {
               : null,
           onEdit: state.plantInfos.editable == false ? null : () => _openForm('BLOOMING_START')),
       PlantInfosWidget(
-          color: Color(0xFF7E7CE3),
+          color: Color(0xFF5B59C4),
           icon: 'assets/plant_infos/icon_drying_since.svg',
           title: 'Drying',
           value: state.plantInfos.plantSettings!.dryingStart != null
@@ -206,7 +206,7 @@ class _PlantInfosPageState extends State<PlantInfosPage> {
               : null,
           onEdit: state.plantInfos.editable == false ? null : () => _openForm('DRYING_START')),
       PlantInfosWidget(
-          color: Color(0xFFD93483),
+          color: Color(0xFFB8256B),
           icon: 'assets/plant_infos/icon_curing_since.svg',
           title: 'Curing',
           value: state.plantInfos.plantSettings!.curingStart != null

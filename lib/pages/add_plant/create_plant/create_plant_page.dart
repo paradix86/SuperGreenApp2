@@ -146,8 +146,7 @@ class CreatePlantPageState extends State<CreatePlantPage> {
             }
             return Scaffold(
                 appBar: SGLAppBar(
-                  '🍁',
-                  fontSize: 40,
+                  'New plant',
                   hideBackButton: state is CreatePlantBlocStateDone,
                 ),
                 body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
@@ -166,8 +165,8 @@ class CreatePlantPageState extends State<CreatePlantPage> {
       children: <Widget>[
         AnimatedContainer(
           duration: Duration(milliseconds: 100),
-          height: _keyboardVisible ? 0 : 100,
-          color: context.sgl.accentDeep,
+          height: _keyboardVisible ? 0 : 24,
+          color: context.sgl.bg2,
         ),
         Expanded(
           child: ListView(children: [

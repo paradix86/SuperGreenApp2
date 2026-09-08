@@ -110,8 +110,7 @@ class _FeedVentilationFormPageState extends State<FeedVentilationFormPage> {
             }
             bool changed = state is FeedVentilationFormBlocStateLoaded && state.paramsController.isChanged();
             return FeedFormLayout(
-                title: '💨',
-                fontSize: 35,
+                title: 'Ventilation',
                 changed: changed,
                 valid: changed && _reachable,
                 hideBackButton: ((_reachable == false && changed) || state is FeedVentilationFormBlocStateLoading),

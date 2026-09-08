@@ -364,7 +364,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'productsPageToolboxBy': MessageLookupByLibrary.simpleMessage('by '),
     'productsPageToolboxEmpty': MessageLookupByLibrary.simpleMessage('Toolbox is empty'),
     'productsPageToolboxEmptyOwnPlant': MessageLookupByLibrary.simpleMessage('Toolbox is empty\nuse the “+” above to add your first item.'),
-    'productsPageToolboxInstructions': MessageLookupByLibrary.simpleMessage('List the items you used for this grow for future reference and/or kowledge sharing.'),
+    'productsPageToolboxInstructions': MessageLookupByLibrary.simpleMessage('List the items you used for this grow for future reference and/or knowledge sharing.'),
     'publicPlantPageSingleEntry': MessageLookupByLibrary.simpleMessage('Viewing single log entry'),
     'publicPlantPageSingleEntryButton': MessageLookupByLibrary.simpleMessage('View complete diary'),
     'redBarSyncingProgress': m22,

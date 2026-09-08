@@ -89,8 +89,7 @@ class _PlantPickerPageState extends State<PlantPickerPage> {
           }
           return Scaffold(
               appBar: SGLAppBar(
-                '🛠',
-                fontSize: 40,
+                'Pick a plant',
               ),
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
         },

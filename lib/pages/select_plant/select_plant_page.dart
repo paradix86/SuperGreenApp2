@@ -106,8 +106,7 @@ class SelectPlantPage extends StatelessWidget {
           }
           return Scaffold(
               appBar: SGLAppBar(
-                '🍁',
-                fontSize: 40,
+                'Select plant',
                 hideBackButton: !(state is SelectPlantBlocStateLoaded),
                 elevation: 10,
               ),

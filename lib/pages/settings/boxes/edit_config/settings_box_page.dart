@@ -128,8 +128,7 @@ class _SettingsBoxPageState extends State<SettingsBoxPage> {
               },
               child: Scaffold(
                   appBar: SGLAppBar(
-                    '⚗️',
-                    fontSize: 35,
+                    'Lab settings',
                     hideBackButton: state is SettingsBoxBlocStateDone,
                   ),
                   body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body)),

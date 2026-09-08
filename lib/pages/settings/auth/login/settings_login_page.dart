@@ -144,8 +144,7 @@ class _SettingsLoginPageState extends State<SettingsLoginPage> {
           }
           return Scaffold(
               appBar: SGLAppBar(
-                '🔐',
-                fontSize: 35,
+                'Login',
                 backgroundColor: Colors.indigo,
                 hideBackButton: !(state is SettingsLoginBlocStateLoaded),
               ),

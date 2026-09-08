@@ -209,8 +209,7 @@ class _SelectNewProductPageState extends State<SelectNewProductPage> {
           }
           return Scaffold(
               appBar: SGLAppBar(
-                '🛠',
-                fontSize: 40,
+                'Add product',
                 backgroundColor: context.sgl.info,
                 hideBackButton: state is SelectNewProductBlocStateCreatingProduct,
               ),

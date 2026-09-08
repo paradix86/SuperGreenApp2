@@ -146,8 +146,7 @@ class _SettingsCreateAccountPageState extends State<SettingsCreateAccountPage> {
           }
           return Scaffold(
               appBar: SGLAppBar(
-                '🔐',
-                fontSize: 35,
+                'Create account',
                 backgroundColor: Colors.indigo,
                 hideBackButton: !(state is SettingsCreateAccountBlocStateLoaded),
               ),

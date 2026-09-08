@@ -164,7 +164,7 @@ class _CreateChecklistSeedPageState extends State<CreateChecklistSeedPage> {
               child: Scaffold(
                 backgroundColor: Color(0xffededed),
                 appBar: SGLAppBar(
-                  '🦜',
+                  'New checklist item',
                   backgroundColor: Colors.deepPurple,
                   actions: [
                     IconButton(

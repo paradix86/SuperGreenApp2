@@ -38,8 +38,7 @@ class _ProductInfosPageState extends State<ProductInfosPage> {
           Widget body = productSpecsForms[state.productCategoryID]!();
           return Scaffold(
               appBar: SGLAppBar(
-                '🛠',
-                fontSize: 40,
+                'Product',
                 backgroundColor: context.sgl.info,
               ),
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));

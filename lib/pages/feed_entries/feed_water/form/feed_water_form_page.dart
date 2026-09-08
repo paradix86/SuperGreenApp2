@@ -70,8 +70,7 @@ class _FeedWaterFormPageState extends State<FeedWaterFormPage> {
             bloc: BlocProvider.of<FeedWaterFormBloc>(context),
             builder: (context, state) {
               return FeedFormLayout(
-                title: '💧',
-                fontSize: 35,
+                title: 'Watering',
                 body: ListView(
                   controller: listScrollController,
                   children: _renderBody(context, state),
@@ -166,12 +165,13 @@ class _FeedWaterFormPageState extends State<FeedWaterFormPage> {
               children: <Widget>[
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 36.0),
+                    padding: const EdgeInsets.only(bottom: 8.0),
                     child: Row(
                       children: [
                         Expanded(child: Container()),
                         Expanded(
                           child: Column(
+                            mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Text('PH:',
                                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: context.sgl.accentDeep)),

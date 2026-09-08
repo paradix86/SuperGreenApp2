@@ -130,8 +130,7 @@ class _ProductTypePageState extends State<ProductTypePage> {
           );
           return Scaffold(
               appBar: SGLAppBar(
-                '🛠',
-                fontSize: 40,
+                'Product category',
                 backgroundColor: context.sgl.info,
               ),
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));

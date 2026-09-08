@@ -371,7 +371,7 @@ class _FeedNutrientMixFormPageState extends State<FeedNutrientMixFormPage> {
               body = renderBody(context, state);
             }
             return FeedFormLayout(
-                title: '🧪',
+                title: 'Nutrient mix',
                 changed: true,
                 valid: true,
                 onOK: () async {
@@ -619,12 +619,13 @@ class _FeedNutrientMixFormPageState extends State<FeedNutrientMixFormPage> {
               children: <Widget>[
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 36.0),
+                    padding: const EdgeInsets.only(bottom: 8.0),
                     child: Row(
                       children: [
                         Expanded(child: Container()),
                         Expanded(
                           child: Column(
+                            mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Text('PH:',
                                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: context.sgl.accentDeep)),
