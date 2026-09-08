@@ -25,8 +25,7 @@ import 'package:super_green_app/towelie/towelie_bloc.dart';
 class TowelieActionHelpSelectNewPlantDevice extends TowelieActionHelp {
   static String get towelieHelperSelectNewPlantDeviceBox {
     return Intl.message(
-      '''Ok, this is where we'll choose which of the **controller's LED channel** will be used to light up the plant.
-To **better understand** you should have your LED panels **connected to the controller**.''',
+      'Choose which of the controller\'s **LED channels** light this plant. Keep the panels **plugged in** so you can see which one reacts.',
       name: 'towelieHelperSelectNewPlantDeviceBox',
       desc: 'Towelie Helper new plant Device box',
       locale: SGLLocalizations.current?.localeName,

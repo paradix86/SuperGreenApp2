@@ -25,8 +25,7 @@ import 'package:super_green_app/towelie/towelie_bloc.dart';
 class TowelieActionHelpCreatePlant extends TowelieActionHelp {
   static String get towelieHelperCreatePlant {
     return Intl.message(
-      '''Hey man, **tuto to the plant creation process**, I\'ll be there to guide you through it.
-First step is to **give your new plant a name**.''',
+      'Welcome! I\'ll guide you through creating your first plant.\nStart by **giving it a name**: the strain, a nickname, anything you\'ll recognise.',
       name: 'towelieHelperCreatePlant',
       desc: 'Towelie Helper Create Plant',
       locale: SGLLocalizations.current?.localeName,

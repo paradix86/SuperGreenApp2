@@ -25,10 +25,7 @@ import 'package:super_green_app/towelie/towelie_bloc.dart';
 class TowelieActionHelpWifi extends TowelieActionHelp {
   static String get towelieHelperDeviceWifi {
     return Intl.message(
-      '''**While not mandatory**, connecting your controller to your home wifi has a few benefits:
-- receive software **upgrade** and bug fixes
-- remote **monitoring**
-- remote **control**''',
+      'Connecting the controller to your **home Wi-Fi** is optional but useful:\n- firmware **updates**\n- **monitoring** from anywhere\n- **remote control** with an SGL account',
       name: 'towelieHelperDeviceWifi',
       desc: 'Towelie Helper Device wifi',
       locale: SGLLocalizations.current?.localeName,

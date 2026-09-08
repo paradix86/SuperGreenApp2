@@ -28,7 +28,7 @@ import 'package:super_green_app/towelie/towelie_bloc.dart';
 class TowelieActionHelpWaterReminder extends TowelieActionHelp {
   static String get towelieHelperWaterReminder {
     return Intl.message(
-      'Do you want me to **set a reminder** so you don\'t forget to water again soon?',
+      'Want me to **set a reminder** for the next watering?',
       name: 'towelieHelperWaterReminder',
       desc: 'Towelie Helper water reminder',
       locale: SGLLocalizations.current?.localeName,

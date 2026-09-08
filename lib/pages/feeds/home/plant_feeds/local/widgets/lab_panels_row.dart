@@ -41,19 +41,34 @@ class LabPanelsRow extends StatelessWidget {
       useSafeArea: true,
       useRootNavigator: true,
       builder: (BuildContext context) {
-        final double height = MediaQuery.of(context).size.height * 0.82;
-        return SizedBox(
-          height: height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
-                child: Text(panel.label, style: Theme.of(context).textTheme.titleLarge),
+        // The panel's own vertical ListView picks up the sheet's controller
+        // through PrimaryScrollController, so dragging the list past its top
+        // shrinks and closes the sheet instead of only the title area.
+        // snap: a release below the halfway point falls to minChildSize,
+        // which closes the modal (shouldCloseOnMinExtent); above it the
+        // sheet springs back to its full size.
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.82,
+          minChildSize: 0.45,
+          maxChildSize: 0.95,
+          snap: true,
+          snapSizes: const [0.82],
+          builder: (BuildContext context, ScrollController scrollController) {
+            return PrimaryScrollController(
+              controller: scrollController,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+                    child: Text(panel.label, style: Theme.of(context).textTheme.titleLarge),
+                  ),
+                  Expanded(child: panel.builder(context)),
+                ],
               ),
-              Expanded(child: panel.builder(context)),
-            ],
-          ),
+            );
+          },
         );
       },
     );

@@ -25,10 +25,7 @@ import 'package:super_green_app/towelie/towelie_bloc.dart';
 class TowelieActionHelpAddExistingDevice extends TowelieActionHelp {
   static String get towelieHelperAddExistingDevice {
     return Intl.message(
-      '''Ok, so your controller is **already running** and **connected to your home wifi**, let\'s search for it over the network!
-Enter the **name you gave it last time** (default is **supergreencontroller**), if you can\'t remember it, you can also type its **IP address**.
-The **IP address** can be easily found on your **router\'s home page**.
-To **access your router's homepage**: take the **IP** address of your **mobile phone** or **laptop**, replace the last digit by **1** and **type that** in a browser.''',
+      'Your controller is already on your **home Wi-Fi**, so let\'s find it on the network.\nType the **name you gave it** (default **supergreencontroller**) or its **IP address**. The IP is listed on your router\'s page: take your phone\'s IP, replace the last number with **1** and open it in a browser.',
       name: 'towelieHelperAddExistingDevice',
       desc: 'Towelie Helper Add existing device',
       locale: SGLLocalizations.current?.localeName,

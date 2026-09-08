@@ -25,7 +25,7 @@ import 'package:super_green_app/towelie/towelie_bloc.dart';
 class TowelieActionHelpTestDevice extends TowelieActionHelp {
   static String get towelieHelperTestDevice {
     return Intl.message(
-      'This test is to make sure everything is working, **connect** your **LED** panels **to the controller** if not already.',
+      'Quick check that everything responds. **Plug the LED panels into the controller** if you haven\'t yet, then run the test.',
       name: 'towelieHelperTestDevice',
       desc: 'Towelie Helper test device',
       locale: SGLLocalizations.current?.localeName,

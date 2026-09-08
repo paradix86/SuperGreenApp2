@@ -25,9 +25,7 @@ import 'package:super_green_app/towelie/towelie_bloc.dart';
 class TowelieActionHelpAddDevice extends TowelieActionHelp {
   static String get towelieHelperAddDevice {
     return Intl.message(
-      '''**Good**.
-Now this is when you should **plug the controller to its power supply** if not already.
-Then you will choose one of the options above to **connect to the controller**.''',
+      '**Power the controller** with its supply if it is not on yet, then choose above how to reach it: a **new controller** broadcasts its own Wi-Fi, an **existing one** is already on your home network.',
       name: 'towelieHelperAddDevice',
       desc: 'Towelie Helper Add device',
       locale: SGLLocalizations.current?.localeName,

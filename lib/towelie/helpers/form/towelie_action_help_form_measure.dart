@@ -25,7 +25,7 @@ import 'package:super_green_app/towelie/towelie_bloc.dart';
 class TowelieActionHelpFormMeasure extends TowelieActionHelp {
   static String get towelieHelperFormMeasure {
     return Intl.message(
-      'This is the **measuring tool**, while not perfectly accurate, it will still give you a **good hint for your next grow**. And as a **bonus feature**, it does **timelapses** of all the measures you\'ve taken!',
+      'The **measuring tool** is not lab-accurate, but it gives you a **good reference for the next grow** and builds a **timelapse** from all your measures.',
       name: 'towelieHelperFormMeasure',
       desc: 'Towelie Helper measure form 2',
       locale: SGLLocalizations.current?.localeName,
@@ -34,7 +34,7 @@ class TowelieActionHelpFormMeasure extends TowelieActionHelp {
 
   static String get towelieHelperFormMeasure2 {
     return Intl.message(
-      'It\'s the **first time** you\'re using it, so there is no "before" picture **to compare to**. Take a pic of what you **want to measure**, and take a measure again in **a few days** to have a **difference**.',
+      'This is your **first measure**, so there is no earlier picture to compare to. Photograph what you want to measure and come back in **a few days** to see the difference.',
       name: 'towelieHelperFormMeasure2',
       desc: 'Towelie Helper measure form 2',
       locale: SGLLocalizations.current?.localeName,
@@ -43,7 +43,7 @@ class TowelieActionHelpFormMeasure extends TowelieActionHelp {
 
   static String get towelieHelperFormMeasure3 {
     return Intl.message(
-      'Looks like you **already took a measure**, you can select it in the **"Previous measures"** section, then press the **"Today\'s measure"** button to add a new measure. The previous one will be **displayed as a transparent overlay** for more accuracy.',
+      'You already have a measure: pick it under **Previous measures**, then tap **Today\'s measure**. The old picture shows as a **transparent overlay** so you can line them up.',
       name: 'towelieHelperFormMeasure3',
       desc: 'Towelie Helper measure form 3',
       locale: SGLLocalizations.current?.localeName,

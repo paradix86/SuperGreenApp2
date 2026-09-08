@@ -25,7 +25,7 @@ import 'package:super_green_app/towelie/towelie_bloc.dart';
 class TowelieActionHelpSelectPlantDeviceBox extends TowelieActionHelp {
   static String get towelieHelperSelectPlantDeviceBox {
     return Intl.message(
-      'Your controller can **manage up to 3 boxes**, select an **already configured** box above, or create a **new one**.',
+      'A controller manages up to **3 boxes**. Pick a box that is **already set up** above, or create a **new one**.',
       name: 'towelieHelperSelectPlantDeviceBox',
       desc: 'Towelie Helper plant Device box',
       locale: SGLLocalizations.current?.localeName,

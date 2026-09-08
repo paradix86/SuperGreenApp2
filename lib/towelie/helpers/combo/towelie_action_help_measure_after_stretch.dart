@@ -26,7 +26,7 @@ import 'package:super_green_app/towelie/towelie_bloc.dart';
 class TowelieActionHelpMeasureAfterStretch extends TowelieActionHelp {
   static String get towelieHelperMeasureAfterStretch {
     return Intl.message(
-      '**Hey**! it might be a good idea to **take a measure** of your plant to **monitor the stretch**.',
+      'Good moment to **take a measure** and keep an eye on the **stretch**.',
       name: 'towelieHelperMeasureAfterStretch',
       desc: 'Towelie Helper measure after stretch',
       locale: SGLLocalizations.current?.localeName,

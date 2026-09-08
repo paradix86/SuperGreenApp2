@@ -138,97 +138,97 @@
     "type": "text",
     "placeholders": {}
   },
-  "towelieHelperFormTakePic": "Welcome to the **take pic** page, this screen is to take picture of your plant **and note observations**. **You'll be glad you took pictures regularly during your next grow!**",
+  "towelieHelperFormTakePic": "Take a picture of your plant and **note what you see**. Regular photos are the best diary you'll have during the next grow.",
   "@towelieHelperFormTakePic": {
     "description": "Towelie Helper form take pic",
     "type": "text",
     "placeholders": {}
   },
-  "towelieHelperFormMeasure": "This is the **measuring tool**, while not perfectly accurate, it will still give you a **good hint for your next grow**. And as a **bonus feature**, it does **timelapses** of all the measures you've taken!",
+  "towelieHelperFormMeasure": "The **measuring tool** is not lab-accurate, but it gives you a **good reference for the next grow** and builds a **timelapse** from all your measures.",
   "@towelieHelperFormMeasure": {
     "description": "Towelie Helper measure form 2",
     "type": "text",
     "placeholders": {}
   },
-  "towelieHelperFormMeasure2": "It's the **first time** you're using it, so there is no \"before\" picture **to compare to**. Take a pic of what you **want to measure**, and take a measure again in **a few days** to have a **difference**.",
+  "towelieHelperFormMeasure2": "This is your **first measure**, so there is no earlier picture to compare to. Photograph what you want to measure and come back in **a few days** to see the difference.",
   "@towelieHelperFormMeasure2": {
     "description": "Towelie Helper measure form 2",
     "type": "text",
     "placeholders": {}
   },
-  "towelieHelperFormMeasure3": "Looks like you **already took a measure**, you can select it in the **\"Previous measures\"** section, then press the **\"Today's measure\"** button to add a new measure. The previous one will be **displayed as a transparent overlay** for more accuracy.",
+  "towelieHelperFormMeasure3": "You already have a measure: pick it under **Previous measures**, then tap **Today's measure**. The old picture shows as a **transparent overlay** so you can line them up.",
   "@towelieHelperFormMeasure3": {
     "description": "Towelie Helper measure form 3",
     "type": "text",
     "placeholders": {}
   },
-  "towelieHelperCreatePlant": "Hey man, **tuto to the plant creation process**, I'll be there to guide you through it.\nFirst step is to **give your new plant a name**.",
+  "towelieHelperCreatePlant": "Welcome! I'll guide you through creating your first plant.\nStart by **giving it a name**: the strain, a nickname, anything you'll recognise.",
   "@towelieHelperCreatePlant": {
     "description": "Towelie Helper Create Plant",
     "type": "text",
     "placeholders": {}
   },
-  "towelieHelperCreateLab": "Now we're creating our **first Lab**!\nA lab is where you **simulate a tiny ecosystem**\nwith artificial **lights and ventilation**.",
+  "towelieHelperCreateLab": "A **lab** is the space your plant grows in: a tent, a box or a shelf with its own **lights and ventilation**.\nGive it a name; you can link a controller to it right after.",
   "@towelieHelperCreateLab": {
     "description": "Towelie Helper create lab",
     "type": "text",
     "placeholders": {}
   },
-  "towelieHelperDeviceWifi": "**While not mandatory**, connecting your controller to your home wifi has a few benefits:\n- receive software **upgrade** and bug fixes\n- remote **monitoring**\n- remote **control**",
+  "towelieHelperDeviceWifi": "Connecting the controller to your **home Wi-Fi** is optional but useful:\n- firmware **updates**\n- **monitoring** from anywhere\n- **remote control** with an SGL account",
   "@towelieHelperDeviceWifi": {
     "description": "Towelie Helper Device wifi",
     "type": "text",
     "placeholders": {}
   },
-  "towelieHelperSelectNewPlantDeviceBox": "Ok, this is where we'll choose which of the **controller's LED channel** will be used to light up the plant.\nTo **better understand** you should have your LED panels **connected to the controller**.",
+  "towelieHelperSelectNewPlantDeviceBox": "Choose which of the controller's **LED channels** light this plant. Keep the panels **plugged in** so you can see which one reacts.",
   "@towelieHelperSelectNewPlantDeviceBox": {
     "description": "Towelie Helper new plant Device box",
     "type": "text",
     "placeholders": {}
   },
-  "towelieHelperAddExistingDevice": "Ok, so your controller is **already running** and **connected to your home wifi**, let's search for it over the network!\nEnter the **name you gave it last time** (default is **supergreencontroller**), if you can't remember it, you can also type its **IP address**.\nThe **IP address** can be easily found on your **router's home page**.\nTo **access your router's homepage**: take the **IP** address of your **mobile phone** or **laptop**, replace the last digit by **1** and **type that** in a browser.",
+  "towelieHelperAddExistingDevice": "Your controller is already on your **home Wi-Fi**, so let's find it on the network.\nType the **name you gave it** (default **supergreencontroller**) or its **IP address**. The IP is listed on your router's page: take your phone's IP, replace the last number with **1** and open it in a browser.",
   "@towelieHelperAddExistingDevice": {
     "description": "Towelie Helper Add existing device",
     "type": "text",
     "placeholders": {}
   },
-  "towelieHelperAddDevice": "**Good**.\nNow this is when you should **plug the controller to its power supply** if not already.\nThen you will choose one of the options above to **connect to the controller**.",
+  "towelieHelperAddDevice": "**Power the controller** with its supply if it is not on yet, then choose above how to reach it: a **new controller** broadcasts its own Wi-Fi, an **existing one** is already on your home network.",
   "@towelieHelperAddDevice": {
     "description": "Towelie Helper Add device",
     "type": "text",
     "placeholders": {}
   },
-  "towelieHelperSelectDevice": "Alright, now that your plant has a name we can **start its configuration**:)\nIf you own a **SuperGreenLab bundle**, you need to tell the app **which controller will control the plant's lights, ventilation and sensors**.\nBecause it's all brand new, let's first **setup a new controller**.\nIf you don't own a bundle, you can skip this by pressing \"NO SGL DEVICE\".",
+  "towelieHelperSelectDevice": "Now that the plant has a name, let's set it up.\nIf you own a **SuperGreenLab controller**, choose which one will drive this plant's **lights, ventilation and sensors**. Brand new? Start with **New controller**.\nNo controller? Tap **NO SGL DEVICE** to skip this step.",
   "@towelieHelperSelectDevice": {
     "description": "Towelie Helper Select plant device",
     "type": "text",
     "placeholders": {}
   },
-  "towelieHelperTestDevice": "This test is to make sure everything is working, **connect** your **LED** panels **to the controller** if not already.",
+  "towelieHelperTestDevice": "Quick check that everything responds. **Plug the LED panels into the controller** if you haven't yet, then run the test.",
   "@towelieHelperTestDevice": {
     "description": "Towelie Helper test device",
     "type": "text",
     "placeholders": {}
   },
-  "towelieHelperSelectPlantDeviceBox": "Your controller can **manage up to 3 boxes**, select an **already configured** box above, or create a **new one**.",
+  "towelieHelperSelectPlantDeviceBox": "A controller manages up to **3 boxes**. Pick a box that is **already set up** above, or create a **new one**.",
   "@towelieHelperSelectPlantDeviceBox": {
     "description": "Towelie Helper plant Device box",
     "type": "text",
     "placeholders": {}
   },
-  "towelieHelperMeasureAfterStretch": "**Hey**! it might be a good idea to **take a measure** of your plant to **monitor the stretch**.",
+  "towelieHelperMeasureAfterStretch": "Good moment to **take a measure** and keep an eye on the **stretch**.",
   "@towelieHelperMeasureAfterStretch": {
     "description": "Towelie Helper measure after stretch",
     "type": "text",
     "placeholders": {}
   },
-  "towelieHelperMeasureReminder": "Do you want me to **set a reminder** so you don't forget to take a measure again soon?",
+  "towelieHelperMeasureReminder": "Want me to **set a reminder** so you don't forget the next measure?",
   "@towelieHelperMeasureReminder": {
     "description": "Towelie Helper measure reminder",
     "type": "text",
     "placeholders": {}
   },
-  "towelieHelperWaterReminder": "Do you want me to **set a reminder** so you don't forget to water again soon?",
+  "towelieHelperWaterReminder": "Want me to **set a reminder** for the next watering?",
   "@towelieHelperWaterReminder": {
     "description": "Towelie Helper water reminder",
     "type": "text",

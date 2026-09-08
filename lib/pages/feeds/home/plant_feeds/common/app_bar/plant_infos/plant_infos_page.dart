@@ -116,7 +116,7 @@ class _PlantInfosPageState extends State<PlantInfosPage> {
           '${state.plantInfos.boxSettings!.width}x${state.plantInfos.boxSettings!.height}x${state.plantInfos.boxSettings!.depth} ${state.plantInfos.boxSettings!.unit}';
     }
 
-    return ListView(controller: infosScrollController, key: const PageStorageKey<String>('infos'), children: [
+    return ListView(controller: PrimaryScrollController.maybeOf(context) ?? infosScrollController, key: const PageStorageKey<String>('infos'), children: [
       PlantInfosWidget(
           color: context.sgl.amberInk,
           icon: 'assets/plant_infos/icon_seed.svg',

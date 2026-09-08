@@ -25,9 +25,7 @@ import 'package:super_green_app/towelie/towelie_bloc.dart';
 class TowelieActionHelpCreateLab extends TowelieActionHelp {
   static String get towelieHelperCreateLab {
     return Intl.message(
-      '''Now we're creating our **first Lab**!
-A lab is where you **simulate a tiny ecosystem**
-with artificial **lights and ventilation**.''',
+      'A **lab** is the space your plant grows in: a tent, a box or a shelf with its own **lights and ventilation**.\nGive it a name; you can link a controller to it right after.',
       name: 'towelieHelperCreateLab',
       desc: 'Towelie Helper create lab',
       locale: SGLLocalizations.current?.localeName,

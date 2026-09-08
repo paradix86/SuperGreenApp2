@@ -25,10 +25,7 @@ import 'package:super_green_app/towelie/towelie_bloc.dart';
 class TowelieActionHelpSelectDevice extends TowelieActionHelp {
   static String get towelieHelperSelectDevice {
     return Intl.message(
-      '''Alright, now that your plant has a name we can **start its configuration**:)
-If you own a **SuperGreenLab bundle**, you need to tell the app **which controller will control the plant's lights, ventilation and sensors**.
-Because it\'s all brand new, let\'s first **setup a new controller**.
-If you don\'t own a bundle, you can skip this by pressing "NO SGL DEVICE".''',
+      'Now that the plant has a name, let\'s set it up.\nIf you own a **SuperGreenLab controller**, choose which one will drive this plant\'s **lights, ventilation and sensors**. Brand new? Start with **New controller**.\nNo controller? Tap **NO SGL DEVICE** to skip this step.',
       name: 'towelieHelperSelectDevice',
       desc: 'Towelie Helper Select plant device',
       locale: SGLLocalizations.current?.localeName,
