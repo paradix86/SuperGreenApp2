@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/explorer/sections/section/section_bloc.dart';
@@ -104,7 +105,7 @@ abstract class SectionPage<BlocType extends SectionBloc, ItemType> extends State
               'Nothing to see here (yet)',
               style: TextStyle(
                 fontSize: 17,
-                color: Colors.grey,
+                color: context.sgl.ink3,
               ),
               textAlign: TextAlign.center,
             ),
@@ -127,7 +128,7 @@ abstract class SectionPage<BlocType extends SectionBloc, ItemType> extends State
               'Create an account',
               style: TextStyle(
                 fontSize: 17,
-                color: Colors.grey,
+                color: context.sgl.ink3,
               ),
               textAlign: TextAlign.center,
             ),

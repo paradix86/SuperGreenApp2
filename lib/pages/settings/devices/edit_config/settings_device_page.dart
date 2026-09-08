@@ -25,7 +25,7 @@ import 'package:super_green_app/l10n.dart';
 import 'package:super_green_app/l10n/common.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/settings/devices/edit_config/settings_device_bloc.dart';
-import 'package:super_green_app/pages/settings/devices/edit_config/widgets/settings_group.dart';
+import 'package:super_green_app/widgets/sgl/settings_group.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:super_green_app/theme/sgl_typography.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';

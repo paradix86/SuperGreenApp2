@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -126,7 +127,7 @@ class _ProductsPageState extends State<ProductsPage> {
     List<Widget> topBar = [
       Text(
         ProductsPage.productsPageTitle,
-        style: TextStyle(color: Color(0xFF494949), fontSize: 20),
+        style: TextStyle(color: context.sgl.ink, fontSize: 20),
       ),
     ];
     if (widget.editable) {
@@ -137,7 +138,7 @@ class _ProductsPageState extends State<ProductsPage> {
         IconButton(
           icon: Icon(
             Icons.add,
-            color: Color(0xFF494949),
+            color: context.sgl.ink,
             size: 40,
           ),
           onPressed: () {
@@ -162,7 +163,7 @@ class _ProductsPageState extends State<ProductsPage> {
         ),
         Container(
           height: 1,
-          color: Color(0xFF494949),
+          color: context.sgl.ink,
         ),
         state.products.length == 0 ? _renderEmptyList(context) : _renderList(context, state),
       ]),
@@ -180,7 +181,7 @@ class _ProductsPageState extends State<ProductsPage> {
               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20),
               child: Text(
                 widget.editable ? ProductsPage.productsPageToolboxEmptyOwnPlant : ProductsPage.productsPageToolboxEmpty,
-                style: TextStyle(color: Color(0xFF494949), fontWeight: FontWeight.bold),
+                style: TextStyle(color: context.sgl.ink, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -192,7 +193,7 @@ class _ProductsPageState extends State<ProductsPage> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(ProductsPage.productsPageToolboxInstructions, style: TextStyle(color: Color(0xFF494949))),
+                  child: Text(ProductsPage.productsPageToolboxInstructions, style: TextStyle(color: context.sgl.ink)),
                 ),
               ),
             ]),
@@ -207,24 +208,24 @@ class _ProductsPageState extends State<ProductsPage> {
       child: ListView(
         children: state.products.map<Widget>((p) {
           final ProductCategoryUI categoryUI = productCategories[p.category]!;
-          List<Widget> subtitle = [Text(p.name, style: TextStyle(fontSize: 20, color: Color(0xFF494949)))];
+          List<Widget> subtitle = [Text(p.name, style: TextStyle(fontSize: 20, color: context.sgl.ink))];
           if (p.specs?.by != null) {
             subtitle.addAll([
               Row(children: [
-                Text(ProductsPage.productsPageToolboxBy, style: TextStyle(color: Color(0xFF494949))),
-                Text(p.specs!.by!, style: TextStyle(color: Color(0xff3bb30b))),
+                Text(ProductsPage.productsPageToolboxBy, style: TextStyle(color: context.sgl.ink)),
+                Text(p.specs!.by!, style: TextStyle(color: context.sgl.accentDeep)),
               ])
             ]);
           }
           return ListTile(
             leading: SvgPicture.asset(categoryUI.icon),
-            title: Text(categoryUI.name, style: TextStyle(color: Color(0xFF494949))),
+            title: Text(categoryUI.name, style: TextStyle(color: context.sgl.ink)),
             subtitle: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: subtitle),
             trailing: p.supplier?.url != null
                 ? InkWell(
                     child: Icon(
                       Icons.open_in_browser,
-                      color: Color(0xFF494949),
+                      color: context.sgl.ink,
                       size: 30,
                     ),
                     onTap: () {

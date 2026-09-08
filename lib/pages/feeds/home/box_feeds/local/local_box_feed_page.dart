@@ -269,7 +269,7 @@ class _LocalBoxFeedPageState extends State<LocalBoxFeedPage> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child:
-              Text('You can now create a box diary too!', style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300)),
+              Text('You can now create a box diary too!', style: Theme.of(context).textTheme.bodyLarge),
         ),
         GreenButton(
           title: 'CREATE DIARY',
@@ -288,7 +288,7 @@ class _LocalBoxFeedPageState extends State<LocalBoxFeedPage> {
         Icon(Icons.delete, color: Colors.grey, size: 100),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Text('Box was removed or archived.', style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300)),
+          child: Text('Box was removed or archived.', style: Theme.of(context).textTheme.bodyLarge),
         ),
         GreenButton(
           title: 'OPEN PLANT LIST',

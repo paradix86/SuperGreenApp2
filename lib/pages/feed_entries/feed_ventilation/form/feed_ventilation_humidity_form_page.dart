@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:intl/intl.dart';
@@ -87,7 +88,7 @@ class _FeedVentilationHumidityFormPageState extends State<FeedVentilationHumidit
           padding: const EdgeInsets.all(8.0),
           child: MarkdownBody(
             data: widget.instructionsHumidityModeDescription,
-            styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 16)),
+            styleSheet: MarkdownStyleSheet(p: Theme.of(context).textTheme.bodyMedium?.copyWith(color: context.sgl.ink2)),
           ),
         ),
         Column(
@@ -100,11 +101,11 @@ class _FeedVentilationHumidityFormPageState extends State<FeedVentilationHumidit
                     Row(children: [
                       Text(
                         'Low ',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.blue),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: context.sgl.info),
                       ),
                       Text(
                         'humidity settings',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black87),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: context.sgl.ink),
                       ),
                     ]),
                     Text('Current box humidity: ${widget.humidity.ivalue}$unit'),
@@ -135,7 +136,7 @@ class _FeedVentilationHumidityFormPageState extends State<FeedVentilationHumidit
               value: _min.toDouble(),
               min: 0,
               max: 100,
-              color: Colors.blue,
+              color: context.sgl.info,
               onChanged: (double newValue) {
                 setState(() {
                   _min = newValue.toInt();
@@ -160,11 +161,11 @@ class _FeedVentilationHumidityFormPageState extends State<FeedVentilationHumidit
                     Row(children: [
                       Text(
                         'High ',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.red),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: context.sgl.crit),
                       ),
                       Text(
                         'humidity settings',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black87),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: context.sgl.ink),
                       ),
                     ]),
                     Text('Current box humidity: ${widget.humidity.ivalue}$unit'),
@@ -196,7 +197,7 @@ class _FeedVentilationHumidityFormPageState extends State<FeedVentilationHumidit
               value: _max.toDouble(),
               min: 0,
               max: 100,
-              color: Colors.yellow,
+              color: context.sgl.amber,
               onChanged: (double newValue) {
                 setState(() {
                   _max = newValue.toInt();

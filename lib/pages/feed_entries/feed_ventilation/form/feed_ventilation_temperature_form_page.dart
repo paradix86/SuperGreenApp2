@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:intl/intl.dart';
@@ -88,7 +89,7 @@ class _FeedVentilationTemperatureFormPageState extends State<FeedVentilationTemp
           padding: const EdgeInsets.all(8.0),
           child: MarkdownBody(
             data: widget.instructionsTemperatureModeDescription,
-            styleSheet: MarkdownStyleSheet(p: TextStyle(color: Colors.black, fontSize: 16)),
+            styleSheet: MarkdownStyleSheet(p: Theme.of(context).textTheme.bodyMedium?.copyWith(color: context.sgl.ink2)),
           ),
         ),
         Column(
@@ -101,11 +102,11 @@ class _FeedVentilationTemperatureFormPageState extends State<FeedVentilationTemp
                     Row(children: [
                       Text(
                         'Low ',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.blue),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: context.sgl.info),
                       ),
                       Text(
                         'temperature settings',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black87),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: context.sgl.ink),
                       ),
                     ]),
                     Text('Current box temperature: ${_tempUnit(widget.temperature.ivalue!.toDouble())}$unit'),
@@ -136,7 +137,7 @@ class _FeedVentilationTemperatureFormPageState extends State<FeedVentilationTemp
               value: _min.toDouble(),
               min: 0,
               max: 100,
-              color: Colors.blue,
+              color: context.sgl.info,
               onChanged: (double newValue) {
                 setState(() {
                   _min = newValue.toInt();
@@ -162,11 +163,11 @@ class _FeedVentilationTemperatureFormPageState extends State<FeedVentilationTemp
                     Row(children: [
                       Text(
                         'High ',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.red),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: context.sgl.crit),
                       ),
                       Text(
                         'temperature settings',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black87),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: context.sgl.ink),
                       ),
                     ]),
                     Text('Current box temperature: ${_tempUnit(widget.temperature.ivalue!.toDouble())}$unit'),
@@ -197,7 +198,7 @@ class _FeedVentilationTemperatureFormPageState extends State<FeedVentilationTemp
               value: _max.toDouble(),
               min: 0,
               max: 100,
-              color: Colors.yellow,
+              color: context.sgl.amber,
               onChanged: (double newValue) {
                 setState(() {
                   _max = newValue.toInt();

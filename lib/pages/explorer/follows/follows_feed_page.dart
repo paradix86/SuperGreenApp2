@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/explorer/follows/follows_feed_delegate.dart';
@@ -76,8 +77,8 @@ class _FollowsFeedPageState extends State<FollowsFeedPage> {
       create: (context) => FeedBloc(FollowsFeedBlocDelegate()),
       child: FeedPage(
         title: '',
-        color: Colors.white,
-        feedColor: Colors.white,
+        color: Theme.of(context).scaffoldBackgroundColor,
+        feedColor: Theme.of(context).scaffoldBackgroundColor,
         elevate: false,
         appBarEnabled: false,
         onLoaded: (bool hasCards) {
@@ -90,7 +91,7 @@ class _FollowsFeedPageState extends State<FollowsFeedPage> {
             IconButton(
               icon: Text(
                 'Open plant',
-                style: TextStyle(fontSize: 12.0, color: Color(0xff3bb30b), fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 12.0, color: context.sgl.accentDeep, fontWeight: FontWeight.bold),
               ),
               onPressed: () {
                 BlocProvider.of<MainNavigatorBloc>(context).add(
@@ -109,7 +110,7 @@ class _FollowsFeedPageState extends State<FollowsFeedPage> {
       subtitle: 'You can follow plant diaries, only their cards will show up here.',
       child: Icon(
         Icons.follow_the_signs,
-        color: Color(0xff3bb30b),
+        color: context.sgl.accentDeep,
         size: 100,
       ),
     );

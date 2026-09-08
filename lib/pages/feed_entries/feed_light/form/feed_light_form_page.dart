@@ -21,6 +21,7 @@ import 'dart:math';
 
 import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/device_daemon/device_reachable_listener_bloc.dart';
@@ -152,7 +153,7 @@ class _FeedLightFormPageState extends State<FeedLightFormPage> {
                     itemBuilder: _renderLightParam,
                   ),
                   Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white60),
+                    decoration: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.85)),
                     child: Fullscreen(
                       title: FeedLightFormPage.feedLightFormPageControllerRequired,
                       child: Column(
@@ -214,9 +215,9 @@ class _FeedLightFormPageState extends State<FeedLightFormPage> {
                     content,
                     Fullscreen(
                         title: title,
-                        backgroundColor: Colors.white54,
+                        backgroundColor: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.8),
                         child: _usingWifi == false
-                            ? Icon(Icons.error, color: Colors.red, size: 100)
+                            ? Icon(Icons.error, color: context.sgl.crit, size: 100)
                             : Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(width: 50, height: 50, child: CircularProgressIndicator()),
@@ -278,7 +279,7 @@ class _FeedLightFormPageState extends State<FeedLightFormPage> {
         boldTitle: true,
         icon: 'assets/feed_form/icon_sun.svg',
         value: masterValue.round().toDouble(),
-        color: _color(masterValue.toInt()),
+        color: _color(context, masterValue.toInt()),
         loading: false,
         disable: loading != -1,
         onChangeStart: (double startValue) {
@@ -350,7 +351,7 @@ class _FeedLightFormPageState extends State<FeedLightFormPage> {
         },
         icon: 'assets/feed_form/icon_${values[i].value.ivalue! > 30 ? "sun" : "moon"}.svg',
         value: values[i].value.ivalue!.toDouble(),
-        color: _color(values[i].value.ivalue!),
+        color: _color(context, values[i].value.ivalue!),
         loading: loading == i,
         disable: loading != -1 && loading != i,
         onChanged: (double newValue) {
@@ -419,7 +420,7 @@ class _FeedLightFormPageState extends State<FeedLightFormPage> {
     messenger.showSnackBar(SnackBar(
       content: Text(feedback.message),
       duration: Duration(seconds: feedback.success ? 10 : 4),
-      backgroundColor: feedback.success ? Color(0xff2f6f2f) : Color(0xff8f2d2d),
+      backgroundColor: feedback.success ? context.sgl.accentDeep : context.sgl.crit,
       action: action,
     ));
   }
@@ -434,7 +435,7 @@ class _FeedLightFormPageState extends State<FeedLightFormPage> {
       SnackBar(
         content: Text(CommonL10N.commandSent),
         duration: const Duration(seconds: 10),
-        backgroundColor: const Color(0xff2f6f2f),
+        backgroundColor: context.sgl.accentDeep,
         action: SnackBarAction(
           label: CommonL10N.undoButton,
           onPressed: () {
@@ -468,12 +469,10 @@ class _FeedLightFormPageState extends State<FeedLightFormPage> {
     masterValue = sum / values.length;
   }
 
-  Color _color(int value) {
-    if (value > 60) {
-      return Colors.yellow;
-    } else if (value > 30) {
-      return Colors.orange;
+  Color _color(BuildContext context, int value) {
+    if (value > 30) {
+      return context.sgl.amber;
     }
-    return Colors.blue;
+    return context.sgl.info;
   }
 }

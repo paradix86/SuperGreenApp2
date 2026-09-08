@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -145,13 +146,13 @@ class SelectBoxPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 24.0),
                     child: Text(SelectBoxPage.selectBoxPageNoLab,
-                        style: TextStyle(fontSize: 25, fontWeight: FontWeight.w200)),
+                        style: Theme.of(context).textTheme.headlineSmall),
                   ),
                   Text(SelectBoxPage.selectBoxPageCreateFirst,
-                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300)),
+                      style: Theme.of(context).textTheme.bodyLarge),
                   Text(
                     SelectBoxPage.selectBoxPageCreateFirstLab,
-                    style: TextStyle(fontSize: 50, fontWeight: FontWeight.w200, color: Color(0xff3bb30b)),
+                    style: Theme.of(context).textTheme.displayMedium?.copyWith(color: context.sgl.accentDeep),
                     textAlign: TextAlign.center,
                   ),
                 ],

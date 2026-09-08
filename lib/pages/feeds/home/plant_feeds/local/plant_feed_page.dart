@@ -781,7 +781,7 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
         Icon(Icons.delete, color: Colors.grey, size: 100),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Text(PlantFeedPage.plantFeedPageArchived, style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300)),
+          child: Text(PlantFeedPage.plantFeedPageArchived, style: Theme.of(context).textTheme.bodyLarge),
         ),
         GreenButton(
           title: PlantFeedPage.plantFeedPageOpenPlantMenu,
@@ -807,12 +807,12 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 24.0),
                     child: Text(PlantFeedPage.plantFeedPageNoPlantYet,
-                        style: TextStyle(fontSize: 25, fontWeight: FontWeight.w200)),
+                        style: Theme.of(context).textTheme.headlineSmall),
                   ),
                   Text(PlantFeedPage.plantFeedPageAddFirstPlantPart1,
-                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300)),
+                      style: Theme.of(context).textTheme.bodyLarge),
                   Text(PlantFeedPage.plantFeedPageAddFirstPlantPart2,
-                      style: TextStyle(fontSize: 50, fontWeight: FontWeight.w200, color: Color(0xff3bb30b))),
+                      style: Theme.of(context).textTheme.displayMedium?.copyWith(color: context.sgl.accentDeep)),
                 ],
               ),
             ),

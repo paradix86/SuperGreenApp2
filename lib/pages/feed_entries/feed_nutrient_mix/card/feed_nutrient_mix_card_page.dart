@@ -17,6 +17,8 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/widgets/feed_card/feed_value_tile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/l10n.dart';
@@ -33,7 +35,6 @@ import 'package:super_green_app/widgets/feed_card/feed_card_date.dart';
 import 'package:super_green_app/widgets/feed_card/feed_card_text.dart';
 import 'package:super_green_app/widgets/feed_card/feed_card_title.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
-import 'package:super_green_app/widgets/section_title.dart';
 
 class FeedNutrientMixCardPage extends StatefulWidget {
   static String get feedNutrientMixCardObservations {
@@ -134,20 +135,17 @@ class _FeedNutrientMixCardPageState extends State<FeedNutrientMixCardPage> {
   Widget _renderLoaded(BuildContext context, FeedEntryStateLoaded state) {
     FeedNutrientMixParams params = state.params as FeedNutrientMixParams;
     List<Widget> cards = [
-      renderCard('assets/feed_form/icon_volume.svg', 8, FeedNutrientMixCardPage.feedNutrientMixCardWaterQuantity,
-          Text('${params.volume} L', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 25))),
+      renderCard('assets/feed_form/icon_volume.svg', FeedNutrientMixCardPage.feedNutrientMixCardWaterQuantity,
+          '${params.volume} L'),
     ];
     if (params.ph != null) {
-      cards.add(renderCard('assets/products/toolbox/icon_ph_ec.svg', 0, 'PH',
-          Text('${params.ph}', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 25))));
+      cards.add(renderCard('assets/products/toolbox/icon_ph_ec.svg', 'PH', '${params.ph}'));
     }
     if (params.ec != null) {
-      cards.add(renderCard('assets/products/toolbox/icon_ph_ec.svg', 0, 'EC',
-          Text('${params.ec} μS/cm', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 25))));
+      cards.add(renderCard('assets/products/toolbox/icon_ph_ec.svg', 'EC', '${params.ec}', detail: 'μS/cm'));
     }
     if (params.tds != null) {
-      cards.add(renderCard('assets/products/toolbox/icon_ph_ec.svg', 0, 'TDS',
-          Text('${params.tds} ppm', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 25))));
+      cards.add(renderCard('assets/products/toolbox/icon_ph_ec.svg', 'TDS', '${params.tds}', detail: 'ppm'));
     }
     cards.addAll(params.nutrientProducts.map((np) => renderNutrientProduct(np)).toList());
     return FeedCard(
@@ -177,26 +175,16 @@ class _FeedNutrientMixCardPageState extends State<FeedNutrientMixCardPage> {
               children: [
                 (params.basedOn ?? '') != ''
                     ? Text(FeedNutrientMixCardPage.feedNutrientMixCardFrom(params.basedOn!),
-                        style: TextStyle(color: Color(0xffababab)))
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(color: context.sgl.ink3))
                     : Container(),
                 (params.phase ?? '') != ''
                     ? Text(FeedNutrientMixCardPage.feedNutrientMixCardPhase(nutrientMixPhasesUI[params.phase!]!),
-                        style: TextStyle(color: Color(0xffababab)))
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(color: context.sgl.ink3))
                     : Container(),
               ],
             ),
           ),
-          Container(
-            height: 130,
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: cards,
-              ),
-            ),
-          ),
+          FeedTileStrip(tiles: cards),
           SocialBarPage(
             state: state,
             feedState: widget.feedState,
@@ -234,40 +222,11 @@ class _FeedNutrientMixCardPageState extends State<FeedNutrientMixCardPage> {
   }
 
   Widget renderNutrientProduct(NutrientProduct nutrientProduct) {
-    return renderCard(
-        'assets/products/toolbox/icon_fertilizer.svg',
-        0,
-        nutrientProduct.product.name,
-        Text('${nutrientProduct.quantity} ${nutrientProduct.unit}',
-            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 25)));
+    return renderCard('assets/products/toolbox/icon_fertilizer.svg', nutrientProduct.product.name,
+        '${nutrientProduct.quantity}', detail: nutrientProduct.unit);
   }
 
-  Widget renderCard(String icon, double iconPadding, String title, Widget child) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Container(
-          width: 200,
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-              border: Border.all(color: Color(0xffdedede), width: 1),
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8)),
-          child: Column(
-            children: [
-              SectionTitle(
-                icon: icon,
-                iconPadding: iconPadding,
-                title: title,
-                backgroundColor: Colors.transparent,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: child,
-                ),
-              )
-            ],
-          )),
-    );
+  Widget renderCard(String icon, String title, String value, {String? detail}) {
+    return FeedValueTile(icon: icon, label: title, value: value, detail: detail);
   }
 }

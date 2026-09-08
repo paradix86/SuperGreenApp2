@@ -22,7 +22,7 @@ import 'package:super_green_app/data/assets/feed_entry.dart';
 import 'package:super_green_app/pages/feed_entries/feed_ventilation/card/feed_ventilation_card_page.dart';
 import 'package:super_green_app/pages/feed_entries/feed_ventilation/form/feed_ventilation_form_bloc.dart';
 import 'package:super_green_app/widgets/fullscreen.dart';
-import 'package:super_green_app/widgets/section_title.dart';
+import 'package:super_green_app/widgets/feed_card/feed_value_tile.dart';
 
 class FeedVentilationCardV3Values {
 
@@ -46,14 +46,14 @@ class FeedVentilationCardV3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isTempSource(values.refSource)) {
-      return _renderTemperatureMode();
+      return _renderTemperatureMode(context);
     }
     if (isHumiSource(values.refSource)) {
-      return _renderHumidityMode();
+      return _renderHumidityMode(context);
     } else if (isTimerSource(values.refSource)) {
-      return _renderTimerMode();
+      return _renderTimerMode(context);
     } else if (values.refSource == 0) {
-      return _renderManualMode();
+      return _renderManualMode(context);
     }
     return Fullscreen(
       child: Icon(Icons.upgrade),
@@ -61,208 +61,72 @@ class FeedVentilationCardV3 extends StatelessWidget {
     );
   }
 
-  Widget _renderTemperatureMode() {
+  Widget _renderTemperatureMode(BuildContext context) {
     String unit = AppDB().getUserSettings().freedomUnits == true ? '°F' : '°C';
     List<Widget> cards = [
-      renderCard(
-          FeedEntryIcons[FE_VENTILATION]!,
-          8,
-          FeedVentilationCardPage.feedVentilationCardPageLowTempSettings,
-          Column(
-            children: [
-              Text('${values.min}%',
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 30, color: Colors.lightBlue)),
-              Text('at ${_tempUnit(values.refMin.toDouble())}$unit',
-                  style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20)),
-            ],
-          )),
-      renderCard(
-          FeedEntryIcons[FE_VENTILATION]!,
-          8,
-          FeedVentilationCardPage.feedVentilationCardPageHighTempSettings,
-          Column(
-            children: [
-              Text('${values.max}%',
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 30, color: Colors.red)),
-              Text('at ${_tempUnit(values.refMax.toDouble())}$unit',
-                  style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20)),
-            ],
-          )),
+      renderCard(FeedVentilationCardPage.feedVentilationCardPageLowTempSettings, '${values.min}%', detail: 'at ${_tempUnit(values.refMin.toDouble())}$unit'),
+      renderCard(FeedVentilationCardPage.feedVentilationCardPageHighTempSettings, '${values.max}%', detail: 'at ${_tempUnit(values.refMax.toDouble())}$unit'),
     ];
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+        padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
         child: Text(FeedVentilationCardPage.feedVentilationCardPageTemperatureMode,
-            style: TextStyle(fontWeight: FontWeight.w600)),
+            style: Theme.of(context).textTheme.titleSmall),
       ),
-      Container(
-        height: 155,
-        alignment: Alignment.center,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: cards,
-          ),
-        ),
-      )
+      FeedTileStrip(tiles: cards),
     ]);
   }
 
-  Widget _renderHumidityMode() {
+  Widget _renderHumidityMode(BuildContext context) {
     String unit = '%';
 
     List<Widget> cards = [
-      renderCard(
-          FeedEntryIcons[FE_VENTILATION]!,
-          8,
-          FeedVentilationCardPage.feedVentilationCardPageLowHumiSettings,
-          Column(
-            children: [
-              Text('${values.min}%',
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 30, color: Colors.lightBlue)),
-              Text('at ${values.refMin.toDouble()}$unit',
-                  style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20)),
-            ],
-          )),
-      renderCard(
-          FeedEntryIcons[FE_VENTILATION]!,
-          8,
-          FeedVentilationCardPage.feedVentilationCardPageHighHumiSettings,
-          Column(
-            children: [
-              Text('${values.max}%',
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 30, color: Colors.red)),
-              Text('at ${values.refMax.toDouble()}$unit',
-                  style: TextStyle(fontWeight: FontWeight.w300, fontSize: 20)),
-            ],
-          )),
+      renderCard(FeedVentilationCardPage.feedVentilationCardPageLowHumiSettings, '${values.min}%', detail: 'at ${values.refMin.toDouble()}$unit'),
+      renderCard(FeedVentilationCardPage.feedVentilationCardPageHighHumiSettings, '${values.max}%', detail: 'at ${values.refMax.toDouble()}$unit'),
     ];
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+        padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
         child: Text(FeedVentilationCardPage.feedVentilationCardPageHumidityMode,
-            style: TextStyle(fontWeight: FontWeight.w600)),
+            style: Theme.of(context).textTheme.titleSmall),
       ),
-      Container(
-        height: 155,
-        alignment: Alignment.center,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: cards,
-          ),
-        ),
-      )
+      FeedTileStrip(tiles: cards),
     ]);
   }
 
-  Widget _renderTimerMode() {
+  Widget _renderTimerMode(BuildContext context) {
     List<Widget> cards = [
-      renderCard(
-          FeedEntryIcons[FE_VENTILATION]!,
-          8,
-          FeedVentilationCardPage.feedVentilationCardPageNightSettings,
-          Column(
-            children: [
-              Text('${values.min}%',
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 30, color: Colors.blue)),
-            ],
-          )),
-      renderCard(
-          FeedEntryIcons[FE_VENTILATION]!,
-          8,
-          FeedVentilationCardPage.feedVentilationCardPageDaySettings,
-          Column(
-            children: [
-              Text('${values.max}%',
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 30, color: Colors.orange)),
-            ],
-          )),
+      renderCard(FeedVentilationCardPage.feedVentilationCardPageNightSettings, '${values.min}%'),
+      renderCard(FeedVentilationCardPage.feedVentilationCardPageDaySettings, '${values.max}%'),
     ];
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+        padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
         child: Text(FeedVentilationCardPage.feedVentilationCardPageTimerMode,
-            style: TextStyle(fontWeight: FontWeight.w600)),
+            style: Theme.of(context).textTheme.titleSmall),
       ),
-      Container(
-        height: 130,
-        alignment: Alignment.center,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: cards,
-          ),
-        ),
-      )
+      FeedTileStrip(tiles: cards),
     ]);
   }
 
-  Widget _renderManualMode() {
+  Widget _renderManualMode(BuildContext context) {
     List<Widget> cards = [
-      renderCard(
-          FeedEntryIcons[FE_VENTILATION]!,
-          8,
-          FeedVentilationCardPage.feedVentilationCardPagePower,
-          Column(
-            children: [
-              Text('${values.min}%',
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 30, color: Colors.grey)),
-            ],
-          )),
+      renderCard(FeedVentilationCardPage.feedVentilationCardPagePower, '${values.min}%'),
     ];
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+        padding: const EdgeInsets.fromLTRB(12, 6, 12, 0),
         child: Text(FeedVentilationCardPage.feedVentilationCardPageManualMode,
-            style: TextStyle(fontWeight: FontWeight.w600)),
+            style: Theme.of(context).textTheme.titleSmall),
       ),
-      Container(
-        height: 130,
-        alignment: Alignment.center,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: cards,
-          ),
-        ),
-      )
+      FeedTileStrip(tiles: cards),
     ]);
   }
 
 
 
-  Widget renderCard(String icon, double iconPadding, String title, Widget child) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Container(
-          width: 200,
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-              border: Border.all(color: Color(0xffdedede), width: 1),
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8)),
-          child: Column(
-            children: [
-              SectionTitle(
-                icon: icon,
-                iconPadding: iconPadding,
-                title: title,
-                backgroundColor: Colors.transparent,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: child,
-                ),
-              )
-            ],
-          )),
-    );
+  Widget renderCard(String title, String value, {String? detail}) {
+    return FeedValueTile(icon: FeedEntryIcons[FE_VENTILATION]!, label: title, value: value, detail: detail);
   }
 
   double _tempUnit(double temp) {

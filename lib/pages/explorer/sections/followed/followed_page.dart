@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/data/api/backend/backend_api.dart';
@@ -53,7 +54,7 @@ class FollowedPage extends SectionPage<FollowedBloc, PublicPlant> {
       },
       child: Container(
         decoration: BoxDecoration(
-            border: Border.all(width: 1, color: Color(0xffdedede)), borderRadius: BorderRadius.circular(5.0)),
+            border: Border.all(width: 1, color: context.sgl.line), borderRadius: BorderRadius.circular(12.0)),
         child: Padding(
           padding: const EdgeInsets.only(bottom: 4.0),
           child: Column(
@@ -153,7 +154,7 @@ class FollowedPage extends SectionPage<FollowedBloc, PublicPlant> {
               'You\'re not following any plant diaries yet.',
               style: TextStyle(
                 fontSize: 17,
-                color: Colors.grey,
+                color: context.sgl.ink3,
               ),
               textAlign: TextAlign.center,
             ),
@@ -177,7 +178,7 @@ class FollowedPage extends SectionPage<FollowedBloc, PublicPlant> {
               'Create an account to follow plant diaries',
               style: TextStyle(
                 fontSize: 17,
-                color: Colors.grey,
+                color: context.sgl.ink3,
               ),
               textAlign: TextAlign.center,
             ),

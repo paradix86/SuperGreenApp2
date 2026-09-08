@@ -17,6 +17,8 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/theme/sgl_theme.dart';
 
 class AppBarTab extends StatelessWidget {
   final Widget child;
@@ -26,25 +28,17 @@ class AppBarTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(bottom: 36.0, top: 12),
+        padding: const EdgeInsets.only(bottom: 24.0, top: 8),
         child: Container(
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(color: Colors.white),
-          child: Container(
-            decoration: BoxDecoration(border: Border.all(color: Colors.white, width: 2.0), boxShadow: [
-              BoxShadow(
-                color: Colors.black.withAlpha(50),
-              ),
-              const BoxShadow(
-                color: Color(0xFFEFEFEF),
-                spreadRadius: -3.0,
-                blurRadius: 3.0,
-              ),
-            ]),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [Expanded(child: Padding(padding: const EdgeInsets.all(6.0), child: child))]),
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            color: context.sgl.surface,
+            border: Border.all(color: context.sgl.line),
+            borderRadius: BorderRadius.circular(SglTheme.radiusLarge),
           ),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [Expanded(child: Padding(padding: const EdgeInsets.all(6.0), child: child))]),
         ));
   }
 }

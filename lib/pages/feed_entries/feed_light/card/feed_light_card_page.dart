@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/widgets/feed_card/feed_value_tile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/l10n.dart';
@@ -99,18 +100,7 @@ class FeedLightCardPage extends StatelessWidget {
               showSyncStatus: !state.isRemoteState, showControls: !state.isRemoteState, onDelete: () {
             BlocProvider.of<FeedBloc>(context).add(FeedBlocEventDeleteEntry(state));
           }, actions: cardActions != null ? cardActions!(context, state) : []),
-          Container(
-            height: 130,
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                children: _renderValues(params.values, params.initialValues),
-              ),
-            ),
-          ),
+          FeedTileStrip(tiles: _renderValues(params.values, params.initialValues)),
           SocialBarPage(
             state: state,
             feedState: feedState,
@@ -140,30 +130,10 @@ class FeedLightCardPage extends StatelessWidget {
         })
         .where((v) => v['from'] != v['to'])
         .map<Widget>((v) {
-          return Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(FeedLightCardPage.feedLightCardPageChannel),
-                    Text('${v['i']! + 1}',
-                        style: TextStyle(fontSize: 45, fontWeight: FontWeight.w300, color: Colors.grey)),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text('${v['from']}%', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w300)),
-                    Icon(Icons.arrow_forward, size: 18),
-                    Text('${v['to']}%',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w300, color: Colors.green)),
-                  ],
-                ),
-              ],
-            ),
+          return FeedChangeTile(
+            label: '${FeedLightCardPage.feedLightCardPageChannel} ${v['i']! + 1}',
+            from: '${v['from']}%',
+            to: '${v['to']}%',
           );
         })
         .toList();

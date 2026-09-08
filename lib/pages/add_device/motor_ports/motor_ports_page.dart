@@ -58,8 +58,7 @@ class _MotorPortPageState extends State<MotorPortPage> {
             }
             return Scaffold(
                 appBar: SGLAppBar(
-                  '🤖',
-                  fontSize: 40,
+                  'Motor ports',
                   backgroundColor: Color(0xff0b6ab3),
                   titleColor: Colors.white,
                   iconColor: Colors.white,

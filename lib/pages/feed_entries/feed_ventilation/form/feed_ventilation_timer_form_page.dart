@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:intl/intl.dart';
@@ -81,7 +82,7 @@ class _FeedVentilationTimerFormPageState extends State<FeedVentilationTimerFormP
           padding: const EdgeInsets.all(8.0),
           child: MarkdownBody(
             data: widget.instructionsTimerModeDescription,
-            styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 16)),
+            styleSheet: MarkdownStyleSheet(p: Theme.of(context).textTheme.bodyMedium?.copyWith(color: context.sgl.ink2)),
           ),
         ),
         SliderFormParam(
@@ -91,7 +92,7 @@ class _FeedVentilationTimerFormPageState extends State<FeedVentilationTimerFormP
           value: _night.toDouble(),
           min: 0,
           max: 100,
-          color: Colors.blue,
+          color: context.sgl.info,
           onChanged: (double newValue) {
             setState(() {
               _night = newValue.toInt();
@@ -112,7 +113,7 @@ class _FeedVentilationTimerFormPageState extends State<FeedVentilationTimerFormP
           value: _day.toDouble(),
           min: 0,
           max: 100,
-          color: Colors.yellow,
+          color: context.sgl.amber,
           onChanged: (double newValue) {
             setState(() {
               _day = newValue.toInt();

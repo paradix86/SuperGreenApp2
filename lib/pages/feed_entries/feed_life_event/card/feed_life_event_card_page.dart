@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/widgets/feed_card/feed_value_tile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/l10n.dart';
@@ -155,18 +156,7 @@ class FeedLifeEventCardPage extends StatelessWidget {
               showSyncStatus: !state.isRemoteState, showControls: !state.isRemoteState, onDelete: () {
             BlocProvider.of<FeedBloc>(context).add(FeedBlocEventDeleteEntry(state));
           }, actions: cardActions != null ? cardActions!(context, state) : []),
-          Container(
-            height: 130,
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                phases[params.phase.index],
-                style: TextStyle(color: Color(0xff3bb30b), fontSize: 40, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
+          FeedStatement(phases[params.phase.index]),
           SocialBarPage(
             state: state,
             feedState: feedState,

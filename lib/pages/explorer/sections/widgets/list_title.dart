@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 
 class ListTitle extends StatelessWidget {
   final String title;
@@ -34,7 +35,7 @@ class ListTitle extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xff464646)),
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           this.actionText != null && this.actionFn != null
               ? InkWell(
@@ -44,7 +45,7 @@ class ListTitle extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.normal,
-                        color: Color(0xff3bb30b),
+                        color: context.sgl.accentDeep,
                         decoration: TextDecoration.underline),
                   ),
                 )

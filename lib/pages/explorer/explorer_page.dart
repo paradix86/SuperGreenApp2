@@ -19,6 +19,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -144,17 +145,18 @@ class _ExplorerPageState extends State<ExplorerPage> {
                 hideBackButton: true,
                 leading: Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: const SuperAlanGreenLabLogo(
+                  child: SuperAlanGreenLabLogo(
                     width: 100,
                     height: 100,
-                    textColor: Colors.white,
+                    textColor: context.sgl.ink,
+                    greenColor: context.sgl.accent,
                   ),
                 ),
                 actions: [
                   IconButton(
                     icon: Icon(
                       Icons.bookmark_outline_sharp,
-                      color: Colors.white,
+
                     ),
                     onPressed: () {
                       BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToBookmarks());
@@ -163,7 +165,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                   IconButton(
                     icon: Icon(
                       Icons.add,
-                      color: Colors.white,
+
                     ),
                     onPressed: () => onMakePublic(state),
                   ),
@@ -185,8 +187,8 @@ class _ExplorerPageState extends State<ExplorerPage> {
             create: (context) => FeedBloc(ExplorerFeedBlocDelegate()),
             child: FeedPage(
               title: '',
-              color: Colors.white,
-              feedColor: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
+              feedColor: Theme.of(context).scaffoldBackgroundColor,
               elevate: false,
               appBarEnabled: false,
               onScroll: (ScrollController scrollController) {
@@ -217,22 +219,22 @@ class _ExplorerPageState extends State<ExplorerPage> {
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      color: Color(0xff3bb30b),
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      color: context.sgl.accent,
                                     ),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
-                                      child: Text('Follow', style: TextStyle(color: Colors.white)),
+                                      child: Text('Follow', style: TextStyle(color: context.sgl.accentInk)),
                                     ),
                                   ),
                                 ],
                               ),
                             )
-                          : Text('Followed', style: TextStyle(color: Color(0xff3bb30b)))),
+                          : Text('Followed', style: TextStyle(color: context.sgl.accentDeep))),
                   IconButton(
                     icon: Text(
                       'Open plant',
-                      style: TextStyle(fontSize: 12.0, color: Color(0xff3bb30b), fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 12.0, color: context.sgl.accentDeep, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                     onPressed: () {
@@ -278,7 +280,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
             child: Container(
               width: constraints.maxWidth,
               height: constraints.maxHeight,
-              color: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
               child: SearchPage(requestUnfocus: () {
                 searchFocus.unfocus();
               }),
@@ -290,7 +292,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
             child: Container(
               width: constraints.maxWidth,
               height: 56,
-              color: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: _renderSearchField(context, state),
@@ -307,9 +309,9 @@ class _ExplorerPageState extends State<ExplorerPage> {
     return Container(
       height: 40,
       decoration: BoxDecoration(
-        color: Color(0xffe9e9e9),
-        border: Border.all(width: 1, color: Color(0xffd8d8d8)),
-        borderRadius: BorderRadius.circular(5.0),
+        color: context.sgl.surface2,
+        border: Border.all(width: 1, color: context.sgl.line),
+        borderRadius: BorderRadius.circular(12.0),
       ),
       child: BlocBuilder<SearchBloc, SearchBlocState>(
         builder: (BuildContext context, SearchBlocState searchState) {
@@ -334,7 +336,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
               width: 20,
               child: CircularProgressIndicator(
                 strokeWidth: 3.0,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+                valueColor: AlwaysStoppedAnimation<Color>(context.sgl.ink3),
               ),
             );
           }

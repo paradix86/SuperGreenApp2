@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/widgets/feed_card/feed_value_tile.dart';
 import 'package:super_green_app/pages/feed_entries/entry_params/feed_ventilation.dart';
 import 'package:super_green_app/pages/feed_entries/feed_ventilation/card/feed_ventilation_card_page.dart';
 
@@ -28,14 +29,9 @@ class FeedVentilationCardLegacy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 120,
-      alignment: Alignment.center,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: _renderValues([params.values.blowerDay, params.values.blowerNight],
-            [params.initialValues.blowerDay, params.initialValues.blowerNight]),
-      ),
+    return FeedTileStrip(
+      tiles: _renderValues([params.values.blowerDay, params.values.blowerNight],
+          [params.initialValues.blowerDay, params.initialValues.blowerNight]),
     );
   }
 
@@ -51,32 +47,12 @@ class FeedVentilationCardLegacy extends StatelessWidget {
         })
         .where((v) => v['from'] != v['to'])
         .map<Widget>((v) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                        v['i'] == 0
-                            ? FeedVentilationCardPage.feedVentilationCardPageDay
-                            : FeedVentilationCardPage.feedVentilationCardPageNight,
-                        style: TextStyle(fontSize: 45, fontWeight: FontWeight.w300, color: Colors.grey)),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text('${v['from']}%', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300)),
-                    Icon(Icons.arrow_forward, size: 18),
-                    Text('${v['to']}%',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300, color: Colors.green)),
-                  ],
-                ),
-              ],
-            ),
+          return FeedChangeTile(
+            label: v['i'] == 0
+                ? FeedVentilationCardPage.feedVentilationCardPageDay
+                : FeedVentilationCardPage.feedVentilationCardPageNight,
+            from: '${v['from']}%',
+            to: '${v['to']}%',
           );
         })
         .toList();

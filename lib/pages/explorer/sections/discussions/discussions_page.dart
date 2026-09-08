@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -63,8 +64,8 @@ class DiscussionsPage extends SectionPage<DiscussionsBloc, PublicFeedEntry> {
               right: 0,
               child: Container(
                 decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Color(0xffcdcdcd), width: 1),
+                    color: context.sgl.surface,
+                    border: Border.all(color: context.sgl.line, width: 1),
                     borderRadius: BorderRadius.circular(20)),
                 child: Image.asset(commentTypes[feedEntry.commentType]!['pic']!, width: 25, height: 25),
               )),
@@ -83,7 +84,7 @@ class DiscussionsPage extends SectionPage<DiscussionsBloc, PublicFeedEntry> {
       },
       child: Container(
         decoration: BoxDecoration(
-            border: Border.all(width: 1, color: Color(0xffdedede)), borderRadius: BorderRadius.circular(5.0)),
+            border: Border.all(width: 1, color: context.sgl.line), borderRadius: BorderRadius.circular(12.0)),
         child: Padding(
           padding: const EdgeInsets.all(4.0),
           child: Column(
@@ -142,7 +143,7 @@ class DiscussionsPage extends SectionPage<DiscussionsBloc, PublicFeedEntry> {
                               padding: const EdgeInsets.only(left: 4.0, right: 4.0, bottom: 4.0),
                               child: MarkdownBody(
                                 data: '**${feedEntry.nickname}** ${feedEntry.commentTruncated}',
-                                styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 14)),
+                                styleSheet: MarkdownStyleSheet(p: TextStyle(color: context.sgl.ink2, fontSize: 14)),
                               ),
                             ),
                           ),

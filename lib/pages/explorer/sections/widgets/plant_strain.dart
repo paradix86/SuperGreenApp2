@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/pages/feeds/home/common/settings/plant_settings.dart';
 
@@ -48,7 +49,7 @@ class PlantStrain extends StatelessWidget {
             Text(plantSettings.seedbank!,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Color(0xff3bb30b),
+                  color: context.sgl.accentDeep,
                 )),
           ],
         ),

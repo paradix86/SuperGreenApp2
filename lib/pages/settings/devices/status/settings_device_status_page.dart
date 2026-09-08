@@ -27,7 +27,10 @@ import 'package:super_green_app/widgets/appbar.dart';
 import 'package:super_green_app/widgets/fullscreen.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
 import 'package:super_green_app/widgets/green_button.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/theme/sgl_typography.dart';
 import 'package:super_green_app/widgets/section_title.dart';
+import 'package:super_green_app/widgets/sgl/sgl_card.dart';
 
 class SettingsDeviceStatusPage extends StatelessWidget {
   static const Color WARNING_TEXT = Color(0xff8a5a00);
@@ -374,7 +377,6 @@ class SettingsDeviceStatusPage extends StatelessWidget {
               ),
             ],
           ),
-          backgroundColor: Colors.white,
           body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body),
         );
       },
@@ -412,7 +414,7 @@ class SettingsDeviceStatusPage extends StatelessWidget {
       subtitle: subtitle,
       child: Column(
         children: [
-          Icon(icon, color: WARNING_TEXT, size: 100),
+          Icon(icon, color: context.sgl.warn, size: 100),
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
             child: GreenButton(title: settingsDeviceStatusPageRetry, onPressed: () => _refresh(context)),
@@ -451,7 +453,7 @@ class SettingsDeviceStatusPage extends StatelessWidget {
           child: Text(
             settingsDeviceStatusPageFetchedAt(DateFormat.Hms().format(state.fetchedAt)),
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.grey, fontSize: 12),
+            style: SglTextStyles.mono.copyWith(color: context.sgl.ink3, fontSize: 12),
           ),
         ),
       ],
@@ -469,24 +471,26 @@ class SettingsDeviceStatusPage extends StatelessWidget {
   }
 
   Widget _renderRow(String label, Widget value) {
-    return Padding(
+    return Builder(builder: (BuildContext context) => Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             flex: 2,
-            child: Text(label, style: TextStyle(color: LABEL_COLOR, fontWeight: FontWeight.w500)),
+            child: Text(label, style: SglTextStyles.mono.copyWith(color: context.sgl.ink3, fontSize: 12)),
           ),
           SizedBox(width: 8),
           Expanded(flex: 3, child: Align(alignment: Alignment.centerRight, child: value)),
         ],
       ),
-    );
+    ));
   }
 
   Widget _renderValue(String? value) {
-    return Text(_orNa(value), textAlign: TextAlign.right, style: TextStyle(color: Colors.black87));
+    return Builder(
+        builder: (BuildContext context) =>
+            Text(_orNa(value), textAlign: TextAlign.right, style: SglTextStyles.mono.copyWith(color: context.sgl.ink)));
   }
 
   Widget _renderConnectedBadge(int? rawValue, bool isConnected) {
@@ -527,17 +531,7 @@ class SettingsDeviceStatusPage extends StatelessWidget {
   }
 
   Widget _renderChip(String label, {required bool ok}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-      decoration: BoxDecoration(
-        color: ok ? OK_BACKGROUND : WARNING_BACKGROUND,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(color: ok ? OK_TEXT : WARNING_TEXT, fontWeight: FontWeight.w600, fontSize: 13),
-      ),
-    );
+    return SglStatusChip(label: label, status: ok ? SglStatus.ok : SglStatus.warn);
   }
 
   Widget _renderResetHistory(List<int> history) {

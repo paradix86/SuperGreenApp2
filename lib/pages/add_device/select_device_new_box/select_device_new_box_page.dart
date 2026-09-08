@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/l10n.dart';
@@ -118,7 +119,7 @@ class SelectDeviceNewBoxPageState extends State<SelectDeviceNewBoxPage> {
             } else if (state is SelectDeviceNewBoxBlocStateDeviceFull) {
               body = _renderNoLedsAvailable(context, state);
             } else if (state is SelectDeviceNewBoxBlocStateDone) {
-              body = Fullscreen(title: CommonL10N.done, child: Icon(Icons.done, color: Color(0xff0b6ab3), size: 100));
+              body = Fullscreen(title: CommonL10N.done, child: Icon(Icons.done, color: context.sgl.bg2, size: 100));
             } else {
               body = _renderLedSelection(context, state);
             }
@@ -161,7 +162,7 @@ class SelectDeviceNewBoxPageState extends State<SelectDeviceNewBoxPage> {
         AnimatedContainer(
           duration: Duration(milliseconds: 100),
           height: 20,
-          color: Color(0xff0b6ab3),
+          color: context.sgl.bg2,
         ),
         SectionTitle(
           title: SelectDeviceNewBoxPage.selectDeviceNewBoxAvailableLEDChannels,

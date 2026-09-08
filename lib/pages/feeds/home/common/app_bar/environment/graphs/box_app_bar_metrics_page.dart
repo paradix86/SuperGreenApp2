@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:community_charts_flutter/community_charts_flutter.dart' as charts;
 import 'package:intl/intl.dart';
@@ -45,7 +46,7 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
           if (state is PlantFeedAppBarBlocStateInit) {
             body = FullscreenLoading(
               title: 'Loading..',
-              textColor: Color(0xFF494949),
+              textColor: context.sgl.ink,
             );
           } else if (state is PlantFeedAppBarBlocStateLoaded) {
             if (state.graphData.where((g) => g.data.length != 0).length == 0) { // TODO replace with firstWhere when they fix it to return null
@@ -76,7 +77,7 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
     String weightUnit = AppDB().getUserSettings().freedomUnits! ? 'lb' : 'kg';
     String format = AppDB().getUserSettings().freedomUnits! ? 'MM/dd/yyyy HH:mm' : 'dd/MM/yyyy HH:mm';
     Widget dateText = Text('${DateFormat(format).format(metricDate)}',
-        style: TextStyle(color: Color(0xFF494949), fontSize: 15, fontWeight: FontWeight.bold));
+        style: TextStyle(color: context.sgl.ink, fontSize: 15, fontWeight: FontWeight.bold));
     List<charts.LineAnnotationSegment<Object>>? annotations;
     if (selectedGraphIndex != null) {
       annotations = [
@@ -90,7 +91,7 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
           Expanded(
             child: Text(
               'tap to reset',
-              style: TextStyle(color: Color(0xFF494949), decoration: TextDecoration.underline),
+              style: TextStyle(color: context.sgl.ink, decoration: TextDecoration.underline),
               textAlign: TextAlign.right,
             ),
           ),
@@ -100,8 +101,8 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
     Widget graphs = Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: Colors.white70,
-        border: Border.all(color: Color(0xffdedede), width: 1),
+        color: context.sgl.surface,
+        border: Border.all(color: context.sgl.line, width: 1),
       ),
       child: /*Stack(
         children: [*/
@@ -137,8 +138,8 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            color: Colors.white60,
-            border: Border.all(color: Color(0xffdedede), width: 1),
+            color: context.sgl.surface,
+            border: Border.all(color: context.sgl.line, width: 1),
           ),
           child: Fullscreen(
             title: 'Still not enough data\nto show a graph',
@@ -257,7 +258,7 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
             child: graphs,
           ),
           // Text("*VPD chart is experimental, please report any inconsistencies",
-          //     style: TextStyle(fontSize: 9, color: Color(0xFF494949))),
+          //     style: TextStyle(fontSize: 9, color: context.sgl.ink)),
         ],
       ),
     );
@@ -273,7 +274,7 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             children: <Widget>[
-              Text(name, style: TextStyle(color: Color(0xFF494949), fontWeight: FontWeight.bold)),
+              Text(name, style: TextStyle(color: context.sgl.ink, fontWeight: FontWeight.bold)),
               Row(
                 children: <Widget>[
                   Text(value == "0" ? "N/A" : value,
@@ -285,8 +286,8 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
                   value != "0"
                       ? Column(
                           children: <Widget>[
-                            Text(max, style: TextStyle(color: Color(0xFF494949), fontWeight: FontWeight.w300)),
-                            Text(min, style: TextStyle(color: Color(0xFF494949), fontWeight: FontWeight.w300)),
+                            Text(max, style: TextStyle(color: context.sgl.ink, fontWeight: FontWeight.w300)),
+                            Text(min, style: TextStyle(color: context.sgl.ink, fontWeight: FontWeight.w300)),
                           ],
                         )
                       : Container(),

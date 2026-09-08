@@ -17,6 +17,8 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/theme/sgl_theme.dart';
 import 'package:super_green_app/widgets/section_title.dart';
 
 class FeedFormParamLayout extends StatelessWidget {
@@ -49,9 +51,9 @@ class FeedFormParamLayout extends StatelessWidget {
       child: Container(
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-            border: Border.all(color: Color(0xffdedede), width: 1),
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8)),
+            border: Border.all(color: context.sgl.line, width: 1),
+            color: context.sgl.surface,
+            borderRadius: BorderRadius.circular(SglTheme.radiusLarge)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

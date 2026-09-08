@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:intl/intl.dart';
@@ -122,7 +123,7 @@ class NewDevicePage extends StatelessWidget {
                   AnimatedContainer(
                     duration: Duration(milliseconds: 100),
                     height: 50,
-                    color: Color(0xff0b6ab3),
+                    color: context.sgl.bg2,
                   ),
                   SectionTitle(
                     title: NewDevicePage.newDevicePageEmojiWifiSectionTitle,

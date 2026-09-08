@@ -126,7 +126,6 @@ class _SettingsPlantPageState extends State<SettingsPlantPage> {
                     iconColor: Colors.white,
                     hideBackButton: state is SettingsPlantBlocStateDone,
                   ),
-                  backgroundColor: Colors.white,
                   body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body)),
             );
           }),

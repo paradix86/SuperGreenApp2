@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:intl/intl.dart';
@@ -79,7 +80,7 @@ class _FeedVentilationManualFormPageState extends State<FeedVentilationManualFor
           padding: const EdgeInsets.all(8.0),
           child: MarkdownBody(
             data: widget.instructionsManualTimerModeDescription,
-            styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 16)),
+            styleSheet: MarkdownStyleSheet(p: Theme.of(context).textTheme.bodyMedium?.copyWith(color: context.sgl.ink2)),
           ),
         ),
         SliderFormParam(
@@ -89,7 +90,7 @@ class _FeedVentilationManualFormPageState extends State<FeedVentilationManualFor
           value: _value.toDouble(),
           min: 0,
           max: 100,
-          color: Colors.yellow,
+          color: context.sgl.amber,
           onChanged: (double newValue) {
             setState(() {
               _value = newValue.toInt();

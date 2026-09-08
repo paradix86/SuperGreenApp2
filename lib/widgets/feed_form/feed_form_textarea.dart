@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 
 class FeedFormTextarea extends StatelessWidget {
   final TextEditingController textEditingController;
@@ -34,7 +35,7 @@ class FeedFormTextarea extends StatelessWidget {
       padding: EdgeInsets.all(noPadding ? 0 : 8.0),
       child: Container(
         decoration:
-            BoxDecoration(border: Border.all(width: 1, color: Colors.black26), borderRadius: BorderRadius.circular(3)),
+            BoxDecoration(border: Border.all(width: 1, color: context.sgl.line), borderRadius: BorderRadius.circular(12)),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: TextField(

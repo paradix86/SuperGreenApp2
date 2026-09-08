@@ -49,7 +49,6 @@ class _QRCodeViewerPageState extends State<QRCodeViewerPage> {
                 titleColor: Colors.white,
                 iconColor: Colors.white,
               ),
-              backgroundColor: Colors.white,
               body: body);
         });
   }

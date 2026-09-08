@@ -38,7 +38,7 @@ class SectionTitle extends StatefulWidget {
     required this.icon,
     this.large = false,
     this.backgroundColor,
-    this.titleColor = Colors.black,
+    this.titleColor,
     this.elevation,
     this.iconPadding = 8,
     this.child,

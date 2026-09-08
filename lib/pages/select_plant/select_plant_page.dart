@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
@@ -132,10 +133,10 @@ class SelectPlantPage extends StatelessWidget {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(bottom: 24.0),
-                    child: Text('You have no plant yet.', style: TextStyle(fontSize: 25, fontWeight: FontWeight.w200)),
+                    child: Text('You have no plant yet.', style: Theme.of(context).textTheme.headlineSmall),
                   ),
-                  Text('Add your first', style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300)),
-                  Text('PLANT', style: TextStyle(fontSize: 50, fontWeight: FontWeight.w200, color: Color(0xff3bb30b))),
+                  Text('Add your first', style: Theme.of(context).textTheme.bodyLarge),
+                  Text('PLANT', style: Theme.of(context).textTheme.displayMedium?.copyWith(color: context.sgl.accentDeep)),
                 ],
               ),
             ),
@@ -164,7 +165,7 @@ class SelectPlantPage extends StatelessWidget {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.only(bottom: 24.0),
-                    child: Text('You have no private diaries to make public.\nCheck your plant settings to un-public a plant.', style: TextStyle(fontSize: 25, fontWeight: FontWeight.w200)),
+                    child: Text('You have no private diaries to make public.\nCheck your plant settings to un-public a plant.', style: Theme.of(context).textTheme.headlineSmall),
                   ),
                 ],
               ),

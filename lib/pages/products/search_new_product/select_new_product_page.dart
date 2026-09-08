@@ -215,7 +215,6 @@ class _SelectNewProductPageState extends State<SelectNewProductPage> {
                 iconColor: Colors.white,
                 hideBackButton: state is SelectNewProductBlocStateCreatingProduct,
               ),
-              backgroundColor: Colors.white,
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
         },
       ),

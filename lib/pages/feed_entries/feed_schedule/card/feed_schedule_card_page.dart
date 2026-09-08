@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/widgets/feed_card/feed_value_tile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/l10n.dart';
@@ -107,20 +108,7 @@ class FeedScheduleCardPage extends StatelessWidget {
               showSyncStatus: !state.isRemoteState, showControls: !state.isRemoteState, onDelete: () {
             BlocProvider.of<FeedBloc>(context).add(FeedBlocEventDeleteEntry(state));
           }, actions: cardActions != null ? cardActions!(context, state) : []),
-          Container(
-            height: 100,
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  FeedScheduleCardPage.feedScheduleCardPagePhase(params.schedule),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w300, color: Color(0xff3bb30b)),
-                ),
-              ],
-            ),
-          ),
+          FeedStatement(FeedScheduleCardPage.feedScheduleCardPagePhase(params.schedule)),
           SocialBarPage(state: state, feedState: feedState),
           CommentsCardPage(state: state, feedState: feedState),
           Padding(

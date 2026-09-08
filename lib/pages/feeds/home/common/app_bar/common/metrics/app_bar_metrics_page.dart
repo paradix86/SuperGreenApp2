@@ -19,6 +19,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
@@ -89,7 +90,7 @@ class _AppBarBoxMetricsPageState extends State<AppBarBoxMetricsPage> {
           child: _renderMetrics(24, 56, 110, 453, 45, 0),
         ),
         Container(
-          color: Colors.white.withAlpha(220),
+          color: context.sgl.surface.withValues(alpha: 0.9),
           child: Padding(
             padding: EdgeInsets.all(16.0),
             child: Row(
@@ -99,7 +100,7 @@ class _AppBarBoxMetricsPageState extends State<AppBarBoxMetricsPage> {
                 Text('No sensor yet',
                     style: TextStyle(
                       fontSize: 15.0,
-                      color: Color(0xff909090),
+                      color: context.sgl.ink3,
                       fontWeight: FontWeight.bold,
                     )),
               ],
@@ -115,7 +116,7 @@ class _AppBarBoxMetricsPageState extends State<AppBarBoxMetricsPage> {
       children: [
         _renderMetrics(24, 56, 110, 453, 45, 0),
         Container(
-          color: Colors.white.withAlpha(220),
+          color: context.sgl.surface.withValues(alpha: 0.9),
           child: Padding(
             padding: EdgeInsets.all(15.0),
             child: Row(
@@ -125,7 +126,7 @@ class _AppBarBoxMetricsPageState extends State<AppBarBoxMetricsPage> {
                 Text('Loading metrics${List.generate(loadingDots % 4, (index) => '.').join('')}',
                     style: TextStyle(
                       fontSize: 15.0,
-                      color: Color(0xff909090),
+                      color: context.sgl.ink3,
                       fontWeight: FontWeight.bold,
                     )),
               ],

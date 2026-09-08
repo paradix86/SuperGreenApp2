@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:super_green_app/widgets/appbar.dart';
 
 class FeedFormLayout extends StatelessWidget {
@@ -48,13 +49,13 @@ class FeedFormLayout extends StatelessWidget {
     List<Widget> actions = [];
     if (this.onSettings != null) {
       actions.add(IconButton(
-        icon: Icon(Icons.settings, color: Color(0xffffffff), size: 40),
+        icon: Icon(Icons.tune, color: context.sgl.ink2),
         onPressed: onSettings,
       ));
     }
     if (this.onOK != null) {
       actions.add(IconButton(
-        icon: Icon(Icons.check, color: Color(this.valid ? 0xff3bb30b : 0xa0ffffff), size: 40),
+        icon: Icon(Icons.check_circle, color: this.valid ? context.sgl.accent : context.sgl.ink3, size: 30),
         onPressed: this.valid ? onOK : null,
       ));
     }

@@ -17,7 +17,9 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'dart:math' as math;
+import 'package:super_green_app/theme/sgl_typography.dart';
 import 'package:super_green_app/widgets/feed_form/feed_form_param_layout.dart';
 
 class SliderFormParam extends StatelessWidget {
@@ -74,9 +76,9 @@ class SliderFormParam extends StatelessWidget {
                         onChanged(newValue);
                         onChangeEnd(newValue);
                       },
-                child: Text('-', style: TextStyle(fontSize: 50, color: Colors.grey)),
+                child: Icon(Icons.remove, color: context.sgl.ink2),
               ),
-              Text('$value%', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xff3bb30b))),
+              Text('${value.round()}%', style: SglTextStyles.reading.copyWith(fontSize: 28, color: context.sgl.ink)),
               TextButton(
                 onPressed: disable == true
                     ? null
@@ -86,7 +88,7 @@ class SliderFormParam extends StatelessWidget {
                         onChanged(newValue);
                         onChangeEnd(newValue);
                       },
-                child: Text('+', style: TextStyle(fontSize: 30, color: Colors.grey)),
+                child: Icon(Icons.add, color: context.sgl.ink2),
               ),
               loading == true
                   ? SizedBox(
@@ -94,7 +96,7 @@ class SliderFormParam extends StatelessWidget {
                       width: 20,
                       child: CircularProgressIndicator(
                         strokeWidth: 3.0,
-                        valueColor: AlwaysStoppedAnimation<Color>(Color(0xff3bb30b)),
+                        valueColor: AlwaysStoppedAnimation<Color>(context.sgl.accent),
                       ),
                     )
                   : Container(),
@@ -104,7 +106,7 @@ class SliderFormParam extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               children: [
-                Text('0%'),
+                Text('0%', style: SglTextStyles.mono.copyWith(color: context.sgl.ink3, fontSize: 12)),
                 Expanded(
                   child: Slider(
                     min: min,
@@ -116,7 +118,7 @@ class SliderFormParam extends StatelessWidget {
                     onChanged: disable == true ? null : onChanged,
                   ),
                 ),
-                Text('100%'),
+                Text('100%', style: SglTextStyles.mono.copyWith(color: context.sgl.ink3, fontSize: 12)),
               ],
             ),
           ),

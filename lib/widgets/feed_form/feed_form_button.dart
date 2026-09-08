@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 
 class FeedFormButton extends StatelessWidget {
   final String title;
@@ -31,13 +32,13 @@ class FeedFormButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.black12,
-        border: Border.all(color: border ? Color(0xff3bb30b) : Colors.transparent, width: 2),
-        borderRadius: BorderRadius.circular(5),
+        color: context.sgl.surface2,
+        border: Border.all(color: border ? context.sgl.accent : context.sgl.line, width: border ? 2 : 1),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: TextButton(
         style: ButtonStyle(
-          overlayColor: MaterialStateColor.resolveWith((states) => Colors.white54),
+          overlayColor: MaterialStateColor.resolveWith((states) => context.sgl.accentSoft),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
         onPressed: onPressed,
@@ -50,7 +51,7 @@ class FeedFormButton extends StatelessWidget {
             ),
             Text(
               title,
-              style: this.textStyle ?? TextStyle(color: Colors.white),
+              style: this.textStyle ?? TextStyle(color: context.sgl.ink, fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
           ],

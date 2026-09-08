@@ -19,6 +19,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/device_daemon/device_reachable_listener_bloc.dart';
@@ -84,9 +85,9 @@ class _FeedVentilationFormPageState extends State<FeedVentilationFormPage> {
                     content,
                     Fullscreen(
                         title: title,
-                        backgroundColor: Colors.white54,
+                        backgroundColor: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.8),
                         child: _usingWifi == false
-                            ? Icon(Icons.error, color: Colors.red, size: 100)
+                            ? Icon(Icons.error, color: context.sgl.crit, size: 100)
                             : Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(width: 50, height: 50, child: CircularProgressIndicator()),
@@ -342,7 +343,7 @@ class _FeedVentilationFormPageState extends State<FeedVentilationFormPage> {
       SnackBar(
         content: Text(feedback.message),
         duration: Duration(seconds: feedback.success ? 10 : 4),
-        backgroundColor: feedback.success ? Color(0xff2f6f2f) : Color(0xff8f2d2d),
+        backgroundColor: feedback.success ? context.sgl.accentDeep : context.sgl.crit,
         action: action,
       ),
     );

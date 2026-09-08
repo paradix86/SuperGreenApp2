@@ -22,14 +22,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:super_green_app/data/logger/logger.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/misc/screen_lock.dart';
 import 'package:super_green_app/pages/settings/settings_bloc.dart';
 import 'package:super_green_app/theme.dart';
-import 'package:super_green_app/widgets/appbar.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/theme/sgl_typography.dart';
+import 'package:super_green_app/widgets/sgl/settings_group.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -83,162 +84,168 @@ class _SettingsPageState extends State<SettingsPage> {
     return BlocBuilder<SettingsBloc, SettingsBlocState>(
         bloc: BlocProvider.of<SettingsBloc>(context),
         builder: (context, state) => Scaffold(
-            appBar: SGLAppBar(
-              'Settings',
-              backgroundColor: Colors.deepOrange,
-              titleColor: Colors.white,
-              iconColor: Colors.white,
-              elevation: 10,
-              hideBackButton: true,
-            ),
-            body: ListView(
-              children: <Widget>[
-                ListTile(
-                  onTap: () {
-                    BlocProvider.of<SettingsBloc>(context).add(SettingsBlocEventSetFreedomUnit(!state.freedomUnits));
-                  },
-                  leading: SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: SvgPicture.asset(state.freedomUnits
-                          ? 'assets/settings/icon_imperial.svg'
-                          : 'assets/settings/icon_metric.svg')),
-                  title: Text(state.freedomUnits ? 'Imperial unit system' : 'Metric unit system',
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('Tap to change to ${state.freedomUnits ? 'metric' : 'imperial'}'),
-                ),
-                ListTile(
-                  onTap: () {
-                    BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsAuth());
-                  },
-                  leading: SizedBox(width: 40, height: 40, child: SvgPicture.asset('assets/settings/icon_account.svg')),
-                  title: Text('SGL Account', style: TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('Enable backups, remote control, sharing, etc..'),
-                ),
-                ListTile(
-                  onTap: () {
-                    if (state.pinLock.isEmpty) {
-                      _createPinLock(isEdited: false);
-                      return;
-                    }
+              appBar: AppBar(automaticallyImplyLeading: false, title: const Text('Settings')),
+              body: ListView(
+                padding: const EdgeInsets.fromLTRB(12, 0, 12, 24),
+                children: <Widget>[
+                  SettingsGroup(
+                    title: 'Account',
+                    rows: [
+                      SettingsRow(
+                        icon: Icons.person_outline,
+                        title: 'SGL account',
+                        subtitle: 'Backups, remote control, sharing',
+                        onTap: () => BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsAuth()),
+                      ),
+                    ],
+                  ),
+                  SettingsGroup(
+                    title: 'Preferences',
+                    rows: [
+                      SettingsRow(
+                        icon: Icons.straighten_outlined,
+                        title: 'Units',
+                        subtitle: state.freedomUnits ? 'Imperial · °F, in' : 'Metric · °C, cm',
+                        trailing: SettingsRowAction(state.freedomUnits ? 'metric' : 'imperial'),
+                        onTap: () => BlocProvider.of<SettingsBloc>(context)
+                            .add(SettingsBlocEventSetFreedomUnit(!state.freedomUnits)),
+                      ),
+                      SettingsRow(
+                        icon: Icons.pin_outlined,
+                        title: 'PIN lock',
+                        subtitle: state.pinLock.isEmpty ? 'Off · anyone can open the app' : 'On · asked at startup',
+                        trailing: SettingsRowChip(state.pinLock.isEmpty ? 'off' : 'on', on: state.pinLock.isNotEmpty),
+                        onTap: () => _onPinLockTapped(state),
+                      ),
+                    ],
+                  ),
+                  SettingsGroup(
+                    title: 'Your garden',
+                    rows: [
+                      SettingsRow(
+                        icon: Icons.local_florist_outlined,
+                        title: 'Plants',
+                        subtitle: 'Move to another lab, delete',
+                        onTap: () => BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsPlants()),
+                      ),
+                      SettingsRow(
+                        icon: Icons.science_outlined,
+                        title: 'Labs',
+                        subtitle: 'Change controller, delete',
+                        onTap: () => BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsBoxes()),
+                      ),
+                      SettingsRow(
+                        icon: Icons.developer_board_outlined,
+                        title: 'Controllers',
+                        subtitle: 'Wi-Fi, remote control, firmware',
+                        onTap: () => BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsDevices()),
+                      ),
+                    ],
+                  ),
+                  SettingsGroup(
+                    title: 'Help',
+                    rows: [
+                      SettingsRow(
+                        icon: Icons.chat_bubble_outline,
+                        title: 'Send feedback',
+                        subtitle: 'Opens your email app',
+                        onTap: _sendFeedback,
+                      ),
+                      SettingsRow(
+                        icon: Icons.description_outlined,
+                        title: 'Send my logs',
+                        subtitle: 'Attaches the app log file to an email',
+                        onTap: _sendLogs,
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 18),
+                    child: Center(
+                      child: Text(
+                        'SUPERGREENAPP $version ($buildNumber)',
+                        style: SglTextStyles.eyebrow.copyWith(color: context.sgl.ink3),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ));
+  }
 
-                    screenLock(
-                      context: context,
-                      config: screenLockConfig,
-                      keyPadConfig: screenLockKeyPadConfig,
-                      cancelButton: const Icon(Icons.close, size: 36),
-                      title: const Text('Please enter PIN'),
-                      correctString: state.pinLock,
-                      onUnlocked: () {
-                        Navigator.of(context).pop();
-
-                        final blocProvider = BlocProvider.of<SettingsBloc>(context);
-
-                        showModalBottomSheet<void>(
-                          context: context,
-                          isScrollControlled: false,
-                          useSafeArea: true,
-                          builder: (BuildContext context) {
-                            return Padding(
-                              padding: kPadding16,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SglFilledGreenButton(
-                                    title: 'Change PIN code',
-                                    expanded: true,
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      _createPinLock(isEdited: true);
-                                    },
-                                  ),
-                                  context.vBox16,
-                                  SglOutlinedRedButton(
-                                    title: 'Remove PIN lock',
-                                    expanded: true,
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      blocProvider.add(SettingsBlocEventSetPinLock(''));
-
-                                      showSnackBar(context, 'All done! PIN lock removed');
-                                    },
-                                  )
-                                ],
-                              ),
-                            );
-                          }
-                        );
+  void _onPinLockTapped(SettingsBlocState state) {
+    if (state.pinLock.isEmpty) {
+      _createPinLock(isEdited: false);
+      return;
+    }
+    screenLock(
+      context: context,
+      config: screenLockConfig,
+      keyPadConfig: screenLockKeyPadConfig,
+      cancelButton: const Icon(Icons.close, size: 36),
+      title: const Text('Please enter PIN'),
+      correctString: state.pinLock,
+      onUnlocked: () {
+        Navigator.of(context).pop();
+        final blocProvider = BlocProvider.of<SettingsBloc>(context);
+        showModalBottomSheet<void>(
+            context: context,
+            isScrollControlled: false,
+            useSafeArea: true,
+            builder: (BuildContext context) {
+              return Padding(
+                padding: kPadding16,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SglFilledGreenButton(
+                      title: 'Change PIN code',
+                      expanded: true,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        _createPinLock(isEdited: true);
                       },
-                    );
-                  },
-                  leading: SizedBox(width: 40, height: 40, child: SvgPicture.asset('assets/settings/icon_lock.svg')),
-                  title: Text('PIN lock', style: TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('Set up or change PIN lock'),
+                    ),
+                    context.vBox16,
+                    SglOutlinedRedButton(
+                      title: 'Remove PIN lock',
+                      expanded: true,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        blocProvider.add(SettingsBlocEventSetPinLock(''));
+                        showSnackBar(context, 'All done! PIN lock removed');
+                      },
+                    )
+                  ],
                 ),
-                ListTile(
-                  onTap: () {
-                    BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsPlants());
-                  },
-                  leading: SizedBox(width: 40, height: 40, child: SvgPicture.asset('assets/settings/icon_plants.svg')),
-                  title: Text('Plants', style: TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('Move to new box & delete plants.'),
-                ),
-                ListTile(
-                  onTap: () {
-                    BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsBoxes());
-                  },
-                  leading: SizedBox(width: 40, height: 40, child: SvgPicture.asset('assets/settings/icon_lab.svg')),
-                  title: Text('Labs', style: TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('Change controller & delete labs.'),
-                ),
-                ListTile(
-                  onTap: () {
-                    BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsDevices());
-                  },
-                  leading:
-                      SizedBox(width: 40, height: 40, child: SvgPicture.asset('assets/settings/icon_controller.svg')),
-                  title: Text('Controllers', style: TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('Edit & delete controllers.'),
-                ),
-                ListTile(
-                  onTap: () async {
-                    final Email email = Email(
-                      subject: 'App feedback',
-                      body: 'Hey guys,\n\nHere\' some feedback:\n\n\nCheers,\n',
-                      recipients: ['towelie@supergreenlab.com'],
-                      isHTML: false,
-                    );
-                    await FlutterEmailSender.send(email);
-                  },
-                  leading:
-                      SizedBox(width: 40, height: 40, child: SvgPicture.asset('assets/settings/icon_feedback.svg')),
-                  title: Text('Send us some feedback!', style: TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('Tap to send over email'),
-                ),
-                ListTile(
-                  onTap: () async {
-                    File logFile = File(await Logger.logFilePath());
-                    final Directory tmpDir = await getTemporaryDirectory();
-                    String tmpLogFile = '${tmpDir.path}/log.txt';
-                    await logFile.copy(tmpLogFile);
-                    final Email email = Email(
-                      subject: 'Log file',
-                      body: 'Hey stant,\n\nhere\'s my log file\n\ncheers.',
-                      recipients: ['stant@supergreenlab.com'],
-                      attachmentPaths: [tmpLogFile],
-                      isHTML: false,
-                    );
-                    await FlutterEmailSender.send(email);
-                  },
-                  leading: SizedBox(width: 40, height: 40, child: Image.asset('assets/settings/avatar.jpg')),
-                  title: Text('Send my logs to stant', style: TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('Tap to send over email'),
-                ),
-                ListTile(
-                  title: Text('App version'),
-                  subtitle: Text('$version ($buildNumber)'),
-                ),
-              ],
-            )));
+              );
+            });
+      },
+    );
+  }
+
+  Future<void> _sendFeedback() async {
+    final Email email = Email(
+      subject: 'App feedback',
+      body: 'Hey guys,\n\nHere\' some feedback:\n\n\nCheers,\n',
+      recipients: ['towelie@supergreenlab.com'],
+      isHTML: false,
+    );
+    await FlutterEmailSender.send(email);
+  }
+
+  Future<void> _sendLogs() async {
+    File logFile = File(await Logger.logFilePath());
+    final Directory tmpDir = await getTemporaryDirectory();
+    String tmpLogFile = '${tmpDir.path}/log.txt';
+    await logFile.copy(tmpLogFile);
+    final Email email = Email(
+      subject: 'Log file',
+      body: 'Hey stant,\n\nhere\'s my log file\n\ncheers.',
+      recipients: ['stant@supergreenlab.com'],
+      attachmentPaths: [tmpLogFile],
+      isHTML: false,
+    );
+    await FlutterEmailSender.send(email);
   }
 }

@@ -20,6 +20,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:intl/intl.dart';
@@ -137,9 +138,9 @@ class _FeedScheduleFormPageState extends State<FeedScheduleFormPage> {
                       content,
                       Fullscreen(
                           title: title,
-                          backgroundColor: Colors.white54,
+                          backgroundColor: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.8),
                           child: _usingWifi == false
-                              ? Icon(Icons.error, color: Colors.red, size: 100)
+                              ? Icon(Icons.error, color: context.sgl.crit, size: 100)
                               : Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(width: 50, height: 50, child: CircularProgressIndicator()),
@@ -242,8 +243,8 @@ class _FeedScheduleFormPageState extends State<FeedScheduleFormPage> {
               MarkdownBody(
                 data: helper,
                 styleSheet: MarkdownStyleSheet(
-                    strong: TextStyle(color: Color(0xff454545), fontSize: 16, fontWeight: FontWeight.normal),
-                    p: TextStyle(color: Color(0xff454545), fontSize: 16, fontWeight: FontWeight.w300)),
+                    strong: Theme.of(context).textTheme.bodyMedium?.copyWith(color: context.sgl.ink, fontWeight: FontWeight.w600),
+                    p: Theme.of(context).textTheme.bodyMedium?.copyWith(color: context.sgl.ink2)),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -256,7 +257,7 @@ class _FeedScheduleFormPageState extends State<FeedScheduleFormPage> {
                           height: 0,
                           child: ElevatedButton(
                             style: ButtonStyle(
-                              foregroundColor: MaterialStateProperty.resolveWith((state) => Colors.grey),
+                              foregroundColor: MaterialStateProperty.resolveWith((state) => context.sgl.ink3),
                               elevation: MaterialStateProperty.resolveWith((state) => 0),
                               backgroundColor: MaterialStateProperty.resolveWith((state) => Colors.transparent),
                             ),
@@ -269,7 +270,7 @@ class _FeedScheduleFormPageState extends State<FeedScheduleFormPage> {
                   GreenButton(
                     title: selected ? 'SELECTED' : 'SELECT',
                     onPressed: () => onPressed(),
-                    color: selected ? 0xff3bb30b : 0xff777777,
+                    color: selected ? null : context.sgl.ink3.toARGB32(),
                   )
                 ],
               )
@@ -330,7 +331,7 @@ class _FeedScheduleFormPageState extends State<FeedScheduleFormPage> {
       duration = Duration.zero;
     }
     return Container(
-      color: Colors.white54,
+      color: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -339,7 +340,7 @@ class _FeedScheduleFormPageState extends State<FeedScheduleFormPage> {
             child: Container(
               width: 250,
               decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(5), border: Border.all(color: Colors.grey)),
+                  color: context.sgl.surface, borderRadius: BorderRadius.circular(16), border: Border.all(color: context.sgl.line)),
               child: Form(
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -450,7 +451,7 @@ class _FeedScheduleFormPageState extends State<FeedScheduleFormPage> {
       SnackBar(
         content: Text(feedback.message),
         duration: Duration(seconds: feedback.success ? 3 : 4),
-        backgroundColor: feedback.success ? Color(0xff2f6f2f) : Color(0xff8f2d2d),
+        backgroundColor: feedback.success ? context.sgl.accentDeep : context.sgl.crit,
       ),
     );
   }

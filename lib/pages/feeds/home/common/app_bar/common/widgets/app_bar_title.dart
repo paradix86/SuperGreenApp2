@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/widgets.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/misc/date_renderer.dart';
 import 'package:super_green_app/pages/feeds/home/common/settings/plant_settings.dart';
@@ -40,7 +41,7 @@ class AppBarTitle extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(title, style: TextStyle(color: Color(0xFF494949), fontWeight: FontWeight.bold, fontSize: 20)),
+              Text(title, style: TextStyle(color: context.sgl.ink, fontWeight: FontWeight.bold, fontSize: 20)),
               plant != null
                   ? Text(DateRenderer.renderSincePhase(PlantSettings.fromJSON(plant!.settings), DateTime.now()),
                             style: TextStyle(fontSize: 16))
@@ -48,7 +49,7 @@ class AppBarTitle extends StatelessWidget {
             ],
           ),
         ),
-        Container(height: 2, color: Color(0xFF777777)),
+        Container(height: 1, color: context.sgl.line),
         body ?? Container(),
       ],
     );

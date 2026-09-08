@@ -20,6 +20,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:media_picker_builder/data/media_file.dart';
@@ -138,13 +139,13 @@ class _SettingsAuthPageState extends State<SettingsAuthPage> {
       ),
       Text(
         'Connected to your',
-        style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300),
+        style: Theme.of(context).textTheme.bodyLarge,
         textAlign: TextAlign.center,
       ),
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         child:
-            Text('SGL ACCOUNT', style: TextStyle(fontSize: 45, fontWeight: FontWeight.w200, color: Color(0xff3bb30b))),
+            Text('SGL ACCOUNT', style: Theme.of(context).textTheme.displayMedium?.copyWith(color: context.sgl.accentDeep)),
       ),
       state.user != null
           ? Row(
@@ -197,13 +198,13 @@ class _SettingsAuthPageState extends State<SettingsAuthPage> {
           children: <Widget>[
             Text(
               'create your',
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300),
+              style: Theme.of(context).textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: Text('SGL ACCOUNT',
-                  style: TextStyle(fontSize: 45, fontWeight: FontWeight.w200, color: Color(0xff3bb30b))),
+                  style: Theme.of(context).textTheme.displayMedium?.copyWith(color: context.sgl.accentDeep)),
             ),
             GreenButton(
               title: 'LOGIN',

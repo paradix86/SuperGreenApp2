@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:super_green_app/widgets/green_button.dart';
 
@@ -41,11 +42,12 @@ class _FeedCardTextState extends State<FeedCardText> {
       if (_textEditingController != null) {
         _textEditingController = null;
       }
+      final TextStyle body = Theme.of(context).textTheme.bodyLarge!.copyWith(color: context.sgl.ink);
       text = MarkdownBody(
         data: widget.text,
         styleSheet: MarkdownStyleSheet(
-            strong: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-            p: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.normal)),
+            strong: body.copyWith(fontWeight: FontWeight.w700),
+            p: body),
       );
     } else {
       if (_textEditingController == null) {

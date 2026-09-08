@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
@@ -89,7 +90,7 @@ class SocialBarPage extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 4.0, top: 4.0),
                   child: Text(
                     SocialBarPage.socialBarPagePageLikedBy((state.socialState as FeedEntrySocialStateLoaded).nLikes),
-                    style: TextStyle(color: Color(0xff565656), fontSize: 15),
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(color: context.sgl.ink2),
                   ),
                 )
               : Container(),

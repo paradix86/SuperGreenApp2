@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/data/api/backend/backend_api.dart';
@@ -119,7 +120,7 @@ class LikesPage extends SectionPage<LikesBloc, PublicFeedEntry> {
                     Text(feedEntry.plantName!,
                         style: TextStyle(
                           fontSize: 16,
-                          color: Color(0xff464646),
+                          color: context.sgl.ink,
                         ))
                   ],
                 ),

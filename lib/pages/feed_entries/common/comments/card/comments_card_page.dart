@@ -18,6 +18,7 @@
 
 import 'package:animated_size_and_fade/animated_size_and_fade.dart';
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/feed_entries/common/comments/card/widgets/comment.dart';
@@ -59,7 +60,7 @@ class _CommentsCardPageState extends State<CommentsCardPage> with TickerProvider
         padding: const EdgeInsets.symmetric(vertical: 4.0),
         child: Text(
           'View all ${socialState.nComments} comments',
-          style: TextStyle(color: Color(0xff898989)),
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(color: context.sgl.ink3),
         ),
       ));
       content.add(SmallCommentView(

@@ -135,7 +135,6 @@ class _ProductTypePageState extends State<ProductTypePage> {
                 titleColor: Colors.white,
                 iconColor: Colors.white,
               ),
-              backgroundColor: Colors.white,
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
         },
       ),

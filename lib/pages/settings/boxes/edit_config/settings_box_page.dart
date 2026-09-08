@@ -134,7 +134,6 @@ class _SettingsBoxPageState extends State<SettingsBoxPage> {
                     iconColor: Colors.green,
                     hideBackButton: state is SettingsBoxBlocStateDone,
                   ),
-                  backgroundColor: Colors.white,
                   body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body)),
             );
           }),

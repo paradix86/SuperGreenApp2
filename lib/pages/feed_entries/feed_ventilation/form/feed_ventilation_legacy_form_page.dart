@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:super_green_app/pages/feed_entries/feed_ventilation/form/feed_ventilation_form_bloc.dart';
 import 'package:super_green_app/widgets/feed_form/slider_form_param.dart';
@@ -52,7 +53,7 @@ class _FeedVentilationLegacyFormPageState extends State<FeedVentilationLegacyFor
           value: _blowerDay.toDouble(),
           min: 0,
           max: 100,
-          color: Colors.yellow,
+          color: context.sgl.amber,
           onChanged: (double newValue) {
             setState(() {
               _blowerDay = newValue.toInt();
@@ -73,7 +74,7 @@ class _FeedVentilationLegacyFormPageState extends State<FeedVentilationLegacyFor
           value: _blowerNight.toDouble(),
           min: 0,
           max: 100,
-          color: Colors.blue,
+          color: context.sgl.info,
           onChanged: (double newValue) {
             setState(() {
               _blowerNight = newValue.toInt();

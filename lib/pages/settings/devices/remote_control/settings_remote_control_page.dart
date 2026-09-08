@@ -200,14 +200,12 @@ class _SettingsRemoteControlPageState extends State<SettingsRemoteControlPage> {
             }
             return Scaffold(
                 appBar: SGLAppBar(
-                  '🤖',
-                  fontSize: 40,
+                  'Remote control',
                   backgroundColor: Color(0xff0b6ab3),
                   titleColor: Colors.white,
                   iconColor: Colors.white,
                   hideBackButton: state is SettingsRemoteControlBlocStateDonePairing,
                 ),
-                backgroundColor: Colors.white,
                 body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
           }),
     );

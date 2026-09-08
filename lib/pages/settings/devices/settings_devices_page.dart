@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
@@ -82,8 +83,7 @@ class SettingsDevicesPage extends StatelessWidget {
           }
           return Scaffold(
               appBar: SGLAppBar(
-                '🤖',
-                fontSize: 40,
+                'Controllers',
                 backgroundColor: Color(0xff0b6ab3),
                 titleColor: Colors.white,
                 iconColor: Colors.white,
@@ -125,17 +125,17 @@ class SettingsDevicesPage extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 24.0),
                           child: Text(
                             'You have no controller yet.',
-                            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w200),
+                            style: Theme.of(context).textTheme.headlineSmall,
                             textAlign: TextAlign.center,
                           ),
                         ),
                         Text(
                           'Add a first',
-                          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300),
+                          style: Theme.of(context).textTheme.bodyLarge,
                           textAlign: TextAlign.center,
                         ),
                         Text('CONTROLLER',
-                            style: TextStyle(fontSize: 45, fontWeight: FontWeight.w200, color: Color(0xff3bb30b))),
+                            style: Theme.of(context).textTheme.displayMedium?.copyWith(color: context.sgl.accentDeep)),
                       ],
                     ),
                   ),
@@ -149,7 +149,7 @@ class SettingsDevicesPage extends StatelessWidget {
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
                       'OR',
-                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300),
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
                   Row(

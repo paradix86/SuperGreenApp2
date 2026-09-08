@@ -99,7 +99,6 @@ class _CreateBoxPageState extends State<CreateBoxPage> {
                   titleColor: Colors.green,
                   iconColor: Colors.green,
                 ),
-                backgroundColor: Colors.white,
                 body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
           }),
     );

@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:super_green_app/data/api/backend/feeds/models/comments.dart';
@@ -40,7 +41,7 @@ class SmallCommentView extends StatelessWidget {
         Expanded(
           child: MarkdownBody(
             data: '**${comment.from}** ${comment.text}',
-            styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 16)),
+            styleSheet: MarkdownStyleSheet(p: Theme.of(context).textTheme.bodyMedium?.copyWith(color: context.sgl.ink2)),
           ),
         ),
         InkWell(

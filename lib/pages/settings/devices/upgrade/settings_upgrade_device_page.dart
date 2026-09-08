@@ -95,14 +95,12 @@ class SettingsUpgradeDevicePage extends StatelessWidget {
           }
           return Scaffold(
               appBar: SGLAppBar(
-                '🤖',
-                fontSize: 40,
+                'Firmware update',
                 backgroundColor: Color(0xff0b6ab3),
                 titleColor: Colors.white,
                 iconColor: Colors.white,
                 hideBackButton: state is SettingsUpgradeDeviceBlocStateUpgradeDone,
               ),
-              backgroundColor: Colors.white,
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
         },
       ),

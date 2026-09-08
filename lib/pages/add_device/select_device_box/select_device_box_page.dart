@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -167,7 +168,7 @@ class SelectDeviceBoxPageState extends State<SelectDeviceBoxPage> {
         AnimatedContainer(
           duration: Duration(milliseconds: 100),
           height: 20,
-          color: Color(0xff0b6ab3),
+          color: context.sgl.bg2,
         ),
         SectionTitle(
           title: SelectDeviceBoxPage.selectDeviceBoxSlot,

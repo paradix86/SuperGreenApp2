@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
@@ -192,7 +193,7 @@ class _SelectDevicePageState extends State<SelectDevicePage> {
                     AnimatedContainer(
                       duration: Duration(milliseconds: 100),
                       height: 100,
-                      color: Color(0xff0b6ab3),
+                      color: context.sgl.bg2,
                     ),
                     SectionTitle(
                       title: SelectDevicePage.selectDeviceListTitle,
@@ -245,8 +246,7 @@ class _SelectDevicePageState extends State<SelectDevicePage> {
             }
             return Scaffold(
                 appBar: SGLAppBar(
-                  '🤖',
-                  fontSize: 40,
+                  'Select controller',
                   backgroundColor: Color(0xff0b6ab3),
                   titleColor: Colors.white,
                   iconColor: Colors.white,
@@ -295,17 +295,17 @@ class _SelectDevicePageState extends State<SelectDevicePage> {
                           padding: const EdgeInsets.only(bottom: 24.0),
                           child: Text(
                             SelectDevicePage.selectDeviceNoController,
-                            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w200),
+                            style: Theme.of(context).textTheme.headlineSmall,
                             textAlign: TextAlign.center,
                           ),
                         ),
                         Text(
                           SelectDevicePage.selectDeviceAddFirst,
-                          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300),
+                          style: Theme.of(context).textTheme.bodyLarge,
                           textAlign: TextAlign.center,
                         ),
                         Text(SelectDevicePage.selectDeviceAddFirstController,
-                            style: TextStyle(fontSize: 45, fontWeight: FontWeight.w200, color: Color(0xff3bb30b))),
+                            style: Theme.of(context).textTheme.displayMedium?.copyWith(color: context.sgl.accentDeep)),
                       ],
                     ),
                   ),
@@ -319,7 +319,7 @@ class _SelectDevicePageState extends State<SelectDevicePage> {
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
                       SelectDevicePage.selectDeviceOr,
-                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300),
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                   ),
                   Row(
