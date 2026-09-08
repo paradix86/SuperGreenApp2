@@ -32,6 +32,7 @@ import 'package:super_green_app/pages/feeds/home/common/app_bar/common/widgets/a
 import 'package:super_green_app/pages/feeds/home/common/app_bar/controls/box_controls_bloc.dart';
 import 'package:super_green_app/pages/feeds/home/common/app_bar/controls/widgets/schedule_timeline.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/widgets/sgl/sgl_info.dart';
 import 'package:super_green_app/theme/sgl_typography.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
 import 'package:super_green_app/widgets/sgl/sgl_card.dart';
@@ -310,6 +311,7 @@ class _ScheduleCard extends StatelessWidget {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
+                const SglInfoButton('schedule', size: 15),
                 SglStatusChip(label: '$hours on', status: SglStatus.warn),
                 if (onTap != null) ...[const SizedBox(width: 4), Icon(Icons.chevron_right, color: c.ink3)],
               ],
@@ -372,7 +374,12 @@ class _LevelCard extends StatelessWidget {
               children: [
                 Icon(icon, size: 20, color: available ? c.amber : c.ink3),
                 const SizedBox(width: 8),
-                Expanded(child: Text(title, style: text.titleMedium)),
+                Expanded(
+                  child: Row(children: [
+                    Flexible(child: Text(title, style: text.titleMedium, maxLines: 1, overflow: TextOverflow.ellipsis)),
+                    SglInfoButton(title == 'LED dim' ? 'led_dim' : 'blower', size: 15),
+                  ]),
+                ),
                 Text(available ? '$value %' : 'n/a', style: SglTextStyles.reading.copyWith(color: c.ink, fontSize: 24)),
                 if (onTap != null) ...[const SizedBox(width: 4), Icon(Icons.chevron_right, color: c.ink3)],
               ],

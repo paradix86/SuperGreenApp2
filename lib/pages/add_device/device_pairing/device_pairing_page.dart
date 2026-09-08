@@ -150,7 +150,7 @@ class DevicePairingPageState extends State<DevicePairingPage> {
     return Column(
       children: <Widget>[
         Container(
-          height: 100,
+          height: 16,
           color: context.sgl.bg2,
         ),
         SectionTitle(

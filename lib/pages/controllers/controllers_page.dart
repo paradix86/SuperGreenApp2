@@ -24,6 +24,7 @@ import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/controllers/controllers_bloc.dart';
 import 'package:super_green_app/pages/settings/devices/status/settings_device_status_page.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/widgets/sgl/sgl_info.dart';
 import 'package:super_green_app/theme/sgl_typography.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
 import 'package:super_green_app/widgets/sgl/sgl_card.dart';
@@ -303,11 +304,18 @@ class _ControllerCard extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(child: SglEyebrow('Free heap · last 3 h')),
-            Text(
-              '${values.last.toStringAsFixed(1)} KB · min ${min.toStringAsFixed(1)}'
-              '${s?.heapMinFree != null ? ' · boot min ${(s!.heapMinFree! / 1024).toStringAsFixed(1)}' : ''}',
-              style: SglTextStyles.mono.copyWith(color: c.ink2, fontSize: 11),
+            const SglEyebrow('Free heap'),
+            const SglInfoButton('heap', size: 13),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                '${values.last.toStringAsFixed(1)} KB · min ${min.toStringAsFixed(1)}'
+                '${s?.heapMinFree != null ? ' · boot min ${(s!.heapMinFree! / 1024).toStringAsFixed(1)}' : ''}',
+                style: SglTextStyles.mono.copyWith(color: c.ink2, fontSize: 11),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.right,
+              ),
             ),
           ],
         ),
@@ -333,7 +341,10 @@ class _KeyValueGrid extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 3),
               child: Row(
                 children: [
-                  Text(r.key, style: SglTextStyles.mono.copyWith(color: c.ink3, fontSize: 11), softWrap: false),
+                  InkWell(
+                    onTap: () => SglInfoButton.show(context, r.key.toLowerCase().replaceAll('-', '')),
+                    child: Text(r.key, style: SglTextStyles.mono.copyWith(color: c.ink3, fontSize: 11), softWrap: false),
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(

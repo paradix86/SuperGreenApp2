@@ -262,7 +262,7 @@ class _DeviceWifiPageState extends State<DeviceWifiPage> {
             children: <Widget>[
               AnimatedContainer(
                 duration: Duration(milliseconds: 100),
-                height: _keyboardVisible ? 0 : 100,
+                height: 16,
                 color: context.sgl.bg2,
               ),
               _renderInput(context, DeviceWifiPage.deviceWifiPageWifiInputLabel, '...', _ssidController,

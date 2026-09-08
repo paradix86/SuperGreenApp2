@@ -22,6 +22,7 @@ import 'package:super_green_app/data/kv/app_db.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/pages/feeds/home/common/app_bar/common/metrics/app_bar_metrics_bloc.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/widgets/sgl/sgl_info.dart';
 import 'package:super_green_app/theme/sgl_typography.dart';
 import 'package:super_green_app/widgets/sgl/sgl_card.dart';
 import 'package:super_green_app/widgets/sgl/sparkline.dart';
@@ -182,8 +183,11 @@ class _MetricTile extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SglEyebrow(label),
-                Text(range, style: SglTextStyles.mono.copyWith(color: c.ink3, fontSize: 10.5)),
+                Row(mainAxisSize: MainAxisSize.min, children: [SglEyebrow(label), SglInfoButton(label, size: 13)]),
+                InkWell(
+                  onTap: () => SglInfoButton.show(context, 'range3h'),
+                  child: Text(range, style: SglTextStyles.mono.copyWith(color: c.ink3, fontSize: 10.5)),
+                ),
               ],
             ),
             const SizedBox(height: 6),

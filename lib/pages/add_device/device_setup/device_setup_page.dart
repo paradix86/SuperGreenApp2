@@ -197,7 +197,7 @@ class _DeviceSetupPageState extends State<DeviceSetupPage> {
       children: <Widget>[
         AnimatedContainer(
           duration: Duration(milliseconds: 100),
-          height: 50,
+          height: 16,
           color: context.sgl.bg2,
         ),
         SectionTitle(

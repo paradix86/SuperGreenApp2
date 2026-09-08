@@ -1,7 +1,7 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/widgets/sgl/sgl_info.dart';
 import 'package:super_green_app/theme/sgl_chart_palette.dart';
 import 'package:super_green_app/theme/sgl_typography.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,16 +30,7 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<BoxAppBarMetricsBloc, PlantFeedAppBarBlocState>(
-      listener: (BuildContext context, PlantFeedAppBarBlocState state) {
-        if (state is PlantFeedAppBarBlocStateLoaded) {
-          Timer(Duration(milliseconds: 500), () {
-            if (_scrollController.hasClients == false) {
-              return;
-            }
-            _scrollController.animateTo(50, duration: Duration(seconds: 15), curve: Curves.linear);
-          });
-        }
-      },
+      listener: (BuildContext context, PlantFeedAppBarBlocState state) {},
       child: BlocBuilder<BoxAppBarMetricsBloc, PlantFeedAppBarBlocState>(
         builder: (BuildContext context, PlantFeedAppBarBlocState state) {
           Widget body = FullscreenLoading(
@@ -184,12 +175,10 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
             padding: const EdgeInsets.only(bottom: 3.0),
             child: Container(
               height: 60,
-              child: Center(
-                child: ListView(
-                  shrinkWrap: true,
+              child: ListView(
                   controller: _scrollController,
-                  //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
                   children: <Widget>[
                     Container(width: 4),
                     state.graphData[0].data.length == 0 ? Container() : _renderMetric(
@@ -264,7 +253,6 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
                     }, disabledGraphs[6] ?? false),
                     Container(width: 4),
                   ],
-                ),
               ),
             ),
           ),
@@ -280,6 +268,15 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
 
   Widget _renderMetric(
       Color color, String name, String value, String min, String max, void Function() onTap, bool disabled) {
+    const Map<String, String> infoKeys = {
+      'Temp': 'temp',
+      'Humi': 'rh',
+      'VPD': 'vpd',
+      'Ventilation': 'ventilation',
+      'Light': 'light',
+      'CO2': 'co2',
+      'Weight': 'weight',
+    };
     return Opacity(
       opacity: disabled ? 0.5 : 1,
       child: InkWell(
@@ -287,12 +284,21 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(name.toUpperCase(), style: SglTextStyles.eyebrow.copyWith(color: context.sgl.ink3, fontSize: 10)),
               Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(name.toUpperCase(), style: SglTextStyles.eyebrow.copyWith(color: context.sgl.ink3, fontSize: 10)),
+                  SglInfoButton(infoKeys[name] ?? name.toLowerCase(), size: 12),
+                ],
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(value == "0" ? "N/A" : value,
-                      style: SglTextStyles.reading.copyWith(color: color, fontSize: value == "0" ? 18 : 26)),
+                      style: SglTextStyles.reading.copyWith(color: color, fontSize: value == "0" ? 18 : 24)),
+                  const SizedBox(width: 4),
                   value != "0"
                       ? Column(
                           children: <Widget>[

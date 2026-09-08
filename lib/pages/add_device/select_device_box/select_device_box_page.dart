@@ -163,7 +163,7 @@ class SelectDeviceBoxPageState extends State<SelectDeviceBoxPage> {
       children: <Widget>[
         AnimatedContainer(
           duration: Duration(milliseconds: 100),
-          height: 20,
+          height: 16,
           color: context.sgl.bg2,
         ),
         SectionTitle(

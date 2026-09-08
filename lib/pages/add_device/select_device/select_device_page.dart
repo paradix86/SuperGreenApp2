@@ -192,7 +192,7 @@ class _SelectDevicePageState extends State<SelectDevicePage> {
                   children: [
                     AnimatedContainer(
                       duration: Duration(milliseconds: 100),
-                      height: 100,
+                      height: 16,
                       color: context.sgl.bg2,
                     ),
                     SectionTitle(
