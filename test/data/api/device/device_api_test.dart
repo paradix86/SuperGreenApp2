@@ -54,6 +54,44 @@ void main() {
     });
   });
 
+  group('fetchKv', () {
+    test('parses the /kv JSON into int and string maps', () async {
+      controller.handler = (HttpRequest req) {
+        req.response.headers.contentType = ContentType.json;
+        req.response.write('{"i":{"BOX_0_TEMP":29,"TIME":178');
+        req.response.write('8872351},"s":{"WIFI_SSID":"pompe \\"funebri\\"","TIME_TZ":""}}');
+        req.response.close();
+      };
+
+      final DeviceKv? kv = await DeviceAPI.fetchKv(controller.ip);
+
+      expect(controller.requestedPaths, ['/kv']);
+      expect(kv, isNotNull);
+      expect(kv!.ints['BOX_0_TEMP'], 29);
+      expect(kv.ints['TIME'], 1788872351);
+      expect(kv.strings['WIFI_SSID'], 'pompe "funebri"');
+      expect(kv.strings['TIME_TZ'], '');
+    });
+
+    test('returns null on firmwares without /kv (404 or 405)', () async {
+      controller.handler = (HttpRequest req) {
+        req.response.statusCode = 405;
+        req.response.close();
+      };
+
+      expect(await DeviceAPI.fetchKv(controller.ip), isNull);
+    });
+
+    test('returns null on a malformed body', () async {
+      controller.handler = (HttpRequest req) {
+        req.response.write('not json');
+        req.response.close();
+      };
+
+      expect(await DeviceAPI.fetchKv(controller.ip), isNull);
+    });
+  });
+
   group('fetchDash', () {
     test('parses the /dash JSON (chunked, like the firmware sends it)', () async {
       final String fixture = File('test/data/api/device/dash_fixture.json').readAsStringSync();

@@ -272,6 +272,9 @@ class DeviceAPI {
       final config = await DeviceAPI.fetchConfig(ip, auth: auth, client: client);
 
       Map<String, dynamic> keys = json.decode(config);
+      // One GET /kv gives every readable value at once; firmwares before
+      // 2026-09-08 do not have it, then each key is read on its own below.
+      final DeviceKv? bulk = await fetchKv(ip, auth: auth, client: client);
 
       if (delete) {
         await db.deleteParams(deviceID);
@@ -308,7 +311,8 @@ class DeviceAPI {
         }
         if (type == INTEGER_TYPE) {
           try {
-            final value = await DeviceAPI.fetchIntParam(ip, k['caps_name'], auth: auth, client: client);
+            final value = bulk?.ints[k['caps_name']] ??
+                await DeviceAPI.fetchIntParam(ip, k['caps_name'], auth: auth, client: client);
             if (exists == null) {
               ParamsCompanion param = ParamsCompanion.insert(
                   device: deviceID,
@@ -325,7 +329,8 @@ class DeviceAPI {
           }
         } else {
           try {
-            final value = await DeviceAPI.fetchStringParam(ip, k['caps_name'], auth: auth, client: client);
+            final value = bulk?.strings[k['caps_name']] ??
+                await DeviceAPI.fetchStringParam(ip, k['caps_name'], auth: auth, client: client);
             if (exists == null) {
               ParamsCompanion param = ParamsCompanion.insert(
                   device: deviceID,
@@ -373,6 +378,23 @@ class DeviceAPI {
     } finally {
       client.close(force: true);
       DeviceAPI.fetchingAllParams[deviceID] = false;
+    }
+  }
+
+  /// One `GET /kv`: every readable parameter of the controller. Returns null
+  /// on firmwares without the endpoint (404, or 405 from the OPTIONS
+  /// wildcard) or on any other failure, so callers fall back to per-key GETs.
+  static Future<DeviceKv?> fetchKv(String controllerIP, {int? timeout = 15, String? auth, HttpClient? client}) async {
+    final String url = 'http://$controllerIP/kv';
+    try {
+      final String contents = await _exchange('GET', url, timeout: timeout, auth: auth, client: client);
+      final dynamic decoded = json.decode(contents);
+      if (decoded is! Map<String, dynamic>) {
+        return null;
+      }
+      return DeviceKv.fromJson(decoded);
+    } catch (e) {
+      return null;
     }
   }
 
@@ -466,5 +488,35 @@ class DeviceAPI {
     } catch (e) {
       return 0;
     }
+  }
+}
+
+/// The `GET /kv` payload: `{"i": {"NAME": int}, "s": {"NAME": "str"}}`.
+class DeviceKv {
+  final Map<String, int> ints;
+  final Map<String, String> strings;
+
+  const DeviceKv(this.ints, this.strings);
+
+  factory DeviceKv.fromJson(Map<String, dynamic> json) {
+    final Map<String, int> ints = {};
+    final Map<String, String> strings = {};
+    final dynamic i = json['i'];
+    if (i is Map) {
+      i.forEach((dynamic k, dynamic v) {
+        if (v is num) {
+          ints['$k'] = v.toInt();
+        }
+      });
+    }
+    final dynamic s = json['s'];
+    if (s is Map) {
+      s.forEach((dynamic k, dynamic v) {
+        if (v is String) {
+          strings['$k'] = v;
+        }
+      });
+    }
+    return DeviceKv(ints, strings);
   }
 }

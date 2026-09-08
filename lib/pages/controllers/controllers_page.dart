@@ -162,9 +162,10 @@ class _SensorAlertStrip extends StatelessWidget {
     );
   }
 
-  /// `box_0_temp_stuck` -> "Box 1 temperature reads the same value".
+  /// `box_0_sensor_stuck` -> "Box 1 sensor reads the same values";
+  /// older firmwares send `box_0_temp_stuck` per metric.
   static String _describe(String alert) {
-    final RegExp re = RegExp(r'^box_(\d+)_(temp|humi|vpd)_stuck$');
+    final RegExp re = RegExp(r'^box_(\d+)_(temp|humi|vpd|co2|sensor)_stuck$');
     final RegExpMatch? m = re.firstMatch(alert);
     if (m == null) {
       if (alert.endsWith('_warmup')) {
@@ -172,7 +173,10 @@ class _SensorAlertStrip extends StatelessWidget {
       }
       return 'Sensor health warning';
     }
-    const Map<String, String> names = {'temp': 'temperature', 'humi': 'humidity', 'vpd': 'VPD'};
+    if (m.group(2) == 'sensor') {
+      return 'Box ${int.parse(m.group(1)!) + 1} sensor reads the same values (frozen or unplugged?)';
+    }
+    const Map<String, String> names = {'temp': 'temperature', 'humi': 'humidity', 'vpd': 'VPD', 'co2': 'CO2'};
     return 'Box ${int.parse(m.group(1)!) + 1} ${names[m.group(2)]} reads the same value';
   }
 }
