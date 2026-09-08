@@ -98,9 +98,6 @@ class FeedFormLayout extends StatelessWidget {
             fontSize: fontSize,
             actions: actions,
             hideBackButton: hideBackButton,
-            backgroundColor: Colors.blueGrey,
-            titleColor: Colors.white,
-            iconColor: Colors.white,
           ),
           body: Padding(
             padding: EdgeInsets.only(top: topBarPadding),

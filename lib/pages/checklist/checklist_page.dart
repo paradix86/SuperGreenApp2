@@ -19,6 +19,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_portal/flutter_portal.dart';
 import 'package:flutter_svg/svg.dart';
@@ -150,8 +151,6 @@ class _ChecklistPageState extends State<ChecklistPage> {
               appBar: SGLAppBar(
                 '🦜',
                 backgroundColor: Colors.deepPurple,
-                titleColor: Colors.yellow,
-                iconColor: Colors.white,
                 actions: state is ChecklistBlocStateLoaded
                     ? [
                         IconButton(
@@ -202,7 +201,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
               borderRadius: BorderRadius.all(Radius.circular(5)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
+                  color: context.sgl.ink3.withOpacity(0.5),
                   spreadRadius: 2,
                   blurRadius: 3,
                   offset: Offset(0, 2), // changes position of shadow
@@ -307,7 +306,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
             children: [
               Text(
                 'Your checklist is empty.\nPress the button below to start using it.',
-                style: TextStyle(fontWeight: FontWeight.w300, fontSize: 18, color: Color(0xff454545)),
+                style: TextStyle(fontWeight: FontWeight.w300, fontSize: 18, color: context.sgl.ink2),
                 textAlign: TextAlign.center,
               ),
               Padding(
@@ -333,7 +332,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                         children: [
                           Text(
                             'Or checkout our pre-made\nchecklist collections:',
-                            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 18, color: Color(0xff454545)),
+                            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 18, color: context.sgl.ink2),
                             textAlign: TextAlign.center,
                           ),
                           Padding(
@@ -389,7 +388,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
         if (currentChecklistSeedID == null || currentChecklistSeedID != action.item1.id) {
           currentChecklistSeedID = action.item1.id;
           int days = DateTime.now().difference(action.item3.date).inDays;
-          Color color = Color(0xff3bb30b);
+          Color color = context.sgl.accentDeep;
           if (days >= 2) {
             color = Color(0xffb32d0b);
           } else if (days == 1) {
@@ -462,7 +461,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                   child: Text('To-Do',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Color(0xff454545),
+                        color: context.sgl.ink2,
                         fontSize: 24,
                       )),
                 ),
@@ -478,7 +477,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                   child: Text('Future items (${state.checklistSeeds.length})',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Color(0xff454545),
+                        color: context.sgl.ink2,
                         fontSize: 24,
                       )),
                 ),
@@ -512,7 +511,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12.0),
                           child: Text(cks.mine ? 'Your items' : 'Collection items',
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff454545), fontSize: 18)),
+                              style: TextStyle(fontWeight: FontWeight.bold, color: context.sgl.ink2, fontSize: 18)),
                         ),
                         body,
                       ],
@@ -683,7 +682,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
               borderRadius: BorderRadius.all(Radius.circular(5)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
+                  color: context.sgl.ink3.withOpacity(0.5),
                   spreadRadius: 2,
                   blurRadius: 3,
                   offset: Offset(0, 2), // changes position of shadow
@@ -740,7 +739,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
               Text('Add daily checks?',
                   maxLines: 3,
                   style: TextStyle(
-                    color: Color(0xff454545),
+                    color: context.sgl.ink2,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   )),
@@ -762,7 +761,7 @@ class _ChecklistPageState extends State<ChecklistPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                     'Don\'t want to spend time configuring alerts?\n\nSubscribe to the "Daily checks" collection and receive notifications about the most common things to pay attention to for a successful grow.',
-                    style: TextStyle(color: Color(0xff454545))),
+                    style: TextStyle(color: context.sgl.ink2)),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,

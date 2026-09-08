@@ -19,6 +19,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:super_green_app/pages/feed_entries/common/media_state.dart';
@@ -51,7 +52,7 @@ class MediaList extends StatelessWidget {
             },
             pagination: _medias.length > 1
                 ? SwiperPagination(
-                    builder: new DotSwiperPaginationBuilder(color: Colors.white, activeColor: Color(0xff3bb30b)),
+                    builder: new DotSwiperPaginationBuilder(color: Colors.white, activeColor: context.sgl.accentDeep),
                   )
                 : null,
             loop: false,
@@ -114,7 +115,7 @@ class MediaList extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Text(media.synced ? 'Synced' : 'Not synced',
-                        style: TextStyle(fontWeight: FontWeight.bold, color: media.synced ? Colors.green : Colors.red)),
+                        style: TextStyle(fontWeight: FontWeight.bold, color: media.synced ? context.sgl.accentDeep : context.sgl.crit)),
                   ),
                 ),
               )

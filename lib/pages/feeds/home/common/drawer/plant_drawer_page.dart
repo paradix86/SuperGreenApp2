@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -60,14 +61,14 @@ class _PlantDrawerPageState extends State<PlantDrawerPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
-              color: Color(0xff063047),
+              color: context.sgl.ink,
               height: 120,
               child: DrawerHeader(
                   child: Row(children: <Widget>[
                 SizedBox(
                   width: 50,
                   height: 50,
-                  child: const SuperAlanGreenLabLogo(
+                  child: SuperAlanGreenLabLogo(
                     width: 50,
                     height: 50,
                     textColor: Colors.white,
@@ -146,7 +147,7 @@ class _PlantDrawerPageState extends State<PlantDrawerPage> {
                                 (widget.selectedBox?.id == b.id)
                                     ? Icon(
                                         Icons.check_box,
-                                        color: Colors.green,
+                                        color: context.sgl.accentDeep,
                                       )
                                     : Icon(Icons.crop_square),
                                 SvgPicture.asset('assets/settings/icon_lab.svg'),
@@ -176,7 +177,7 @@ class _PlantDrawerPageState extends State<PlantDrawerPage> {
                             leading: (widget.selectedPlant?.id == p.id)
                                 ? Icon(
                                     Icons.check_box,
-                                    color: Colors.green,
+                                    color: context.sgl.accentDeep,
                                   )
                                 : Icon(Icons.crop_square),
                             trailing: Container(
@@ -216,7 +217,7 @@ class _PlantDrawerPageState extends State<PlantDrawerPage> {
       child: Container(
         padding: EdgeInsets.all(3),
         decoration: BoxDecoration(
-          color: Colors.red,
+          color: context.sgl.crit,
           borderRadius: BorderRadius.circular(15),
         ),
         constraints: BoxConstraints(

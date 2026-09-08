@@ -20,6 +20,7 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
@@ -165,8 +166,6 @@ class _CreateChecklistSeedPageState extends State<CreateChecklistSeedPage> {
                 appBar: SGLAppBar(
                   '🦜',
                   backgroundColor: Colors.deepPurple,
-                  titleColor: Colors.yellow,
-                  iconColor: Colors.white,
                   actions: [
                     IconButton(
                       icon: Icon(Icons.check, color: Color(this.valid ? 0xff3bb30b : 0xa0ffffff), size: 40),
@@ -279,12 +278,12 @@ class _CreateChecklistSeedPageState extends State<CreateChecklistSeedPage> {
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Text(
                   'Checklist basic infos',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Color(0xff6A6A6A)),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: context.sgl.ink2),
                 ),
               ),
               Text(
                 'Category:',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xff6A6A6A)),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: context.sgl.ink2),
               ),
               ChecklistCategory(
                 category: category,
@@ -298,7 +297,7 @@ class _CreateChecklistSeedPageState extends State<CreateChecklistSeedPage> {
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
                   'Title',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xff6A6A6A)),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: context.sgl.ink2),
                 ),
               ),
               FeedFormTextarea(
@@ -311,7 +310,7 @@ class _CreateChecklistSeedPageState extends State<CreateChecklistSeedPage> {
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
                   'Description',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xff6A6A6A)),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: context.sgl.ink2),
                 ),
               ),
               SizedBox(
@@ -361,7 +360,7 @@ class _CreateChecklistSeedPageState extends State<CreateChecklistSeedPage> {
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
                   title,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xff6A6A6A)),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: context.sgl.ink2),
                 ),
               ),
               conditions.length == 0
@@ -449,7 +448,7 @@ class _CreateChecklistSeedPageState extends State<CreateChecklistSeedPage> {
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Text(
                   'Actions',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xff6A6A6A)),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: context.sgl.ink2),
                 ),
               ),
               actions.length == 0

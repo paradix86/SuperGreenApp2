@@ -82,7 +82,7 @@ class _SettingsAuthPageState extends State<SettingsAuthPage> {
               title: 'Done!',
               child: Icon(
                 Icons.check,
-                color: Color(0xff3bb30b),
+                color: context.sgl.accentDeep,
                 size: 100,
               ),
             );
@@ -91,7 +91,7 @@ class _SettingsAuthPageState extends State<SettingsAuthPage> {
               title: state.message,
               child: Icon(
                 Icons.error,
-                color: Colors.red,
+                color: context.sgl.crit,
                 size: 100,
               ),
             );
@@ -101,8 +101,6 @@ class _SettingsAuthPageState extends State<SettingsAuthPage> {
                 '🔐',
                 fontSize: 35,
                 backgroundColor: Colors.indigo,
-                titleColor: Colors.white,
-                iconColor: Colors.white,
                 hideBackButton: !(state is SettingsAuthBlocStateLoaded),
               ),
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
@@ -132,7 +130,7 @@ class _SettingsAuthPageState extends State<SettingsAuthPage> {
                 UserAvatar(icon: pic, size: 150),
                 Text(
                   "Tap to change",
-                  style: TextStyle(color: Colors.blue),
+                  style: TextStyle(color: context.sgl.info),
                 ),
               ],
             )),
@@ -256,7 +254,7 @@ class _SettingsAuthPageState extends State<SettingsAuthPage> {
           child: MarkdownBody(
             fitContent: true,
             data: text,
-            styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 14)),
+            styleSheet: MarkdownStyleSheet(p: TextStyle(color: context.sgl.ink2, fontSize: 14)),
           ),
         ),
       ],

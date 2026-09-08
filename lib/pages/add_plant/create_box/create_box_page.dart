@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:intl/intl.dart';
@@ -95,9 +96,6 @@ class _CreateBoxPageState extends State<CreateBoxPage> {
                   '💬',
                   fontSize: 40,
                   hideBackButton: state is CreateBoxBlocStateDone,
-                  backgroundColor: Colors.yellow,
-                  titleColor: Colors.green,
-                  iconColor: Colors.green,
                 ),
                 body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
           }),
@@ -105,7 +103,7 @@ class _CreateBoxPageState extends State<CreateBoxPage> {
   }
 
   Widget _renderDone(CreateBoxBlocStateDone state) {
-    return Fullscreen(title: 'Done!', child: Icon(Icons.done, color: Color(0xff0bb354), size: 100));
+    return Fullscreen(title: 'Done!', child: Icon(Icons.done, color: context.sgl.accentDeep, size: 100));
   }
 
   Widget _renderForm() {
@@ -119,8 +117,6 @@ class _CreateBoxPageState extends State<CreateBoxPage> {
         SectionTitle(
           title: CreateBoxPage.createBoxPageNewLabLabel,
           icon: 'assets/box_setup/icon_box.svg',
-          backgroundColor: Colors.yellow,
-          titleColor: Colors.green,
           large: true,
           elevation: 5,
         ),

@@ -18,6 +18,7 @@
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -70,7 +71,7 @@ class ChecklistActionWebpageButton extends ChecklistActionButton {
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w300,
-            color: Color(0xff454545),
+            color: context.sgl.ink2,
           ),
         ),
         action: () async {
@@ -107,9 +108,9 @@ class ChecklistActionWebpageButton extends ChecklistActionButton {
           MarkdownBody(
             data: (checklistAction as ChecklistActionWebpage).instructions ?? '',
             styleSheet: MarkdownStyleSheet(
-              p: TextStyle(color: Color(0xff454545), fontSize: 15),
-              h1: TextStyle(color: Color(0xff454545), fontSize: 17, fontWeight: FontWeight.bold),
-              h2: TextStyle(color: Color(0xff454545), fontSize: 16, fontWeight: FontWeight.bold),
+              p: TextStyle(color: context.sgl.ink2, fontSize: 15),
+              h1: TextStyle(color: context.sgl.ink2, fontSize: 17, fontWeight: FontWeight.bold),
+              h2: TextStyle(color: context.sgl.ink2, fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
         ],

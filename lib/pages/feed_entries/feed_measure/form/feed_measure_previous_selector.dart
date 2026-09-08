@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:super_green_app/data/rel/feed/feeds.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
@@ -53,7 +54,7 @@ class _FeedMeasurePreviousSelectorState extends State<FeedMeasurePreviousSelecto
                 },
                 pagination: widget._measures.length > 1
                     ? SwiperPagination(
-                        builder: new DotSwiperPaginationBuilder(color: Colors.white, activeColor: Color(0xff3bb30b)),
+                        builder: new DotSwiperPaginationBuilder(color: Colors.white, activeColor: context.sgl.accentDeep),
                       )
                     : null,
                 loop: false,

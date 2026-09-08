@@ -18,6 +18,7 @@
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:intl/intl.dart';
@@ -129,7 +130,7 @@ class _PublicPlantPageState extends State<PublicPlantPage> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5.0),
-                    color: Color(0xff3bb30b),
+                    color: context.sgl.accentDeep,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
@@ -176,7 +177,7 @@ class _PublicPlantPageState extends State<PublicPlantPage> {
                   return tabs[index](context, state);
                 },
                 pagination: SwiperPagination(
-                  builder: new DotSwiperPaginationBuilder(color: Colors.white, activeColor: Color(0xff3bb30b)),
+                  builder: new DotSwiperPaginationBuilder(color: Colors.white, activeColor: context.sgl.accentDeep),
                 ),
                 loop: false,
               ),

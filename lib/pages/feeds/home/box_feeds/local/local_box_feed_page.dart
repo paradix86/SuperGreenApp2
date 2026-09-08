@@ -20,6 +20,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -118,9 +119,6 @@ class _LocalBoxFeedPageState extends State<LocalBoxFeedPage> {
                     ? SGLAppBar(
                         'Box feed',
                         fontSize: 20,
-                        backgroundColor: Color(0xff063047),
-                        titleColor: Colors.white,
-                        iconColor: Colors.white,
                       )
                     : null,
                 drawer: Drawer(
@@ -141,7 +139,6 @@ class _LocalBoxFeedPageState extends State<LocalBoxFeedPage> {
         heroTag: 'speed-dial-hero-tag',
         //animationSpeed: 50,
         curve: Curves.bounceIn,
-        backgroundColor: Color(0xff3bb30b),
         child: PlantDialButton(
           openned: _speedDialOpen,
         ),
@@ -234,7 +231,7 @@ class _LocalBoxFeedPageState extends State<LocalBoxFeedPage> {
         create: (context) => FeedBloc(LocalBoxFeedBlocDelegate(state.box.feed!)),
         child: FeedPage(
           automaticallyImplyLeading: true,
-          color: Color(0xff063047),
+          color: context.sgl.ink,
           actions: actions,
           bottomPadding: true,
           title: '',
@@ -265,7 +262,7 @@ class _LocalBoxFeedPageState extends State<LocalBoxFeedPage> {
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
       Center(
           child: Column(children: [
-        Icon(Icons.add, color: Colors.grey, size: 100),
+        Icon(Icons.add, color: context.sgl.ink3, size: 100),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child:
@@ -285,7 +282,7 @@ class _LocalBoxFeedPageState extends State<LocalBoxFeedPage> {
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
       Center(
           child: Column(children: [
-        Icon(Icons.delete, color: Colors.grey, size: 100),
+        Icon(Icons.delete, color: context.sgl.ink3, size: 100),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Text('Box was removed or archived.', style: Theme.of(context).textTheme.bodyLarge),
@@ -314,7 +311,7 @@ class _LocalBoxFeedPageState extends State<LocalBoxFeedPage> {
           Text(_remote ? 'Remote controled!' : _deviceIP,
               style: TextStyle(
                 fontSize: 10,
-                color: _remote ? Color(0xff3bb30b) : Colors.grey,
+                color: _remote ? context.sgl.accentDeep : context.sgl.ink3,
               ))
         ],
       );
@@ -330,7 +327,7 @@ class _LocalBoxFeedPageState extends State<LocalBoxFeedPage> {
           nameText,
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
-            child: Icon(Icons.offline_bolt, color: _reachable ? Colors.green : Colors.grey, size: 20),
+            child: Icon(Icons.offline_bolt, color: _reachable ? context.sgl.accentDeep : context.sgl.ink3, size: 20),
           ),
         ],
       );
@@ -366,7 +363,7 @@ class _LocalBoxFeedPageState extends State<LocalBoxFeedPage> {
                 return tabs[index](context, state);
               },
               pagination: SwiperPagination(
-                builder: new DotSwiperPaginationBuilder(color: Colors.white, activeColor: Color(0xff3bb30b)),
+                builder: new DotSwiperPaginationBuilder(color: Colors.white, activeColor: context.sgl.accentDeep),
               ),
               loop: false,
             ),

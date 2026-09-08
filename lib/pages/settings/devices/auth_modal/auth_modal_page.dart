@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -75,7 +76,7 @@ class _AuthModalPageState extends State<AuthModalPage> {
                 title: 'Done',
                 child: Icon(
                   Icons.check,
-                  color: Colors.green,
+                  color: context.sgl.accentDeep,
                   size: 100,
                 ),
               ),

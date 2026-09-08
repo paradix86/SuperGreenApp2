@@ -18,6 +18,7 @@
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -44,8 +45,6 @@ class ChecklistCollectionsPage extends StatelessWidget {
           appBar: SGLAppBar(
             '🦜',
             backgroundColor: Colors.deepPurple,
-            titleColor: Colors.yellow,
-            iconColor: Colors.white,
           ),
           body: body,
         );
@@ -79,7 +78,7 @@ class ChecklistCollectionsPage extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.fade,
                           softWrap: true,
-                          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Color(0xff454545)),
+                          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: context.sgl.ink2),
                         ),
                       ),
                     ],
@@ -89,8 +88,8 @@ class ChecklistCollectionsPage extends StatelessWidget {
                     child: MarkdownBody(
                       data: c.description.value,
                       styleSheet: MarkdownStyleSheet(
-                        p: TextStyle(color: Color(0xff454545), fontSize: 14),
-                        h1: TextStyle(color: Color(0xff454545), fontSize: 15, fontWeight: FontWeight.bold),
+                        p: TextStyle(color: context.sgl.ink2, fontSize: 14),
+                        h1: TextStyle(color: context.sgl.ink2, fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),

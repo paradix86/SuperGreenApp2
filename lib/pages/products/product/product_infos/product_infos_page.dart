@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:super_green_app/pages/products/product/product_infos/product_infos_bloc.dart';
 import 'package:super_green_app/pages/products/product/product_infos/specs_form.dart';
@@ -39,9 +40,7 @@ class _ProductInfosPageState extends State<ProductInfosPage> {
               appBar: SGLAppBar(
                 '🛠',
                 fontSize: 40,
-                backgroundColor: Color(0xff0EA9DA),
-                titleColor: Colors.white,
-                iconColor: Colors.white,
+                backgroundColor: context.sgl.info,
               ),
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
         },

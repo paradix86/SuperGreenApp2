@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/data/rel/checklist/actions.dart';
 import 'package:super_green_app/pages/checklist/create/create_checklist_section.dart';
@@ -64,7 +65,7 @@ class _WebpageActionPageState extends State<WebpageActionPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Enter URL of webpage to open:',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xff6A6A6A)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: context.sgl.ink2),
           ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -84,7 +85,7 @@ class _WebpageActionPageState extends State<WebpageActionPage> {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Text(
             'Description',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Color(0xff6A6A6A)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: context.sgl.ink2),
           ),
         ),
         Padding(

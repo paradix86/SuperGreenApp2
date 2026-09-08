@@ -19,6 +19,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_svg/svg.dart';
@@ -111,7 +112,7 @@ class _ChecklistActionPopupPageState extends State<ChecklistActionPopupPage> {
         title: 'All set!',
         child: Icon(
           Icons.check,
-          color: Color(0xff3bb30b),
+          color: context.sgl.accentDeep,
           size: 100,
         ),
       );
@@ -128,7 +129,7 @@ class _ChecklistActionPopupPageState extends State<ChecklistActionPopupPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "Actions (${state.checklistLogs.length})",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff454545)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: context.sgl.ink2),
                 ),
               ),
         _renderRepeat(context, state),
@@ -180,7 +181,7 @@ class _ChecklistActionPopupPageState extends State<ChecklistActionPopupPage> {
                   child: Text(
                     state.checklistSeed.title,
                     maxLines: 3,
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Color(0xff454545)),
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: context.sgl.ink2),
                   ),
                 ),
               ],
@@ -220,9 +221,9 @@ class _ChecklistActionPopupPageState extends State<ChecklistActionPopupPage> {
               child: MarkdownBody(
                 data: state.checklistSeed.description,
                 styleSheet: MarkdownStyleSheet(
-                  p: TextStyle(color: Color(0xff454545), fontSize: 15),
-                  h1: TextStyle(color: Color(0xff454545), fontSize: 17, fontWeight: FontWeight.bold),
-                  h2: TextStyle(color: Color(0xff454545), fontSize: 16, fontWeight: FontWeight.bold),
+                  p: TextStyle(color: context.sgl.ink2, fontSize: 15),
+                  h1: TextStyle(color: context.sgl.ink2, fontSize: 17, fontWeight: FontWeight.bold),
+                  h2: TextStyle(color: context.sgl.ink2, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -230,7 +231,7 @@ class _ChecklistActionPopupPageState extends State<ChecklistActionPopupPage> {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Text(
                 'Trigger conditions',
-                style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff3bb30b)),
+                style: TextStyle(fontWeight: FontWeight.bold, color: context.sgl.accentDeep),
               ),
             ),
             ...conditions.map((c) {
@@ -239,7 +240,7 @@ class _ChecklistActionPopupPageState extends State<ChecklistActionPopupPage> {
                   vertical: 8.0,
                 ),
                 child: Text((conditions.indexOf(c) != 0 ? 'AND ' : '') + c.asSentence,
-                    style: TextStyle(color: Color(0xff454545))),
+                    style: TextStyle(color: context.sgl.ink2)),
               );
             }).toList(),
             exitConditions.length == 0 ? Container() : Column(
@@ -249,7 +250,7 @@ class _ChecklistActionPopupPageState extends State<ChecklistActionPopupPage> {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     'Exit conditions',
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff3bb30b)),
+                    style: TextStyle(fontWeight: FontWeight.bold, color: context.sgl.accentDeep),
                   ),
                 ),
                 ...exitConditions.map((a) {
@@ -269,7 +270,7 @@ class _ChecklistActionPopupPageState extends State<ChecklistActionPopupPage> {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
                     'Actions',
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff3bb30b)),
+                    style: TextStyle(fontWeight: FontWeight.bold, color: context.sgl.accentDeep),
                   ),
                 ),
                 ...actions.map((a) {

@@ -18,6 +18,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/data/api/backend/products/models.dart';
@@ -162,7 +163,7 @@ class _PlantInfosPageState extends State<PlantInfosPage> {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
         child: Text('Life event dates',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Color(0xFF494949))),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: context.sgl.ink2)),
       ),
       PlantInfosWidget(
           color: Color.fromARGB(255, 45, 117, 17),
@@ -303,7 +304,7 @@ class _PlantInfosPageState extends State<PlantInfosPage> {
             padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
             child: Container(
                 decoration: BoxDecoration(
-                    color: Color(0xff063047),
+                    color: context.sgl.ink,
                     borderRadius: BorderRadius.circular(2),
                     border: Border.all(color: Colors.white)),
                 child: Padding(

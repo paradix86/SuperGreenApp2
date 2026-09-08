@@ -19,6 +19,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/l10n.dart';
@@ -85,7 +86,7 @@ class _RefreshParametersPageState extends State<RefreshParametersPage> {
               body = Fullscreen(
                 title: 'Error',
                 subtitle: 'Check your wifi connection and try again.',
-                child: Icon(Icons.error, color: Color(0xff3bb30b), size: 100),
+                child: Icon(Icons.error, color: context.sgl.accentDeep, size: 100),
               );
             } else if (state is RefreshParametersBlocStateRefreshing) {
               body = FullscreenLoading(
@@ -102,9 +103,6 @@ class _RefreshParametersPageState extends State<RefreshParametersPage> {
               child: Scaffold(
                   appBar: SGLAppBar(
                     'Refresh parameters',
-                    backgroundColor: Color(0xff0b6ab3),
-                    titleColor: Colors.white,
-                    iconColor: Colors.white,
                     hideBackButton: state is RefreshParametersBlocStateDone,
                   ),
                   body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body)),
@@ -116,7 +114,7 @@ class _RefreshParametersPageState extends State<RefreshParametersPage> {
   Widget _renderRefreshDone(RefreshParametersBlocStateRefreshed state) {
     String subtitle = RefreshParametersPage.refreshParametersPageControllerRefreshed(state.device.name);
     return Fullscreen(
-        title: CommonL10N.done, subtitle: subtitle, child: Icon(Icons.done, color: Color(0xff0bb354), size: 100));
+        title: CommonL10N.done, subtitle: subtitle, child: Icon(Icons.done, color: context.sgl.accentDeep, size: 100));
   }
 
   @override

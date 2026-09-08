@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:intl/intl.dart';
@@ -139,9 +140,6 @@ class _SettingsDeviceAuthPageState extends State<SettingsDeviceAuthPage> {
             return Scaffold(
                 appBar: SGLAppBar(
                   'Password lock',
-                  backgroundColor: Color(0xff0b6ab3),
-                  titleColor: Colors.white,
-                  iconColor: Colors.white,
                   hideBackButton: state is SettingsDeviceAuthBlocStateDoneAuth,
                 ),
                 body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
@@ -152,7 +150,7 @@ class _SettingsDeviceAuthPageState extends State<SettingsDeviceAuthPage> {
   Widget _renderDoneAuth(SettingsDeviceAuthBlocStateDoneAuth state) {
     String subtitle = SettingsDeviceAuthPage.settingsDeviceAuthPageControllerDone(state.device.name);
     return Fullscreen(
-        title: CommonL10N.done, subtitle: subtitle, child: Icon(Icons.done, color: Color(0xff0bb354), size: 100));
+        title: CommonL10N.done, subtitle: subtitle, child: Icon(Icons.done, color: context.sgl.accentDeep, size: 100));
   }
 
   Widget _renderNeedsUpgrade(BuildContext context, SettingsDeviceAuthBlocStateLoaded state) {
@@ -160,8 +158,6 @@ class _SettingsDeviceAuthPageState extends State<SettingsDeviceAuthPage> {
       SectionTitle(
         title: 'Controller access control',
         icon: 'assets/settings/icon_lock.svg',
-        backgroundColor: Color(0xff0b6ab3),
-        titleColor: Colors.white,
         elevation: 5,
       ),
       Expanded(
@@ -243,8 +239,6 @@ class _SettingsDeviceAuthPageState extends State<SettingsDeviceAuthPage> {
             child: SectionTitle(
               title: 'Enter old password',
               icon: 'assets/settings/icon_lock.svg',
-              backgroundColor: Color(0xff0b6ab3),
-              titleColor: Colors.white,
               elevation: 5,
             ),
           ),
@@ -256,7 +250,7 @@ class _SettingsDeviceAuthPageState extends State<SettingsDeviceAuthPage> {
                         fontWeight: FontWeight.w300,
                         fontStyle: FontStyle.italic,
                         fontSize: 13,
-                        color: Colors.red,
+                        color: context.sgl.crit,
                       )),
                 )
               : Container(),
@@ -301,8 +295,6 @@ class _SettingsDeviceAuthPageState extends State<SettingsDeviceAuthPage> {
             child: SectionTitle(
               title: 'Enter new password',
               icon: 'assets/settings/icon_lock.svg',
-              backgroundColor: Color(0xff0b6ab3),
-              titleColor: Colors.white,
               elevation: 5,
             ),
           ),
@@ -313,8 +305,6 @@ class _SettingsDeviceAuthPageState extends State<SettingsDeviceAuthPage> {
       SectionTitle(
         title: 'Controller access control',
         icon: 'assets/settings/icon_lock.svg',
-        backgroundColor: Color(0xff0b6ab3),
-        titleColor: Colors.white,
         elevation: 5,
       ),
       Row(
@@ -339,7 +329,7 @@ class _SettingsDeviceAuthPageState extends State<SettingsDeviceAuthPage> {
               fontWeight: FontWeight.w300,
               fontStyle: FontStyle.italic,
               fontSize: 13,
-              color: Colors.red,
+              color: context.sgl.crit,
             )),
       ),
       Row(

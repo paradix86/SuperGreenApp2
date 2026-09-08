@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:super_green_app/data/assets/checklist.dart';
@@ -144,7 +145,7 @@ class ChecklistItemPage extends StatelessWidget {
                 ),
                 child: Icon(
                   Icons.delete,
-                  color: Color(0xff606060),
+                  color: context.sgl.ink2,
                 ),
               )),
           onSelect == null ? Container() : InkWell(
@@ -156,7 +157,7 @@ class ChecklistItemPage extends StatelessWidget {
                 ),
                 child: Icon(
                   Icons.settings,
-                  color: Color(0xff606060),
+                  color: context.sgl.ink2,
                 ),
               )),
         ],
@@ -176,13 +177,13 @@ class ChecklistItemPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: Text(
                     'From collection: ${collection!.title}',
-                    style: TextStyle(color: Color(0xff606060), fontWeight: FontWeight.bold),
+                    style: TextStyle(color: context.sgl.ink2, fontWeight: FontWeight.bold),
                   ),
                 ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text('Tap to view details', style: TextStyle(color: Color(0xffababab))),
+              Text('Tap to view details', style: TextStyle(color: context.sgl.ink3)),
             ],
           ),
         ],

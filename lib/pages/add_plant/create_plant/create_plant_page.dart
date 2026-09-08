@@ -19,6 +19,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
@@ -148,9 +149,6 @@ class CreatePlantPageState extends State<CreatePlantPage> {
                   '🍁',
                   fontSize: 40,
                   hideBackButton: state is CreatePlantBlocStateDone,
-                  backgroundColor: Color(0xff0bb354),
-                  titleColor: Colors.white,
-                  iconColor: Colors.white,
                 ),
                 body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
           }),
@@ -160,7 +158,7 @@ class CreatePlantPageState extends State<CreatePlantPage> {
   Widget _renderDone(CreatePlantBlocStateDone state) {
     String subtitle = CreatePlantPage.createPlantPageDoneMessage(_nameController.value.text, state.box.name);
     return Fullscreen(
-        title: CommonL10N.done, subtitle: subtitle, child: Icon(Icons.done, color: Color(0xff0bb354), size: 100));
+        title: CommonL10N.done, subtitle: subtitle, child: Icon(Icons.done, color: context.sgl.accentDeep, size: 100));
   }
 
   Widget _renderForm() {
@@ -169,15 +167,13 @@ class CreatePlantPageState extends State<CreatePlantPage> {
         AnimatedContainer(
           duration: Duration(milliseconds: 100),
           height: _keyboardVisible ? 0 : 100,
-          color: Color(0xff0bb354),
+          color: context.sgl.accentDeep,
         ),
         Expanded(
           child: ListView(children: [
             SectionTitle(
               title: CreatePlantPage.createPlantPageNameLabel,
               icon: 'assets/box_setup/icon_box_name.svg',
-              backgroundColor: Color(0xff0bb354),
-              titleColor: Colors.white,
               large: true,
               elevation: 5,
             ),
@@ -193,8 +189,6 @@ class CreatePlantPageState extends State<CreatePlantPage> {
             SectionTitle(
               title: CreatePlantPage.createPlantPageSinglePlantDiarySectionTitle,
               icon: 'assets/settings/icon_plants.svg',
-              backgroundColor: Color(0xff0bb354),
-              titleColor: Colors.white,
               elevation: 5,
             ),
             _renderOptionCheckbx(context, CreatePlantPage.createPlantPageSinglePlantDiaryLabel, (bool? newValue) {
@@ -232,7 +226,7 @@ class CreatePlantPageState extends State<CreatePlantPage> {
           child: MarkdownBody(
             fitContent: true,
             data: text,
-            styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 14)),
+            styleSheet: MarkdownStyleSheet(p: TextStyle(color: context.sgl.ink2, fontSize: 14)),
           ),
         ),
       ],

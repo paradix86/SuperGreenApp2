@@ -18,6 +18,7 @@
 
 import 'package:crisp_chat/crisp_chat.dart';
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/data/rel/checklist/actions.dart';
@@ -79,7 +80,7 @@ class _AppbarChecklistPageState extends State<AppbarChecklistPage> {
             children: [
               Text(
                 "Nothing for today. 👌",
-                style: TextStyle(fontWeight: FontWeight.w300, fontSize: 18, color: Color(0xff454545)),
+                style: TextStyle(fontWeight: FontWeight.w300, fontSize: 18, color: context.sgl.ink2),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -95,7 +96,7 @@ class _AppbarChecklistPageState extends State<AppbarChecklistPage> {
       children: [
         Text(
           "Your checklist is empty.\n\nPress the button below to start using it.",
-          style: TextStyle(fontWeight: FontWeight.w300, fontSize: 18, color: Color(0xff454545)),
+          style: TextStyle(fontWeight: FontWeight.w300, fontSize: 18, color: context.sgl.ink2),
           textAlign: TextAlign.center,
         ),
         Padding(
@@ -175,7 +176,7 @@ class _AppbarChecklistPageState extends State<AppbarChecklistPage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 10.0, right: 8.0),
                   child:
-                      Text('SUPPORT', style: TextStyle(color: Color(0xff3bb30b), decoration: TextDecoration.underline)),
+                      Text('SUPPORT', style: TextStyle(color: context.sgl.accentDeep, decoration: TextDecoration.underline)),
                 ),
               ],
             )),
@@ -193,7 +194,7 @@ class _AppbarChecklistPageState extends State<AppbarChecklistPage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 10.0, right: 8.0),
                   child: Text('CHECKLIST (${state.nPendingLogs})',
-                      style: TextStyle(color: Color(0xff3bb30b), decoration: TextDecoration.underline)),
+                      style: TextStyle(color: context.sgl.accentDeep, decoration: TextDecoration.underline)),
                 ),
               ],
             )),

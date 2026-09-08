@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 
 class SingleFeedEntry extends StatelessWidget {
   final String title;
@@ -30,7 +31,7 @@ class SingleFeedEntry extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        color: Color(0xff3bb30b),
+        color: context.sgl.accentDeep,
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 16.0, top: 8.0),
           child: Column(

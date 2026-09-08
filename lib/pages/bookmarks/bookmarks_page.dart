@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/bookmarks/bookmarks_bloc.dart';
@@ -61,8 +62,6 @@ class _BookmarksPageState extends State<BookmarksPage> {
               appBar: SGLAppBar(
                 'Bookmarks',
                 backgroundColor: Colors.deepPurple,
-                titleColor: Colors.yellow,
-                iconColor: Colors.white,
                 elevation: 10,
               ),
               body: body);
@@ -87,7 +86,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
             IconButton(
               icon: Text(
                 'Open plant',
-                style: TextStyle(fontSize: 12.0, color: Color(0xff3bb30b), fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 12.0, color: context.sgl.accentDeep, fontWeight: FontWeight.bold),
               ),
               onPressed: () {
                 BlocProvider.of<MainNavigatorBloc>(context)
@@ -106,7 +105,7 @@ class _BookmarksPageState extends State<BookmarksPage> {
       subtitle: 'You can add important diary entries here, checkout the plant diaries to add some now!',
       child: Icon(
         Icons.bookmark,
-        color: Color(0xff3bb30b),
+        color: context.sgl.accentDeep,
         size: 100,
       ),
     );

@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:super_green_app/data/assets/feed_entry.dart';
@@ -125,7 +126,7 @@ class FeedTowelieInfoCardPage extends StatelessWidget {
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         padding: MaterialStateProperty.resolveWith((states) => EdgeInsets.all(0)),
       ),
-      child: Text(button.title.toUpperCase(), style: TextStyle(color: Colors.blue, fontSize: 12)),
+      child: Text(button.title.toUpperCase(), style: TextStyle(color: context.sgl.info, fontSize: 12)),
       onPressed: () {
         BlocProvider.of<TowelieBloc>(context)
             .add(TowelieBlocEventButtonPressed(context, button.params, feed: state.feedID, feedEntry: state.feedEntryID));
@@ -137,7 +138,7 @@ class FeedTowelieInfoCardPage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 24.0, bottom: 24),
       child: Text('➡️ ${button.title.toUpperCase()}',
-          style: TextStyle(color: Color(0xff565656), fontSize: 12, fontWeight: FontWeight.bold)),
+          style: TextStyle(color: context.sgl.ink2, fontSize: 12, fontWeight: FontWeight.bold)),
     );
   }
 }

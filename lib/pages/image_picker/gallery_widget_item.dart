@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:media_picker_builder/data/media_file.dart';
 import 'package:media_picker_builder/media_picker_builder.dart';
 import 'package:provider/provider.dart';
@@ -90,7 +91,7 @@ class GalleryWidgetItemState extends State<GalleryWidgetItem> {
                         ),
                       );
                     } else if (snapshot.hasError) {
-                      return Icon(Icons.error, color: Colors.red, size: 24);
+                      return Icon(Icons.error, color: context.sgl.crit, size: 24);
                     } else {
                       return Center(
                         child: SizedBox(width: 30, height: 30, child: CircularProgressIndicator()),

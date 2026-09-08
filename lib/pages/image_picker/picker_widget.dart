@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:media_picker_builder/data/album.dart';
 import 'package:media_picker_builder/data/media_file.dart';
 import 'package:media_picker_builder/media_picker_builder.dart';
@@ -102,7 +103,7 @@ class PickerWidgetState extends State<PickerWidget> {
                       style: ButtonStyle(
                         padding: MaterialStateProperty.resolveWith((states) => EdgeInsets.all(0)),
                         textStyle: MaterialStateProperty.resolveWith((states) => TextStyle(
-                              color: Colors.blue,
+                              color: context.sgl.info,
                             )),
                       ),
                       onPressed: () => widget.onCancel(),
@@ -118,7 +119,7 @@ class PickerWidgetState extends State<PickerWidget> {
                           style: ButtonStyle(
                             padding: MaterialStateProperty.resolveWith((states) => EdgeInsets.all(0)),
                             textStyle: MaterialStateProperty.resolveWith((states) => TextStyle(
-                                  color: Colors.blue,
+                                  color: context.sgl.info,
                                 )),
                           ),
                           onPressed: () => widget.onDone(_selector.selectedItems),

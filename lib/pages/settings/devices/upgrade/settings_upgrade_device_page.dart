@@ -19,6 +19,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -96,9 +97,6 @@ class SettingsUpgradeDevicePage extends StatelessWidget {
           return Scaffold(
               appBar: SGLAppBar(
                 'Firmware update',
-                backgroundColor: Color(0xff0b6ab3),
-                titleColor: Colors.white,
-                iconColor: Colors.white,
                 hideBackButton: state is SettingsUpgradeDeviceBlocStateUpgradeDone,
               ),
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
@@ -109,7 +107,7 @@ class SettingsUpgradeDevicePage extends StatelessWidget {
 
   Widget renderLoaded(BuildContext context, SettingsUpgradeDeviceBlocStateLoaded state) {
     if (!state.needsUpgrade) {
-      return Fullscreen(title: 'You\'re up to date', child: Icon(Icons.check, color: Color(0xff3bb30b), size: 100));
+      return Fullscreen(title: 'You\'re up to date', child: Icon(Icons.check, color: context.sgl.accentDeep, size: 100));
     }
     return Column(children: <Widget>[
       Expanded(
@@ -117,8 +115,6 @@ class SettingsUpgradeDevicePage extends StatelessWidget {
         SectionTitle(
           title: 'Upgrade available',
           icon: 'assets/settings/icon_upgrade.svg',
-          backgroundColor: Color(0xff0b6ab3),
-          titleColor: Colors.white,
           elevation: 5,
         ),
         Padding(
@@ -147,7 +143,7 @@ class SettingsUpgradeDevicePage extends StatelessWidget {
 
   Widget renderUpgradeDone(BuildContext context, SettingsUpgradeDeviceBlocStateUpgradeDone state) {
     String subtitle = 'Controller upgraded!';
-    return Fullscreen(title: 'Done!', subtitle: subtitle, child: Icon(Icons.done, color: Color(0xff0bb354), size: 100));
+    return Fullscreen(title: 'Done!', subtitle: subtitle, child: Icon(Icons.done, color: context.sgl.accentDeep, size: 100));
   }
 
   Widget renderError(BuildContext context, SettingsUpgradeDeviceBlocStateUpgradeError state) {
@@ -167,6 +163,6 @@ class SettingsUpgradeDevicePage extends StatelessWidget {
         break;
     }
     return Fullscreen(
-        title: 'Error', subtitle: subtitle, child: Icon(Icons.error, color: Color(0xff3bb30b), size: 100));
+        title: 'Error', subtitle: subtitle, child: Icon(Icons.error, color: context.sgl.accentDeep, size: 100));
   }
 }

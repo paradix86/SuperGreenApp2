@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:super_green_app/data/assets/feed_entry.dart';
@@ -103,7 +104,7 @@ class _PlantFeedFilterPageState extends State<PlantFeedFilterPage> {
                             style: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 16,
-                              color: Color(0xff454545),
+                              color: context.sgl.ink2,
                             )),
                       ),
                     ],
@@ -145,7 +146,7 @@ class _PlantFeedFilterPageState extends State<PlantFeedFilterPage> {
               'Select all',
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.blue,
+                color: context.sgl.info,
                 decoration: TextDecoration.underline,
               ),
             ),
@@ -166,7 +167,7 @@ class _PlantFeedFilterPageState extends State<PlantFeedFilterPage> {
               'Clear all',
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.blue,
+                color: context.sgl.info,
                 decoration: TextDecoration.underline,
               ),
             ),

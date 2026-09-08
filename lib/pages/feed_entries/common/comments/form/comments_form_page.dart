@@ -20,6 +20,7 @@ import 'dart:async';
 
 import 'package:animated_size_and_fade/animated_size_and_fade.dart';
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/data/api/backend/backend_api.dart';
@@ -323,7 +324,7 @@ class _CommentsFormPageState extends State<CommentsFormPage> {
           child: Text(CommentsFormPage.commentsFormPagePleaseLogin,
               style: TextStyle(
                   fontSize: 15.0,
-                  color: Colors.blue,
+                  color: context.sgl.info,
                   fontWeight: FontWeight.bold,
                   decoration: TextDecoration.underline)),
         )),
@@ -346,14 +347,14 @@ class _CommentsFormPageState extends State<CommentsFormPage> {
               Text(
                 CommentsFormPage.commentsFormPageReplyingTo,
                 style: TextStyle(
-                  color: Color(0xff474747),
+                  color: context.sgl.ink2,
                   fontSize: 16,
                 ),
               ),
               Text(
                 (replyToDisplay ?? replyTo)!.from,
                 style: TextStyle(
-                  color: Color(0xff474747),
+                  color: context.sgl.ink2,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -378,7 +379,7 @@ class _CommentsFormPageState extends State<CommentsFormPage> {
               overflow: TextOverflow.fade,
               maxLines: 3,
               style: TextStyle(
-                color: Color(0xff474747),
+                color: context.sgl.ink2,
                 fontSize: 15,
                 fontStyle: FontStyle.italic,
               ),
@@ -444,7 +445,7 @@ class _CommentsFormPageState extends State<CommentsFormPage> {
       Widget name = Text(
         commentType!['prompt']!,
         style: TextStyle(
-          color: Color(0xff474747),
+          color: context.sgl.ink2,
           fontSize: 16,
         ),
       );
@@ -601,7 +602,7 @@ class _CommentsFormPageState extends State<CommentsFormPage> {
               Text(
                 commentType['name']!,
                 style: TextStyle(
-                    color: Color(0xff474747),
+                    color: context.sgl.ink2,
                     fontSize: 16,
                     fontWeight: this.type == type ? FontWeight.bold : FontWeight.normal),
               ),
@@ -611,7 +612,7 @@ class _CommentsFormPageState extends State<CommentsFormPage> {
                 decoration: BoxDecoration(
                     border: Border.all(
                         width: this.type == type ? 2 : 1,
-                        color: this.type == type ? Color(0xff3bb30b) : Color(0xffbdbdbd)),
+                        color: this.type == type ? context.sgl.accentDeep : Color(0xffbdbdbd)),
                     borderRadius: BorderRadius.all(Radius.circular(25))),
                 child: Image.asset(commentType['pic']!, width: 25, height: 25),
               ),

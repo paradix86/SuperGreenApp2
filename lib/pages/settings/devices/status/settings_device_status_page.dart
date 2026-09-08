@@ -33,12 +33,9 @@ import 'package:super_green_app/widgets/section_title.dart';
 import 'package:super_green_app/widgets/sgl/sgl_card.dart';
 
 class SettingsDeviceStatusPage extends StatelessWidget {
-  static const Color WARNING_TEXT = Color(0xff8a5a00);
   static const Color WARNING_BACKGROUND = Color(0xfffff0cc);
   static const Color OK_TEXT = Color(0xff2f6f2f);
   static const Color OK_BACKGROUND = Color(0xffdcf4dc);
-  static const Color APPBAR_COLOR = Color(0xff0b6ab3);
-  static const Color LABEL_COLOR = Color(0xff565656);
 
   static const int BYTES_PER_KB = 1024;
   static const int SECONDS_PER_MINUTE = 60;
@@ -366,9 +363,6 @@ class SettingsDeviceStatusPage extends StatelessWidget {
         return Scaffold(
           appBar: SGLAppBar(
             settingsDeviceStatusPageTitle,
-            backgroundColor: APPBAR_COLOR,
-            titleColor: Colors.white,
-            iconColor: Colors.white,
             actions: [
               IconButton(
                 icon: Icon(Icons.refresh),
@@ -464,8 +458,6 @@ class SettingsDeviceStatusPage extends StatelessWidget {
     return SectionTitle(
       title: title,
       icon: icon,
-      backgroundColor: APPBAR_COLOR,
-      titleColor: Colors.white,
       elevation: 5,
     );
   }

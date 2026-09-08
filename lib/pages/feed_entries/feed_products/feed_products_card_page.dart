@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_svg/svg.dart';
@@ -156,7 +157,7 @@ class FeedProductsCardPage extends StatelessWidget {
                   MarkdownBody(
                       data: product.description,
                       styleSheet:
-                          MarkdownStyleSheet(strong: TextStyle(), p: TextStyle(color: Color(0xff454545), fontSize: 14))),
+                          MarkdownStyleSheet(strong: TextStyle(), p: TextStyle(color: context.sgl.ink2, fontSize: 14))),
                 ],
               ),
             ),
@@ -174,7 +175,7 @@ class FeedProductsCardPage extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                     textAlign: TextAlign.center,
                   ),
-                  Text(FeedProductsCardPage.feedProductsCardPageViewButton, style: TextStyle(color: Colors.blue)),
+                  Text(FeedProductsCardPage.feedProductsCardPageViewButton, style: TextStyle(color: context.sgl.info)),
                 ],
               ),
               onPressed: () async {
@@ -211,7 +212,7 @@ class FeedProductsCardPage extends StatelessWidget {
           bool selected = sg == feedState!.storeGeo;
           return TextButton(
             child: Text(_storeGeoNames[sg]!,
-                style: TextStyle(color: sg == feedState!.storeGeo ? Colors.black : Colors.blue)),
+                style: TextStyle(color: sg == feedState!.storeGeo ? Colors.black : context.sgl.info)),
             onPressed: selected
                 ? null
                 : () async {
@@ -234,7 +235,7 @@ class FeedProductsCardPage extends StatelessWidget {
 
   Widget _renderButton(BuildContext context, FeedProductsButtonParams button) {
     return TextButton(
-      child: Text(button.title.toUpperCase(), style: TextStyle(color: Colors.blue, fontSize: 12)),
+      child: Text(button.title.toUpperCase(), style: TextStyle(color: context.sgl.info, fontSize: 12)),
       onPressed: () {
         BlocProvider.of<TowelieBloc>(context)
             .add(TowelieBlocEventButtonPressed(context, button.params, feed: state.feedID, feedEntry: state.feedEntryID));
@@ -246,7 +247,7 @@ class FeedProductsCardPage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 24.0, bottom: 24),
       child: Text('➡️ ${button.title.toUpperCase()}',
-          style: TextStyle(color: Color(0xff565656), fontSize: 12, fontWeight: FontWeight.bold)),
+          style: TextStyle(color: context.sgl.ink2, fontSize: 12, fontWeight: FontWeight.bold)),
     );
   }
 }

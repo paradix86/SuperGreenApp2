@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
 import 'package:super_green_app/widgets/red_button.dart';
 import 'package:webview_flutter_plus/webview_flutter_plus.dart';
@@ -70,7 +71,6 @@ class _CaptchaState extends State<Captcha> {
         children: [
           webview,
           FullscreenLoading(
-            backgroundColor: Colors.white,
           ),
         ],
       );
@@ -82,7 +82,7 @@ class _CaptchaState extends State<Captcha> {
             padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
             child: Text(
               '🔐 Device verification',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xff454545)),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: context.sgl.ink2),
             ),
           ),
         ),

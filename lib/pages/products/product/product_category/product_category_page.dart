@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -91,7 +92,7 @@ class _ProductTypePageState extends State<ProductTypePage> {
                                 height: 50,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
-                                    border: selectedCategory == name ? Border.all(color: Colors.green) : null,
+                                    border: selectedCategory == name ? Border.all(color: context.sgl.accentDeep) : null,
                                     borderRadius:
                                         selectedCategory == name ? BorderRadius.all(Radius.circular(25)) : null),
                                 child: SvgPicture.asset(categoryUI.icon)),
@@ -131,9 +132,7 @@ class _ProductTypePageState extends State<ProductTypePage> {
               appBar: SGLAppBar(
                 '🛠',
                 fontSize: 40,
-                backgroundColor: Color(0xff0EA9DA),
-                titleColor: Colors.white,
-                iconColor: Colors.white,
+                backgroundColor: context.sgl.info,
               ),
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
         },

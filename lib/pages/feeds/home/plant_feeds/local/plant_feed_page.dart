@@ -396,9 +396,6 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
                       ? SGLAppBar(
                           PlantFeedPage.plantFeedPageTitle,
                           fontSize: 20,
-                          backgroundColor: Color(0xff063047),
-                          titleColor: Colors.white,
-                          iconColor: Colors.white,
                         )
                       : null,
                   drawer: Drawer(
@@ -751,7 +748,7 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
         child: FeedPage(
           automaticallyImplyLeading: true,
           single: state.feedEntry != null,
-          color: Color(0xff063047),
+          color: context.sgl.ink,
           actions: actions,
           bottomPadding: true,
           titleWidget: _renderName(context, state),
@@ -778,7 +775,7 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
       Center(
           child: Column(children: [
-        Icon(Icons.delete, color: Colors.grey, size: 100),
+        Icon(Icons.delete, color: context.sgl.ink3, size: 100),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Text(PlantFeedPage.plantFeedPageArchived, style: Theme.of(context).textTheme.bodyLarge),

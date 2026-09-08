@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:super_green_app/widgets/fullscreen.dart';
 
 class FullscreenLoading extends StatelessWidget {
@@ -59,7 +60,7 @@ class FullscreenLoading extends StatelessWidget {
                   Text(
                     circleText ?? '${(percent! * 100).toInt()}%',
                     style: TextStyle(
-                        fontWeight: FontWeight.w900, fontSize: fontSize, color: textColor ?? Color(0xffababab)),
+                        fontWeight: FontWeight.w900, fontSize: fontSize, color: textColor ?? context.sgl.ink3),
                     textAlign: TextAlign.center,
                   ),
                 ],

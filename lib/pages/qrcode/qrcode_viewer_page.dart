@@ -45,9 +45,6 @@ class _QRCodeViewerPageState extends State<QRCodeViewerPage> {
           return Scaffold(
               appBar: SGLAppBar(
                 'QR Code',
-                backgroundColor: Color(0xff063047),
-                titleColor: Colors.white,
-                iconColor: Colors.white,
               ),
               body: body);
         });

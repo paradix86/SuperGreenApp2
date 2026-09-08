@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_svg/svg.dart';
@@ -126,7 +127,7 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
                 title: CommonL10N.done,
                 child: Icon(
                   Icons.check,
-                  color: Color(0xff3bb30b),
+                  color: context.sgl.accentDeep,
                   size: 100,
                 ),
               );
@@ -165,9 +166,6 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
               child: Scaffold(
                   appBar: SGLAppBar(
                     SettingsPlantAlertsPage.settingsPlantAlertPageTitle,
-                    backgroundColor: Color(0xff0bb354),
-                    titleColor: Colors.white,
-                    iconColor: Colors.white,
                     hideBackButton: state is SettingsPlantAlertsBlocStateDone,
                   ),
                   body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body)),
@@ -188,7 +186,7 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
         child: MarkdownBody(
           fitContent: true,
           data: SettingsPlantAlertsPage.settingsPlantAlertPageInstructions,
-          styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 16)),
+          styleSheet: MarkdownStyleSheet(p: TextStyle(color: context.sgl.ink2, fontSize: 16)),
         ),
       ),
       Padding(
@@ -209,7 +207,6 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
           title: 'Day alert settings',
           icon: 'assets/settings/icon_day_alerts.svg',
           backgroundColor: Color(0xffd8d23f),
-          titleColor: Colors.white,
           large: true,
         ),
         Padding(
@@ -217,7 +214,7 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
           child: MarkdownBody(
             fitContent: true,
             data: SettingsPlantAlertsPage.settingsDayAlertPageInstructions,
-            styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 16)),
+            styleSheet: MarkdownStyleSheet(p: TextStyle(color: context.sgl.ink2, fontSize: 16)),
           ),
         ),
         renderParameters(
@@ -257,7 +254,6 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
         SectionTitle(
           title: 'Night alert settings',
           icon: 'assets/settings/icon_night_alerts.svg',
-          titleColor: Colors.white,
           backgroundColor: Color(0xff36649a),
           large: true,
         ),
@@ -266,7 +262,7 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
           child: MarkdownBody(
             fitContent: true,
             data: SettingsPlantAlertsPage.settingsNightAlertPageInstructions,
-            styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 16)),
+            styleSheet: MarkdownStyleSheet(p: TextStyle(color: context.sgl.ink2, fontSize: 16)),
           ),
         ),
         renderParameters(
@@ -310,8 +306,6 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
         SectionTitle(
           title: SettingsPlantAlertsPage.settingsPlantAlertPageSectionTitle,
           icon: 'assets/settings/icon_alerts.svg',
-          backgroundColor: Color(0xff0bb354),
-          titleColor: Colors.white,
           large: true,
           elevation: 5,
         ),
@@ -453,7 +447,7 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
               child: MarkdownBody(
                 fitContent: true,
                 data: text,
-                styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 14)),
+                styleSheet: MarkdownStyleSheet(p: TextStyle(color: context.sgl.ink2, fontSize: 14)),
               ),
             ),
           ),
@@ -475,7 +469,7 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
       title: 'Unknown error',
       child: Icon(
         Icons.error,
-        color: Colors.red,
+        color: context.sgl.crit,
       ),
     );
   }

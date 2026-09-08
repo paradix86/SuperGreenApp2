@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
@@ -121,9 +122,6 @@ class _SettingsPlantPageState extends State<SettingsPlantPage> {
                   appBar: SGLAppBar(
                     '🍁',
                     fontSize: 40,
-                    backgroundColor: Color(0xff0bb354),
-                    titleColor: Colors.white,
-                    iconColor: Colors.white,
                     hideBackButton: state is SettingsPlantBlocStateDone,
                   ),
                   body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body)),
@@ -139,7 +137,7 @@ class _SettingsPlantPageState extends State<SettingsPlantPage> {
     } else {
       subtitle = 'Plant ${_nameController.value.text} on lab ${_box.name} updated:)';
     }
-    return Fullscreen(title: 'Done!', subtitle: subtitle, child: Icon(Icons.done, color: Color(0xff0bb354), size: 100));
+    return Fullscreen(title: 'Done!', subtitle: subtitle, child: Icon(Icons.done, color: context.sgl.accentDeep, size: 100));
   }
 
   Widget _renderForm(BuildContext context, SettingsPlantBlocStateLoaded state) {
@@ -151,8 +149,6 @@ class _SettingsPlantPageState extends State<SettingsPlantPage> {
               SectionTitle(
                 title: 'Plant name',
                 icon: 'assets/box_setup/icon_box_name.svg',
-                backgroundColor: Color(0xff0bb354),
-                titleColor: Colors.white,
                 elevation: 5,
               ),
               Padding(
@@ -181,7 +177,7 @@ class _SettingsPlantPageState extends State<SettingsPlantPage> {
                 },
               ),
               ListTile(
-                leading: SvgPicture.asset('assets/home/icon_qrcode.svg', color: Color(0xff454545), width: 35, height: 35,),
+                leading: SvgPicture.asset('assets/home/icon_qrcode.svg', color: context.sgl.ink2, width: 35, height: 35,),
                 title: Text('QR Code'),
                 subtitle: Text('Tap to see the qr code for this plant'),
                 onTap: () {
@@ -191,8 +187,6 @@ class _SettingsPlantPageState extends State<SettingsPlantPage> {
               SectionTitle(
                 title: 'Plant lab',
                 icon: 'assets/settings/icon_lab.svg',
-                backgroundColor: Colors.yellow,
-                titleColor: Colors.green,
                 elevation: 5,
               ),
               ListTile(
@@ -207,8 +201,7 @@ class _SettingsPlantPageState extends State<SettingsPlantPage> {
               SectionTitle(
                 title: 'Archive plant',
                 icon: 'assets/settings/icon_archive.svg',
-                backgroundColor: Colors.red,
-                titleColor: Colors.white,
+                backgroundColor: context.sgl.crit,
                 elevation: 5,
               ),
               Padding(
@@ -281,7 +274,7 @@ class _SettingsPlantPageState extends State<SettingsPlantPage> {
               child: MarkdownBody(
                 fitContent: true,
                 data: text,
-                styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 14)),
+                styleSheet: MarkdownStyleSheet(p: TextStyle(color: context.sgl.ink2, fontSize: 14)),
               ),
             ),
           ),
@@ -356,6 +349,6 @@ class _SettingsPlantPageState extends State<SettingsPlantPage> {
   }
 
   Widget _renderError(BuildContext context, SettingsPlantBlocStateError state) {
-    return Fullscreen(title: state.message, child: Icon(Icons.error, color: Colors.red, size: 100));
+    return Fullscreen(title: state.message, child: Icon(Icons.error, color: context.sgl.crit, size: 100));
   }
 }

@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
@@ -53,9 +54,6 @@ class _TimelapseViewerPageState extends State<TimelapseViewerPage> {
           return Scaffold(
               appBar: SGLAppBar(
                 'Live cam 🎥',
-                backgroundColor: Color(0xff063047),
-                titleColor: Colors.white,
-                iconColor: Colors.white,
               ),
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
         });
@@ -94,7 +92,7 @@ class _TimelapseViewerPageState extends State<TimelapseViewerPage> {
                             ),
                           ),
                           Text('Pictures are uploaded every 10min,\nPlease wait..',
-                              textAlign: TextAlign.center, style: TextStyle(color: Colors.grey)),
+                              textAlign: TextAlign.center, style: TextStyle(color: context.sgl.ink3)),
                         ],
                       ))
                     ],

@@ -19,6 +19,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/data/api/backend/backend_api.dart';
@@ -110,7 +111,7 @@ class _SelectNewProductPageState extends State<SelectNewProductPage> {
                                 children: [
                                   Text('${initialProducts.length} item${initialProducts.length > 1 ? 's' : ''}'),
                                   Text(' in your toolbox',
-                                      style: TextStyle(color: Color(0xff3bb30b), fontWeight: FontWeight.bold)),
+                                      style: TextStyle(color: context.sgl.accentDeep, fontWeight: FontWeight.bold)),
                                 ],
                               ),
                               Row(
@@ -118,14 +119,14 @@ class _SelectNewProductPageState extends State<SelectNewProductPage> {
                                 children: [
                                   Text('${added.length}'),
                                   Text(' added',
-                                      style: TextStyle(color: Color(0xff3bb30b), fontWeight: FontWeight.bold))
+                                      style: TextStyle(color: context.sgl.accentDeep, fontWeight: FontWeight.bold))
                                 ],
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text('${removed.length}'),
-                                  Text(' removed', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold))
+                                  Text(' removed', style: TextStyle(color: context.sgl.crit, fontWeight: FontWeight.bold))
                                 ],
                               ),
                             ],
@@ -210,9 +211,7 @@ class _SelectNewProductPageState extends State<SelectNewProductPage> {
               appBar: SGLAppBar(
                 '🛠',
                 fontSize: 40,
-                backgroundColor: Color(0xff0EA9DA),
-                titleColor: Colors.white,
-                iconColor: Colors.white,
+                backgroundColor: context.sgl.info,
                 hideBackButton: state is SelectNewProductBlocStateCreatingProduct,
               ),
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
@@ -303,17 +302,17 @@ class _SelectNewProductPageState extends State<SelectNewProductPage> {
         subtitle.addAll([
           Row(children: [
             Text('by '),
-            Text(p.specs!.by!, style: TextStyle(color: Color(0xff3bb30b))),
+            Text(p.specs!.by!, style: TextStyle(color: context.sgl.accentDeep)),
           ]),
         ]);
       }
       Color iconColor = Color(0xffececec);
       if (contains(added, p)) {
-        iconColor = Color(0xff3bb30b);
+        iconColor = context.sgl.accentDeep;
       } else if (contains(removed, p)) {
-        iconColor = Colors.red;
+        iconColor = context.sgl.crit;
       } else if (contains(initialProducts, p)) {
-        iconColor = Colors.green.shade100;
+        iconColor = context.sgl.accentSoft;
       }
       return ListTile(
         onTap: () {
@@ -405,7 +404,7 @@ class _SelectNewProductPageState extends State<SelectNewProductPage> {
       title: 'Done',
       child: Icon(
         Icons.check,
-        color: Color(0xff3bb30b),
+        color: context.sgl.accentDeep,
         size: 100,
       ),
     );

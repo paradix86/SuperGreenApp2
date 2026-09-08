@@ -107,8 +107,6 @@ class SelectBoxPage extends StatelessWidget {
                   SectionTitle(
                     title: 'Select lab below',
                     icon: 'assets/settings/icon_lab.svg',
-                    titleColor: Colors.green,
-                    backgroundColor: Colors.yellow,
                     elevation: 4,
                   ),
                   Expanded(child: _renderBoxList(context, state)),
@@ -120,9 +118,6 @@ class SelectBoxPage extends StatelessWidget {
               appBar: SGLAppBar(
                 '⚗️',
                 fontSize: 35,
-                backgroundColor: Colors.yellow,
-                titleColor: Colors.green,
-                iconColor: Colors.green,
                 elevation: state is SelectBoxBlocStateLoaded && state.boxes.length == 0 ? 4 : 0,
               ),
               body: AnimatedSwitcher(

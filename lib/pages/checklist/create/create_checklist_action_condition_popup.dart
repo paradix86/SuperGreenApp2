@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/pages/checklist/create/create_checklist_section.dart';
 
@@ -73,10 +74,10 @@ abstract class CreateChecklistActionConditionPopup extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(5)),
           border: Border(
-            top: BorderSide(color: Color(0xFFdedede)),
-            left: BorderSide(color: Color(0xFFdedede)),
-            right: BorderSide(color: Color(0xFFdedede)),
-            bottom: BorderSide(color: Color(0xFFdedede)),
+            top: BorderSide(color: context.sgl.line),
+            left: BorderSide(color: context.sgl.line),
+            right: BorderSide(color: context.sgl.line),
+            bottom: BorderSide(color: context.sgl.line),
           ),
         ),
         child: InkWell(

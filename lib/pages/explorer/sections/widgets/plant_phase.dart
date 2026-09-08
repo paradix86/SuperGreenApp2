@@ -68,10 +68,14 @@ class PlantPhase extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
                         )),
-                    Text(germinationText,
-                        style: TextStyle(
-                          fontSize: 15,
-                        )),
+                    Flexible(
+                      child: Text(germinationText,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 15,
+                          )),
+                    ),
                   ],
                 ),
                 phaseTitle != null
@@ -81,7 +85,7 @@ class PlantPhase extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                               )),
-                          Text(bloomingText),
+                          Flexible(child: Text(bloomingText, maxLines: 1, overflow: TextOverflow.ellipsis)),
                         ],
                       )
                     : Container(),

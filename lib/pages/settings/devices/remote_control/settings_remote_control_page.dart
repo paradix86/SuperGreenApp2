@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:intl/intl.dart';
@@ -201,9 +202,6 @@ class _SettingsRemoteControlPageState extends State<SettingsRemoteControlPage> {
             return Scaffold(
                 appBar: SGLAppBar(
                   'Remote control',
-                  backgroundColor: Color(0xff0b6ab3),
-                  titleColor: Colors.white,
-                  iconColor: Colors.white,
                   hideBackButton: state is SettingsRemoteControlBlocStateDonePairing,
                 ),
                 body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
@@ -214,7 +212,7 @@ class _SettingsRemoteControlPageState extends State<SettingsRemoteControlPage> {
   Widget _renderDonePairing() {
     String subtitle = SettingsRemoteControlPage.settingsRemoteControlPageControllerDone(device.name);
     return Fullscreen(
-        title: CommonL10N.done, subtitle: subtitle, child: Icon(Icons.done, color: Color(0xff0bb354), size: 100));
+        title: CommonL10N.done, subtitle: subtitle, child: Icon(Icons.done, color: context.sgl.accentDeep, size: 100));
   }
 
   Widget _renderForm(BuildContext context, SettingsRemoteControlBlocStateLoaded state) {
@@ -222,8 +220,6 @@ class _SettingsRemoteControlPageState extends State<SettingsRemoteControlPage> {
       SectionTitle(
         title: "Remote control setup",
         icon: 'assets/settings/icon_remotecontrol.svg',
-        backgroundColor: Color(0xff0b6ab3),
-        titleColor: Colors.white,
         elevation: 5,
       ),
       Expanded(

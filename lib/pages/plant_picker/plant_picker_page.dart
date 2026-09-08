@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -90,9 +91,6 @@ class _PlantPickerPageState extends State<PlantPickerPage> {
               appBar: SGLAppBar(
                 '🛠',
                 fontSize: 40,
-                backgroundColor: Color(0xff3bb30b),
-                titleColor: Colors.white,
-                iconColor: Colors.white,
               ),
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
         },
@@ -115,7 +113,7 @@ class _PlantPickerPageState extends State<PlantPickerPage> {
                 leading: selectedPlants.contains(plant)
                     ? Icon(
                         Icons.check_box,
-                        color: Colors.green,
+                        color: context.sgl.accentDeep,
                       )
                     : Icon(Icons.crop_square),
                 title: Text(plant.name),

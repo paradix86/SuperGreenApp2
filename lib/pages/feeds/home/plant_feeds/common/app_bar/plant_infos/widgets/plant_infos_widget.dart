@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:super_green_app/pages/feeds/home/common/app_bar/common/widgets/app_bar_action.dart';
@@ -43,7 +44,7 @@ class PlantInfosWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget content = value == null && this.valueWidget == null ? _renderNoValue() : _renderValue();
+    Widget content = value == null && this.valueWidget == null ? _renderNoValue(context) : _renderValue(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: AppBarAction(
@@ -59,27 +60,27 @@ class PlantInfosWidget extends StatelessWidget {
     );
   }
 
-  Widget _renderNoValue() {
+  Widget _renderNoValue(BuildContext context) {
     if (onEdit == null) {
-      return Text("Not set", style: TextStyle(color: Color(0xFF494949), fontWeight: FontWeight.w300));
+      return Text("Not set", style: TextStyle(color: context.sgl.ink2, fontWeight: FontWeight.w300));
     }
     return Text(
       "Tap to set",
-      style: TextStyle(color: Color(0xFF494949), fontWeight: FontWeight.w300),
+      style: TextStyle(color: context.sgl.ink2, fontWeight: FontWeight.w300),
       textAlign: TextAlign.center,
     );
   }
 
-  Widget _renderValue() {
+  Widget _renderValue(BuildContext context) {
     if (valueWidget != null) {
       return valueWidget!;
     }
     return MarkdownBody(
       data: value ?? '',
       styleSheet: MarkdownStyleSheet(
-          p: TextStyle(color: Color(0xFF494949), fontSize: 16),
-          h1: TextStyle(color: Color(0xFF494949), fontSize: 20, fontWeight: FontWeight.bold),
-          strong: TextStyle(color: Color(0xff3bb30b), fontSize: 16, fontWeight: FontWeight.bold)),
+          p: TextStyle(color: context.sgl.ink2, fontSize: 16),
+          h1: TextStyle(color: context.sgl.ink2, fontSize: 20, fontWeight: FontWeight.bold),
+          strong: TextStyle(color: context.sgl.accentDeep, fontSize: 16, fontWeight: FontWeight.bold)),
     );
   }
 }

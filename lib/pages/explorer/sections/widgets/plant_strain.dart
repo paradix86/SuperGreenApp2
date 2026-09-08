@@ -39,6 +39,8 @@ class PlantStrain extends StatelessWidget {
     } else {
       body = [
         Text(plantSettings.strain!,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontWeight: FontWeight.normal,
               fontSize: 16,
@@ -46,11 +48,15 @@ class PlantStrain extends StatelessWidget {
         Row(
           children: [
             Text('from ', style: TextStyle(fontWeight: FontWeight.w300)),
-            Text(plantSettings.seedbank!,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: context.sgl.accentDeep,
-                )),
+            Flexible(
+              child: Text(plantSettings.seedbank!,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: context.sgl.accentDeep,
+                  )),
+            ),
           ],
         ),
       ];

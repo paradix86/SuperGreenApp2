@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 
 class ItemLoading extends StatelessWidget {
   final double size;
@@ -31,7 +32,7 @@ class ItemLoading extends StatelessWidget {
         width: size,
         child: CircularProgressIndicator(
           strokeWidth: 3.0,
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+          valueColor: AlwaysStoppedAnimation<Color>(context.sgl.ink3),
         ),
       )
     ]);

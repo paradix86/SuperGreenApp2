@@ -19,6 +19,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:intl/intl.dart';
@@ -181,7 +182,7 @@ class CommentView extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 4.0, left: 4.0),
                   child: MarkdownBody(
                     data: '**${comment.from}** ${comment.text}',
-                    styleSheet: MarkdownStyleSheet(p: TextStyle(color: Color(0xff454545), fontSize: 16)),
+                    styleSheet: MarkdownStyleSheet(p: TextStyle(color: context.sgl.ink2, fontSize: 16)),
                   ),
                 ),
                 recommendations,
@@ -193,7 +194,7 @@ class CommentView extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 8.0),
                         child: Text(
                           DateRenderer.renderDuration(diff),
-                          style: TextStyle(color: Color(0xffababab)),
+                          style: TextStyle(color: context.sgl.ink3),
                         ),
                       ),
                       comment.nLikes > 0
@@ -201,7 +202,7 @@ class CommentView extends StatelessWidget {
                               padding: const EdgeInsets.only(right: 8.0),
                               child: Text(
                                 CommentView.commentsFormPageCommentLikeCount(comment.nLikes),
-                                style: TextStyle(color: Color(0xffababab)),
+                                style: TextStyle(color: context.sgl.ink3),
                               ),
                             )
                           : Container(),
@@ -238,7 +239,7 @@ class CommentView extends StatelessWidget {
                         child: Container(),
                       ),
                       this.comment.isNew == true
-                          ? Text(CommentView.commentsFormPageSendingCommentLoading, style: TextStyle(color: Colors.red))
+                          ? Text(CommentView.commentsFormPageSendingCommentLoading, style: TextStyle(color: context.sgl.crit))
                           : Container(),
                     ],
                   ),

@@ -140,8 +140,6 @@ class _ExplorerPageState extends State<ExplorerPage> {
               appBar: SGLAppBar(
                 '',
                 backgroundColor: Colors.deepPurple,
-                titleColor: Colors.yellow,
-                iconColor: Colors.white,
                 hideBackButton: true,
                 leading: Padding(
                   padding: const EdgeInsets.only(left: 8.0),

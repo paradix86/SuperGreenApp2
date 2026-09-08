@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -200,7 +201,7 @@ class _FeedLifeEventFormPageState extends State<FeedLifeEventFormPage> {
           SvgPicture.asset('assets/feed_form/icon_calendar.svg', width: 50, height: 50),
           Text(
             text,
-            style: TextStyle(fontSize: 20, color: Colors.grey.shade700),
+            style: TextStyle(fontSize: 20, color: context.sgl.ink2),
           ),
           TextButton(
             onPressed: () async {
@@ -216,7 +217,7 @@ class _FeedLifeEventFormPageState extends State<FeedLifeEventFormPage> {
                 date = newDate;
               });
             },
-            child: Text(buttonText, style: TextStyle(color: Colors.blue)),
+            child: Text(buttonText, style: TextStyle(color: context.sgl.info)),
           ),
         ],
       ),

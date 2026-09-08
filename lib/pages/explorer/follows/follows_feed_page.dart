@@ -62,8 +62,6 @@ class _FollowsFeedPageState extends State<FollowsFeedPage> {
               appBar: SGLAppBar(
                 'Follow feed',
                 backgroundColor: Colors.deepPurple,
-                titleColor: Colors.yellow,
-                iconColor: Colors.white,
                 hideBackButton: false,
               ),
               body: body,

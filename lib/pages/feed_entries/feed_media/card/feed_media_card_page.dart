@@ -128,7 +128,7 @@ class _FeedMediaCardPageState extends State<FeedMediaCardPage> {
       otherActions.add(IconButton(
         icon: Icon(
           Icons.refresh,
-          color: Colors.grey,
+          color: context.sgl.ink3,
         ),
         onPressed: () {
           BlocProvider.of<FeedBloc>(context).add(FeedBlocEventForceResync(state.feedEntryID));
@@ -137,7 +137,7 @@ class _FeedMediaCardPageState extends State<FeedMediaCardPage> {
       otherActions.add(IconButton(
         icon: Icon(
           Icons.move_to_inbox,
-          color: Colors.grey,
+          color: context.sgl.ink3,
         ),
         onPressed: () {
           BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSelectPlantEvent(

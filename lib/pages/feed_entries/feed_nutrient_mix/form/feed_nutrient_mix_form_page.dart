@@ -19,6 +19,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -449,7 +450,7 @@ class _FeedNutrientMixFormPageState extends State<FeedNutrientMixFormPage> {
             ),
             Text(
               FeedNutrientMixFormPage.feedNutrientMixFormPageNutrientInYourMixPart2,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Color(0xff3bb30b)),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: context.sgl.accentDeep),
             ),
             Expanded(child: Container()),
             InkWell(
@@ -626,7 +627,7 @@ class _FeedNutrientMixFormPageState extends State<FeedNutrientMixFormPage> {
                           child: Column(
                             children: <Widget>[
                               Text('PH:',
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green)),
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: context.sgl.accentDeep)),
                               Center(
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -655,7 +656,7 @@ class _FeedNutrientMixFormPageState extends State<FeedNutrientMixFormPage> {
                         child: Column(
                           children: [
                             Text('EC (μS/cm):',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green)),
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: context.sgl.accentDeep)),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 24.0),
                               child: TextField(
@@ -674,7 +675,7 @@ class _FeedNutrientMixFormPageState extends State<FeedNutrientMixFormPage> {
                         child: Column(
                           children: [
                             Text('TDS (ppm):',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.green)),
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: context.sgl.accentDeep)),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 24.0),
                               child: TextField(

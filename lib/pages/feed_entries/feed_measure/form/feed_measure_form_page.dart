@@ -19,6 +19,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:intl/intl.dart';
@@ -172,7 +173,7 @@ class _FeedMeasureFormPageState extends State<FeedMeasureFormPage> {
                       ),
                       body: Fullscreen(
                         title: 'Done!',
-                        child: Icon(Icons.check, color: Colors.green),
+                        child: Icon(Icons.check, color: context.sgl.accentDeep),
                       ));
                 } else {
                   body = FeedFormLayout(

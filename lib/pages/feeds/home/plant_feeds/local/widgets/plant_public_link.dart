@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:super_green_app/pages/feeds/home/plant_feeds/local/plant_feed_bloc.dart';
@@ -91,7 +92,7 @@ class _PlantPublicLinkState extends State<PlantPublicLink> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xff454545),
+                  color: context.sgl.ink2,
                 ),
               ),
             ),
@@ -99,7 +100,7 @@ class _PlantPublicLinkState extends State<PlantPublicLink> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: SvgPicture.asset('assets/home/icon_share_link.svg', color: Color(0xff454545), width: 20, height: 20,),
+                  child: SvgPicture.asset('assets/home/icon_share_link.svg', color: context.sgl.ink2, width: 20, height: 20,),
                 ),
                 Expanded(
                   child: Text(

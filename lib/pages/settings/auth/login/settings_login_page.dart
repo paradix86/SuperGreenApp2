@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:super_green_app/data/api/backend/backend_api.dart';
 import 'package:super_green_app/data/config.dart';
@@ -53,7 +54,7 @@ class _SettingsLoginPageState extends State<SettingsLoginPage> {
               title: 'Done!',
               child: Icon(
                 Icons.check,
-                color: Color(0xff3bb30b),
+                color: context.sgl.accentDeep,
                 size: 100,
               ),
             );
@@ -63,7 +64,7 @@ class _SettingsLoginPageState extends State<SettingsLoginPage> {
               subtitle: 'Couldn\'t login',
               child: Icon(
                 Icons.error,
-                color: Colors.red,
+                color: context.sgl.crit,
                 size: 100,
               ),
             );
@@ -84,7 +85,6 @@ class _SettingsLoginPageState extends State<SettingsLoginPage> {
                           title: 'Enter your nickname:',
                           icon: 'assets/settings/icon_account.svg',
                           backgroundColor: Colors.indigo,
-                          titleColor: Colors.white,
                           elevation: 5,
                         ),
                         Padding(
@@ -106,7 +106,6 @@ class _SettingsLoginPageState extends State<SettingsLoginPage> {
                           title: 'Enter your password:',
                           icon: 'assets/settings/icon_password.svg',
                           backgroundColor: Colors.indigo,
-                          titleColor: Colors.white,
                           elevation: 5,
                         ),
                         Padding(
@@ -148,8 +147,6 @@ class _SettingsLoginPageState extends State<SettingsLoginPage> {
                 '🔐',
                 fontSize: 35,
                 backgroundColor: Colors.indigo,
-                titleColor: Colors.white,
-                iconColor: Colors.white,
                 hideBackButton: !(state is SettingsLoginBlocStateLoaded),
               ),
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));

@@ -18,6 +18,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:super_green_app/data/api/backend/backend_api.dart';
 import 'package:super_green_app/data/config.dart';
@@ -69,7 +70,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
   Widget _renderDone(BuildContext context, DeleteAccountBlocStateDone state) {
     return Fullscreen(
       title: 'Done!',
-      child: Icon(Icons.check, color: Colors.green),
+      child: Icon(Icons.check, color: context.sgl.accentDeep),
     );
   }
 
@@ -91,7 +92,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                 '${state.nFiles}',
                 style: TextStyle(
                   fontSize: 50,
-                  color: Color(0xff454545),
+                  color: context.sgl.ink2,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -99,14 +100,14 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   '/',
-                  style: TextStyle(fontSize: 25, color: Color(0xff454545)),
+                  style: TextStyle(fontSize: 25, color: context.sgl.ink2),
                 ),
               ),
               Text(
                 '${state.totalFiles}',
                 style: TextStyle(
                   fontSize: 50,
-                  color: Color(0xff454545),
+                  color: context.sgl.ink2,
                   fontWeight: FontWeight.bold,
                 ),
               ),

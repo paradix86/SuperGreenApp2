@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:card_swiper/card_swiper.dart';
@@ -66,7 +67,7 @@ class _TipPageState extends State<TipPage> {
                     pagination: state.tips.length > 1
                         ? SwiperPagination(
                             builder: new DotSwiperPaginationBuilder(
-                                color: Color(0xffdedede), activeColor: Color(0xff3bb30b)),
+                                color: Color(0xffdedede), activeColor: context.sgl.accentDeep),
                           )
                         : null,
                     loop: false,
@@ -79,8 +80,6 @@ class _TipPageState extends State<TipPage> {
             appBar: SGLAppBar(
               title,
               backgroundColor: Colors.teal,
-              titleColor: Colors.white,
-              iconColor: Colors.white,
               fontSize: 18.0,
             ),
             body: SafeArea(

@@ -108,9 +108,6 @@ class SelectPlantPage extends StatelessWidget {
               appBar: SGLAppBar(
                 '🍁',
                 fontSize: 40,
-                backgroundColor: Color(0xff0bb354),
-                titleColor: Colors.white,
-                iconColor: Colors.white,
                 hideBackButton: !(state is SelectPlantBlocStateLoaded),
                 elevation: 10,
               ),

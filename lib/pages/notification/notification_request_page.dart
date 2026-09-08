@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -113,8 +114,8 @@ class NotificationRequestPage extends StatelessWidget {
                       fitContent: false,
                       data: NotificationRequestPage.notificationPurposes,
                       styleSheet: MarkdownStyleSheet(
-                          p: TextStyle(color: Color(0xff454545), fontSize: 16),
-                          strong: TextStyle(color: Color(0xff3bb30b), fontSize: 16)),
+                          p: TextStyle(color: context.sgl.ink2, fontSize: 16),
+                          strong: TextStyle(color: context.sgl.accentDeep, fontSize: 16)),
                     ),
                   ],
                 ),
@@ -126,7 +127,7 @@ class NotificationRequestPage extends StatelessWidget {
                 Padding(
                     padding: const EdgeInsets.only(right: 16.0),
                     child: GreenButton(
-                      color: Colors.red.value,
+                      color: context.sgl.crit.value,
                       title: NotificationRequestPage.notificationRequestButtonCancel,
                       onPressed: () async {
                         BlocProvider.of<NotificationRequestBloc>(context).add(NotificationRequestBlocEventDone());

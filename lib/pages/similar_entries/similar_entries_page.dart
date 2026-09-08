@@ -17,6 +17,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:super_green_app/data/api/backend/backend_api.dart';
 import 'package:super_green_app/l10n/common.dart';
@@ -48,8 +49,6 @@ class SimilarEntriesPage extends StatelessWidget {
             appBar: SGLAppBar(
               'Similar plants',
               backgroundColor: Colors.purple,
-              titleColor: Colors.white,
-              iconColor: Colors.white,
               elevation: 10,
             ),
             body: body,
@@ -90,7 +89,7 @@ class SimilarEntriesPage extends StatelessWidget {
                               Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5.0),
-                                  color: Color(0xff3bb30b),
+                                  color: context.sgl.accentDeep,
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
@@ -100,11 +99,11 @@ class SimilarEntriesPage extends StatelessWidget {
                             ],
                           ),
                         )
-                      : Text('Followed', style: TextStyle(color: Color(0xff3bb30b)))),
+                      : Text('Followed', style: TextStyle(color: context.sgl.accentDeep))),
               IconButton(
                 icon: Text(
                   'Open plant',
-                  style: TextStyle(fontSize: 12.0, color: Color(0xff3bb30b), fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 12.0, color: context.sgl.accentDeep, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
                 onPressed: () {

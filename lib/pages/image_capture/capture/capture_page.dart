@@ -21,6 +21,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:media_picker_builder/data/media_file.dart';
@@ -318,7 +319,7 @@ class _CapturePageState extends State<CapturePage> {
   }
 
   Widget _renderPictureButton(BuildContext context, CaptureBlocState state) {
-    return _renderBottomButton(context, Icons.photo_camera, Colors.blue, () async {
+    return _renderBottomButton(context, Icons.photo_camera, context.sgl.info, () async {
       if (_filePath != null) {
         await _deleteFileIfExists(FeedMedias.makeAbsoluteFilePath(_filePath!));
       }
@@ -331,7 +332,7 @@ class _CapturePageState extends State<CapturePage> {
   }
 
   Widget _renderCameraButton(BuildContext context, CaptureBlocState state) {
-    return _renderBottomButton(context, Icons.videocam, Colors.blue, () async {
+    return _renderBottomButton(context, Icons.videocam, context.sgl.info, () async {
       if (_filePath != null) {
         await _deleteFileIfExists(FeedMedias.makeAbsoluteFilePath(_filePath!));
       }
@@ -341,7 +342,7 @@ class _CapturePageState extends State<CapturePage> {
   }
 
   Widget _renderStopButton(BuildContext context, CaptureBlocState state) {
-    return _renderBottomButton(context, Icons.stop, Colors.red, () async {
+    return _renderBottomButton(context, Icons.stop, context.sgl.crit, () async {
       _filePath = '${FeedMedias.makeFilePath()}.mp4';
       String absolutePath = FeedMedias.makeAbsoluteFilePath(_filePath!);
       await _deleteFileIfExists(absolutePath);
