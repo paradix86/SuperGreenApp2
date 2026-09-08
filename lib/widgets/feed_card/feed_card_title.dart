@@ -18,6 +18,7 @@
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:super_green_app/data/kv/app_db.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:super_green_app/theme/sgl_typography.dart';
@@ -68,7 +69,7 @@ class FeedCardTitle extends StatelessWidget {
               title2 != null
                   ? AutoSizeText(title2!, maxLines: 1, style: text.bodySmall!.copyWith(color: c.accentDeep, fontWeight: FontWeight.w600))
                   : Container(),
-              showSyncStatus && !synced
+              showSyncStatus && !synced && AppDB().getAppData().jwt != null
                   ? Text('Not synced', style: SglTextStyles.mono.copyWith(color: c.warn, fontSize: 11))
                   : Container(),
             ],

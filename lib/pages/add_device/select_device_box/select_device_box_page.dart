@@ -194,7 +194,9 @@ class SelectDeviceBoxPageState extends State<SelectDeviceBoxPage> {
                   hasAvailableLeds
                       ? SelectDeviceBoxPage.selectDeviceBoxAvailable
                       : SelectDeviceBoxPage.selectDeviceBoxNoMoreLED,
-                  style: TextStyle(color: context.sgl.accentDeep, fontWeight: FontWeight.w300));
+                  style: TextStyle(
+                      color: hasAvailableLeds ? context.sgl.accentDeep : context.sgl.amberInk,
+                      fontWeight: FontWeight.w300));
             }
             return ListTile(
               onTap: () {

@@ -170,7 +170,7 @@ class _SettingsPlantPageState extends State<SettingsPlantPage> {
                     });
                   }, _public)),
               ListTile(
-                leading: SvgPicture.asset('assets/settings/icon_alerts.svg'),
+                leading: Icon(Icons.notifications_active_outlined, color: context.sgl.ink2),
                 title: Text('Alert settings'),
                 subtitle: Text('Tap to enable and edit settings'),
                 trailing: Icon(Icons.edit),
@@ -192,7 +192,7 @@ class _SettingsPlantPageState extends State<SettingsPlantPage> {
                 elevation: 5,
               ),
               ListTile(
-                leading: SvgPicture.asset('assets/settings/icon_lab.svg'),
+                leading: Icon(Icons.science_outlined, color: context.sgl.ink2),
                 title: Text(_box.name),
                 subtitle: Text('Tap to change'),
                 trailing: Icon(Icons.edit),
@@ -209,7 +209,7 @@ class _SettingsPlantPageState extends State<SettingsPlantPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: ListTile(
-                  leading: SvgPicture.asset('assets/settings/icon_archive.svg'),
+                  leading: Icon(Icons.archive_outlined, color: context.sgl.crit),
                   title: Text('Archive your plant when it\'s done'),
                   subtitle: Text(
                       'Archiving your plant will remove the plant from the list and all assets from your mobile phone. The plant will still be accessible in the "archived plants" section of the explorer tab.\n\nThis action can\'t be reverted.'),

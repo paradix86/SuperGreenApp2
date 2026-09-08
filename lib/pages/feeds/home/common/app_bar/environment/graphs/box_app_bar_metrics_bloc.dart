@@ -87,6 +87,9 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
 
   List<dynamic> version = [];
 
+  /// Newest local sample older than this: the local series is not offered.
+  static const Duration localStaleAfter = Duration(minutes: 10);
+
   /// Set by [PlantFeedAppBarBlocEventSetSource]; null = local when available.
   bool? _preferCloud;
   GraphSource _source = GraphSource.demo;
@@ -141,6 +144,12 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
     final String prefix = 'BOX_${deviceBox}_';
     final List<DashSample> temps = DashHistory.samples(deviceID, '${prefix}TEMP');
     if (temps.length < 2) {
+      return null;
+    }
+    // "From the controller" must mean live: with the app closed or the
+    // controller offline the history stops, so past [localStaleAfter] the
+    // cloud series (which shows the gap) is the honest choice.
+    if (DateTime.now().difference(temps.last.time) > localStaleAfter) {
       return null;
     }
     version = [];

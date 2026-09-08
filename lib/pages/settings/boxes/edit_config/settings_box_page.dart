@@ -192,7 +192,7 @@ class _SettingsBoxPageState extends State<SettingsBoxPage> {
                       },
                     )
                   : ListTile(
-                      leading: SvgPicture.asset('assets/settings/icon_nocontroller.svg'),
+                      leading: Icon(Icons.developer_board_off_outlined, color: context.sgl.ink2),
                       title: Text('Lab isn\'t linked to any controller'),
                       subtitle: Text('Tap to link one'),
                       trailing: Icon(Icons.edit),
@@ -216,7 +216,7 @@ class _SettingsBoxPageState extends State<SettingsBoxPage> {
                       },
                     )
                   : ListTile(
-                      leading: SvgPicture.asset('assets/settings/icon_nocontroller.svg'),
+                      leading: Icon(Icons.tv_off_outlined, color: context.sgl.ink2),
                       title: Text('Lab isn\'t linked to any screen'),
                       subtitle: Text('Tap to link one'),
                       trailing: Icon(Icons.edit),

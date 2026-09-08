@@ -55,7 +55,8 @@ class FeedFormLayout extends StatelessWidget {
     }
     if (this.onOK != null) {
       actions.add(IconButton(
-        icon: Icon(Icons.check_circle, color: this.valid ? context.sgl.accent : context.sgl.ink3, size: 30),
+        icon: Icon(this.valid ? Icons.check_circle : Icons.check_circle_outline,
+            color: this.valid ? context.sgl.accent : context.sgl.ink3, size: 30),
         onPressed: this.valid ? onOK : null,
       ));
     }

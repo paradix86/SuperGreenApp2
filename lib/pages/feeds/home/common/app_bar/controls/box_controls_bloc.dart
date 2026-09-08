@@ -21,6 +21,7 @@ import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 import 'package:super_green_app/data/api/backend/feeds/box_helper.dart';
+import 'package:super_green_app/data/api/device/device_helper.dart';
 import 'package:super_green_app/data/api/device/device_params.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/misc/bloc.dart';
@@ -93,6 +94,16 @@ class BoxControlsBlocEventLoaded extends BoxControlsBlocEvent {
   List<Object?> get props => [state];
 }
 
+/// Writes TIME_TZ on the controller (the phone's zone as a POSIX string).
+class BoxControlsBlocEventSetTimeZone extends BoxControlsBlocEvent {
+  final String posix;
+
+  BoxControlsBlocEventSetTimeZone(this.posix);
+
+  @override
+  List<Object?> get props => [posix];
+}
+
 class BoxControlsBlocEventSetScreenDevice extends BoxControlsBlocEvent {
   final Device device;
   final int deviceBox;
@@ -142,7 +153,11 @@ class BoxControlsBlocStateLoaded extends BoxControlsBlocState {
   final BoxControlParamsController metrics;
   final DateTime updatedAt;
 
-  BoxControlsBlocStateLoaded(this.device, this.plant, this.box, this.metrics, this.updatedAt);
+  /// TIME_TZ of the controller: '' = no zone set (its clock runs in UTC),
+  /// null = unknown (param not loaded).
+  final String? timeTz;
+
+  BoxControlsBlocStateLoaded(this.device, this.plant, this.box, this.metrics, this.updatedAt, {this.timeTz});
 
   @override
   List<Object?> get props => [
@@ -151,6 +166,7 @@ class BoxControlsBlocStateLoaded extends BoxControlsBlocState {
         this.box,
         metrics,
         updatedAt,
+        timeTz,
       ];
 }
 
@@ -160,6 +176,7 @@ class BoxControlsBloc extends LegacyBloc<BoxControlsBlocEvent, BoxControlsBlocSt
   Device? device;
   BoxControlParamsController? metrics;
   DateTime lastUpdatedAt = DateTime.now();
+  Param? timeTzParam;
 
   late List<StreamSubscription<Param>> subscriptions;
   StreamSubscription<Device>? deviceSubscription;
@@ -181,6 +198,11 @@ class BoxControlsBloc extends LegacyBloc<BoxControlsBlocEvent, BoxControlsBlocSt
         return;
       }
       device = await db.devicesDAO.getDevice(box.device!);
+      try {
+        timeTzParam = await db.devicesDAO.getParam(device!.id, 'TIME_TZ');
+      } catch (e) {
+        timeTzParam = null; // older firmware / params not loaded yet
+      }
       metrics = await BoxControlParamsController.load(device!, box);
       lastUpdatedAt = DateTime.now();
       deviceSubscription = db.devicesDAO.watchDevice(device!.id).listen(onDeviceUpdate);
@@ -189,6 +211,15 @@ class BoxControlsBloc extends LegacyBloc<BoxControlsBlocEvent, BoxControlsBlocSt
       metrics!.refreshParams(device!);
     } else if (event is BoxControlsBlocEventLoaded) {
       yield event.state;
+    } else if (event is BoxControlsBlocEventSetTimeZone) {
+      if (device != null && timeTzParam != null) {
+        try {
+          timeTzParam = await DeviceHelper.updateStringParam(device!, timeTzParam!, event.posix);
+        } catch (e) {
+          print(e);
+        }
+        yield _loadedState();
+      }
     } else if (event is BoxControlsBlocEventSetScreenDevice) {
       final db = RelDB.get();
       await BoxHelper.setBoxDevice(box, screenDevice: event.device);
@@ -215,7 +246,7 @@ class BoxControlsBloc extends LegacyBloc<BoxControlsBlocEvent, BoxControlsBlocSt
   }
 
   BoxControlsBlocStateLoaded _loadedState() {
-    return BoxControlsBlocStateLoaded(device!, plant, box, metrics!, lastUpdatedAt);
+    return BoxControlsBlocStateLoaded(device!, plant, box, metrics!, lastUpdatedAt, timeTz: timeTzParam?.svalue);
   }
 
   @override

@@ -82,7 +82,7 @@ class DeviceAPI {
 
   static Future<String?> resolveLocalName(String name) async {
     if (name.endsWith('.local')) {
-      name.replaceAll('.local', '');
+      name = name.substring(0, name.length - '.local'.length);
     }
     name = '${DeviceAPI.mdnsDomain(name)}.local';
     // Temporary workaround, mdns discovery fails on the current version of the lib
@@ -357,7 +357,8 @@ class DeviceAPI {
       int nMotors = 0;
       if (isController) {
         nBoxes = await _moduleArrayLen(deviceID, 'box');
-        nSensorPorts = await _moduleArrayLen(deviceID, 'i2c');
+        // The I2C ports are the sht21 array (one per port), there is no 'i2c' module.
+        nSensorPorts = await _moduleArrayLen(deviceID, 'sht21');
         nLeds = await _moduleArrayLen(deviceID, 'led');
         nMotors = await _moduleArrayLen(deviceID, 'motor');
       }

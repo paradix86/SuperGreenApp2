@@ -23,6 +23,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/data/api/device/device_params.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
+import 'package:super_green_app/data/local_timezone.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/l10n.dart';
 import 'package:super_green_app/l10n/common.dart';
@@ -133,6 +134,10 @@ class _BoxControlsPageState extends State<BoxControlsPage> {
       children: [
         _renderStatusRow(context, state),
         const SizedBox(height: 10),
+        if (state.timeTz == '') ...[
+          _renderTimeZoneWarning(context, state),
+          const SizedBox(height: 10),
+        ],
         _ScheduleCard(
           onMinutes: m.onHour.ivalue * 60 + m.onMin.ivalue,
           offMinutes: m.offHour.ivalue * 60 + m.offMin.ivalue,
@@ -191,6 +196,71 @@ class _BoxControlsPageState extends State<BoxControlsPage> {
         _renderScreenRow(context, state),
       ],
     );
+  }
+
+  /// TIME_TZ empty: the controller's clock is UTC, so every hour below is
+  /// shifted by the local offset. Offer the phone's zone in one tap.
+  Widget _renderTimeZoneWarning(BuildContext context, BoxControlsBlocStateLoaded state) {
+    final SglColors c = context.sgl;
+    final TextTheme t = Theme.of(context).textTheme;
+    final int offsetMin = DateTime.now().timeZoneOffset.inMinutes;
+    final int offH = offsetMin.abs() ~/ 60;
+    final int offM = offsetMin.abs() % 60;
+    final String offset = '${offsetMin >= 0 ? '+' : '-'}${offH}h${offM == 0 ? '' : offM.toString().padLeft(2, '0')}';
+    return Container(
+      decoration: BoxDecoration(
+        color: c.amberSoft,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: c.amber.withOpacity(0.5)),
+      ),
+      padding: const EdgeInsets.fromLTRB(14, 12, 14, 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(children: [
+            Icon(Icons.schedule, size: 18, color: c.amberInk),
+            const SizedBox(width: 8),
+            Expanded(child: Text('Controller clock has no time zone', style: t.titleSmall?.copyWith(color: c.amberInk))),
+          ]),
+          const SizedBox(height: 4),
+          Text(
+            'Its clock runs in UTC, so the times below are $offset off from your phone. Set the phone\'s zone on the controller and the schedule reads in local time.',
+            style: t.bodySmall?.copyWith(color: c.amberInk, height: 1.35),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              style: TextButton.styleFrom(foregroundColor: c.amberInk),
+              onPressed: () => _setTimeZone(context),
+              child: const Text('USE PHONE TIME ZONE'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _setTimeZone(BuildContext context) async {
+    final TimezoneSuggestion tz = await LocalTimezone.suggest();
+    if (!mounted) {
+      return;
+    }
+    final String dst = tz.withDst ? 'with daylight saving' : 'fixed offset, no daylight saving';
+    final bool? ok = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext c) => AlertDialog(
+        title: const Text('Set controller time zone'),
+        content: Text(
+            'TIME_TZ will be set to\n${tz.posix}\n\n(${tz.label}, $dst). The light schedule hours stay as they are, they will just be read in this zone.'),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(c, false), child: const Text('CANCEL')),
+          TextButton(onPressed: () => Navigator.pop(c, true), child: const Text('SET')),
+        ],
+      ),
+    );
+    if (ok == true && mounted) {
+      BlocProvider.of<BoxControlsBloc>(context).add(BoxControlsBlocEventSetTimeZone(tz.posix));
+    }
   }
 
   Widget _renderStatusRow(BuildContext context, BoxControlsBlocStateLoaded state) {
@@ -337,7 +407,7 @@ class _ScheduleCard extends StatelessWidget {
                 .toList(),
           ),
           const SizedBox(height: 6),
-          Text('Timer on the controller, shown in local time.', style: text.bodySmall!.copyWith(color: c.ink3)),
+          Text('Timer on the controller, in the controller\'s time zone.', style: text.bodySmall!.copyWith(color: c.ink3)),
         ],
       ),
     );

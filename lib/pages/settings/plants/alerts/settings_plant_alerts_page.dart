@@ -493,6 +493,9 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
             BlocProvider.of<MainNavigatorBloc>(context)
                 .add(MainNavigateToSettingsBox(state.box, futureFn: (future) async {
               await future;
+              if (!mounted) {
+                return;
+              }
               BlocProvider.of<SettingsPlantAlertsBloc>(context).add(SettingsPlantAlertsBlocEventInit());
             }));
           },
@@ -507,6 +510,9 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
           onAction: () {
             BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsAuth(futureFn: (future) async {
               await future;
+              if (!mounted) {
+                return;
+              }
               BlocProvider.of<SettingsPlantAlertsBloc>(context).add(SettingsPlantAlertsBlocEventInit());
             }));
           },

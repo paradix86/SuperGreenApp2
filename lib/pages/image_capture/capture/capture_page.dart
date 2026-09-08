@@ -46,6 +46,11 @@ class _CapturePageState extends State<CapturePage> {
   bool _videoMode = false;
   bool _popDone = true;
 
+  /// Set when the camera cannot be opened (permission refused, no camera):
+  /// the page then offers the gallery picker and a way back instead of
+  /// spinning forever.
+  String? _cameraError;
+
   @override
   Widget build(BuildContext context) {
     return BlocListener(
@@ -53,8 +58,19 @@ class _CapturePageState extends State<CapturePage> {
       listener: (BuildContext context, CaptureBlocState state) async {
         if (state is CaptureBlocStateInit) {
           if (_cameraController == null) {
-            _cameras = await availableCameras();
-            _setupCamera();
+            try {
+              _cameras = await availableCameras();
+              if (_cameras.isEmpty) {
+                throw CameraException('noCamera', 'No camera on this device');
+              }
+              await _setupCamera();
+            } catch (e) {
+              if (mounted) {
+                setState(() {
+                  _cameraError = e is CameraException ? (e.description ?? e.code) : '$e';
+                });
+              }
+            }
           }
         } else if (state is CaptureBlocStateDone) {
           _popDone = true;
@@ -218,7 +234,49 @@ class _CapturePageState extends State<CapturePage> {
   }
 
   Widget _renderLoading(BuildContext context, CaptureBlocState state) {
+    if (_cameraError != null) {
+      return _renderCameraError(context);
+    }
     return Scaffold(body: FullscreenLoading());
+  }
+
+  Widget _renderCameraError(BuildContext context) {
+    final SglColors c = context.sgl;
+    final TextTheme t = Theme.of(context).textTheme;
+    return Scaffold(
+      backgroundColor: c.bg,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Icon(Icons.no_photography_outlined, size: 56, color: c.ink3),
+              const SizedBox(height: 16),
+              Text('Camera not available', textAlign: TextAlign.center, style: t.titleLarge?.copyWith(color: c.ink)),
+              const SizedBox(height: 8),
+              Text(
+                'The app could not open the camera ($_cameraError). Allow the camera permission in the system settings, or pick a picture from the gallery.',
+                textAlign: TextAlign.center,
+                style: t.bodyMedium?.copyWith(color: c.ink2, height: 1.4),
+              ),
+              const SizedBox(height: 24),
+              FilledButton.icon(
+                onPressed: () => _buildPicker(context),
+                icon: const Icon(Icons.photo_library_outlined),
+                label: const Text('Pick from gallery'),
+              ),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: () => BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigatorActionPop()),
+                child: const Text('Back'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _renderCloseButton(BuildContext context) {
@@ -382,7 +440,7 @@ class _CapturePageState extends State<CapturePage> {
     }));
   }
 
-  void _setupCamera() async {
+  Future<void> _setupCamera() async {
     CameraController? old = _cameraController;
     FocusMode focusMode = old?.value.focusMode ?? FocusMode.auto;
     if (old != null) {
