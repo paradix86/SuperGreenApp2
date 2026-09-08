@@ -71,6 +71,7 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
     String format = AppDB().getUserSettings().freedomUnits! ? 'MM/dd/yyyy HH:mm' : 'dd/MM/yyyy HH:mm';
     Widget dateText = Text('${DateFormat(format).format(metricDate)}',
         style: SglTextStyles.mono.copyWith(color: context.sgl.ink2, fontSize: 12));
+    Widget sourceRow = _renderSource(context, state);
     List<charts.LineAnnotationSegment<Object>>? annotations;
     if (selectedGraphIndex != null) {
       annotations = [
@@ -163,6 +164,7 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          Padding(padding: const EdgeInsets.fromLTRB(6, 2, 6, 0), child: sourceRow),
           InkWell(
             onTap: () {
               setState(() {
@@ -263,6 +265,53 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
           //     style: TextStyle(fontSize: 9, color: context.sgl.ink)),
         ],
       ),
+    );
+  }
+
+  /// Where the lines come from, with a switch to the other source when the
+  /// box has a controller (cloud needs an SGL account and the controller
+  /// online; local needs the app to have polled the controller for a while).
+  Widget _renderSource(BuildContext context, PlantFeedAppBarBlocStateLoaded state) {
+    final SglColors c = context.sgl;
+    String label;
+    switch (state.source) {
+      case GraphSource.local:
+        label = 'From the controller · last 24 h';
+        break;
+      case GraphSource.cloud:
+        label = 'Cloud history · last 72 h';
+        break;
+      case GraphSource.demo:
+        label = 'Demo data · no controller';
+        break;
+    }
+    return Row(
+      children: [
+        Expanded(
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            Flexible(child: Text(label.toUpperCase(), style: SglTextStyles.eyebrow.copyWith(color: c.ink3))),
+            const SglInfoButton('graph_source', size: 13),
+          ]),
+        ),
+        if (state.hasController)
+          TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: c.accentDeep,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              minimumSize: const Size(0, 30),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            onPressed: () {
+              setState(() {
+                selectedGraphIndex = null;
+              });
+              BlocProvider.of<BoxAppBarMetricsBloc>(context)
+                  .add(PlantFeedAppBarBlocEventSetSource(state.source != GraphSource.cloud));
+            },
+            child: Text(state.source == GraphSource.cloud ? 'CONTROLLER' : 'CLOUD',
+                style: SglTextStyles.mono.copyWith(fontSize: 12)),
+          ),
+      ],
     );
   }
 

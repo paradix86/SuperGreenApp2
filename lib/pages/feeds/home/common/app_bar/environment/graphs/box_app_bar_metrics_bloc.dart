@@ -22,7 +22,9 @@ import 'dart:math';
 import 'package:equatable/equatable.dart';
 import 'package:super_green_app/misc/bloc.dart';
 import 'package:super_green_app/theme/sgl_chart_palette.dart';
+import 'package:flutter/painting.dart';
 import 'package:super_green_app/data/api/backend/time_series/time_series_api.dart';
+import 'package:super_green_app/data/api/device/dash_history.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:community_charts_flutter/community_charts_flutter.dart' as charts;
@@ -41,6 +43,19 @@ class PlantFeedAppBarBlocEventReloadChart extends PlantFeedAppBarBlocEvent {
   List<Object> get props => [rand];
 }
 
+/// Switches between the readings polled from the controller (last 24 h,
+/// [DashHistory]) and the SuperGreenLab cloud history (last 72 h).
+class PlantFeedAppBarBlocEventSetSource extends PlantFeedAppBarBlocEvent {
+  final bool cloud;
+
+  PlantFeedAppBarBlocEventSetSource(this.cloud);
+
+  @override
+  List<Object> get props => [cloud];
+}
+
+enum GraphSource { local, cloud, demo }
+
 abstract class PlantFeedAppBarBlocState extends Equatable {}
 
 class PlantFeedAppBarBlocStateInit extends PlantFeedAppBarBlocState {
@@ -53,11 +68,16 @@ class PlantFeedAppBarBlocStateLoaded extends PlantFeedAppBarBlocState {
   final List<charts.Series<Metric, DateTime>> graphData;
   final Plant? plant;
   final Box box;
+  final GraphSource source;
 
-  PlantFeedAppBarBlocStateLoaded(this.version, this.graphData, this.plant, this.box);
+  /// True when the box has a controller: the cloud history can be offered.
+  final bool hasController;
+
+  PlantFeedAppBarBlocStateLoaded(this.version, this.graphData, this.plant, this.box,
+      {this.source = GraphSource.cloud, this.hasController = false});
 
   @override
-  List<Object?> get props => [version, graphData, plant, box];
+  List<Object?> get props => [version, graphData, plant, box, source, hasController];
 }
 
 class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFeedAppBarBlocState> {
@@ -66,6 +86,10 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
   Box? box;
 
   List<dynamic> version = [];
+
+  /// Set by [PlantFeedAppBarBlocEventSetSource]; null = local when available.
+  bool? _preferCloud;
+  GraphSource _source = GraphSource.demo;
 
   BoxAppBarMetricsBloc({this.plant, this.box}) : super(PlantFeedAppBarBlocStateInit()) {
     add(PlantFeedAppBarBlocEventLoadChart());
@@ -83,22 +107,72 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
           box = await db.plantsDAO.getBox(plant!.box);
         }
         List<charts.Series<Metric, DateTime>> graphData = await updateChart();
-        yield PlantFeedAppBarBlocStateLoaded(version, graphData, plant, box!);
+        yield _loaded(graphData);
       } catch (e) {
         print(e);
       }
     } else if (event is PlantFeedAppBarBlocEventReloadChart) {
       try {
         List<charts.Series<Metric, DateTime>> graphData = await updateChart();
-        yield PlantFeedAppBarBlocStateLoaded(version, graphData, plant, box!);
+        yield _loaded(graphData);
+      } catch (e) {
+        print(e);
+      }
+    } else if (event is PlantFeedAppBarBlocEventSetSource) {
+      _preferCloud = event.cloud;
+      try {
+        List<charts.Series<Metric, DateTime>> graphData = await updateChart();
+        yield _loaded(graphData);
       } catch (e) {
         print(e);
       }
     }
   }
 
+  PlantFeedAppBarBlocStateLoaded _loaded(List<charts.Series<Metric, DateTime>> graphData) {
+    return PlantFeedAppBarBlocStateLoaded(version, graphData, plant, box!,
+        source: _source, hasController: box?.device != null);
+  }
+
+  /// Series built from the readings the app polled from the controller
+  /// itself ([DashHistory]), same scaling as the cloud series so the chart
+  /// and the metric strip read the same. Null when nothing was recorded yet.
+  List<charts.Series<Metric, DateTime>>? _localChart(int deviceID, int deviceBox) {
+    final String prefix = 'BOX_${deviceBox}_';
+    final List<DashSample> temps = DashHistory.samples(deviceID, '${prefix}TEMP');
+    if (temps.length < 2) {
+      return null;
+    }
+    version = [];
+    charts.Series<Metric, DateTime> series(String key, String id, Color color, double Function(int) scale) {
+      final List<DashSample> samples = DashHistory.samples(deviceID, '$prefix$key');
+      final bool keepZero = key == 'BLOWER_DUTY' || key == 'LED_DIM';
+      final List<Metric> data =
+          samples.where((s) => keepZero || s.value != 0).map((s) => Metric(s.time, scale(s.value))).toList();
+      return charts.Series<Metric, DateTime>(
+        id: id,
+        strokeWidthPxFn: (_, __) => 3,
+        colorFn: (_, __) => SglChartPalette.chart(color),
+        domainFn: (Metric metric, _) => metric.time,
+        measureFn: (Metric metric, _) => metric.metric,
+        data: data,
+      );
+    }
+
+    return [
+      series('TEMP', 'Temperature', SglChartPalette.temperature, (v) => _tempUnit(v.toDouble(), 0)),
+      series('HUMI', 'Humidity', SglChartPalette.humidity, (v) => v.toDouble()),
+      series('VPD', 'VPD', SglChartPalette.vpd, (v) => min(140, max(v * 0.4, 0))),
+      series('LED_DIM', 'Light', SglChartPalette.light, (v) => v.toDouble()),
+      series('BLOWER_DUTY', 'Ventilation', SglChartPalette.ventilation, (v) => v.toDouble()),
+      series('CO2', 'CO2', SglChartPalette.co2, (v) => _co2(v.toDouble(), 0)),
+      series('WEIGHT', 'Weight', SglChartPalette.weight, (v) => _weight(v.toDouble(), 0)),
+    ];
+  }
+
   Future<List<charts.Series<Metric, DateTime>>> updateChart() async {
     if (box?.device == null) {
+      _source = GraphSource.demo;
       return _createDummyData();
     } else {
       late Device device;
@@ -107,10 +181,19 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
       } catch (e) {
         _timer?.cancel();
         _timer = null;
+        _source = GraphSource.demo;
         return _createDummyData();
       }
       String identifier = device.identifier;
       int deviceBox = box!.deviceBox!;
+      if (_preferCloud != true) {
+        final List<charts.Series<Metric, DateTime>>? local = _localChart(device.id, deviceBox);
+        if (local != null) {
+          _source = GraphSource.local;
+          return local;
+        }
+      }
+      _source = GraphSource.cloud;
       version = await TimeSeriesAPI.fetchMetric(box!, identifier, 'OTA_TIMESTAMP', 0, 10000000000);
       charts.Series<Metric, DateTime> temp = await TimeSeriesAPI.fetchTimeSeries(
           box!, identifier, 'Temperature', 'BOX_${deviceBox}_TEMP', SglChartPalette.chart(SglChartPalette.temperature), 0, 50,

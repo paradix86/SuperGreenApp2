@@ -73,9 +73,9 @@ class LabMetricsCard extends StatelessWidget {
     double toTemp(num v) => freedomUnits ? v * 9 / 5 + 32 : v.toDouble();
     String fmt(double v, {int decimals = 0}) => v.toStringAsFixed(decimals);
 
-    final List<DashSample> temps = DashHistory.samples(deviceID, '${prefix}TEMP');
-    final List<DashSample> humis = DashHistory.samples(deviceID, '${prefix}HUMI');
-    final List<DashSample> vpds = DashHistory.samples(deviceID, '${prefix}VPD');
+    final List<DashSample> temps = DashHistory.samples(deviceID, '${prefix}TEMP', window: DashHistory.sparklineWindow);
+    final List<DashSample> humis = DashHistory.samples(deviceID, '${prefix}HUMI', window: DashHistory.sparklineWindow);
+    final List<DashSample> vpds = DashHistory.samples(deviceID, '${prefix}VPD', window: DashHistory.sparklineWindow);
     final double vpd = m.vpd.ivalue / vpdScale;
 
     final List<Widget> tiles = [
@@ -108,7 +108,7 @@ class LabMetricsCard extends StatelessWidget {
         value: '${m.co2.ivalue}',
         unit: 'ppm',
         color: c.ink2,
-        samples: DashHistory.samples(deviceID, '${prefix}CO2').map((s) => s.value.toDouble()).toList(),
+        samples: DashHistory.samples(deviceID, '${prefix}CO2', window: DashHistory.sparklineWindow).map((s) => s.value.toDouble()).toList(),
       ));
     }
     if (m.weight.available && m.weight.ivalue != 0) {
@@ -118,7 +118,7 @@ class LabMetricsCard extends StatelessWidget {
         value: fmt(freedomUnits ? kg * 2.20462 : kg, decimals: 2),
         unit: freedomUnits ? 'lb' : 'kg',
         color: c.ink2,
-        samples: DashHistory.samples(deviceID, '${prefix}WEIGHT').map((s) => s.value / 1000.0).toList(),
+        samples: DashHistory.samples(deviceID, '${prefix}WEIGHT', window: DashHistory.sparklineWindow).map((s) => s.value / 1000.0).toList(),
         decimals: 2,
       ));
     }

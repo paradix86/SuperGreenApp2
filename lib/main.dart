@@ -24,6 +24,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:super_green_app/data/api/device/dash_history.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -89,6 +90,7 @@ Future initApp() async {
   );
 
   final Directory appDocDir = await getApplicationDocumentsDirectory();
+  await DashHistory.load(appDocDir);
   final Directory tmpDocDir = await getTemporaryDirectory();
   Hive.init(appDocDir.path);
   Hive.registerAdapter(AppDataAdapter());
