@@ -72,7 +72,7 @@ abstract class SpecsFormState<T extends StatefulWidget> extends State<T> {
         child: Align(
           alignment: Alignment.centerRight,
           child: GreenButton(
-            title: 'CREATE PRODUCT',
+            title: 'Create product',
             onPressed: isValid()
                 ? () {
                     Product product = createProduct();

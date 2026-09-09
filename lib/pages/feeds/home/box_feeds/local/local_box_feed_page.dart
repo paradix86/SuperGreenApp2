@@ -269,7 +269,7 @@ class _LocalBoxFeedPageState extends State<LocalBoxFeedPage> {
               Text('You can now create a box diary too!', style: Theme.of(context).textTheme.bodyLarge),
         ),
         GreenButton(
-          title: 'CREATE DIARY',
+          title: 'Create diary',
           onPressed: () {
             BlocProvider.of<LocalBoxFeedBloc>(context).add(LocalBoxFeedBlocEventCreateFeed());
           },

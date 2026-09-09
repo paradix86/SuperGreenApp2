@@ -231,7 +231,7 @@ class _SettingsPlantPageState extends State<SettingsPlantPage> {
           child: Align(
             alignment: Alignment.centerRight,
             child: GreenButton(
-              title: 'UPDATE PLANT',
+              title: 'Update plant',
               onPressed: _nameController.value.text != '' ? () => _handleInput(context) : null,
             ),
           ),

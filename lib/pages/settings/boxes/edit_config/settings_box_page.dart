@@ -232,7 +232,7 @@ class _SettingsBoxPageState extends State<SettingsBoxPage> {
           child: Align(
             alignment: Alignment.centerRight,
             child: GreenButton(
-              title: 'UPDATE LAB',
+              title: 'Update lab',
               onPressed: _nameController.value.text != '' ? () => _handleInput(context) : null,
             ),
           ),
