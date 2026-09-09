@@ -193,6 +193,8 @@ class _BoxControlsPageState extends State<BoxControlsPage> {
           ),
         ],
         const SizedBox(height: 10),
+        _TemporaryOverridesCard(box: box, now: _now),
+        const SizedBox(height: 10),
         _renderScreenRow(context, state),
       ],
     );
@@ -497,6 +499,117 @@ class _AlertsCard extends StatelessWidget {
           const SizedBox(width: 4),
           Icon(Icons.chevron_right, color: c.ink3),
         ],
+      ),
+    );
+  }
+}
+
+class _TemporaryOverridesCard extends StatefulWidget {
+  final Box box;
+  final DateTime now;
+
+  const _TemporaryOverridesCard({required this.box, required this.now});
+
+  @override
+  _TemporaryOverridesCardState createState() => _TemporaryOverridesCardState();
+}
+
+class _TemporaryOverridesCardState extends State<_TemporaryOverridesCard> {
+  int? _lightBoostMinutes;
+  int? _blowerBoostMinutes;
+
+  @override
+  Widget build(BuildContext context) {
+    final SglColors c = context.sgl;
+    final TextTheme t = Theme.of(context).textTheme;
+    final bool hasOverrides = _lightBoostMinutes != null || _blowerBoostMinutes != null;
+    return SglCard(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.flash_on_outlined, size: 20, color: c.accent),
+              const SizedBox(width: 8),
+              Text('Temporary overrides', style: t.titleMedium),
+              const SglInfoButton('overrides', size: 15),
+              const Spacer(),
+              SglStatusChip(label: hasOverrides ? 'active' : 'none', status: hasOverrides ? SglStatus.warn : SglStatus.off),
+            ],
+          ),
+          if (hasOverrides) ...[
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                if (_lightBoostMinutes != null)
+                  Text('Light +$_lightBoostMinutes min', style: t.labelSmall?.copyWith(color: c.accent)),
+                if (_blowerBoostMinutes != null)
+                  Text('Blower +$_blowerBoostMinutes min', style: t.labelSmall?.copyWith(color: c.accent)),
+              ],
+            ),
+          ],
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: FilledButton.tonal(
+                  onPressed: () => _showOverrideDialog('Light', (minutes) {
+                    setState(() => _lightBoostMinutes = minutes);
+                  }),
+                  child: const Text('Light +'),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: FilledButton.tonal(
+                  onPressed: () => _showOverrideDialog('Blower', (minutes) {
+                    setState(() => _blowerBoostMinutes = minutes);
+                  }),
+                  child: const Text('Blower +'),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showOverrideDialog(String label, Function(int) onDuration) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('$label boost duration'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('How many minutes to boost $label?'),
+            const SizedBox(height: 16),
+            SizedBox(
+              height: 150,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      for (final mins in [15, 30, 60])
+                        FilledButton(
+                          onPressed: () {
+                            onDuration(mins);
+                            Navigator.pop(context);
+                          },
+                          child: Text('$mins min'),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

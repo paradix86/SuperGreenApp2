@@ -253,6 +253,14 @@ class DeviceAPI {
         logData: {"controllerIP": controllerIP, "fileName": fileName});
   }
 
+  static Future uploadFirmwareAndTriggerOTA(String controllerIP, ByteData firmwareData,
+      {int? timeout = 10, String? auth}) async {
+    // TODO: Upload firmware binary to /fs/firmware.bin and trigger OTA_START parameter update
+    // 1. Call uploadFile(controllerIP, 'firmware.bin', firmwareData, auth: auth)
+    // 2. Call setIntParam(controllerIP, 'OTA_START', 1, auth: auth) to trigger OTA
+    // 3. Controller will reboot after OTA completes
+  }
+
   static Map<int, bool> fetchingAllParams = {};
 
   static Future fetchAllParams(String ip, int deviceID, Function(double) advancement,

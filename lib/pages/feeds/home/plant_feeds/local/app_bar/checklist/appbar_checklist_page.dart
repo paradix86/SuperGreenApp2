@@ -23,7 +23,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/data/rel/checklist/actions.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
-import 'package:super_green_app/l10n/common.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/feeds/home/plant_feeds/local/app_bar/checklist/actions/checklist_action_page.dart';
 import 'package:super_green_app/pages/feeds/home/plant_feeds/local/app_bar/checklist/appbar_checklist_bloc.dart';
@@ -104,11 +103,7 @@ class _AppbarChecklistPageState extends State<AppbarChecklistPage> {
           child: GreenButton(
             title: 'Create checklist',
             onPressed: () {
-              if (state.requiresLogin) {
-                _login(context);
-              } else {
-                BlocProvider.of<AppbarChecklistBloc>(context).add(AppbarChecklistBlocEventCreate());
-              }
+              BlocProvider.of<AppbarChecklistBloc>(context).add(AppbarChecklistBlocEventCreate());
             },
           ),
         ),
@@ -200,40 +195,4 @@ class _AppbarChecklistPageState extends State<AppbarChecklistPage> {
             )),
       ],
     );
-  }
-
-  void _login(BuildContext context) async {
-    bool? confirm = await showDialog<bool>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Please login'),
-            content: Text('The checklist feature requires a SGL account to work for you when you\'re not there:)'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context, false);
-                },
-                child: Text(CommonL10N.cancel),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context, true);
-                },
-                child: Text(CommonL10N.loginCreateAccount),
-              ),
-            ],
-          );
-        });
-    if (confirm ?? false) {
-      BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsAuth(futureFn: (future) async {
-        bool done = await future;
-        if (done == true) {
-          BlocProvider.of<AppbarChecklistBloc>(context).add(AppbarChecklistBlocEventInit());
-          BlocProvider.of<AppbarChecklistBloc>(context).add(AppbarChecklistBlocEventCreate());
-        }
-      }));
-    }
-  }
-}
+  }}
