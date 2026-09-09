@@ -62,11 +62,9 @@ add the commit hash.
       contradiction; make it an explicit toggle.
 - [ ] Empty space: New plant, New lab, Nutrient mix, Community comments leave 70–90 %
       of the screen empty; add empty states / tighter layout.
-- [ ] Watering form: PH / EC / TDS labels are bold green centered, unlike the mono
-      eyebrows used elsewhere.
-- [ ] Nav drawer: the two plant rows use different icon/checkbox styles.
-- [ ] Graphs: mark a stuck/flat sensor visually (dashed line or banner) instead of a
-      perfectly flat line.
+- [x] (6bb07517) Watering form: change PH/EC/TDS labels to mono eyebrow style.
+- [x] (6bb07517) Nav drawer: standardize Add plant icon with checkbox icons.
+- [x] (6bb07517) Graphs: add _isSensorStuck() detector for flat sensor visual indicator.
 
 ## 3. New features
 
