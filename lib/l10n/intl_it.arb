@@ -1,0 +1,2315 @@
+{
+  "@@last_modified": "2023-11-23T11:34:44.079196",
+  "loading": "Caricamento...",
+  "@loading": {
+    "description": "Loading message usually displayed on the fullscreen overlay",
+    "type": "text",
+    "placeholders": {}
+  },
+  "saving": "Salvataggio...",
+  "@saving": {
+    "description": "Saving message usually displayed on the fullscreen overlay",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingParameters": "Setting parameters..",
+  "@settingParameters": {
+    "description": "Setting parameter message usually displayed on the fullscreen overlay",
+    "type": "text",
+    "placeholders": {}
+  },
+  "done": "Fatto!",
+  "@done": {
+    "description": "Success message usually displayed on the fullscreen overlay",
+    "type": "text",
+    "placeholders": {}
+  },
+  "doneButton": "FATTO",
+  "@doneButton": {
+    "description": "\"Done\" label for confirmation buttons",
+    "type": "text",
+    "placeholders": {}
+  },
+  "no": "NO",
+  "@no": {
+    "description": "Used in confirmation dialogs",
+    "type": "text",
+    "placeholders": {}
+  },
+  "yes": "YES",
+  "@yes": {
+    "description": "Used in confirmation dialogs",
+    "type": "text",
+    "placeholders": {}
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "Used in confirmation dialogs",
+    "type": "text",
+    "placeholders": {}
+  },
+  "or": "OR",
+  "@or": {
+    "description": "Used in confirmation dialogs",
+    "type": "text",
+    "placeholders": {}
+  },
+  "cancel": "CANCEL",
+  "@cancel": {
+    "description": "Used in confirmation dialogs",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginCreateAccount": "LOGIN / CREATE ACCOUNT",
+  "@loginCreateAccount": {
+    "description": "Used in \"please login\" dialogs",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginRequiredDialogTitle": "Login required",
+  "@loginRequiredDialogTitle": {
+    "description": "Used in \"please login\" dialogs",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginRequiredDialogBody": "Please log in or create an account.",
+  "@loginRequiredDialogBody": {
+    "description": "Used in \"please login\" dialogs",
+    "type": "text",
+    "placeholders": {}
+  },
+  "unsavedChangeDialogTitle": "Unsaved changes",
+  "@unsavedChangeDialogTitle": {
+    "description": "Title for the \"unsaved changes\" dialog when pressing back",
+    "type": "text",
+    "placeholders": {}
+  },
+  "unsavedChangeDialogBody": "Changes will not be saved. Continue?",
+  "@unsavedChangeDialogBody": {
+    "description": "Body for the \"unsaved changes\" dialog when pressing back",
+    "type": "text",
+    "placeholders": {}
+  },
+  "confirmUnRevertableChange": "This can't be reverted. Continue?",
+  "@confirmUnRevertableChange": {
+    "description": "Body for the delete dialog confirmation",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieButtonCreatePlant": "GO!",
+  "@towelieButtonCreatePlant": {
+    "description": "Towelie button create plant",
+    "type": "text",
+    "placeholders": {}
+  },
+  "toweliePlantStartSeedling": "Alright, let me know when you're **ready to put the seed to germinate** by pressing the **start** button below.\nIn the meantime you can also **create an account**:P that will enable backups, remote control, sharing, etc...",
+  "@toweliePlantStartSeedling": {
+    "description": "Towelie plant start seedling",
+    "type": "text",
+    "placeholders": {}
+  },
+  "toweliePlantPhase": "Alright tell me at **which stage** the plant is at.\nIs it already **vegging** or still **just a seed**?",
+  "@toweliePlantPhase": {
+    "description": "Towelie plant phase",
+    "type": "text",
+    "placeholders": {}
+  },
+  "toweliePlantGermination": "Ok, place your seed in water, follow the guide, and press the \"germinated\" button below\nwhen you're ready to place the seed in its growing medium.",
+  "@toweliePlantGermination": {
+    "description": "Towelie plant germination",
+    "type": "text",
+    "placeholders": {}
+  },
+  "toweliePlantTutoTakePic": "Alright **let's start**!\nOne first thing you can do to **start** this journey is to **take a picture** of your **plant**.",
+  "@toweliePlantTutoTakePic": {
+    "description": "Towelie Plant tuto take pic",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieWelcomePlant": "**Welcome to your plant feed!**\nThis is where you can **keep a history** of your plant's life.\n\nEverytime you **water**, **train**, or even just **observe something** about your plant,\nyou can **add an item** to the feed.\n\nSo you can see the **evolution** of your plant, **repeat it** later, or **share it!**",
+  "@towelieWelcomePlant": {
+    "description": "Towelie Welcome Plant",
+    "type": "text",
+    "placeholders": {}
+  },
+  "toweliePlantType": "To better guide you to a **successful harvest**, I'll need a bit **more informations** about your plant.\nIs this plant an **auto** or **photo** strain?",
+  "@toweliePlantType": {
+    "description": "Towelie Plant auto or photo",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieHelperFormTakePic": "Take a picture of your plant and **note what you see**. Regular photos are the best diary you'll have during the next grow.",
+  "@towelieHelperFormTakePic": {
+    "description": "Towelie Helper form take pic",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieHelperFormMeasure": "The **measuring tool** is not lab-accurate, but it gives you a **good reference for the next grow** and builds a **timelapse** from all your measures.",
+  "@towelieHelperFormMeasure": {
+    "description": "Towelie Helper measure form 2",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieHelperFormMeasure2": "This is your **first measure**, so there is no earlier picture to compare to. Photograph what you want to measure and come back in **a few days** to see the difference.",
+  "@towelieHelperFormMeasure2": {
+    "description": "Towelie Helper measure form 2",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieHelperFormMeasure3": "You already have a measure: pick it under **Previous measures**, then tap **Today's measure**. The old picture shows as a **transparent overlay** so you can line them up.",
+  "@towelieHelperFormMeasure3": {
+    "description": "Towelie Helper measure form 3",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieHelperCreatePlant": "Welcome! I'll guide you through creating your first plant.\nStart by **giving it a name**: the strain, a nickname, anything you'll recognise.",
+  "@towelieHelperCreatePlant": {
+    "description": "Towelie Helper Create Plant",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieHelperCreateLab": "A **lab** is the space your plant grows in: a tent, a box or a shelf with its own **lights and ventilation**.\nGive it a name; you can link a controller to it right after.",
+  "@towelieHelperCreateLab": {
+    "description": "Towelie Helper create lab",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieHelperDeviceWifi": "Connecting the controller to your **home Wi-Fi** is optional but useful:\n- firmware **updates**\n- **monitoring** from anywhere\n- **remote control** with an SGL account",
+  "@towelieHelperDeviceWifi": {
+    "description": "Towelie Helper Device wifi",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieHelperSelectNewPlantDeviceBox": "Choose which of the controller's **LED channels** light this plant. Keep the panels **plugged in** so you can see which one reacts.",
+  "@towelieHelperSelectNewPlantDeviceBox": {
+    "description": "Towelie Helper new plant Device box",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieHelperAddExistingDevice": "Your controller is already on your **home Wi-Fi**, so let's find it on the network.\nType the **name you gave it** (default **supergreencontroller**) or its **IP address**. The IP is listed on your router's page: take your phone's IP, replace the last number with **1** and open it in a browser.",
+  "@towelieHelperAddExistingDevice": {
+    "description": "Towelie Helper Add existing device",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieHelperAddDevice": "**Power the controller** with its supply if it is not on yet, then choose above how to reach it: a **new controller** broadcasts its own Wi-Fi, an **existing one** is already on your home network.",
+  "@towelieHelperAddDevice": {
+    "description": "Towelie Helper Add device",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieHelperSelectDevice": "Now that the plant has a name, let's set it up.\nIf you own a **SuperGreenLab controller**, choose which one will drive this plant's **lights, ventilation and sensors**. Brand new? Start with **New controller**.\nNo controller? Tap **NO SGL DEVICE** to skip this step.",
+  "@towelieHelperSelectDevice": {
+    "description": "Towelie Helper Select plant device",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieHelperTestDevice": "Quick check that everything responds. **Plug the LED panels into the controller** if you haven't yet, then run the test.",
+  "@towelieHelperTestDevice": {
+    "description": "Towelie Helper test device",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieHelperSelectPlantDeviceBox": "A controller manages up to **3 boxes**. Pick a box that is **already set up** above, or create a **new one**.",
+  "@towelieHelperSelectPlantDeviceBox": {
+    "description": "Towelie Helper plant Device box",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieHelperMeasureAfterStretch": "Good moment to **take a measure** and keep an eye on the **stretch**.",
+  "@towelieHelperMeasureAfterStretch": {
+    "description": "Towelie Helper measure after stretch",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieHelperMeasureReminder": "Want me to **set a reminder** so you don't forget the next measure?",
+  "@towelieHelperMeasureReminder": {
+    "description": "Towelie Helper measure reminder",
+    "type": "text",
+    "placeholders": {}
+  },
+  "towelieHelperWaterReminder": "Want me to **set a reminder** for the next watering?",
+  "@towelieHelperWaterReminder": {
+    "description": "Towelie Helper water reminder",
+    "type": "text",
+    "placeholders": {}
+  },
+  "title": "SuperGreenLab",
+  "@title": {
+    "description": "App title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "redBarSyncingProgress": "Syncing - {progress}",
+  "@redBarSyncingProgress": {
+    "description": "Syncing progress indicator in top red bar, when fetching all new diary cards",
+    "type": "text",
+    "placeholders": {
+      "progress": {
+        "example": "medias 12/17"
+      }
+    }
+  },
+  "mainNavigatorUnknownRoute": "Unknown route",
+  "@mainNavigatorUnknownRoute": {
+    "description": "Unknown route message (shouldnt appear)",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsPlantAlertPageTitle": "Alerts",
+  "@settingsPlantAlertPageTitle": {
+    "description": "Device alerts page title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsPlantAlertPageLoading": "Loading",
+  "@settingsPlantAlertPageLoading": {
+    "description": "Loading text when setting alert parameters",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsPlantAlertPageSectionTitle": "Alert settings",
+  "@settingsPlantAlertPageSectionTitle": {
+    "description": "Section title for the alert parameters setup",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsPlantAlertPageInstructions": "**No need to constantly check the plant monitoring!** Just setup your alerts, and the app will tell you when something's wrong.",
+  "@settingsPlantAlertPageInstructions": {
+    "description": "Explanation for alerts",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsDayAlertPageInstructions": "Day alert settings are used while the lights are on.",
+  "@settingsDayAlertPageInstructions": {
+    "description": "Explanation for day alerts",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsNightAlertPageInstructions": "Night alert settings are used while the lights are off.",
+  "@settingsNightAlertPageInstructions": {
+    "description": "Explanation for night alerts",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsRemoteControlPageControllerDone": "Controller {name} paired for remote control!",
+  "@settingsRemoteControlPageControllerDone": {
+    "description": "Controller remote control setup confirmation text",
+    "type": "text",
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "settingsRemoteControlPageInstructionsNeedUpgrade": "**Please upgrade your controller** to enable remote control.\n\n**Go back to the previous screen** and tap the **\"Firmware upgrade\"** button.",
+  "@settingsRemoteControlPageInstructionsNeedUpgrade": {
+    "description": "Explanation for remote control when needing to upgrade controller",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsRemoteControlPageInstructions": "**Remote control requires to pair your mobile phone**. Please keep in mind: for now only **one** mobile phone can be paired at a time.",
+  "@settingsRemoteControlPageInstructions": {
+    "description": "Explanation for remote control",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsRemoteControlPagePleaseLoginDialogTitle": "Login required",
+  "@settingsRemoteControlPagePleaseLoginDialogTitle": {
+    "description": "Login/create account dialog title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsRemoteControlPagePleaseLoginDialogBody": "Login is required to enable remote control.",
+  "@settingsRemoteControlPagePleaseLoginDialogBody": {
+    "description": "Login/create account dialog body",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsDeviceAuthPageControllerDone": "Controller {name} password set!",
+  "@settingsDeviceAuthPageControllerDone": {
+    "description": "Controller remote control setup confirmation text",
+    "type": "text",
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "settingsDeviceAuthPagePasswordInstructionsNeedsUpgrade": "**Please upgrade your controller** to enable password lock.**Go back to the previous screen** and tap the **\"Firmware upgrade\"** button.\n\nYou can **setup a password** to prevent unauthorized parameter changes on your controller.\n\n*Please keep in mind that this is by no mean top-notch security. Mostly an anti-curious roommate/brother feature. Local network communication is not using https so subject to mitm.*",
+  "@settingsDeviceAuthPagePasswordInstructionsNeedsUpgrade": {
+    "description": "Password protection instructions when controller needs upgrade.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsDeviceAuthPagePasswordInstructions": "You can **setup a password** to prevent unauthorized parameter changes on your controller.\n\n*Please keep in mind that this is by no mean top-notch security. Mostly an anti-curious roommate/brother feature. Local network communication is not using https so subject to mitm.*",
+  "@settingsDeviceAuthPagePasswordInstructions": {
+    "description": "Password protection instructions",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsDeviceAuthPagePasswordWarning": "Don't use your important password here.",
+  "@settingsDeviceAuthPagePasswordWarning": {
+    "description": "Password warning",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsDeviceAuthPageAuthError": "Old login/password doesn't match. Make sure the controller is on the same wifi network.",
+  "@settingsDeviceAuthPageAuthError": {
+    "description": "Old credentials error",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsDevicePageLoading": "Refreshing..",
+  "@settingsDevicePageLoading": {
+    "description": "Loading screen while refreshing parameters",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsDevicePageControllerDone": "Controller {name} updated!",
+  "@settingsDevicePageControllerDone": {
+    "description": "Controller updated confirmation text",
+    "type": "text",
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "settingsDevicePageControllerNameSection": "Controller name",
+  "@settingsDevicePageControllerNameSection": {
+    "description": "Controller name input section",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsDevicePageControllerSettingsSection": "Settings",
+  "@settingsDevicePageControllerSettingsSection": {
+    "description": "Controller name input section",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsDevicePageWifiSettingsSection": "Wifi config",
+  "@settingsDevicePageWifiSettingsSection": {
+    "description": "Wifi settings button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsDevicePageWifiSettingsLabel": "Change your controller's wifi config",
+  "@settingsDevicePageWifiSettingsLabel": {
+    "description": "Wifi settings button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsDevicePageWifiConfigSuccess": "Wifi config changed successfully",
+  "@settingsDevicePageWifiConfigSuccess": {
+    "description": "Wifi config successful message",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsDevicePageWifiConfigFailed": "Wifi config change failed",
+  "@settingsDevicePageWifiConfigFailed": {
+    "description": "Wifi config failed message",
+    "type": "text",
+    "placeholders": {}
+  },
+  "authModalButton": "NOTIFY ME",
+  "@authModalButton": {
+    "description": "Notification request button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "authModalTitle": "Controller {name} requires authentication!",
+  "@authModalTitle": {
+    "description": "Device auth modal form title",
+    "type": "text",
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "refreshParametersPageLoading": "Refreshing..",
+  "@refreshParametersPageLoading": {
+    "description": "Loading screen while refreshing parameters",
+    "type": "text",
+    "placeholders": {}
+  },
+  "refreshParametersPageControllerRefreshed": "Controller {name} refreshed!",
+  "@refreshParametersPageControllerRefreshed": {
+    "description": "Controller params refreshed confirmation text",
+    "type": "text",
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "productTypePageSelectCategorySectionTitle": "Please choose the new product's\ncategory.",
+  "@productTypePageSelectCategorySectionTitle": {
+    "description": "Section title for the product category list",
+    "type": "text",
+    "placeholders": {}
+  },
+  "productTypePageSelectCategoryNextButton": "NEXT",
+  "@productTypePageSelectCategoryNextButton": {
+    "description": "Validation button for the select category page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notificationRequestButton": "NOTIFY ME",
+  "@notificationRequestButton": {
+    "description": "Notification request button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notificationRequestButtonCancel": "NO THANKS",
+  "@notificationRequestButtonCancel": {
+    "description": "Notification request button cancel",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notificationRequestTitle": "Would you like to activate notifications?",
+  "@notificationRequestTitle": {
+    "description": "Notification request purpose",
+    "type": "text",
+    "placeholders": {}
+  },
+  "notificationPurposes": "You will get notified for:\n- **Likes** on comments and public diary entry\n- **Comments** on public diary entries\n- **Replies** to your comments\n- **Smart reminders** and **grow tips**\n- **Temperature** and **humidity** alerts",
+  "@notificationPurposes": {
+    "description": "Notification purpose",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectBoxPageNoLab": "You have no lab yet",
+  "@selectBoxPageNoLab": {
+    "description": "Message displayed when the app has no lab created yet.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectBoxPageCreateFirst": "Create your first",
+  "@selectBoxPageCreateFirst": {
+    "description": "First part of the \"Create your first GREEN LAB\" text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectBoxPageCreateFirstLab": "GREEN LAB",
+  "@selectBoxPageCreateFirstLab": {
+    "description": "Displayed under the selectBoxPageCreateFirstLab text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectBoxPageCreateLabButton": "CREATE",
+  "@selectBoxPageCreateLabButton": {
+    "description": "Lab creation button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectBoxPageAddNewGreenLab": "Add new green lab",
+  "@selectBoxPageAddNewGreenLab": {
+    "description": "Last item of the Lab list is a button to create a new one",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectBoxPageTapSelect": "Tap to select",
+  "@selectBoxPageTapSelect": {
+    "description": "Label for the Labs list items",
+    "type": "text",
+    "placeholders": {}
+  },
+  "createPlantPageDoneMessage": "Plant {name} on lab {boxName} created:)",
+  "@createPlantPageDoneMessage": {
+    "description": "Message displayed when the plant has been created",
+    "type": "text",
+    "placeholders": {
+      "name": {},
+      "boxName": {}
+    }
+  },
+  "createPlantPageNameLabel": "Let's name your new plant:",
+  "@createPlantPageNameLabel": {
+    "description": "New plant name label text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "createPlantPageNameHint": "Ex: Gorilla Kush",
+  "@createPlantPageNameHint": {
+    "description": "New plant name hint text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "createPlantPageSinglePlantDiarySectionTitle": "Is this a single or multiple plant\ngrow diary?",
+  "@createPlantPageSinglePlantDiarySectionTitle": {
+    "description": "Section title for the \"single plant\" checkbox",
+    "type": "text",
+    "placeholders": {}
+  },
+  "createPlantPageSinglePlantDiaryLabel": "Single plant grow diary",
+  "@createPlantPageSinglePlantDiaryLabel": {
+    "description": "Label for the \"single plant\" checkbox",
+    "type": "text",
+    "placeholders": {}
+  },
+  "createPlantPageCreatePlantButton": "CREATE PLANT",
+  "@createPlantPageCreatePlantButton": {
+    "description": "Button to validate the plant creation",
+    "type": "text",
+    "placeholders": {}
+  },
+  "createBoxPageNewLabLabel": "New green lab's name:",
+  "@createBoxPageNewLabLabel": {
+    "description": "New lab label for the name input",
+    "type": "text",
+    "placeholders": {}
+  },
+  "createBoxPageNewLabHint": "Ex: IkeHigh",
+  "@createBoxPageNewLabHint": {
+    "description": "New lab hint for the name input",
+    "type": "text",
+    "placeholders": {}
+  },
+  "createBoxPageNewLabButton": "CREATE LAB",
+  "@createBoxPageNewLabButton": {
+    "description": "New lab button for the name input",
+    "type": "text",
+    "placeholders": {}
+  },
+  "explorerPageTitle": "Explorer",
+  "@explorerPageTitle": {
+    "description": "Explorer page title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "explorerPageSelectPlantTitle": "Select which plant you want to make public",
+  "@explorerPageSelectPlantTitle": {
+    "description": "Title of the select page when selecting a plant to make public",
+    "type": "text",
+    "placeholders": {}
+  },
+  "explorerPagePublicPlantConfirmation": "Plant {name} is now public",
+  "@explorerPagePublicPlantConfirmation": {
+    "description": "Confirmation text when a plant is now public",
+    "type": "text",
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "explorerPagePleaseLoginDialogTitle": "Make a plant public",
+  "@explorerPagePleaseLoginDialogTitle": {
+    "description": "Title for the dialog when the user is not connected",
+    "type": "text",
+    "placeholders": {}
+  },
+  "explorerPagePleaseLoginDialogBody": "You need to be logged in to make a plant public.",
+  "@explorerPagePleaseLoginDialogBody": {
+    "description": "Content for the dialog when the user is not connected",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantDrawerPagePlantList": "Plant list",
+  "@plantDrawerPagePlantList": {
+    "description": "Plant list title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantDrawerPageAddPlantLabel": "Add new plant",
+  "@plantDrawerPageAddPlantLabel": {
+    "description": "Add plant button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "productsPageLoadingPlantData": "Loading plant data",
+  "@productsPageLoadingPlantData": {
+    "description": "Products page loading plant data",
+    "type": "text",
+    "placeholders": {}
+  },
+  "productsPageTitle": "Toolbox",
+  "@productsPageTitle": {
+    "description": "Products page title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "productsPageToolboxEmptyOwnPlant": "Toolbox is empty\nuse the “+” above to add your first item.",
+  "@productsPageToolboxEmptyOwnPlant": {
+    "description": "Products page empty toolbox message when looking at own plant",
+    "type": "text",
+    "placeholders": {}
+  },
+  "productsPageToolboxEmpty": "Toolbox is empty",
+  "@productsPageToolboxEmpty": {
+    "description": "Products page empty toolbox message when looking at another plant",
+    "type": "text",
+    "placeholders": {}
+  },
+  "productsPageToolboxInstructions": "List the items you used for this grow for future reference and/or knowledge sharing.",
+  "@productsPageToolboxInstructions": {
+    "description": "Products toolbox instructions",
+    "type": "text",
+    "placeholders": {}
+  },
+  "productsPageToolboxBy": "by ",
+  "@productsPageToolboxBy": {
+    "description": "Products toolbox \"by \" prefix for brand name",
+    "type": "text",
+    "placeholders": {}
+  },
+  "boxControlPageLoadingPlantData": "Loading plant data",
+  "@boxControlPageLoadingPlantData": {
+    "description": "Box control page loading plant data",
+    "type": "text",
+    "placeholders": {}
+  },
+  "appBarMissingControllerControllerRequired": "Monitoring feature\nrequires an SGL controller",
+  "@appBarMissingControllerControllerRequired": {
+    "description": "Message over the graphs when controller is missing",
+    "type": "text",
+    "placeholders": {}
+  },
+  "appBarMissingControllerShopNow": "SHOP NOW",
+  "@appBarMissingControllerShopNow": {
+    "description": "SHOW NOW button displayed when controller is missing",
+    "type": "text",
+    "placeholders": {}
+  },
+  "appBarMissingControllerOr": "or",
+  "@appBarMissingControllerOr": {
+    "description": "SHOW NOW *or* DIY NOW displayed when controller is missing",
+    "type": "text",
+    "placeholders": {}
+  },
+  "appBarMissingControllerDIYNow": "DIY NOW",
+  "@appBarMissingControllerDIYNow": {
+    "description": "DIY NOW button displayed when controller is missing",
+    "type": "text",
+    "placeholders": {}
+  },
+  "appBarMissingControllerAlreadyGotOne": "already got one?",
+  "@appBarMissingControllerAlreadyGotOne": {
+    "description": "label for the SETUP CONTROLLER button displayed when controller is missing, opens the select controller dialog",
+    "type": "text",
+    "placeholders": {}
+  },
+  "appBarMissingControllerSetupController": "SETUP CONTROLLER",
+  "@appBarMissingControllerSetupController": {
+    "description": "SETUP CONTROLLER displayed when controller is missing, opens the select controller dialog",
+    "type": "text",
+    "placeholders": {}
+  },
+  "environmentsPageControlTitle": "Environment control",
+  "@environmentsPageControlTitle": {
+    "description": "Title displayed above the environment control buttons",
+    "type": "text",
+    "placeholders": {}
+  },
+  "environmentsPageLight": "Light",
+  "@environmentsPageLight": {
+    "description": "Label for the light dimming control page button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "environmentsPageVentilation": "Ventil",
+  "@environmentsPageVentilation": {
+    "description": "Label for the ventilation control page button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "environmentsPageSchedule": "Schedule",
+  "@environmentsPageSchedule": {
+    "description": "Label for the schedule control page button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "environmentsPageAlerts": "Alerts",
+  "@environmentsPageAlerts": {
+    "description": "Label for the alert control page button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageTitle": "Plant feed",
+  "@plantFeedPageTitle": {
+    "description": "Label for the button that shows the complete diary when looking at a single feed entry",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageSingleEntry": "Viewing single log entry",
+  "@plantFeedPageSingleEntry": {
+    "description": "Label for the button that shows the complete diary when looking at a single feed entry",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageSingleEntryButton": "View complete diary",
+  "@plantFeedPageSingleEntryButton": {
+    "description": "Button that shows the complete diary when looking at a single feed entry",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageMenuDefoliation": "Defoliation",
+  "@plantFeedPageMenuDefoliation": {
+    "description": "Speed dial (lower right menu) button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageMenuTopping": "Topping",
+  "@plantFeedPageMenuTopping": {
+    "description": "Speed dial (lower right menu) button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageMenuCloning": "Cloning",
+  "@plantFeedPageMenuCloning": {
+    "description": "Speed dial (lower right menu) button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageMenuFimming": "Fimming",
+  "@plantFeedPageMenuFimming": {
+    "description": "Speed dial (lower right menu) button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageMenuBending": "Bending",
+  "@plantFeedPageMenuBending": {
+    "description": "Speed dial (lower right menu) button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageMenuTransplant": "Transplant",
+  "@plantFeedPageMenuTransplant": {
+    "description": "Speed dial (lower right menu) button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageMenuGerminating": "Germinating",
+  "@plantFeedPageMenuGerminating": {
+    "description": "Speed dial (lower right menu) button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageMenuVegging": "Vegging",
+  "@plantFeedPageMenuVegging": {
+    "description": "Speed dial (lower right menu) button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageMenuBlooming": "Blooming",
+  "@plantFeedPageMenuBlooming": {
+    "description": "Speed dial (lower right menu) button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageMenuDrying": "Drying",
+  "@plantFeedPageMenuDrying": {
+    "description": "Speed dial (lower right menu) button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageMenuCuring": "Curing",
+  "@plantFeedPageMenuCuring": {
+    "description": "Speed dial (lower right menu) button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageMenuGrowlog": "Grow log",
+  "@plantFeedPageMenuGrowlog": {
+    "description": "Speed dial (lower right menu) button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageMenuMeasure": "Measure",
+  "@plantFeedPageMenuMeasure": {
+    "description": "Speed dial (lower right menu) button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageMenuNutrientMix": "Nutrient mix",
+  "@plantFeedPageMenuNutrientMix": {
+    "description": "Speed dial (lower right menu) button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageMenuWatering": "Watering",
+  "@plantFeedPageMenuWatering": {
+    "description": "Speed dial (lower right menu) button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageMenuPlantTraining": "Plant training",
+  "@plantFeedPageMenuPlantTraining": {
+    "description": "Speed dial (lower right menu) button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageMenuLifeEvents": "Life events",
+  "@plantFeedPageMenuLifeEvents": {
+    "description": "Speed dial (lower right menu) button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageLoading": "Loading plant..",
+  "@plantFeedPageLoading": {
+    "description": "Loading message while fetching plant from db",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageArchived": "Plant was removed or archived.",
+  "@plantFeedPageArchived": {
+    "description": "Message displayed when the plant that was displayed has be removed or archived",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageOpenPlantMenu": "OPEN PLANT LIST",
+  "@plantFeedPageOpenPlantMenu": {
+    "description": "Button displayed under plantFeedPageArchived, opens the plant menu",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageNoPlantYet": "You have no plant yet.",
+  "@plantFeedPageNoPlantYet": {
+    "description": "Displayed when no plant has been added to the app yet",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageAddFirstPlantPart1": "Add your first",
+  "@plantFeedPageAddFirstPlantPart1": {
+    "description": "First part of the \"Add your first PLANT\" text when no plant yet",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageAddFirstPlantPart2": "PLANT",
+  "@plantFeedPageAddFirstPlantPart2": {
+    "description": "Second part of the \"Add your first PLANT\" text when no plant yet",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantFeedPageStart": "START",
+  "@plantFeedPageStart": {
+    "description": "Button displayed under plantFeedPageAddFirstPlantPart2, opens the plant creation user flow",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantQuickViewPageLoadingPlantData": "Loading plant data",
+  "@plantQuickViewPageLoadingPlantData": {
+    "description": "Products page loading plant data",
+    "type": "text",
+    "placeholders": {}
+  },
+  "publicPlantPageSingleEntry": "Viewing single log entry",
+  "@publicPlantPageSingleEntry": {
+    "description": "Label for the button that shows the complete diary when looking at a single feed entry",
+    "type": "text",
+    "placeholders": {}
+  },
+  "publicPlantPageSingleEntryButton": "View complete diary",
+  "@publicPlantPageSingleEntryButton": {
+    "description": "Button that shows the complete diary when looking at a single feed entry",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedPageLoading": "loading more cards...",
+  "@feedPageLoading": {
+    "description": "Loading message usually displayed on the fullscreen overlay",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceNewBoxSettingUp": "Setting up..",
+  "@selectDeviceNewBoxSettingUp": {
+    "description": "Message displayed while setting the controller's parameters",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceNewBoxNoMoreBox": "Device can't handle\nmore box!",
+  "@selectDeviceNewBoxNoMoreBox": {
+    "description": "Message displayed when all box slots are already taken",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceNewBoxAvailableLEDChannels": "Available LED channels",
+  "@selectDeviceNewBoxAvailableLEDChannels": {
+    "description": "Available LED channels list title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceNewBoxSelectedLEDChannels": "Selected LED channels",
+  "@selectDeviceNewBoxSelectedLEDChannels": {
+    "description": "Available LED channels list title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceNewBoxSetupBox": "SETUP BOX",
+  "@selectDeviceNewBoxSetupBox": {
+    "description": "Confirmation button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceNewBoxSetupEmptyBox": "SETUP EMPTY BOX",
+  "@selectDeviceNewBoxSetupEmptyBox": {
+    "description": "Confirmation button for empty box",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceNewBoxLEDChannel": "LED chan",
+  "@selectDeviceNewBoxLEDChannel": {
+    "description": "LED channels list items label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceBoxSettingUp": "Setting up..",
+  "@selectDeviceBoxSettingUp": {
+    "description": "Message while app is configuring new box",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceBoxSlot": "Select controller's box slot",
+  "@selectDeviceBoxSlot": {
+    "description": "Select device box slot",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceBoxAlreadyRunning": "Already running",
+  "@selectDeviceBoxAlreadyRunning": {
+    "description": "Select device box slot",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceBoxAvailable": "Available",
+  "@selectDeviceBoxAvailable": {
+    "description": "Select device box slot available",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceBoxNoMoreLED": "No more free led channels",
+  "@selectDeviceBoxNoMoreLED": {
+    "description": "Select device box slot no more channels",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceBoxNumber": "Box #{number}",
+  "@selectDeviceBoxNumber": {
+    "description": "Box slot number",
+    "type": "text",
+    "placeholders": {
+      "number": {}
+    }
+  },
+  "selectDeviceBoxLedChannelDescription": "Led channels: {leds}",
+  "@selectDeviceBoxLedChannelDescription": {
+    "description": "Box slot channel description",
+    "type": "text",
+    "placeholders": {
+      "leds": {}
+    }
+  },
+  "selectDeviceBoxNoLedChannelAssigned": "No led channels assigned",
+  "@selectDeviceBoxNoLedChannelAssigned": {
+    "description": "Box slot no led channel assigned yet",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceBoxResetDialogTitle": "Reset box #{index} on controller {name}?",
+  "@selectDeviceBoxResetDialogTitle": {
+    "description": "Box slot reset dialog title",
+    "type": "text",
+    "placeholders": {
+      "index": {},
+      "name": {}
+    }
+  },
+  "selectDeviceSkipAddDevice": "NO SGL DEVICE",
+  "@selectDeviceSkipAddDevice": {
+    "description": "Button to skip the sgl device config",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceNewController": "NEW CONTROLLER",
+  "@selectDeviceNewController": {
+    "description": "Add new controller button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceListTitle": "Select a controller below",
+  "@selectDeviceListTitle": {
+    "description": "Instruction title above the controller list.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceListItemInstruction": "Tap to select",
+  "@selectDeviceListItemInstruction": {
+    "description": "Instruction for controller list items.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceNoController": "You have no controller\nfor your new lab.",
+  "@selectDeviceNoController": {
+    "description": "Message on the select device screen when no controller added yet",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceAddFirst": "Add a first",
+  "@selectDeviceAddFirst": {
+    "description": "First half of the \"Add a first controller\" instructions",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceAddFirstController": "CONTROLLER",
+  "@selectDeviceAddFirstController": {
+    "description": "Second half of the \"Add a first controller\" instructions",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceAdd": "ADD",
+  "@selectDeviceAdd": {
+    "description": "First part of the \"Add or Shop now\" instructions",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceOr": "OR",
+  "@selectDeviceOr": {
+    "description": "Second part of the \"Add or Shop now\" instructions",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceShopNow": "SHOP NOW",
+  "@selectDeviceShopNow": {
+    "description": "Last part of the \"Add or Shop now\" instructions",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceDIYNow": "DIY NOW",
+  "@selectDeviceDIYNow": {
+    "description": "After the \"Add or Shop now\" instructions",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceContinueWithoutController": "Continue without controller",
+  "@selectDeviceContinueWithoutController": {
+    "description": "Skip select controller",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectDeviceDeleteControllerDialogTitle": "Delete controller {name}?",
+  "@selectDeviceDeleteControllerDialogTitle": {
+    "description": "Title for the delete controller dialog",
+    "type": "text",
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "selectDeviceDeleteControllerDialogBody": "This can't be reverted. Continue?",
+  "@selectDeviceDeleteControllerDialogBody": {
+    "description": "Confirm controller deletion",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceNamePageTitle": "Add controller",
+  "@deviceNamePageTitle": {
+    "description": "Device name page title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceNamePageLoading": "Setting controller name..",
+  "@deviceNamePageLoading": {
+    "description": "Loading text when setting controller name",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceNamePageSetNameSectionTitle": "Set controller's name",
+  "@deviceNamePageSetNameSectionTitle": {
+    "description": "Section title for the controller name input",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceNamePageSetNameHint": "ex: controller",
+  "@deviceNamePageSetNameHint": {
+    "description": "Hint for the controller name input",
+    "type": "text",
+    "placeholders": {}
+  },
+  "testLEDTiming": "(100% power for {time} s)",
+  "@testLEDTiming": {
+    "description": "Wait message when setting a led to 100% for a few seconds when setting up a new controller.",
+    "type": "text",
+    "placeholders": {
+      "time": {
+        "example": 0.34
+      }
+    }
+  },
+  "testingLEDTitle": "Testing LED",
+  "@testingLEDTitle": {
+    "description": "Title for the led testing page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "testingLEDDone": "Testing done",
+  "@testingLEDDone": {
+    "description": "Title for the led testing page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "ledTestingInstructions": "Press a led channel\nto switch it on/off:",
+  "@ledTestingInstructions": {
+    "description": "Intructions for the LED test page during new controller setup",
+    "type": "text",
+    "placeholders": {}
+  },
+  "ledTestingChannelTitle": "Light",
+  "@ledTestingChannelTitle": {
+    "description": "The word displayed on each led channel widget",
+    "type": "text",
+    "placeholders": {}
+  },
+  "ledTestingValidate": "OK, ALL GOOD",
+  "@ledTestingValidate": {
+    "description": "Confirmation button for the LED testing page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "ledTestingPageTitle": "NEW BOX SETUP",
+  "@ledTestingPageTitle": {
+    "description": "Led testing page title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "existingDevicePageTitle": "Add controller",
+  "@existingDevicePageTitle": {
+    "description": "Existing device page title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "existingDeviceSearching": "Searching controller..",
+  "@existingDeviceSearching": {
+    "description": "Searching controller loading text",
+    "type": "text",
+    "placeholders": {}
+  },
+  "instructionsExistingDeviceTitle": "Enter controller name or IP",
+  "@instructionsExistingDeviceTitle": {
+    "description": "Instructions existing device title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "instructionsExistingDevice": "Please make sure your **mobile phone** is **connected to your home wifi**.\nThen we'll search for it **by name** or **by IP**, please **fill** the following text field.",
+  "@instructionsExistingDevice": {
+    "description": "Instructions existing device",
+    "type": "text",
+    "placeholders": {}
+  },
+  "existingDeviceNameHint": "Ex: supergreencontroller or IP address",
+  "@existingDeviceNameHint": {
+    "description": "Hint text for the device name field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "existingDeviceNotFound": "Controller \"{controller}\" not found!",
+  "@existingDeviceNotFound": {
+    "description": "Hint text for the device name field",
+    "type": "text",
+    "placeholders": {
+      "controller": {}
+    }
+  },
+  "existingDeviceSearchButton": "SEARCH CONTROLLER",
+  "@existingDeviceSearchButton": {
+    "description": "Label for the search controller button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsDeviceSetupPagePasswordInstructions": "This controller is password protected, please enter the login/password below.",
+  "@settingsDeviceSetupPagePasswordInstructions": {
+    "description": "Password protection instructions",
+    "type": "text",
+    "placeholders": {}
+  },
+  "newDevicePageTitle": "Add controller",
+  "@newDevicePageTitle": {
+    "description": "New device page title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "newDevicePageEmojiWifiSectionTitle": "Connecting to controller's wifi",
+  "@newDevicePageEmojiWifiSectionTitle": {
+    "description": "New device page emoji wifi section title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "instructionsNewDeviceWifiFailed": "**Couldn't connect** to the 🤖🍁 wifi! Please go to your **mobile phone settings** to connect manually with the **following credentials**:",
+  "@instructionsNewDeviceWifiFailed": {
+    "description": "Instructions new device wifi failed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "instructionsNewDeviceWifiFailed2": "SSID: 🤖🍁\nPassword: multipass",
+  "@instructionsNewDeviceWifiFailed2": {
+    "description": "Instructions new device wifi failed2",
+    "type": "text",
+    "placeholders": {}
+  },
+  "instructionsNewDeviceWifiFailed3": "Then press the **DONE** button below",
+  "@instructionsNewDeviceWifiFailed3": {
+    "description": "Instructions new device wifi failed3",
+    "type": "text",
+    "placeholders": {}
+  },
+  "newDeviceAutoConnect": "Trying to connect\nautomatically",
+  "@newDeviceAutoConnect": {
+    "description": "Waiting wifi connection loading",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addDevicePagePleaseLoginDialogTitle": "Optional Login",
+  "@addDevicePagePleaseLoginDialogTitle": {
+    "description": "Please login dialog title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addDevicePagePleaseLoginDialogBody": "Optionnal login or account creation is preferable at this step.\nIt will allow to enable the remote control of your box for easier setup.\n\nNo personal infos required, not even an email address.",
+  "@addDevicePagePleaseLoginDialogBody": {
+    "description": "Please login dialog title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "addDevicePagePleaseLoginDialogSkip": "Continue without",
+  "@addDevicePagePleaseLoginDialogSkip": {
+    "description": "Please login dialog title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceWifiPageTitle": "Controller Wifi setup",
+  "@deviceWifiPageTitle": {
+    "description": "Device wifi configuration page title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceWifiPageNoControllerFound": "Couldn't find the controller\non your network.",
+  "@deviceWifiPageNoControllerFound": {
+    "description": "Device wifi page controller not found on network after setting wifi credentials.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceWifiPageNotFoundRetry": "Sometime it just takes a bit more time,\nretry search:",
+  "@deviceWifiPageNotFoundRetry": {
+    "description": "Device wifi page controller not found on network after setting wifi credentials.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceWifiPageRetrySearch": "RETRY SEARCH",
+  "@deviceWifiPageRetrySearch": {
+    "description": "Retry search button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceWifiPageNotFoundInstructions": "Is the emoji wifi back?\nThen the entered credentials were wrong.\nConnect to it, then tap this button:",
+  "@deviceWifiPageNotFoundInstructions": {
+    "description": "Instruction message to check wether connection failed or not",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceWifiPageRetryCredentials": "RETRY CREDENTIALS",
+  "@deviceWifiPageRetryCredentials": {
+    "description": "Retry credentials button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceWifiPageWifiInputLabel": "Enter your home wifi SSID",
+  "@deviceWifiPageWifiInputLabel": {
+    "description": "Label for the wifi ssid input field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceWifiPageWifiPasswordLabel": "Enter your home wifi password",
+  "@deviceWifiPageWifiPasswordLabel": {
+    "description": "Label for the wifi password input field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceWifiPageErrorConnectionEmoji": "Make sure you are connected to the emoji wifi!",
+  "@deviceWifiPageErrorConnectionEmoji": {
+    "description": "Error message when the controller is unreachable",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceWifiPageSearchingController": "Searching controller on network\nplease wait..",
+  "@deviceWifiPageSearchingController": {
+    "description": "Loading message displayed when searching for controller on network",
+    "type": "text",
+    "placeholders": {}
+  },
+  "deviceWifiPageSearchingControllerTries": "Try\n{tries}/{totalTries}",
+  "@deviceWifiPageSearchingControllerTries": {
+    "description": "Loading message displayed when searching for controller on network",
+    "type": "text",
+    "placeholders": {
+      "tries": {},
+      "totalTries": {}
+    }
+  },
+  "devicePairingPageTitle": "Pair controller",
+  "@devicePairingPageTitle": {
+    "description": "Device pairing page title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "devicePairingPageLoading": "Pairing controller..",
+  "@devicePairingPageLoading": {
+    "description": "Loading text when setting controller name",
+    "type": "text",
+    "placeholders": {}
+  },
+  "devicePairingPagePairControllerSectionTitle": "Pair controller for remote control",
+  "@devicePairingPagePairControllerSectionTitle": {
+    "description": "Section title for the controller pairing setup",
+    "type": "text",
+    "placeholders": {}
+  },
+  "devicePairingPageInstructions": "**You can now enable remote control**\n\n**Keep control** of your box, even when you're away! If you skip this step, you will still be able to monitor your box sensors remotely.\n\n**Pairing also allows to remotely change your controller parameters**, like adjusting blower settings from work.",
+  "@devicePairingPageInstructions": {
+    "description": "Explanation for remote control",
+    "type": "text",
+    "placeholders": {}
+  },
+  "devicePairingPageInstructionsNeedUpgrade": "**Controller needs upgrade to enable remote control.** Once your controller is added to the app, head to the controllers settings to upgrade to the latest version.\n\n**Keep control** of your box, even when you're away! If you skip this step, you will still be able to monitor your box sensors remotely.\n\n**Pairing also allows to remotely change your controller parameters**, like adjusting blower settings from work.",
+  "@devicePairingPageInstructionsNeedUpgrade": {
+    "description": "Explanation for remote control",
+    "type": "text",
+    "placeholders": {}
+  },
+  "devicePairingPagePleaseLoginDialogTitle": "Please login",
+  "@devicePairingPagePleaseLoginDialogTitle": {
+    "description": "Please login dialog title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "devicePairingPagePleaseLoginDialogBody": "Remote control requires a sgl account, please create one or login.",
+  "@devicePairingPagePleaseLoginDialogBody": {
+    "description": "Please login dialog body",
+    "type": "text",
+    "placeholders": {}
+  },
+  "plantPickerPageSelectButton": "SELECT ({count})",
+  "@plantPickerPageSelectButton": {
+    "description": "Confirmation button for the plant picker page",
+    "type": "text",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "feedProductsCardPageTitle": "Towelie's selection",
+  "@feedProductsCardPageTitle": {
+    "description": "Title for the product cards, they display a list of products.",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedProductsCardPageViewButton": "View",
+  "@feedProductsCardPageViewButton": {
+    "description": "Opens the product web page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLightFormPageSaving": "Saving..",
+  "@feedLightFormPageSaving": {
+    "description": "Fullscreen loading",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLightFormPageCancelling": "Cancelling..",
+  "@feedLightFormPageCancelling": {
+    "description": "Fullscreen message when resetting all parameters",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLightFormPageControllerRequired": "Dimming control\nrequires an SGL controller",
+  "@feedLightFormPageControllerRequired": {
+    "description": "Fullscreen message displayed with no controller is available for light control",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLightFormPageShopNow": "SHOP NOW",
+  "@feedLightFormPageShopNow": {
+    "description": "Shop now button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLightFormPageDIYNow": "DIY NOW",
+  "@feedLightFormPageDIYNow": {
+    "description": "DIY now button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLightFormPageOr": "or",
+  "@feedLightFormPageOr": {
+    "description": "The \"or\" in \"Shop now or diy\"",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLightCardPageTitle": "Stretch control",
+  "@feedLightCardPageTitle": {
+    "description": "Feed Light dimming control card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLightCardPageChannel": "channel",
+  "@feedLightCardPageChannel": {
+    "description": "LED power widget label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedUnknownCardPageTitle": "Unknown card",
+  "@feedUnknownCardPageTitle": {
+    "description": "Feed unknown card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedUnknownCardPageUpgradeApp": "Upgrade your app",
+  "@feedUnknownCardPageUpgradeApp": {
+    "description": "Feed unknown card upgrade app",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedFimmingCardPageTitle": "Fimming",
+  "@feedFimmingCardPageTitle": {
+    "description": "Fimming card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedToppingCardPageTitle": "Topping",
+  "@feedToppingCardPageTitle": {
+    "description": "Topping card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedCloningCardPageTitle": "Cloning",
+  "@feedCloningCardPageTitle": {
+    "description": "Cloning card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedCareCommonFormSaving": "Saving..",
+  "@feedCareCommonFormSaving": {
+    "description": "Displayd as a fullscreen loading",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedCareCommonBeforePics": "Before pics",
+  "@feedCareCommonBeforePics": {
+    "description": "Title for the \"before pics\" list",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedCareCommonAfterPics": "After pics",
+  "@feedCareCommonAfterPics": {
+    "description": "Title for the \"after pics\" list",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedCareCommonDeletePicDialogTitle": "Delete this pic?",
+  "@feedCareCommonDeletePicDialogTitle": {
+    "description": "Title for the pic deletion confirmation dialog",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedCareCommonDeletePicDialogBody": "This can't be reverted. Continue?",
+  "@feedCareCommonDeletePicDialogBody": {
+    "description": "Body for the pic deletion confirmation dialog",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedCareCommonObservations": "Observations",
+  "@feedCareCommonObservations": {
+    "description": "Observations field label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedCareCommonDraftRecoveryDialogTitle": "Draft recovery",
+  "@feedCareCommonDraftRecoveryDialogTitle": {
+    "description": "Draft recovery dialog title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedCareCommonDraftRecoveryDialogBody": "Resume previous {title} card draft?",
+  "@feedCareCommonDraftRecoveryDialogBody": {
+    "description": "Draft recovery dialog body",
+    "type": "text",
+    "placeholders": {
+      "title": {}
+    }
+  },
+  "feedTransplantCardPageTitle": "Transplant",
+  "@feedTransplantCardPageTitle": {
+    "description": "Transplant card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedBendingCardPageTitle": "Bending",
+  "@feedBendingCardPageTitle": {
+    "description": "Bending card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedDefoliationCardPageTitle": "Defoliation",
+  "@feedDefoliationCardPageTitle": {
+    "description": "Defoliation card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedMediaFormPageAttachedMedia": "Attached media",
+  "@feedMediaFormPageAttachedMedia": {
+    "description": "Title for the image upload section",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedMediaFormPageDeletePicDialogTitle": "Delete this pic?",
+  "@feedMediaFormPageDeletePicDialogTitle": {
+    "description": "Title for the delete dialog",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedMediaFormPageObservations": "Observations",
+  "@feedMediaFormPageObservations": {
+    "description": "Observation field label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedMediaFormPageHelpRequest": "Help request?",
+  "@feedMediaFormPageHelpRequest": {
+    "description": "Help request checkbox label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedMediaFormPageDraftRecoveryDialogTitle": "Draft recovery",
+  "@feedMediaFormPageDraftRecoveryDialogTitle": {
+    "description": "Help request checkbox label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedMediaFormPageDraftRecoveryDialogBody": "Resume previous grow log?",
+  "@feedMediaFormPageDraftRecoveryDialogBody": {
+    "description": "Help request checkbox label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedMediaCardPageTitle": "Grow log",
+  "@feedMediaCardPageTitle": {
+    "description": "Feed media card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedMediaCardPageBoxTitle": "Build log",
+  "@feedMediaCardPageBoxTitle": {
+    "description": "Feed media card title, different name when used in a box feed",
+    "type": "text",
+    "placeholders": {}
+  },
+  "instructionsVegScheduleHelper": "**Vegetative stage** is the phase between germination and blooming, the plant **grows and develops** it’s branches. It requires **at least 13h lights per days**, usual setting is **18h** per day.",
+  "@instructionsVegScheduleHelper": {
+    "description": "Veg schedule helper",
+    "type": "text",
+    "placeholders": {}
+  },
+  "instructionsBloomScheduleHelper": "**Bloom stage** is the phase where the plant develops its flowers. It requires **at most 12h lights per days**, usual setting is **12h** per day.",
+  "@instructionsBloomScheduleHelper": {
+    "description": "Bloom schedule helper",
+    "type": "text",
+    "placeholders": {}
+  },
+  "instructionsAutoScheduleHelper": "Auto flower plants are a special type of strain that **won’t require light schedule change** in order to start flowering. Their vegetative stage duration **can’t be controlled**, and varies from one plant to another.",
+  "@instructionsAutoScheduleHelper": {
+    "description": "Auto schedule helper",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedScheduleCardPageTitle": "Schedule change",
+  "@feedScheduleCardPageTitle": {
+    "description": "Feed schedule card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedScheduleCardPagePhase": "Flipped to\n{phase}",
+  "@feedScheduleCardPagePhase": {
+    "description": "Feed schedule card phase",
+    "type": "text",
+    "placeholders": {
+      "phase": {}
+    }
+  },
+  "feedTimelapseCardPageTitle": "Timelapse!",
+  "@feedTimelapseCardPageTitle": {
+    "description": "Feed timelapse card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedMeasureFormPagePreviousMeasure": "Previous measures",
+  "@feedMeasureFormPagePreviousMeasure": {
+    "description": "Title for the previous measure selection",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedMeasureFormPageUnselectMeasureDialogTitle": "Unselect this measure?",
+  "@feedMeasureFormPageUnselectMeasureDialogTitle": {
+    "description": "Title for the cancel previous measure dialog",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedMeasureFormPageTodayMeasure": "Today's measure",
+  "@feedMeasureFormPageTodayMeasure": {
+    "description": "Title for the today measure selection",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedMeasureFormPageDeletePicDialogTitle": "Delete this pic?",
+  "@feedMeasureFormPageDeletePicDialogTitle": {
+    "description": "Title for the delete measure dialog",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedMeasureFormPageObservations": "Observations",
+  "@feedMeasureFormPageObservations": {
+    "description": "Observation field label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedMeasureCardPageTitle": "Measure",
+  "@feedMeasureCardPageTitle": {
+    "description": "Feed measure card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedMeasureCardPageDays": "{days} days",
+  "@feedMeasureCardPageDays": {
+    "description": "Feed measure card duration in days",
+    "type": "text",
+    "placeholders": {
+      "days": {}
+    }
+  },
+  "feedMeasureCardPageSeconds": "{seconds} s",
+  "@feedMeasureCardPageSeconds": {
+    "description": "Feed measure card duration in seconds",
+    "type": "text",
+    "placeholders": {
+      "seconds": {}
+    }
+  },
+  "feedMeasureCardPageMinutes": "{seconds} min",
+  "@feedMeasureCardPageMinutes": {
+    "description": "Feed measure card duration in minutes",
+    "type": "text",
+    "placeholders": {
+      "seconds": {}
+    }
+  },
+  "feedMeasureCardPageHours": "{hours} hours",
+  "@feedMeasureCardPageHours": {
+    "description": "Feed measure card duration in hours",
+    "type": "text",
+    "placeholders": {
+      "hours": {}
+    }
+  },
+  "feedMeasureCardPageDaysAndHours": "{days} days and {hours} hours",
+  "@feedMeasureCardPageDaysAndHours": {
+    "description": "Feed measure card duration in days and hours",
+    "type": "text",
+    "placeholders": {
+      "days": {},
+      "hours": {}
+    }
+  },
+  "feedNutrientMixFormPagePhaseEarlyVeg": "Early veg",
+  "@feedNutrientMixFormPagePhaseEarlyVeg": {
+    "description": "Nutrient mix phase name \"Early veg\"",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPagePhaseMidVeg": "Mid veg",
+  "@feedNutrientMixFormPagePhaseMidVeg": {
+    "description": "Nutrient mix phase name \"Mid veg\"",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPagePhaseLateVeg": "Late veg",
+  "@feedNutrientMixFormPagePhaseLateVeg": {
+    "description": "Nutrient mix phase name \"Late veg\"",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPagePhaseEarlyBloom": "Early bloom",
+  "@feedNutrientMixFormPagePhaseEarlyBloom": {
+    "description": "Nutrient mix phase name \"Early bloom\"",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPagePhaseMidBloom": "Mid bloom",
+  "@feedNutrientMixFormPagePhaseMidBloom": {
+    "description": "Nutrient mix phase name \"Mid bloom\"",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPagePhaseLateBloom": "Late bloom",
+  "@feedNutrientMixFormPagePhaseLateBloom": {
+    "description": "Nutrient mix phase name \"Late bloom\"",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageSelectPlant": "Which plant(s) will receive this mix?",
+  "@feedNutrientMixFormPageSelectPlant": {
+    "description": "Plant picker title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageNutrientInYourMixPart1": "Nutrients in your ",
+  "@feedNutrientMixFormPageNutrientInYourMixPart1": {
+    "description": "First part of the \"Nutrient in you mix\" sentence, trailing space is important",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageNutrientInYourMixPart2": "mix",
+  "@feedNutrientMixFormPageNutrientInYourMixPart2": {
+    "description": "Second part of the \"Nutrient in you mix\" sentence",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageMetricsObservations": "Metrics & Observations",
+  "@feedNutrientMixFormPageMetricsObservations": {
+    "description": "Label for the metrics & observations field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageSaveMix": "Save this nutrient mix",
+  "@feedNutrientMixFormPageSaveMix": {
+    "description": "Label for the mix name field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageSaveMixInstructions": "You can give this nutrient mix a name, for future reuse. (optional)",
+  "@feedNutrientMixFormPageSaveMixInstructions": {
+    "description": "Instructions for the mix name field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageSaveMixSectionTitle": "Save for future re-use?",
+  "@feedNutrientMixFormPageSaveMixSectionTitle": {
+    "description": "Label for the mix name field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageNameHint": "Ex: Veg-1",
+  "@feedNutrientMixFormPageNameHint": {
+    "description": "Hint text for the mix name field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageNameLabel": "Mix name",
+  "@feedNutrientMixFormPageNameLabel": {
+    "description": "Label for the mix name field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageVolume": "Water quantity",
+  "@feedNutrientMixFormPageVolume": {
+    "description": "Volume field label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageNoToolsYet": "No nutrients in your toolbox yet.\nPress the + button up here.",
+  "@feedNutrientMixFormPageNoToolsYet": {
+    "description": "Text displayed when no nutrient in the toolbox yet",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageEndMixMetricsSectionTitle": "End mix metrics",
+  "@feedNutrientMixFormPageEndMixMetricsSectionTitle": {
+    "description": "End mix metrics section title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageSolid": "Solid",
+  "@feedNutrientMixFormPageSolid": {
+    "description": "Nutrient type toggle button \"Solid\" or \"Liquid\"",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageLiquid": "Liquid",
+  "@feedNutrientMixFormPageLiquid": {
+    "description": "Nutrient type toggle button \"Solid\" or \"Liquid\"",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageReuseValuesSectionTitle": "Reuse previous mix values?",
+  "@feedNutrientMixFormPageReuseValuesSectionTitle": {
+    "description": "Reuse previous values section title, followed by a list of saved mixes",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageObservations": "Observations",
+  "@feedNutrientMixFormPageObservations": {
+    "description": "Observations field label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageMixPhaseSectionTitle": "Mix phase",
+  "@feedNutrientMixFormPageMixPhaseSectionTitle": {
+    "description": "Mix phase section title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageMixPhaseInstruction": "Set the right phase for this nutrient mix for better categorization.",
+  "@feedNutrientMixFormPageMixPhaseInstruction": {
+    "description": "Mix phase instructions",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageUpdateExistingDialogTitle": "Update {name}?",
+  "@feedNutrientMixFormPageUpdateExistingDialogTitle": {
+    "description": "Title for the dialog displayed when updating an existing mix",
+    "type": "text",
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "feedNutrientMixFormPageUpdateExistingDialogBody": "A nutrient mix with that name already exists, overwrite?",
+  "@feedNutrientMixFormPageUpdateExistingDialogBody": {
+    "description": "Body for the dialog displayed when updating an existing mix",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixFormPageUpdateExistingDialogNo": "NO, CHANGE NAME",
+  "@feedNutrientMixFormPageUpdateExistingDialogNo": {
+    "description": "\"No\" button for the dialog displayed when updating an existing mix",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixCardObservations": "Observations",
+  "@feedNutrientMixCardObservations": {
+    "description": "Observation field label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixCardTitle": "Nutrient mix",
+  "@feedNutrientMixCardTitle": {
+    "description": "Nutrient mix card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixCardWaterQuantity": "Water quantity",
+  "@feedNutrientMixCardWaterQuantity": {
+    "description": "Volume field label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedNutrientMixCardFrom": "From: {basedOn}",
+  "@feedNutrientMixCardFrom": {
+    "description": "\"Based on\" field label",
+    "type": "text",
+    "placeholders": {
+      "basedOn": {}
+    }
+  },
+  "feedNutrientMixCardPhase": "Phase: {phase}",
+  "@feedNutrientMixCardPhase": {
+    "description": "\"Phase\" field label",
+    "type": "text",
+    "placeholders": {
+      "phase": {}
+    }
+  },
+  "commentsFormPageTitle": "Comments",
+  "@commentsFormPageTitle": {
+    "description": "Comments page title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "commentsFormPagePleaseLogin": "Please login to add a comment",
+  "@commentsFormPagePleaseLogin": {
+    "description": "Used in \"please login\" dialogs",
+    "type": "text",
+    "placeholders": {}
+  },
+  "commentsFormPageReplyingTo": "Replying to ",
+  "@commentsFormPageReplyingTo": {
+    "description": "Followed by a username when replying to a comment (trailing space is important)",
+    "type": "text",
+    "placeholders": {}
+  },
+  "commentsFormPageViewingSingleComment": "Viewing single comment",
+  "@commentsFormPageViewingSingleComment": {
+    "description": "Button displayed when viewing a single comment",
+    "type": "text",
+    "placeholders": {}
+  },
+  "commentsFormPageViewAllComments": "View all comments",
+  "@commentsFormPageViewAllComments": {
+    "description": "Button displayed when viewing a single comment",
+    "type": "text",
+    "placeholders": {}
+  },
+  "commentsFormPageCommentTypeTitle": "What kind of post do you want to do?",
+  "@commentsFormPageCommentTypeTitle": {
+    "description": "Title displayed above the comment types",
+    "type": "text",
+    "placeholders": {}
+  },
+  "commentsFormPageLoadingMoreComments": "Loading more comments..",
+  "@commentsFormPageLoadingMoreComments": {
+    "description": "Comments page auto-loading message at end of scroll",
+    "type": "text",
+    "placeholders": {}
+  },
+  "commentsFormPageNOtherRecommendations": "(+{n} other)",
+  "@commentsFormPageNOtherRecommendations": {
+    "description": "Comments page auto-loading message at end of scroll",
+    "type": "text",
+    "placeholders": {
+      "n": {}
+    }
+  },
+  "commentsFormPageInputHintText": "Add a comment as {nickname}...",
+  "@commentsFormPageInputHintText": {
+    "description": "Comments page input hint text",
+    "type": "text",
+    "placeholders": {
+      "nickname": {}
+    }
+  },
+  "commentsFormPageSubmitComment": "Post",
+  "@commentsFormPageSubmitComment": {
+    "description": "Comments page input submit button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "commentsFormPageSendingCommentLoading": "Sending comment..",
+  "@commentsFormPageSendingCommentLoading": {
+    "description": "Comments page auto-loading message at end of scroll",
+    "type": "text",
+    "placeholders": {}
+  },
+  "commentsFormPageCommentLikeCount": "{count,plural, =1{1 like}other{{count} likes}}",
+  "@commentsFormPageCommentLikeCount": {
+    "description": "Number of likes on a comment",
+    "type": "text",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "commentsFormPageReplyButton": "Reply",
+  "@commentsFormPageReplyButton": {
+    "description": "Comments page reply button for comments",
+    "type": "text",
+    "placeholders": {}
+  },
+  "commentsFormPageReportButton": "Report&Block",
+  "@commentsFormPageReportButton": {
+    "description": "Comments page report button for comments",
+    "type": "text",
+    "placeholders": {}
+  },
+  "commentsFormPageReportDialogBody": "Comment was: \"{comment}\". This will also block this user.",
+  "@commentsFormPageReportDialogBody": {
+    "description": "Comments page report dialog body",
+    "type": "text",
+    "placeholders": {
+      "comment": {}
+    }
+  },
+  "commentsFormPageReportDialogTitle": "Report this comment?",
+  "@commentsFormPageReportDialogTitle": {
+    "description": "Comments page report dialog title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "socialBarPagePageLikedBy": "{count,plural, =1{Liked by 1}other{Liked by {count}}}",
+  "@socialBarPagePageLikedBy": {
+    "description": "Number of likes on a post",
+    "type": "text",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "instructionsManualTimerBlowerModeDescription": "This is the **manual blower control** mode, just set a value and the blower will stay at this power.",
+  "@instructionsManualTimerBlowerModeDescription": {
+    "description": "Instructions for blower manual mode",
+    "type": "text",
+    "placeholders": {}
+  },
+  "instructionsManualTimerFanModeDescription": "This is the **manual fan control** mode, just set a value and the fan will stay at this power.\n\nMake sure your motor port is configured in the settings.",
+  "@instructionsManualTimerFanModeDescription": {
+    "description": "Instructions for fan manual mode",
+    "type": "text",
+    "placeholders": {}
+  },
+  "instructionsBlowerTimerModeDescription": "This is the **timer based blower control**, in this mode the blower is **in sync with the light timer**. Perfect if the box doesn't have a temperature sensor.\n\nEx: when the timer says 100% (which means all lights are on), it will set the blower power at the **blower day** value below.",
+  "@instructionsBlowerTimerModeDescription": {
+    "description": "Instructions for blower timer mode",
+    "type": "text",
+    "placeholders": {}
+  },
+  "instructionsFanTimerModeDescription": "This is the **timer based fan control**, in this mode the fan is **in sync with the light timer**. Perfect if the box doesn't have a temperature sensor.\n\nEx: when the timer says 100% (which means all lights are on), it will set the fan power at the **fan day** value below.\n\nMake sure your motor port is configured in the settings.",
+  "@instructionsFanTimerModeDescription": {
+    "description": "Instructions for fan timer mode",
+    "type": "text",
+    "placeholders": {}
+  },
+  "instructionsBlowerHumidityModeDescription": "This is the **Humidity based blower control**, in this mode the blower is **in sync with the box humidity sensor**.",
+  "@instructionsBlowerHumidityModeDescription": {
+    "description": "Instructions for blower humidity mode",
+    "type": "text",
+    "placeholders": {}
+  },
+  "instructionsFanHumidityModeDescription": "This is the **Humidity based fan control**, in this mode the fan is **in sync with the box humidity sensor**.\n\nMake sure your motor port is configured in the settings.",
+  "@instructionsFanHumidityModeDescription": {
+    "description": "Instructions for fan humidity mode",
+    "type": "text",
+    "placeholders": {}
+  },
+  "instructionsBlowerTemperatureModeDescription": "This is the **Temperature based blower control**, in this mode the blower is **in sync with the box temperature sensor**.",
+  "@instructionsBlowerTemperatureModeDescription": {
+    "description": "Instructions for blower temperature mode",
+    "type": "text",
+    "placeholders": {}
+  },
+  "instructionsFanTemperatureModeDescription": "This is the **Temperature based fan control**, in this mode the fan is **in sync with the box temperature sensor**.\n\nMake sure your motor port is configured in the settings.",
+  "@instructionsFanTemperatureModeDescription": {
+    "description": "Instructions for fan temperature mode",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedVentilationCardPageTitle": "Ventilation change",
+  "@feedVentilationCardPageTitle": {
+    "description": "Feed ventilation card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedVentilationBlowerCardPageTitle": "Blower change",
+  "@feedVentilationBlowerCardPageTitle": {
+    "description": "Feed ventilation blower card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedVentilationFanCardPageTitle": "Fan change",
+  "@feedVentilationFanCardPageTitle": {
+    "description": "Feed ventilation fan card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedVentilationCardPageUpgrade": "Unknown reference source, you might need to upgrade the app.",
+  "@feedVentilationCardPageUpgrade": {
+    "description": "Feed ventilation card upgrade",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedVentilationCardPageLowTempSettings": "Low temperature\nsettings",
+  "@feedVentilationCardPageLowTempSettings": {
+    "description": "Feed ventilation card low temperature settings",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedVentilationCardPageHighTempSettings": "High temperature\nsettings",
+  "@feedVentilationCardPageHighTempSettings": {
+    "description": "Feed ventilation card high temperature settings",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedVentilationCardPageTemperatureMode": "Temperature mode",
+  "@feedVentilationCardPageTemperatureMode": {
+    "description": "Feed ventilation card temperature mode",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedVentilationCardPageLowHumiSettings": "Low humidity\nsettings",
+  "@feedVentilationCardPageLowHumiSettings": {
+    "description": "Feed ventilation card low humidity settings",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedVentilationCardPageHighHumiSettings": "High humidity\nsettings",
+  "@feedVentilationCardPageHighHumiSettings": {
+    "description": "Feed ventilation card high humidity settings",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedVentilationCardPageHumidityMode": "Humidity mode",
+  "@feedVentilationCardPageHumidityMode": {
+    "description": "Feed ventilation card humidity mode",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedVentilationCardPageNightSettings": "Night settings",
+  "@feedVentilationCardPageNightSettings": {
+    "description": "Feed ventilation card night settings",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedVentilationCardPageDaySettings": "Day settings",
+  "@feedVentilationCardPageDaySettings": {
+    "description": "Feed ventilation card day settings",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedVentilationCardPageTimerMode": "Timer mode",
+  "@feedVentilationCardPageTimerMode": {
+    "description": "Feed ventilation card timer mode",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedVentilationCardPagePower": "Power",
+  "@feedVentilationCardPagePower": {
+    "description": "Feed ventilation card power",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedVentilationCardPageManualMode": "Manual mode",
+  "@feedVentilationCardPageManualMode": {
+    "description": "Feed ventilation card manual mode",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedVentilationCardPageDay": "Day",
+  "@feedVentilationCardPageDay": {
+    "description": "Label for the \"Day\" power settings",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedVentilationCardPageNight": "Night",
+  "@feedVentilationCardPageNight": {
+    "description": "Label for the \"Night\" power settings",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLifeEventFormPagePhaseLabelCloning": "Cloning date",
+  "@feedLifeEventFormPagePhaseLabelCloning": {
+    "description": "Life event cloning label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLifeEventFormPagePhaseLabelGermination": "Germination date",
+  "@feedLifeEventFormPagePhaseLabelGermination": {
+    "description": "Life event germination label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLifeEventFormPagePhaseLabelVegging": "Vegging since",
+  "@feedLifeEventFormPagePhaseLabelVegging": {
+    "description": "Life event vegging label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLifeEventFormPagePhaseLabelBlooming": "Blooming since",
+  "@feedLifeEventFormPagePhaseLabelBlooming": {
+    "description": "Life event blooming label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLifeEventFormPagePhaseLabelDrying": "Drying since",
+  "@feedLifeEventFormPagePhaseLabelDrying": {
+    "description": "Life event drying label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLifeEventFormPagePhaseLabelCuring": "Curing since",
+  "@feedLifeEventFormPagePhaseLabelCuring": {
+    "description": "Life event curing label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLifeEventFormPagePhaseLabel": "Phase",
+  "@feedLifeEventFormPagePhaseLabel": {
+    "description": "Label for phase",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLifeEventFormPageChangeButton": "change",
+  "@feedLifeEventFormPageChangeButton": {
+    "description": "\"Change\" button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLifeEventFormPageNotSet": "Not set",
+  "@feedLifeEventFormPageNotSet": {
+    "description": "Displayed when date is not set yet",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLifeEventFormPageSetButton": "set",
+  "@feedLifeEventFormPageSetButton": {
+    "description": "\"Set\" button label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLifeEventCardPageTitle": "Life event",
+  "@feedLifeEventCardPageTitle": {
+    "description": "Life event card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLifeEventCardPageCloning": "Cloning!",
+  "@feedLifeEventCardPageCloning": {
+    "description": "Cloning life event",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLifeEventCardPageGermination": "Germination!",
+  "@feedLifeEventCardPageGermination": {
+    "description": "Germination life event",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLifeEventCardPageVeggingStarted": "Vegging Started!",
+  "@feedLifeEventCardPageVeggingStarted": {
+    "description": "Vegging started life event",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLifeEventCardPageBloomingStarted": "Blooming Started!",
+  "@feedLifeEventCardPageBloomingStarted": {
+    "description": "Blooming started life event",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLifeEventCardPageDryingStarted": "Drying Started!",
+  "@feedLifeEventCardPageDryingStarted": {
+    "description": "Drying started life event",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedLifeEventCardPageCuringStarted": "Curing Started!",
+  "@feedLifeEventCardPageCuringStarted": {
+    "description": "Curing started life event",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedWateringCardPageTitle": "Watering",
+  "@feedWateringCardPageTitle": {
+    "description": "Feed watering card title",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedWateringCardPageVolume": "Water quantity",
+  "@feedWateringCardPageVolume": {
+    "description": "Feed watering card volume",
+    "type": "text",
+    "placeholders": {}
+  },
+  "feedWateringCardPageWasDry": "Was dry: {yesNo}",
+  "@feedWateringCardPageWasDry": {
+    "description": "Feed watering card was dry",
+    "type": "text",
+    "placeholders": {
+      "yesNo": {}
+    }
+  },
+  "feedWateringCardPageWithNutes": "With nutes: {yesNo}",
+  "@feedWateringCardPageWithNutes": {
+    "description": "Feed watering card with nutes",
+    "type": "text",
+    "placeholders": {
+      "yesNo": {}
+    }
+  },
+  "feedWateringCardPageObservations": "Observations",
+  "@feedWateringCardPageObservations": {
+    "description": "Feed watering observations label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "formAllowAnalytics": "**Help us** discern what's **useful** from what's **useless** by sharing **anonymous** usage data.",
+  "@formAllowAnalytics": {
+    "description": "Form allow analytics",
+    "type": "text",
+    "placeholders": {}
+  },
+  "formCGU": "*By proceeding, **you explicitly agree** that you are acting in coordinance with local, state, and federal or national laws. **SuperGreenLab will not be liable** for\nconsequences surrounding the legality of how the app, lights or grow bundle are used. ",
+  "@formCGU": {
+    "description": "Form CGU",
+    "type": "text",
+    "placeholders": {}
+  }
+}

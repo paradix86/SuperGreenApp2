@@ -119,6 +119,19 @@ class DashHistory {
     return list.where((s) => !s.time.isBefore(cutoff)).toList(growable: false);
   }
 
+  /// Export all history to CSV: timestamp,device_id,key,value per sample.
+  static String toCsv() {
+    final StringBuffer csv = StringBuffer('timestamp,device_id,key,value\n');
+    _samples.forEach((int deviceID, Map<String, List<DashSample>> perKey) {
+      perKey.forEach((String key, List<DashSample> samples) {
+        for (final sample in samples) {
+          csv.writeln('${sample.time.toIso8601String()},$deviceID,$key,${sample.value}');
+        }
+      });
+    });
+    return csv.toString();
+  }
+
   /// Forgets everything (tests, logout).
   static void clear() {
     _samples.clear();
