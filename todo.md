@@ -47,13 +47,13 @@ add the commit hash.
 - [ ] Off-theme icons: Towelie cartoon mascot, banana emoji on the Measure page, dark
       colour tiles in Infos (strain, medium, phase), cartoon speed-dial icons, cartoon
       toggles in the Watering form.
-- [ ] Buttons: UPDATE PLANT / UPDATE LAB uppercase; "Create checklist" solid green;
-      CREATE PLANT / CREATE LAB grey pill (it is the disabled state until a name is
-      typed, but it does not read as such).
+- [x] (b2f11fe2) Button text normalized from UPPERCASE to Title Case (Update plant,
+      Update lab, Create diary, etc.).
 - [ ] Speed dial: black rectangular labels cover the diary text; darker scrim or chip
       labels.
 - [ ] Controller status: only page without cards; broker URL wraps over three lines.
-- [ ] "Archive plant" full red banner breaks the row pattern.
+- [x] (797650f5) "Archive plant" red banner: removed SectionTitle, use Card + ListTile
+      row layout for consistency.
 - [ ] Units row: subtitle "Imperial · °F, in" with action "metric" reads as a
       contradiction; make it an explicit toggle.
 - [ ] Empty space: New plant, New lab, Nutrient mix, Community comments leave 70–90 %
