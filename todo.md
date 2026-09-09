@@ -35,7 +35,7 @@ add the commit hash.
       fall back to cloud (or show "stale") when the newest local sample is older than
       a few minutes.
 
-- [ ] (investigated 2026-09-08 23:40: dip shorter than the 5 s sampling, normal traffic keeps heap at 38-40 KB; firmware 9b10fac adds heap_min_ctx + counts sub-period dips, OTA 1788903414 packaged, not flashed; culprit still unknown, wait for the next occurrence) Firmware: before the 22:47 reboot /mqttdiag showed heap_min_free 2320 B at uptime
+- [ ] (investigated 2026-09-08 23:40: dip shorter than the 5 s sampling, normal traffic keeps heap at 38-40 KB; firmware 9b10fac adds heap_min_ctx + counts sub-period dips, OTA 1788903414 flashed 2026-09-09 08:23; old firmware showed another dip to 1908 B at ~00:21 overnight, so it recurs; culprit still unknown, read heap_min_ctx at the next dip) Firmware: before the 22:47 reboot /mqttdiag showed heap_min_free 2320 B at uptime
       24205 s (about 22:20) while heap_low_events stayed 0 (the counter should trip
       under 8 KB). Find what ate the heap at that moment and why the counter missed it.
 
