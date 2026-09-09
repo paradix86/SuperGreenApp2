@@ -36,7 +36,6 @@ import 'package:super_green_app/pages/settings/auth/settings_auth_bloc.dart';
 import 'package:super_green_app/widgets/appbar.dart';
 import 'package:super_green_app/widgets/fullscreen.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
-import 'package:super_green_app/widgets/green_button.dart';
 
 class SettingsAuthPage extends StatefulWidget {
   @override
@@ -99,7 +98,6 @@ class _SettingsAuthPageState extends State<SettingsAuthPage> {
           return Scaffold(
               appBar: SGLAppBar(
                 'SGL account',
-                backgroundColor: Colors.indigo,
                 hideBackButton: !(state is SettingsAuthBlocStateLoaded),
               ),
               body: AnimatedSwitcher(duration: Duration(milliseconds: 200), child: body));
@@ -113,128 +111,130 @@ class _SettingsAuthPageState extends State<SettingsAuthPage> {
     if (pic != null) {
       pic = BackendAPI().feedsAPI.absoluteFileURL(pic);
     }
-    return Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-      Expanded(child: Container()),
-      Padding(
-        padding: const EdgeInsets.only(bottom: 20.0),
-        child: InkWell(
-            onTap: () {
-              Permissions.checkCapturePermissions().then((granted) {
-                if (!granted) return;
-                _buildPicker(context);
-              });
-            },
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: <Widget>[
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                UserAvatar(icon: pic, size: 150),
-                Text(
-                  "Tap to change",
-                  style: TextStyle(color: context.sgl.info),
+                InkWell(
+                  onTap: () {
+                    Permissions.checkCapturePermissions().then((granted) {
+                      if (!granted) return;
+                      _buildPicker(context);
+                    });
+                  },
+                  child: Column(
+                    children: [
+                      UserAvatar(icon: pic, size: 120),
+                      const SizedBox(height: 8),
+                      Text(
+                        "Tap to change",
+                        style: TextStyle(color: context.sgl.info, fontSize: 12),
+                      ),
+                    ],
+                  ),
                 ),
+                const SizedBox(height: 16),
+                Text(
+                  'Connected to your SGL account',
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 12),
+                state.user != null
+                    ? Text(state.user!.nickname ?? 'User', style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500))
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2)),
+                          const SizedBox(width: 8),
+                          const Text('Loading user data..', style: TextStyle(fontSize: 13))
+                        ],
+                      ),
               ],
-            )),
-      ),
-      Text(
-        'Connected to your',
-        style: Theme.of(context).textTheme.bodyLarge,
-        textAlign: TextAlign.center,
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        child:
-            Text('SGL ACCOUNT', style: Theme.of(context).textTheme.displayMedium?.copyWith(color: context.sgl.accentDeep)),
-      ),
-      state.user != null
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Connected as '),
-                Text(state.user!.nickname!, style: TextStyle(fontWeight: FontWeight.bold)),
-              ],
-            )
-          : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator()),
-              ),
-              Text('Loading user data..')
-            ]),
-      _renderOptionCheckbx(context, 'Sync over mobile data too', (bool? newValue) {
-        setState(() {
-          _syncOverGSM = newValue ?? false;
-          BlocProvider.of<SettingsAuthBloc>(context).add(SettingsAuthBlocEventSetSyncedOverGSM(_syncOverGSM));
-        });
-      }, _syncOverGSM == true),
-      !state.notificationEnabled
-          ? GreenButton(
-              title: 'ACTIVATE NOTIFICATION',
-              onPressed: () {
-                BlocProvider.of<NotificationsBloc>(context).add(NotificationsBlocEventRequestPermission());
-              },
-            )
-          : Container(),
-      Expanded(child: Container()),
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: InkWell(
-            onTap: () {_requestDelete(context);},
-            child: Text(
-              'Request account deletion',
-              style: TextStyle(decoration: TextDecoration.underline, color: Color(0xffff0000)),
-            )),
-      ),
-    ]);
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: _renderOptionCheckbx(context, 'Sync over mobile data too', (bool? newValue) {
+              setState(() {
+                _syncOverGSM = newValue ?? false;
+                BlocProvider.of<SettingsAuthBloc>(context).add(SettingsAuthBlocEventSetSyncedOverGSM(_syncOverGSM));
+              });
+            }, _syncOverGSM == true),
+          ),
+        ),
+        const SizedBox(height: 12),
+        if (!state.notificationEnabled)
+          FilledButton(
+            onPressed: () {
+              BlocProvider.of<NotificationsBloc>(context).add(NotificationsBlocEventRequestPermission());
+            },
+            child: const Text('Enable notifications'),
+          ),
+        const SizedBox(height: 24),
+        TextButton(
+          onPressed: () { _requestDelete(context); },
+          style: TextButton.styleFrom(foregroundColor: context.sgl.crit),
+          child: const Text('Request account deletion'),
+        ),
+      ],
+    );
   }
 
   Widget _renderUnauthBody(BuildContext context, SettingsAuthBlocStateLoaded state) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Center(
-            child: Column(
+    return Center(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(24),
+        child: Column(
           children: <Widget>[
             Text(
-              'create your',
-              style: Theme.of(context).textTheme.bodyLarge,
+              'Sign in or create a new account',
+              style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Text('SGL ACCOUNT',
-                  style: Theme.of(context).textTheme.displayMedium?.copyWith(color: context.sgl.accentDeep)),
-            ),
-            GreenButton(
-              title: 'LOGIN',
+            const SizedBox(height: 32),
+            FilledButton(
               onPressed: () {
                 BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsLogin(futureFn: (future) async {
                   dynamic res = await future;
                   if (res == true) {
-                    //BlocProvider.of<SettingsAuthBloc>(context).add(SettingsAuthBlocEventInit());
                     BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigatorActionPop(param: res));
                   }
                 }));
               },
+              style: FilledButton.styleFrom(minimumSize: const Size(double.infinity, 48)),
+              child: const Text('Log in'),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('OR', style: TextStyle(fontWeight: FontWeight.normal)),
+            const SizedBox(height: 16),
+            Text(
+              'or',
+              style: Theme.of(context).textTheme.bodySmall,
+              textAlign: TextAlign.center,
             ),
-            GreenButton(
-              title: 'CREATE ACCOUNT',
+            const SizedBox(height: 16),
+            OutlinedButton(
               onPressed: () {
                 BlocProvider.of<MainNavigatorBloc>(context)
                     .add(MainNavigateToSettingsCreateAccount(futureFn: (future) async {
                   dynamic res = await future;
                   if (res == true) {
-                    //BlocProvider.of<SettingsAuthBloc>(context).add(SettingsAuthBlocEventInit());
                     BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigatorActionPop(param: res));
                   }
                 }));
               },
+              style: OutlinedButton.styleFrom(minimumSize: const Size(double.infinity, 48)),
+              child: const Text('Create account'),
             )
           ],
-        )),
-      ],
+        ),
+      ),
     );
   }
 

@@ -19,14 +19,12 @@
 import 'package:flutter/material.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/device_daemon/device_daemon_bloc.dart';
 import 'package:super_green_app/l10n.dart';
 import 'package:super_green_app/pages/settings/devices/auth_modal/auth_modal_bloc.dart';
 import 'package:super_green_app/widgets/fullscreen.dart';
 import 'package:super_green_app/widgets/fullscreen_loading.dart';
-import 'package:super_green_app/widgets/green_button.dart';
 import 'package:super_green_app/widgets/textfield.dart';
 
 class AuthModalPage extends StatefulWidget {
@@ -92,93 +90,53 @@ class _AuthModalPageState extends State<AuthModalPage> {
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: Container(
-        height: 345,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 16.0,
-            horizontal: 4.0,
-          ),
+          padding: const EdgeInsets.all(24),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                        child: SvgPicture.asset(
-                          'assets/settings/icon_password.svg',
-                          width: 40,
-                          height: 40,
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          AuthModalPage.authModalTitle(state.device.name),
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text('Username',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      )),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: SGLTextField(
-                      hintText: 'Ex: stant',
-                      controller: _usernameController,
-                      textCapitalization: TextCapitalization.none,
-                      onChanged: (_) {
-                        setState(() {});
-                      }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16),
-                  child: Text('Password',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      )),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: SGLTextField(
-                      hintText: '***',
-                      controller: _passwordController,
-                      obscureText: true,
-                      onChanged: (_) {
-                        setState(() {});
-                      }),
-                ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: GreenButton(
-                        onPressed: isValid()
-                            ? () {
-                                BlocProvider.of<AuthModalBloc>(context).add(AuthModalBlocEventAuth(
-                                    username: _usernameController.text, password: _passwordController.text));
-                              }
-                            : null,
-                        title: 'LOGIN',
+                    Icon(Icons.lock_outline, size: 28, color: context.sgl.ink2),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        AuthModalPage.authModalTitle(state.device.name),
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ),
                   ],
+                ),
+                const SizedBox(height: 24),
+                Text('Username', style: Theme.of(context).textTheme.labelLarge),
+                const SizedBox(height: 8),
+                SGLTextField(
+                    hintText: 'Ex: stant',
+                    controller: _usernameController,
+                    textCapitalization: TextCapitalization.none,
+                    onChanged: (_) {
+                      setState(() {});
+                    }),
+                const SizedBox(height: 16),
+                Text('Password', style: Theme.of(context).textTheme.labelLarge),
+                const SizedBox(height: 8),
+                SGLTextField(
+                    hintText: '***',
+                    controller: _passwordController,
+                    obscureText: true,
+                    onChanged: (_) {
+                      setState(() {});
+                    }),
+                const SizedBox(height: 24),
+                FilledButton(
+                  onPressed: isValid()
+                      ? () {
+                          BlocProvider.of<AuthModalBloc>(context).add(AuthModalBlocEventAuth(
+                              username: _usernameController.text, password: _passwordController.text));
+                        }
+                      : null,
+                  child: const Text('Log in'),
                 ),
               ]),
         ),
