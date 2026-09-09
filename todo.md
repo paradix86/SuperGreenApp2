@@ -53,15 +53,15 @@ add the commit hash.
 
 **Minor refinements (backlog for next iteration):**
 
-- [ ] Off-theme icons: Towelie cartoon mascot, banana emoji on the Measure page, dark
-      colour tiles in Infos (strain, medium, phase), cartoon speed-dial icons, cartoon
-      toggles in the Watering form.
+- [ ] (TODO: asset replacement) Off-theme icons: Towelie cartoon mascot, banana emoji on
+      Measure page, dark colour tiles in Infos (strain, medium, phase), cartoon
+      speed-dial icons, cartoon toggles in Watering form.
 - [x] (886c588e) Speed dial: use lighter bg2 background + accent button color (chip-style labels).
 - [x] (886c588e) Controller status: truncate broker URL with ellipsis (no 3-line wrap).
-- [ ] Units row: subtitle "Imperial · °F, in" with action "metric" reads as a
-      contradiction; make it an explicit toggle.
-- [ ] Empty space: New plant, New lab, Nutrient mix, Community comments leave 70–90 %
-      of the screen empty; add empty states / tighter layout.
+- [ ] (TODO: find settings page) Units row: make Imperial/metric an explicit toggle
+      (locate UI, currently unclear if implemented).
+- [x] (86804ecc) Empty space: Nutrient Mix form - tighten layout (200px→min size,
+      reduce icon 110→80px).
 - [x] (6bb07517) Watering form: change PH/EC/TDS labels to mono eyebrow style.
 - [x] (6bb07517) Nav drawer: standardize Add plant icon with checkbox icons.
 - [x] (6bb07517) Graphs: add _isSensorStuck() detector for flat sensor visual indicator.
