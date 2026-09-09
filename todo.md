@@ -71,17 +71,23 @@ add the commit hash.
 
 ## 3. New features
 
+**Started (2026-09-09):**
+
+- [x] (9d9ae6ac) Link to the controller's web dashboard: language icon in app bar opens
+      http://{device.ip} or http://{device.name}.local in browser.
+
+**Backlog (priority order):**
+
 - [ ] Local alerts without cloud: the app already polls `/dash` every 15 s; send a
       local notification when temp/RH leave a range (Android foreground service).
-- [ ] Controller time zone from the app (see bug above): warning + one tap.
 - [ ] Longer local history and CSV export of DashHistory (24 h today).
 - [ ] Temporary overrides in Controls: "lights 100 % for 10 min", "blower boost", with
       automatic return to the schedule.
-- [ ] Local backup / restore of the DB (plants, diary, photos) to a file, for users
-      without an account.
+- [ ] Controller time zone from the app (see bug above): warning + one tap (partial).
 - [ ] Firmware update from the phone: the app serves the OTA file on the LAN and
       triggers OTA_START (what we do by hand with `python -m http.server`).
-- [ ] Link to the controller's web dashboard (http://<ip>) from the controller page.
+- [ ] Local backup / restore of the DB (plants, diary, photos) to a file, for users
+      without an account.
 - [ ] Local checklists: "Create checklist" asks for a login; reminders could live on the
       phone only.
 - [ ] Explanations (i) in Italian, if wanted.
