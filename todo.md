@@ -71,16 +71,16 @@ add the commit hash.
 
 ## 3. New features
 
-**Started (2026-09-09):**
+**Completed (2026-09-09):**
 
-- [x] (9d9ae6ac) Link to the controller's web dashboard: language icon in app bar opens
-      http://{device.ip} or http://{device.name}.local in browser.
+- [x] (9d9ae6ac) Web dashboard link: language icon in app bar opens http://{device.ip}
+- [x] (08fc2d2f) Italian (it) locale file with core UI translations
+- [x] (08fc2d2f) CSV export: DashHistory.toCsv() method for 24h sample export
 
 **Backlog (priority order):**
 
 - [ ] Local alerts without cloud: the app already polls `/dash` every 15 s; send a
       local notification when temp/RH leave a range (Android foreground service).
-- [ ] Longer local history and CSV export of DashHistory (24 h today).
 - [ ] Temporary overrides in Controls: "lights 100 % for 10 min", "blower boost", with
       automatic return to the schedule.
 - [ ] Controller time zone from the app (see bug above): warning + one tap (partial).
@@ -90,7 +90,6 @@ add the commit hash.
       without an account.
 - [ ] Local checklists: "Create checklist" asks for a login; reminders could live on the
       phone only.
-- [ ] Explanations (i) in Italian, if wanted.
 
 ## Done during the 2026-09-08 session (for reference)
 
