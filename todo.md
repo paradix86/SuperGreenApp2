@@ -76,6 +76,7 @@ add the commit hash.
 - [x] (9d9ae6ac) Web dashboard link: language icon in app bar opens http://{device.ip}
 - [x] (08fc2d2f) Italian (it) locale file with core UI translations
 - [x] (08fc2d2f) CSV export: DashHistory.toCsv() method for 24h sample export
+- [x] (pre-existing) Controller time zone: warning + one-tap write to TIME_TZ (BoxControlsBlocEventSetTimeZone)
 
 **Backlog (priority order):**
 
@@ -83,7 +84,6 @@ add the commit hash.
       local notification when temp/RH leave a range (Android foreground service).
 - [ ] Temporary overrides in Controls: "lights 100 % for 10 min", "blower boost", with
       automatic return to the schedule.
-- [ ] Controller time zone from the app (see bug above): warning + one tap (partial).
 - [ ] Firmware update from the phone: the app serves the OTA file on the LAN and
       triggers OTA_START (what we do by hand with `python -m http.server`).
 - [ ] Local backup / restore of the DB (plants, diary, photos) to a file, for users
