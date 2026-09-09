@@ -78,18 +78,14 @@ add the commit hash.
 - [x] (08fc2d2f) CSV export: DashHistory.toCsv() method for 24h sample export
 - [x] (pre-existing) Controller time zone: warning + one-tap write to TIME_TZ (BoxControlsBlocEventSetTimeZone)
 
-**Backlog (priority order):**
+**Scaffolding (stubs/TODOs added; implementation pending):**
 
-- [ ] Local alerts without cloud: the app already polls `/dash` every 15 s; send a
-      local notification when temp/RH leave a range (Android foreground service).
-- [ ] Temporary overrides in Controls: "lights 100 % for 10 min", "blower boost", with
-      automatic return to the schedule.
-- [ ] Firmware update from the phone: the app serves the OTA file on the LAN and
-      triggers OTA_START (what we do by hand with `python -m http.server`).
-- [ ] Local backup / restore of the DB (plants, diary, photos) to a file, for users
-      without an account.
-- [ ] Local checklists: "Create checklist" asks for a login; reminders could live on the
-      phone only.
+- [ ] (a2ff9a65) Local alerts: polling hook added to DeviceDaemonBloc._checkLocalAlerts;
+      needs threshold preferences UI + notification triggering.
+- [ ] (TODO) Temporary overrides: add UI in Controls sheet for lights/blower boost timers.
+- [ ] (TODO) Firmware OTA from phone: add OTA file serving + trigger in device API.
+- [ ] (TODO) Local backup/restore DB: add export/import to AppDB for plants/diary/photos.
+- [ ] (TODO) Local checklists: enable checklist creation without cloud login.
 
 ## Done during the 2026-09-08 session (for reference)
 
