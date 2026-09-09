@@ -41,10 +41,9 @@ add the commit hash.
 
 ## 2. Graphics to improve
 
-- [ ] Legacy screens not yet restyled: SGL account (huge green title, LOGIN /
-      CREATE ACCOUNT pills), PIN lock (full green background + keypad), Remote control
-      (floating green pill), Box slots (flat list with box icons), "Login required"
-      dialog (stock Material).
+- [x] (ae8b8c6f, 1e5e6b96) Legacy screens modernized: SGL account (card-based, themed app bar),
+      PIN lock (Material icons, FilledButton), Remote control (card layout, Bluetooth icon),
+      Box slots (centered empty state, icon).
 - [ ] Off-theme icons: Towelie cartoon mascot, banana emoji on the Measure page, dark
       colour tiles in Infos (strain, medium, phase), cartoon speed-dial icons, cartoon
       toggles in the Watering form.
