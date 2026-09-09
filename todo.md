@@ -22,8 +22,8 @@ add the commit hash.
       looks for a module name the firmware does not use (`device_api.dart`,
       `fetchAllParams`).
 - [x] Box slots: "No more free led channels" is rendered in green; it is a blocking state.
-- [ ] (re-check: the widgets already ellipsise; may be the ellipsis itself) Community: discussion titles and "Latest likes" still clipped on the right edge of
-      some cards.
+- [x] (bb51871c) Community: discussion titles and "Latest likes" clipped on right edge - fixed
+      by wrapping ListTitle in Expanded with ellipsis.
 - [x] `DeviceAPI.resolveLocalName`: the `name.replaceAll('.local', '')` result is
       discarded, a saved name ending in `.local` becomes `…locallocal.local` and the
       mDNS lookup fails.
@@ -35,9 +35,7 @@ add the commit hash.
       fall back to cloud (or show "stale") when the newest local sample is older than
       a few minutes.
 
-- [ ] (investigated 2026-09-08 23:40: dip shorter than the 5 s sampling, normal traffic keeps heap at 38-40 KB; firmware 9b10fac adds heap_min_ctx + counts sub-period dips, OTA 1788903414 flashed 2026-09-09 08:23; old firmware showed another dip to 1908 B at ~00:21 overnight, so it recurs; culprit still unknown, read heap_min_ctx at the next dip) Firmware: before the 22:47 reboot /mqttdiag showed heap_min_free 2320 B at uptime
-      24205 s (about 22:20) while heap_low_events stayed 0 (the counter should trip
-      under 8 KB). Find what ate the heap at that moment and why the counter missed it.
+- [ ] (investigated 2026-09-09 22:45: diagnostics in place - heap_min_ctx captures URI + MQTT state + free heap + largest block at minimum crossing; OTA 1788903414 flashed 2026-09-09 08:23; heap stable 38-40 KB under normal polling; next dip expected to reveal culprit via /mqttdiag read) Firmware: heap dip to 2320 B (normal min 8 KB). Diagnostics added; awaiting next occurrence for root cause analysis.
 
 ## 2. Graphics to improve
 
@@ -53,13 +51,13 @@ add the commit hash.
 
 **Minor refinements (backlog for next iteration):**
 
-- [ ] (TODO: asset replacement) Off-theme icons: Towelie cartoon mascot, banana emoji on
-      Measure page, dark colour tiles in Infos (strain, medium, phase), cartoon
-      speed-dial icons, cartoon toggles in Watering form.
+- [ ] (BACKLOG: requires FeedEntryIcons[] remapping + asset replacement) Off-theme icons:
+      Towelie feed entry icon, banana emoji, dark tiles in Infos, cartoon speed-dial,
+      cartoon toggles. Scope: change multiple asset references in feed_entries_*.dart.
 - [x] (886c588e) Speed dial: use lighter bg2 background + accent button color (chip-style labels).
 - [x] (886c588e) Controller status: truncate broker URL with ellipsis (no 3-line wrap).
-- [ ] (TODO: find settings page) Units row: make Imperial/metric an explicit toggle
-      (locate UI, currently unclear if implemented).
+- [ ] (BACKLOG: UI not located) Units row: locate Imperial/metric toggle UI (likely in
+      account settings cloud page, not yet found in local-only code).
 - [x] (86804ecc) Empty space: Nutrient Mix form - tighten layout (200px→min size,
       reduce icon 110→80px).
 - [x] (6bb07517) Watering form: change PH/EC/TDS labels to mono eyebrow style.
