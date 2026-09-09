@@ -33,10 +33,15 @@ class ListTitle extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleLarge,
+          Expanded(
+            child: Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
           ),
+          const SizedBox(width: 8),
           this.actionText != null && this.actionFn != null
               ? InkWell(
                   onTap: this.actionFn!,
