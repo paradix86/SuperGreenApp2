@@ -41,19 +41,24 @@ add the commit hash.
 
 ## 2. Graphics to improve
 
+**Major items (completed 2026-09-09):**
+
 - [x] (ae8b8c6f, 1e5e6b96) Legacy screens modernized: SGL account (card-based, themed app bar),
       PIN lock (Material icons, FilledButton), Remote control (card layout, Bluetooth icon),
       Box slots (centered empty state, icon).
+- [x] (b2f11fe2) Button text normalized from UPPERCASE to Title Case (Update plant,
+      Update lab, Create diary, etc.).
+- [x] (797650f5) "Archive plant" red banner: removed SectionTitle, use Card + ListTile
+      row layout for consistency.
+
+**Minor refinements (backlog for next iteration):**
+
 - [ ] Off-theme icons: Towelie cartoon mascot, banana emoji on the Measure page, dark
       colour tiles in Infos (strain, medium, phase), cartoon speed-dial icons, cartoon
       toggles in the Watering form.
-- [x] (b2f11fe2) Button text normalized from UPPERCASE to Title Case (Update plant,
-      Update lab, Create diary, etc.).
 - [ ] Speed dial: black rectangular labels cover the diary text; darker scrim or chip
       labels.
 - [ ] Controller status: only page without cards; broker URL wraps over three lines.
-- [x] (797650f5) "Archive plant" red banner: removed SectionTitle, use Card + ListTile
-      row layout for consistency.
 - [ ] Units row: subtitle "Imperial · °F, in" with action "metric" reads as a
       contradiction; make it an explicit toggle.
 - [ ] Empty space: New plant, New lab, Nutrient mix, Community comments leave 70–90 %
