@@ -177,8 +177,10 @@ class _LocalBoxFeedPageState extends State<LocalBoxFeedPage> {
     return SpeedDialChild(
       child: SvgPicture.asset(icon),
       label: label,
-      labelStyle: TextStyle(fontWeight: FontWeight.bold),
+      labelStyle: TextStyle(fontWeight: FontWeight.bold, color: context.sgl.ink),
+      labelBackgroundColor: context.sgl.bg2,
       onTap: navigateTo,
+      backgroundColor: context.sgl.accent,
     );
   }
 

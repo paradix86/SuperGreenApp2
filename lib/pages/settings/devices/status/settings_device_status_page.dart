@@ -513,7 +513,8 @@ class SettingsDeviceStatusPage extends StatelessWidget {
   Widget _renderValue(String? value) {
     return Builder(
         builder: (BuildContext context) =>
-            Text(_orNa(value), textAlign: TextAlign.right, style: SglTextStyles.mono.copyWith(color: context.sgl.ink)));
+            Text(_orNa(value), textAlign: TextAlign.right, maxLines: 1, overflow: TextOverflow.ellipsis,
+                style: SglTextStyles.mono.copyWith(color: context.sgl.ink)));
   }
 
   Widget _renderConnectedBadge(int? rawValue, bool isConnected) {
