@@ -216,54 +216,58 @@ class _SettingsRemoteControlPageState extends State<SettingsRemoteControlPage> {
   }
 
   Widget _renderForm(BuildContext context, SettingsRemoteControlBlocStateLoaded state) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-      SectionTitle(
-        title: "Remote control setup",
-        icon: 'assets/settings/icon_remotecontrol.svg',
-        elevation: 5,
-      ),
-      Expanded(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: MarkdownBody(
-                fitContent: true,
-                data: state.needsUpgrade
-                    ? SettingsRemoteControlPage.settingsRemoteControlPageInstructionsNeedUpgrade
-                    : SettingsRemoteControlPage.settingsRemoteControlPageInstructions,
-                styleSheet: MarkdownStyleSheet(p: TextStyle(color: Colors.black, fontSize: 16)),
-              ),
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: <Widget>[
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.bluetooth_connected, size: 28, color: context.sgl.ink2),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text('Remote control setup', style: Theme.of(context).textTheme.titleMedium),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                MarkdownBody(
+                  fitContent: true,
+                  data: state.needsUpgrade
+                      ? SettingsRemoteControlPage.settingsRemoteControlPageInstructionsNeedUpgrade
+                      : SettingsRemoteControlPage.settingsRemoteControlPageInstructions,
+                  styleSheet: MarkdownStyleSheet(p: TextStyle(color: context.sgl.ink, fontSize: 14)),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: state.needsUpgrade
-                ? RedButton(
-                    title: 'GO BACK',
-                    onPressed: () {
-                      BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigatorActionPop(mustPop: true));
-                    },
-                  )
-                : GreenButton(
-                    onPressed: () {
-                      if (state.loggedIn) {
-                        BlocProvider.of<SettingsRemoteControlBloc>(context).add(SettingsRemoteControlBlocEventPair());
-                      } else {
-                        _login(context);
-                      }
-                    },
-                    title: state.signingSetup ? 'RE-PAIR CONTROLLER' : 'PAIR CONTROLLER',
-                  ),
           ),
-        ],
-      ),
-    ]);
+        ),
+        const SizedBox(height: 24),
+        state.needsUpgrade
+            ? OutlinedButton(
+                onPressed: () {
+                  BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigatorActionPop(mustPop: true));
+                },
+                style: OutlinedButton.styleFrom(minimumSize: const Size(double.infinity, 48)),
+                child: const Text('Go back'),
+              )
+            : FilledButton(
+                onPressed: () {
+                  if (state.loggedIn) {
+                    BlocProvider.of<SettingsRemoteControlBloc>(context).add(SettingsRemoteControlBlocEventPair());
+                  } else {
+                    _login(context);
+                  }
+                },
+                style: FilledButton.styleFrom(minimumSize: const Size(double.infinity, 48)),
+                child: Text(state.signingSetup ? 'Re-pair controller' : 'Pair controller'),
+              ),
+      ],
+    );
   }
 
   void _login(BuildContext context) async {

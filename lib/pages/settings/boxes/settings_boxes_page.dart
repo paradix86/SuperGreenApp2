@@ -96,36 +96,29 @@ class SettingsBoxesPage extends StatelessWidget {
   }
 
   Widget _renderNoBox(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Center(
-            child: Column(
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 24),
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 24.0),
-                    child: Text('You have no lab yet', style: Theme.of(context).textTheme.headlineSmall),
-                  ),
-                  Text('Create your first', style: Theme.of(context).textTheme.bodyLarge),
-                  Text('GREEN LAB',
-                      style: Theme.of(context).textTheme.displayMedium?.copyWith(color: context.sgl.accentDeep),
-                      textAlign: TextAlign.center),
-                ],
-              ),
-            ),
-            GreenButton(
-              title: 'CREATE',
+            Icon(Icons.science_outlined, size: 56, color: context.sgl.ink2),
+            const SizedBox(height: 24),
+            Text('No labs yet', style: Theme.of(context).textTheme.headlineSmall),
+            const SizedBox(height: 12),
+            Text('Create your first lab to get started', style: Theme.of(context).textTheme.bodyMedium),
+            const SizedBox(height: 32),
+            FilledButton.icon(
               onPressed: () {
                 BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToCreateBoxEvent());
               },
+              icon: const Icon(Icons.add),
+              label: const Text('Create lab'),
+              style: FilledButton.styleFrom(minimumSize: const Size(double.infinity, 48)),
             ),
           ],
-        )),
-      ],
+        ),
+      ),
     );
   }
 
