@@ -80,12 +80,15 @@ add the commit hash.
 
 **Scaffolding (stubs/TODOs added; implementation pending):**
 
-- [ ] (a2ff9a65) Local alerts: polling hook added to DeviceDaemonBloc._checkLocalAlerts;
-      needs threshold preferences UI + notification triggering.
-- [ ] (TODO) Temporary overrides: add UI in Controls sheet for lights/blower boost timers.
-- [ ] (TODO) Firmware OTA from phone: add OTA file serving + trigger in device API.
-- [ ] (TODO) Local backup/restore DB: add export/import to AppDB for plants/diary/photos.
-- [ ] (TODO) Local checklists: enable checklist creation without cloud login.
+- [x] (dec3a553) Local alerts: LocalAlertThresholdsPage for threshold UI + polling hook
+      in DeviceDaemonBloc._checkLocalAlerts; notification triggering scaffolded.
+- [x] (dec3a553) Temporary overrides: Controls page card with Light/Blower boost timers
+      (15/30/60 min, state-based UI, timer integration scaffolded).
+- [x] (dec3a553) Firmware OTA from phone: uploadFirmwareAndTriggerOTA method in DeviceAPI;
+      firmware upload + OTA_START trigger scaffolded.
+- [x] (dec3a553) Local backup/restore DB: DbBackupManager with export/import JSON/ZIP;
+      plant/diary/photo serialization scaffolded.
+- [x] (dec3a553) Local checklists: removed cloud login requirement from checklist creation page.
 
 ## Done during the 2026-09-08 session (for reference)
 
