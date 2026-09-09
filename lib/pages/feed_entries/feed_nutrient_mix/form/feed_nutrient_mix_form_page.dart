@@ -588,23 +588,19 @@ class _FeedNutrientMixFormPageState extends State<FeedNutrientMixFormPage> {
   }
 
   Widget renderEmptyToolbox(BuildContext context) {
-    return Container(
-        height: 200,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-                child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: SvgPicture.asset('assets/products/toolbox/toolbox.svg', width: 110, height: 110),
-                ),
-                Text(FeedNutrientMixFormPage.feedNutrientMixFormPageNoToolsYet, textAlign: TextAlign.center),
-              ],
-            ))
-          ],
-        ));
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset('assets/products/toolbox/toolbox.svg', width: 80, height: 80),
+          const SizedBox(height: 12),
+          Text(FeedNutrientMixFormPage.feedNutrientMixFormPageNoToolsYet,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodySmall),
+        ],
+      ),
+    );
   }
 
   Widget renderWaterMetrics(BuildContext context) {
