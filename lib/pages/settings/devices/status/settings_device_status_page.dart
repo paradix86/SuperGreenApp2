@@ -19,9 +19,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:super_green_app/data/api/device/device_status.dart';
 import 'package:super_green_app/l10n.dart';
 import 'package:super_green_app/l10n/common.dart';
+import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/pages/settings/devices/status/settings_device_status_bloc.dart';
 import 'package:super_green_app/widgets/appbar.dart';
 import 'package:super_green_app/widgets/fullscreen.dart';
@@ -364,8 +366,14 @@ class SettingsDeviceStatusPage extends StatelessWidget {
           appBar: SGLAppBar(
             settingsDeviceStatusPageTitle,
             actions: [
+              if (state is SettingsDeviceStatusBlocStateLoaded)
+                IconButton(
+                  icon: const Icon(Icons.language),
+                  tooltip: 'Web dashboard',
+                  onPressed: () => _openDashboard(context, state),
+                ),
               IconButton(
-                icon: Icon(Icons.refresh),
+                icon: const Icon(Icons.refresh),
                 tooltip: settingsDeviceStatusPageRefresh,
                 onPressed: isLoading ? null : () => _refresh(context),
               ),
@@ -379,6 +387,27 @@ class SettingsDeviceStatusPage extends StatelessWidget {
 
   void _refresh(BuildContext context) {
     BlocProvider.of<SettingsDeviceStatusBloc>(context).add(SettingsDeviceStatusBlocEventRefresh());
+  }
+
+  void _openDashboard(BuildContext context, SettingsDeviceStatusBlocStateLoaded state) async {
+    // Get device from route args (passed via MainNavigateToSettingsDeviceStatus)
+    final args = ModalRoute.of(context)?.settings.arguments as MainNavigateToSettingsDeviceStatus?;
+    if (args == null) return;
+
+    // Try to open dashboard at http://device.ip or http://device.name.local
+    final urls = [
+      'http://${args.device.ip}',
+      'http://${args.device.name}.local',
+    ];
+
+    for (final url in urls) {
+      try {
+        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+        return;
+      } catch (_) {
+        // Try next URL
+      }
+    }
   }
 
   Widget renderError(BuildContext context, SettingsDeviceStatusBlocStateError state) {
