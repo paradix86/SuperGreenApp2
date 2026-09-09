@@ -96,7 +96,7 @@ class _PlantDrawerPageState extends State<PlantDrawerPage> {
                         child: Column(
                       children: <Widget>[
                         ListTile(
-                            leading: Icon(Icons.add_circle),
+                            leading: Icon(Icons.add, size: 20),
                             title: Text(PlantDrawerPage.plantDrawerPageAddPlantLabel),
                             onTap: () => _onAddPlant(context)),
                       ],

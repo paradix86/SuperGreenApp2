@@ -18,6 +18,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
+import 'package:super_green_app/theme/sgl_typography.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
@@ -173,8 +174,8 @@ class _FeedWaterFormPageState extends State<FeedWaterFormPage> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              Text('PH:',
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: context.sgl.accentDeep)),
+                              Text('pH',
+                                  style: SglTextStyles.eyebrow.copyWith(fontSize: 12, color: context.sgl.ink3)),
                               Center(
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -202,8 +203,8 @@ class _FeedWaterFormPageState extends State<FeedWaterFormPage> {
                       Expanded(
                         child: Column(
                           children: [
-                            Text('EC (μS/cm):',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: context.sgl.accentDeep)),
+                            Text('EC (μS/cm)',
+                                style: SglTextStyles.eyebrow.copyWith(fontSize: 12, color: context.sgl.ink3)),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 24.0),
                               child: TextField(
@@ -221,8 +222,8 @@ class _FeedWaterFormPageState extends State<FeedWaterFormPage> {
                       Expanded(
                         child: Column(
                           children: [
-                            Text('TDS (ppm):',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: context.sgl.accentDeep)),
+                            Text('TDS (ppm)',
+                                style: SglTextStyles.eyebrow.copyWith(fontSize: 12, color: context.sgl.ink3)),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 24.0),
                               child: TextField(

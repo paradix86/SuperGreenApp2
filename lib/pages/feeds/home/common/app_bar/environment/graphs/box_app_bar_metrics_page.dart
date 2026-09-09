@@ -365,5 +365,28 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
     );
   }
 
+  bool _isSensorStuck(List<Metric> data) {
+    if (data.length < 5) return false;
+    final last5 = data.skip(data.length - 5).toList();
+    return last5.every((m) => m.metric == last5.first.metric);
+  }
+
+  Widget _renderStuckSensorBanner(BuildContext context) {
+    return Container(
+      color: context.sgl.crit.withOpacity(0.1),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: Row(
+        children: [
+          Icon(Icons.warning_outlined, color: context.sgl.crit, size: 18),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text('Sensor reading is flat/stuck',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: context.sgl.crit)),
+          ),
+        ],
+      ),
+    );
+  }
+
   static charts.Color _chartColor(Color c) => SglChartPalette.chart(c);
 }
