@@ -200,20 +200,13 @@ class _SettingsPlantPageState extends State<SettingsPlantPage> {
                   _handleChangeBox(context);
                 },
               ),
-              SectionTitle(
-                title: 'Archive plant',
-                icon: 'assets/settings/icon_archive.svg',
-                backgroundColor: context.sgl.crit,
-                elevation: 5,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
+              const SizedBox(height: 12),
+              Card(
                 child: ListTile(
                   leading: Icon(Icons.archive_outlined, color: context.sgl.crit),
-                  title: Text('Archive your plant when it\'s done'),
-                  subtitle: Text(
-                      'Archiving your plant will remove the plant from the list and all assets from your mobile phone. The plant will still be accessible in the "archived plants" section of the explorer tab.\n\nThis action can\'t be reverted.'),
-                  trailing: Icon(Icons.archive),
+                  title: const Text('Archive plant'),
+                  subtitle: const Text('Remove from library (accessible in archived section)'),
+                  trailing: const Icon(Icons.chevron_right),
                   onTap: () {
                     if (state.loggedIn) {
                       handlerArchivePlant(context);
