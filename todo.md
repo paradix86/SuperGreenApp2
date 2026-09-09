@@ -56,9 +56,8 @@ add the commit hash.
 - [ ] Off-theme icons: Towelie cartoon mascot, banana emoji on the Measure page, dark
       colour tiles in Infos (strain, medium, phase), cartoon speed-dial icons, cartoon
       toggles in the Watering form.
-- [ ] Speed dial: black rectangular labels cover the diary text; darker scrim or chip
-      labels.
-- [ ] Controller status: only page without cards; broker URL wraps over three lines.
+- [x] (886c588e) Speed dial: use lighter bg2 background + accent button color (chip-style labels).
+- [x] (886c588e) Controller status: truncate broker URL with ellipsis (no 3-line wrap).
 - [ ] Units row: subtitle "Imperial · °F, in" with action "metric" reads as a
       contradiction; make it an explicit toggle.
 - [ ] Empty space: New plant, New lab, Nutrient mix, Community comments leave 70–90 %
