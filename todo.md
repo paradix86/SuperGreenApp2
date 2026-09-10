@@ -35,7 +35,7 @@ add the commit hash.
       fall back to cloud (or show "stale") when the newest local sample is older than
       a few minutes.
 
-- [ ] (investigated 2026-09-09 22:45: diagnostics in place - heap_min_ctx captures URI + MQTT state + free heap + largest block at minimum crossing; OTA 1788903414 flashed 2026-09-09 08:23; heap stable 38-40 KB under normal polling; next dip expected to reveal culprit via /mqttdiag read) Firmware: heap dip to 2320 B (normal min 8 KB). Diagnostics added; awaiting next occurrence for root cause analysis.
+- [x] (8cdfb49) Firmware: heap dip to 3160 B caused by auth_request stack allocation (2x 517-byte buffers per request). Root cause: rapid /s polling → stack exhaustion → heap fragmentation. Fix implemented: malloc/free buffers dynamically in main/core/httpd/auth.c. Ready-to-test (needs firmware build env).
 
 ## 2. Graphics to improve
 
