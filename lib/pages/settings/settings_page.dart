@@ -105,7 +105,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       SettingsRow(
                         icon: Icons.straighten_outlined,
                         title: 'Units',
-                        subtitle: state.freedomUnits ? 'Imperial · °F, in, gal' : 'Metric · °C, cm, L',
+                        subtitle: state.freedomUnits ? '°F · in · gal' : '°C · cm · L',
                         trailing: SegmentedButton<bool>(
                           segments: const [
                             ButtonSegment(value: false, label: Text('Metric')),

@@ -175,7 +175,6 @@ class _FeedMeasureFormPageState extends State<FeedMeasureFormPage> {
                 } else {
                   body = FeedFormLayout(
                       title: title,
-                      fontSize: 35,
                       changed: _previous != null || _media != null,
                       valid: _media != null,
                       onOK: () => BlocProvider.of<FeedMeasureFormBloc>(context)
