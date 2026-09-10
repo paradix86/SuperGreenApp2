@@ -51,15 +51,21 @@ add the commit hash.
 
 **Minor refinements (backlog for next iteration):**
 
-- [ ] (BACKLOG: requires FeedEntryIcons[] remapping + asset replacement) Off-theme icons:
-      Towelie feed entry icon, banana emoji, dark tiles in Infos, cartoon speed-dial,
-      cartoon toggles. Scope: change multiple asset references in feed_entries_*.dart.
+- [ ] (PARTIAL d329a02f: banana emoji title on the Measure form replaced by "Measure".
+      BLOCKED for the rest: Towelie PNG and the feed_card/*.svg set are one cartoon
+      family rendered by FeedCardTitle/speed dial/filter; swapping one for a flat icon
+      breaks consistency, needs a designed icon set) Off-theme icons: Towelie feed entry
+      icon, dark tiles in Infos, cartoon speed-dial, cartoon toggles.
 - [x] (886c588e) Speed dial: use lighter bg2 background + accent button color (chip-style labels).
 - [x] (886c588e) Controller status: truncate broker URL with ellipsis (no 3-line wrap).
-- [ ] (BACKLOG: UI not located) Units row: locate Imperial/metric toggle UI (likely in
-      account settings cloud page, not yet found in local-only code).
+- [x] (d329a02f) Units row: it lives in Settings > Preferences (settings_page.dart); the
+      trailing action named the *target* unit ("metric" while Imperial was on), which read
+      as the current state. Replaced by a Metric/Imperial SegmentedButton.
 - [x] (86804ecc) Empty space: Nutrient Mix form - tighten layout (200px→min size,
       reduce icon 110→80px).
+- [x] (d329a02f) Empty space: New plant / New lab - the CTA was pinned to the bottom of
+      an otherwise empty screen; it now follows the fields. Community comments left as is
+      (the card preview shows at most 2 comments; the full page is the comments form).
 - [x] (6bb07517) Watering form: change PH/EC/TDS labels to mono eyebrow style.
 - [x] (6bb07517) Nav drawer: standardize Add plant icon with checkbox icons.
 - [x] (6bb07517) Graphs: add _isSensorStuck() detector for flat sensor visual indicator.
