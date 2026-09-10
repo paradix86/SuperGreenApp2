@@ -105,8 +105,21 @@ class _SettingsPageState extends State<SettingsPage> {
                       SettingsRow(
                         icon: Icons.straighten_outlined,
                         title: 'Units',
-                        subtitle: state.freedomUnits ? 'Imperial · °F, in' : 'Metric · °C, cm',
-                        trailing: SettingsRowAction(state.freedomUnits ? 'metric' : 'imperial'),
+                        subtitle: state.freedomUnits ? 'Imperial · °F, in, gal' : 'Metric · °C, cm, L',
+                        trailing: SegmentedButton<bool>(
+                          segments: const [
+                            ButtonSegment(value: false, label: Text('Metric')),
+                            ButtonSegment(value: true, label: Text('Imperial')),
+                          ],
+                          selected: {state.freedomUnits},
+                          showSelectedIcon: false,
+                          style: const ButtonStyle(
+                            visualDensity: VisualDensity.compact,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          onSelectionChanged: (selection) => BlocProvider.of<SettingsBloc>(context)
+                              .add(SettingsBlocEventSetFreedomUnit(selection.first)),
+                        ),
                         onTap: () => BlocProvider.of<SettingsBloc>(context)
                             .add(SettingsBlocEventSetFreedomUnit(!state.freedomUnits)),
                       ),

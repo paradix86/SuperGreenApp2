@@ -195,17 +195,17 @@ class CreatePlantPageState extends State<CreatePlantPage> {
                 _isSingle = newValue!;
               });
             }, _isSingle),
-          ]),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8.0, right: 8.0),
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: GreenButton(
-              title: CreatePlantPage.createPlantPageCreatePlantButton,
-              onPressed: _nameController.value.text != '' ? () => _handleInput(context) : null,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 24.0, 8.0, 8.0),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: GreenButton(
+                  title: CreatePlantPage.createPlantPageCreatePlantButton,
+                  onPressed: _nameController.value.text != '' ? () => _handleInput(context) : null,
+                ),
+              ),
             ),
-          ),
+          ]),
         ),
       ],
     );

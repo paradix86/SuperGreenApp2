@@ -120,8 +120,7 @@ class _CreateBoxPageState extends State<CreateBoxPage> {
           elevation: 5,
         ),
         Expanded(
-            child: Column(
-          children: <Widget>[
+          child: ListView(children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 24.0),
               child: SGLTextField(
@@ -131,17 +130,17 @@ class _CreateBoxPageState extends State<CreateBoxPage> {
                     setState(() {});
                   }),
             ),
-          ],
-        )),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8.0, right: 8.0),
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: GreenButton(
-              title: CreateBoxPage.createBoxPageNewLabButton,
-              onPressed: _nameController.value.text != '' ? () => _handleInput(context) : null,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: GreenButton(
+                  title: CreateBoxPage.createBoxPageNewLabButton,
+                  onPressed: _nameController.value.text != '' ? () => _handleInput(context) : null,
+                ),
+              ),
             ),
-          ),
+          ]),
         ),
       ],
     );
