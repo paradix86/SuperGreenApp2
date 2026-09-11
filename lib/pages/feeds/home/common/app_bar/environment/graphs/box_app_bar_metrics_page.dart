@@ -5,7 +5,7 @@ import 'package:super_green_app/widgets/sgl/sgl_info.dart';
 import 'package:super_green_app/theme/sgl_chart_palette.dart';
 import 'package:super_green_app/theme/sgl_typography.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:community_charts_flutter/community_charts_flutter.dart' as charts;
+import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/data/api/backend/time_series/time_series_api.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
@@ -64,21 +64,15 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
   Widget _renderGraphs(BuildContext context, PlantFeedAppBarBlocStateLoaded state) {
     String tempUnit = AppDB().getUserSettings().freedomUnits! ? '°F' : '°C';
 
-    charts.Series<Metric, DateTime> dateGraphData = state.graphData.firstWhere((g) => g.data.length != 0);
+    MetricSeries dateGraphData = state.graphData.firstWhere((g) => g.data.length != 0);
     DateTime metricDate = dateGraphData.data[selectedGraphIndex ?? dateGraphData.data.length - 1].time;
-    
+
     String weightUnit = AppDB().getUserSettings().freedomUnits! ? 'lb' : 'kg';
     String format = AppDB().getUserSettings().freedomUnits! ? 'MM/dd/yyyy HH:mm' : 'dd/MM/yyyy HH:mm';
     Widget dateText = Text('${DateFormat(format).format(metricDate)}',
         style: SglTextStyles.mono.copyWith(color: context.sgl.ink2, fontSize: 12));
     Widget sourceRow = _renderSource(context, state);
-    List<charts.LineAnnotationSegment<Object>>? annotations;
     if (selectedGraphIndex != null) {
-      annotations = [
-        charts.LineAnnotationSegment(metricDate, charts.RangeAnnotationAxisType.domain,
-            labelStyleSpec: charts.TextStyleSpec(color: _chartColor(context.sgl.ink)),
-            color: _chartColor(context.sgl.ink3))
-      ];
       dateText = Row(
         children: <Widget>[
           dateText,
@@ -92,49 +86,85 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
         ],
       );
     }
+    final List<MetricSeries> enabledSeries =
+        state.graphData.where((gd) => !(disabledGraphs[state.graphData.indexOf(gd)] ?? false)).toList();
+    final double minX = dateGraphData.data.first.time.millisecondsSinceEpoch.toDouble();
+    final double maxX = dateGraphData.data.last.time.millisecondsSinceEpoch.toDouble();
     Widget graphs = Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: context.sgl.surface,
         border: Border.all(color: context.sgl.line, width: 1),
       ),
-      child: /*Stack(
-        children: [*/
-          Padding(
+      child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: charts.TimeSeriesChart(
-          state.graphData.where((gd) => !(disabledGraphs[state.graphData.indexOf(gd)] ?? false)).toList(),
-          animate: false,
-          domainAxis: charts.DateTimeAxisSpec(
-            renderSpec: charts.SmallTickRendererSpec(
-              labelStyle: charts.TextStyleSpec(fontSize: 10, color: _chartColor(context.sgl.ink3)),
-              lineStyle: charts.LineStyleSpec(color: _chartColor(context.sgl.line)),
+        child: LineChart(
+          LineChartData(
+            minX: minX,
+            maxX: maxX,
+            lineBarsData: enabledSeries
+                .where((s) => s.data.isNotEmpty)
+                .map((s) => LineChartBarData(
+                      spots: s.data.map((m) => FlSpot(m.time.millisecondsSinceEpoch.toDouble(), m.metric)).toList(),
+                      color: s.color,
+                      barWidth: 2,
+                      isCurved: false,
+                      dotData: const FlDotData(show: false),
+                    ))
+                .toList(),
+            gridData: FlGridData(
+              getDrawingHorizontalLine: (_) => FlLine(color: context.sgl.line, strokeWidth: 1),
+              getDrawingVerticalLine: (_) => FlLine(color: context.sgl.line, strokeWidth: 1),
+            ),
+            borderData: FlBorderData(show: false),
+            titlesData: FlTitlesData(
+              topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              leftTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  reservedSize: 34,
+                  getTitlesWidget: (value, meta) => Text(value.toInt().toString(),
+                      style: TextStyle(fontSize: 10, color: context.sgl.ink3)),
+                ),
+              ),
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  reservedSize: 22,
+                  interval: maxX > minX ? (maxX - minX) / 3 : null,
+                  getTitlesWidget: (value, meta) => Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(value.toInt())),
+                        style: TextStyle(fontSize: 10, color: context.sgl.ink3)),
+                  ),
+                ),
+              ),
+            ),
+            extraLinesData: selectedGraphIndex != null
+                ? ExtraLinesData(verticalLines: [
+                    VerticalLine(
+                      x: metricDate.millisecondsSinceEpoch.toDouble(),
+                      color: context.sgl.ink3,
+                      strokeWidth: 1,
+                    ),
+                  ])
+                : ExtraLinesData(),
+            lineTouchData: LineTouchData(
+              touchTooltipData: LineTouchTooltipData(getTooltipColor: (_) => Colors.transparent),
+              getTouchedSpotIndicator: (bar, indicators) => indicators
+                  .map((i) => TouchedSpotIndicatorData(FlLine(strokeWidth: 0), FlDotData(show: false)))
+                  .toList(),
+              touchCallback: (FlTouchEvent event, LineTouchResponse? response) {
+                if (event is! FlTapUpEvent || response?.lineBarSpots?.isEmpty != false) {
+                  return;
+                }
+                setState(() {
+                  selectedGraphIndex = response!.lineBarSpots!.first.spotIndex;
+                });
+              },
             ),
           ),
-          primaryMeasureAxis: charts.NumericAxisSpec(
-            renderSpec: charts.GridlineRendererSpec(
-              labelStyle: charts.TextStyleSpec(fontSize: 10, color: _chartColor(context.sgl.ink3)),
-              lineStyle: charts.LineStyleSpec(color: _chartColor(context.sgl.line)),
-            ),
-          ),
-          behaviors: selectedGraphIndex != null
-              ? [
-                  charts.RangeAnnotation(annotations!),
-                ]
-              : null,
-          customSeriesRenderers: [charts.PointRendererConfig(customRendererId: 'customPoint')],
-          selectionModels: [
-            new charts.SelectionModelConfig(
-                type: charts.SelectionModelType.info,
-                changedListener: (charts.SelectionModel model) {
-                  if (!model.hasAnySelection) {
-                    return;
-                  }
-                  setState(() {
-                    selectedGraphIndex = model.selectedDatum[0].index;
-                  });
-                }),
-          ],
         ),
       ),
     );
@@ -388,5 +418,4 @@ class _BoxAppBarMetricsPageState extends State<BoxAppBarMetricsPage> {
     );
   }
 
-  static charts.Color _chartColor(Color c) => SglChartPalette.chart(c);
 }

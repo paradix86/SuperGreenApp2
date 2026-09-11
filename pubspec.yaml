@@ -80,9 +80,7 @@ dependencies:
   # intl < 0.20 and block the resolution: activate them globally when the
   # translations need regenerating (see the script)
   card_swiper:
-  # community fork of google/charts (same API, import renamed): the
-  # supergreenlab fork pins intl ^0.19 and cannot resolve on Flutter >= 3.24
-  community_charts_flutter: ^1.0.4
+  fl_chart: ^1.2.0
   # flutter_markdown is discontinued; flutter_markdown_plus is its drop-in successor
   flutter_markdown_plus: ^1.0.12
   matrix_gesture_detector:

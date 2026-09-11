@@ -18,8 +18,8 @@
 
 import 'dart:convert';
 import 'dart:math' as math;
+import 'dart:ui' show Color;
 
-import 'package:community_charts_flutter/community_charts_flutter.dart' as charts;
 import 'package:http/http.dart';
 import 'package:drift/drift.dart';
 import 'package:super_green_app/data/api/backend/backend_api.dart';
@@ -61,8 +61,8 @@ class TimeSeriesAPI {
     return result;
   }
 
-  static Future<charts.Series<Metric, DateTime>> fetchTimeSeries(
-      Box box, String controllerID, String graphID, String name, charts.Color color, int min, int max,
+  static Future<MetricSeries> fetchTimeSeries(
+      Box box, String controllerID, String graphID, String name, Color color, int min, int max,
       {Function(double, int)? transform}) async {
     List<dynamic> values = await fetchMetric(box, controllerID, name, min, max);
     if (values.where((v) => v[1] != 0).length == 0) {
@@ -89,14 +89,11 @@ class TimeSeriesAPI {
     return data;
   }
 
-  static charts.Series<Metric, DateTime> toTimeSeries(List<dynamic> values, String graphID, charts.Color color,
+  static MetricSeries toTimeSeries(List<dynamic> values, String graphID, Color color,
       {Function(double, int)? transform}) {
-    return charts.Series<Metric, DateTime>(
+    return MetricSeries(
       id: graphID,
-      strokeWidthPxFn: (_, __) => 3,
-      colorFn: (_, __) => color,
-      domainFn: (Metric metric, _) => metric.time,
-      measureFn: (Metric metric, _) => metric.metric,
+      color: color,
       data: values.asMap().map<int, Metric>((i, v) {
         double value = v[1].toDouble();
         if (transform != null) {
@@ -121,4 +118,15 @@ class Metric {
   final double metric;
 
   Metric(this.time, this.metric);
+}
+
+/// Plain replacement for community_charts_flutter's `Series<Metric, DateTime>`:
+/// a named, colored list of samples that the fl_chart-based graph widget
+/// converts into `FlSpot`s (x = milliseconds since epoch) at render time.
+class MetricSeries {
+  final String id;
+  final Color color;
+  final List<Metric> data;
+
+  MetricSeries({required this.id, required this.color, required this.data});
 }

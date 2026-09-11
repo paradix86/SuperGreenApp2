@@ -27,7 +27,6 @@ import 'package:super_green_app/data/api/backend/time_series/time_series_api.dar
 import 'package:super_green_app/data/api/device/dash_history.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
-import 'package:community_charts_flutter/community_charts_flutter.dart' as charts;
 
 abstract class PlantFeedAppBarBlocEvent extends Equatable {}
 
@@ -65,7 +64,7 @@ class PlantFeedAppBarBlocStateInit extends PlantFeedAppBarBlocState {
 
 class PlantFeedAppBarBlocStateLoaded extends PlantFeedAppBarBlocState {
   final List<dynamic> version;
-  final List<charts.Series<Metric, DateTime>> graphData;
+  final List<MetricSeries> graphData;
   final Plant? plant;
   final Box box;
   final GraphSource source;
@@ -109,14 +108,14 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
           final db = RelDB.get();
           box = await db.plantsDAO.getBox(plant!.box);
         }
-        List<charts.Series<Metric, DateTime>> graphData = await updateChart();
+        List<MetricSeries> graphData = await updateChart();
         yield _loaded(graphData);
       } catch (e) {
         print(e);
       }
     } else if (event is PlantFeedAppBarBlocEventReloadChart) {
       try {
-        List<charts.Series<Metric, DateTime>> graphData = await updateChart();
+        List<MetricSeries> graphData = await updateChart();
         yield _loaded(graphData);
       } catch (e) {
         print(e);
@@ -124,7 +123,7 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
     } else if (event is PlantFeedAppBarBlocEventSetSource) {
       _preferCloud = event.cloud;
       try {
-        List<charts.Series<Metric, DateTime>> graphData = await updateChart();
+        List<MetricSeries> graphData = await updateChart();
         yield _loaded(graphData);
       } catch (e) {
         print(e);
@@ -132,7 +131,7 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
     }
   }
 
-  PlantFeedAppBarBlocStateLoaded _loaded(List<charts.Series<Metric, DateTime>> graphData) {
+  PlantFeedAppBarBlocStateLoaded _loaded(List<MetricSeries> graphData) {
     return PlantFeedAppBarBlocStateLoaded(version, graphData, plant, box!,
         source: _source, hasController: box?.device != null);
   }
@@ -140,7 +139,7 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
   /// Series built from the readings the app polled from the controller
   /// itself ([DashHistory]), same scaling as the cloud series so the chart
   /// and the metric strip read the same. Null when nothing was recorded yet.
-  List<charts.Series<Metric, DateTime>>? _localChart(int deviceID, int deviceBox) {
+  List<MetricSeries>? _localChart(int deviceID, int deviceBox) {
     final String prefix = 'BOX_${deviceBox}_';
     final List<DashSample> temps = DashHistory.samples(deviceID, '${prefix}TEMP');
     if (temps.length < 2) {
@@ -153,19 +152,12 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
       return null;
     }
     version = [];
-    charts.Series<Metric, DateTime> series(String key, String id, Color color, double Function(int) scale) {
+    MetricSeries series(String key, String id, Color color, double Function(int) scale) {
       final List<DashSample> samples = DashHistory.samples(deviceID, '$prefix$key');
       final bool keepZero = key == 'BLOWER_DUTY' || key == 'LED_DIM';
       final List<Metric> data =
           samples.where((s) => keepZero || s.value != 0).map((s) => Metric(s.time, scale(s.value))).toList();
-      return charts.Series<Metric, DateTime>(
-        id: id,
-        strokeWidthPxFn: (_, __) => 3,
-        colorFn: (_, __) => SglChartPalette.chart(color),
-        domainFn: (Metric metric, _) => metric.time,
-        measureFn: (Metric metric, _) => metric.metric,
-        data: data,
-      );
+      return MetricSeries(id: id, color: color, data: data);
     }
 
     return [
@@ -179,7 +171,7 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
     ];
   }
 
-  Future<List<charts.Series<Metric, DateTime>>> updateChart() async {
+  Future<List<MetricSeries>> updateChart() async {
     if (box?.device == null) {
       _source = GraphSource.demo;
       return _createDummyData();
@@ -196,7 +188,7 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
       String identifier = device.identifier;
       int deviceBox = box!.deviceBox!;
       if (_preferCloud != true) {
-        final List<charts.Series<Metric, DateTime>>? local = _localChart(device.id, deviceBox);
+        final List<MetricSeries>? local = _localChart(device.id, deviceBox);
         if (local != null) {
           _source = GraphSource.local;
           return local;
@@ -204,19 +196,19 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
       }
       _source = GraphSource.cloud;
       version = await TimeSeriesAPI.fetchMetric(box!, identifier, 'OTA_TIMESTAMP', 0, 10000000000);
-      charts.Series<Metric, DateTime> temp = await TimeSeriesAPI.fetchTimeSeries(
-          box!, identifier, 'Temperature', 'BOX_${deviceBox}_TEMP', SglChartPalette.chart(SglChartPalette.temperature), 0, 50,
+      MetricSeries temp = await TimeSeriesAPI.fetchTimeSeries(
+          box!, identifier, 'Temperature', 'BOX_${deviceBox}_TEMP', SglChartPalette.temperature, 0, 50,
           transform: _tempUnit);
-      charts.Series<Metric, DateTime> humi = await TimeSeriesAPI.fetchTimeSeries(
-          box!, identifier, 'Humidity', 'BOX_${deviceBox}_HUMI', SglChartPalette.chart(SglChartPalette.humidity), 0, 100);
-      charts.Series<Metric, DateTime> vpd = await TimeSeriesAPI.fetchTimeSeries(
-          box!, identifier, 'VPD', 'BOX_${deviceBox}_VPD', SglChartPalette.chart(SglChartPalette.vpd), 0, 254,
+      MetricSeries humi = await TimeSeriesAPI.fetchTimeSeries(
+          box!, identifier, 'Humidity', 'BOX_${deviceBox}_HUMI', SglChartPalette.humidity, 0, 100);
+      MetricSeries vpd = await TimeSeriesAPI.fetchTimeSeries(
+          box!, identifier, 'VPD', 'BOX_${deviceBox}_VPD', SglChartPalette.vpd, 0, 254,
           transform: _vpd);
 
-      charts.Series<Metric, DateTime> ventilation = await TimeSeriesAPI.fetchTimeSeries(
-          box!, identifier, 'Ventilation', 'BOX_${deviceBox}_BLOWER_DUTY', SglChartPalette.chart(SglChartPalette.ventilation), 0, 100);
+      MetricSeries ventilation = await TimeSeriesAPI.fetchTimeSeries(
+          box!, identifier, 'Ventilation', 'BOX_${deviceBox}_BLOWER_DUTY', SglChartPalette.ventilation, 0, 100);
 
-      late charts.Series<Metric, DateTime> light;
+      late MetricSeries light;
       try {
         List<dynamic> timerOutput = await TimeSeriesAPI.fetchMetric(box!, identifier, 'BOX_${deviceBox}_TIMER_OUTPUT', 0, 100);
         List<List<dynamic>> dims = [];
@@ -231,22 +223,22 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
         }
         List<int> avgDims = TimeSeriesAPI.avgMetrics(dims);
         light = TimeSeriesAPI.toTimeSeries(
-            TimeSeriesAPI.multiplyMetric(timerOutput, avgDims), 'Light', SglChartPalette.chart(SglChartPalette.light));
+            TimeSeriesAPI.multiplyMetric(timerOutput, avgDims), 'Light', SglChartPalette.light);
       } catch (e) {
-        light = light = TimeSeriesAPI.toTimeSeries([], 'Light', SglChartPalette.chart(SglChartPalette.light));
+        light = TimeSeriesAPI.toTimeSeries([], 'Light', SglChartPalette.light);
       }
 
-      charts.Series<Metric, DateTime> co2 = await TimeSeriesAPI.fetchTimeSeries(
-          box!, identifier, 'CO2', 'BOX_${deviceBox}_CO2', SglChartPalette.chart(SglChartPalette.co2), 0, 100000,
+      MetricSeries co2 = await TimeSeriesAPI.fetchTimeSeries(
+          box!, identifier, 'CO2', 'BOX_${deviceBox}_CO2', SglChartPalette.co2, 0, 100000,
           transform: _co2);
-      charts.Series<Metric, DateTime> weight = await TimeSeriesAPI.fetchTimeSeries(
-          box!, identifier, 'Weight', 'BOX_${deviceBox}_WEIGHT', SglChartPalette.chart(SglChartPalette.weight), 0, 100000,
+      MetricSeries weight = await TimeSeriesAPI.fetchTimeSeries(
+          box!, identifier, 'Weight', 'BOX_${deviceBox}_WEIGHT', SglChartPalette.weight, 0, 100000,
           transform: _weight);
       return [temp, humi, vpd, light, ventilation, co2, weight];
     }
   }
 
-  List<charts.Series<Metric, DateTime>> _createDummyData() {
+  List<MetricSeries> _createDummyData() {
     final tempData = List.generate(
         50,
         (index) => Metric(DateTime.now().subtract(Duration(hours: 72)).add(Duration(hours: index * 72 ~/ 50)),
@@ -277,62 +269,13 @@ class BoxAppBarMetricsBloc extends LegacyBloc<PlantFeedAppBarBlocEvent, PlantFee
             ((cos(index / 100) * 10).toInt() + Random().nextInt(5) + 20).toDouble()));
 
     return [
-      charts.Series<Metric, DateTime>(
-        id: 'Temperature',
-        strokeWidthPxFn: (_, __) => 3,
-        colorFn: (_, __) => SglChartPalette.chart(SglChartPalette.temperature),
-        domainFn: (Metric metric, _) => metric.time,
-        measureFn: (Metric metric, _) => metric.metric,
-        data: tempData,
-      ),
-      charts.Series<Metric, DateTime>(
-        id: 'Humidity',
-        strokeWidthPxFn: (_, __) => 3,
-        colorFn: (_, __) => SglChartPalette.chart(SglChartPalette.humidity),
-        domainFn: (Metric metric, _) => metric.time,
-        measureFn: (Metric metric, _) => metric.metric,
-        data: humiData,
-      ),
-      charts.Series<Metric, DateTime>(
-        id: 'VPD',
-        strokeWidthPxFn: (_, __) => 3,
-        colorFn: (_, __) => SglChartPalette.chart(SglChartPalette.vpd),
-        domainFn: (Metric metric, _) => metric.time,
-        measureFn: (Metric metric, _) => metric.metric,
-        data: vpdData,
-      ),
-      charts.Series<Metric, DateTime>(
-        id: 'Light',
-        strokeWidthPxFn: (_, __) => 3,
-        colorFn: (_, __) => SglChartPalette.chart(SglChartPalette.light),
-        domainFn: (Metric metric, _) => metric.time,
-        measureFn: (Metric metric, _) => metric.metric,
-        data: lightData,
-      ),
-      charts.Series<Metric, DateTime>(
-        id: 'Ventilation',
-        strokeWidthPxFn: (_, __) => 3,
-        colorFn: (_, __) => SglChartPalette.chart(SglChartPalette.ventilation),
-        domainFn: (Metric metric, _) => metric.time,
-        measureFn: (Metric metric, _) => metric.metric,
-        data: ventilationData,
-      ),
-      charts.Series<Metric, DateTime>(
-        id: 'CO2',
-        strokeWidthPxFn: (_, __) => 3,
-        colorFn: (_, __) => SglChartPalette.chart(SglChartPalette.ventilation),
-        domainFn: (Metric metric, _) => metric.time,
-        measureFn: (Metric metric, _) => metric.metric,
-        data: co2Data,
-      ),
-      charts.Series<Metric, DateTime>(
-        id: 'Weight',
-        strokeWidthPxFn: (_, __) => 3,
-        colorFn: (_, __) => SglChartPalette.chart(SglChartPalette.ventilation),
-        domainFn: (Metric metric, _) => metric.time,
-        measureFn: (Metric metric, _) => metric.metric,
-        data: weightData,
-      ),
+      MetricSeries(id: 'Temperature', color: SglChartPalette.temperature, data: tempData),
+      MetricSeries(id: 'Humidity', color: SglChartPalette.humidity, data: humiData),
+      MetricSeries(id: 'VPD', color: SglChartPalette.vpd, data: vpdData),
+      MetricSeries(id: 'Light', color: SglChartPalette.light, data: lightData),
+      MetricSeries(id: 'Ventilation', color: SglChartPalette.ventilation, data: ventilationData),
+      MetricSeries(id: 'CO2', color: SglChartPalette.ventilation, data: co2Data),
+      MetricSeries(id: 'Weight', color: SglChartPalette.ventilation, data: weightData),
     ];
   }
 

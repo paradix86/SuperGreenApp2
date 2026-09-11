@@ -92,6 +92,15 @@ add the commit hash.
       (BOX_N_TIMER_MANUAL_OUTPUT, SuperGreenOS commit 00c5bd2, live on the real controller
       after OTA 1789132982) since TIMER_TYPE=manual alone left TIMER_OUTPUT stuck at 0 with
       no settable key to raise it back. Verified end-to-end against the real controller.
+- [x] (Block C) Charts migrated from the discontinued community_charts_flutter to fl_chart:
+      time_series_api.dart's Metric stayed library-independent, only its Series wrapper became
+      a plain MetricSeries; box_app_bar_metrics_page.dart's TimeSeriesChart became a LineChart
+      with the same tap-to-inspect/vertical-marker/metric-strip-toggle behavior; SglChartPalette
+      lost its charts.Color conversion helper. Verified on the emulator (demo chart renders with
+      axes, gridlines and colored series). Re-ran `flutter pub outdated` after: nothing new became
+      upgradable - every other outdated dep (intl included) was never actually blocked by
+      community_charts_flutter, so the old pubspec.yaml comment blaming it for the intl ^0.19 cap
+      was stale.
 - [x] (dec3a553) Firmware OTA from phone: uploadFirmwareAndTriggerOTA method in DeviceAPI;
       firmware upload + OTA_START trigger scaffolded.
 - [x] (dec3a553) Local backup/restore DB: DbBackupManager with export/import JSON/ZIP;

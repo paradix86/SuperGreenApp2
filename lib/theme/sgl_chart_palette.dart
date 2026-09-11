@@ -1,4 +1,3 @@
-import 'package:community_charts_flutter/community_charts_flutter.dart' as charts;
 import 'package:flutter/painting.dart';
 
 /// Series colors for the environment graphs. Mid-saturation values chosen to
@@ -12,13 +11,4 @@ class SglChartPalette {
   static const Color light = Color(0xFFE0A32B);
   static const Color co2 = Color(0xFF8A948C);
   static const Color weight = Color(0xFF8B6BC9);
-
-  static charts.Color chart(Color c) {
-    return charts.Color(
-      r: (c.r * 255).round(),
-      g: (c.g * 255).round(),
-      b: (c.b * 255).round(),
-      a: (c.a * 255).round(),
-    );
-  }
 }
