@@ -30,6 +30,7 @@ import 'package:super_green_app/data/kv/app_db.dart';
 import 'package:super_green_app/data/logger/logger.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:collection/collection.dart';
+import 'package:super_green_app/overrides/box_overrides_helper.dart';
 
 abstract class DeviceDaemonBlocEvent extends Equatable {}
 
@@ -144,6 +145,7 @@ class DeviceDaemonBloc extends LegacyBloc<DeviceDaemonBlocEvent, DeviceDaemonBlo
           }
           await ddb.updateDevice(DevicesCompanion(id: Value(device.id), isReachable: Value(true)));
           await _refreshLiveValues(device, auth);
+          await _checkOverrides(device);
         } else {
           await ddb.updateDevice(DevicesCompanion(id: Value(device.id), isReachable: Value(false)));
           Logger.throwError("Wrong identifier for device ${device.name}", data: {"identifier": identifier});
@@ -170,6 +172,7 @@ class DeviceDaemonBloc extends LegacyBloc<DeviceDaemonBlocEvent, DeviceDaemonBlo
                   isReachable: Value(true),
                   ip: Value(ip),
                   synced: Value(device.synced ? ip == device.ip : false)));
+              await _checkOverrides(device);
             } else {
               Logger.throwError("Wrong identifier for device ${device.name}",
                   data: {"identifier": identifier}, fwdThrow: true);
@@ -236,6 +239,24 @@ class DeviceDaemonBloc extends LegacyBloc<DeviceDaemonBlocEvent, DeviceDaemonBlo
       return;
     }
     await _pushPhoneTimeIfDrifted(device, deviceTime);
+  }
+
+  /// Ends any light/blower boost of [device]'s boxes whose time is up. Runs
+  /// on every successful poll (both `/dash` and pre-2026-09-07 firmwares), so
+  /// a boost still ends even with the app killed right after starting it, the
+  /// next time the daemon reaches this controller.
+  Future<void> _checkOverrides(Device device) async {
+    final List<Box> boxes = await RelDB.get().plantsDAO.getBoxes();
+    for (final Box box in boxes) {
+      if (box.device != device.id) {
+        continue;
+      }
+      try {
+        await BoxOverridesHelper.checkExpired(device, box);
+      } catch (e, trace) {
+        Logger.logError(e, trace, data: {"device": device.identifier, "box": box.id});
+      }
+    }
   }
 
   Future<void> _updateDeviceTime(Device device, String? auth) async {

@@ -24,14 +24,18 @@ import 'package:intl/intl.dart';
 import 'package:super_green_app/data/api/device/device_params.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
 import 'package:super_green_app/data/local_timezone.dart';
+import 'package:super_green_app/data/logger/logger.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/l10n.dart';
 import 'package:super_green_app/l10n/common.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
+import 'package:super_green_app/overrides/box_override.dart';
+import 'package:super_green_app/overrides/box_overrides_helper.dart';
 import 'package:super_green_app/pages/add_device/select_device/select_device_page.dart';
 import 'package:super_green_app/pages/feeds/home/common/app_bar/common/widgets/app_bar_missing_controller.dart';
 import 'package:super_green_app/pages/feeds/home/common/app_bar/controls/box_controls_bloc.dart';
 import 'package:super_green_app/pages/feeds/home/common/app_bar/controls/widgets/schedule_timeline.dart';
+import 'package:super_green_app/pages/feeds/home/common/settings/box_settings.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:super_green_app/widgets/sgl/sgl_info.dart';
 import 'package:super_green_app/theme/sgl_typography.dart';
@@ -193,7 +197,7 @@ class _BoxControlsPageState extends State<BoxControlsPage> {
           ),
         ],
         const SizedBox(height: 10),
-        _TemporaryOverridesCard(box: box, now: _now),
+        _TemporaryOverridesCard(device: state.device, box: box),
         const SizedBox(height: 10),
         _renderScreenRow(context, state),
       ],
@@ -504,25 +508,61 @@ class _AlertsCard extends StatelessWidget {
   }
 }
 
+/// Light/blower forced to full for a limited time. Reads and writes
+/// [BoxOverridesHelper] against the live [Box] row (watched, so a change
+/// started or ended elsewhere — the daemon's expiry check, another screen —
+/// shows up here too), with its own 1 s ticker for the countdown.
 class _TemporaryOverridesCard extends StatefulWidget {
+  final Device device;
   final Box box;
-  final DateTime now;
 
-  const _TemporaryOverridesCard({required this.box, required this.now});
+  const _TemporaryOverridesCard({required this.device, required this.box});
 
   @override
   _TemporaryOverridesCardState createState() => _TemporaryOverridesCardState();
 }
 
 class _TemporaryOverridesCardState extends State<_TemporaryOverridesCard> {
-  int? _lightBoostMinutes;
-  int? _blowerBoostMinutes;
+  Timer? _ticker;
+  DateTime _now = DateTime.now();
+
+  /// Set while a start/stop request is in flight, so a slow controller can't
+  /// be double-tapped into two overlapping requests.
+  final Set<BoxOverrideKind> _busy = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted) {
+        setState(() => _now = DateTime.now());
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _ticker?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder<Box>(
+      stream: RelDB.get().plantsDAO.watchBox(widget.box.id),
+      initialData: widget.box,
+      builder: (BuildContext context, AsyncSnapshot<Box> snapshot) {
+        final Box box = snapshot.data ?? widget.box;
+        final BoxOverrides overrides = BoxSettings.fromJSON(box.settings).overrides;
+        return _buildCard(context, box, overrides);
+      },
+    );
+  }
+
+  Widget _buildCard(BuildContext context, Box box, BoxOverrides overrides) {
     final SglColors c = context.sgl;
     final TextTheme t = Theme.of(context).textTheme;
-    final bool hasOverrides = _lightBoostMinutes != null || _blowerBoostMinutes != null;
+    final bool hasOverrides = overrides.light.active || overrides.blower.active;
     return SglCard(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       child: Column(
@@ -540,33 +580,27 @@ class _TemporaryOverridesCardState extends State<_TemporaryOverridesCard> {
           ),
           if (hasOverrides) ...[
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                if (_lightBoostMinutes != null)
-                  Text('Light +$_lightBoostMinutes min', style: t.labelSmall?.copyWith(color: c.accent)),
-                if (_blowerBoostMinutes != null)
-                  Text('Blower +$_blowerBoostMinutes min', style: t.labelSmall?.copyWith(color: c.accent)),
-              ],
-            ),
+            if (overrides.light.active) _buildActiveRow(context, box, BoxOverrideKind.light, 'Light', overrides.light),
+            if (overrides.blower.active)
+              _buildActiveRow(context, box, BoxOverrideKind.blower, 'Blower', overrides.blower),
           ],
           const SizedBox(height: 8),
           Row(
             children: [
               Expanded(
                 child: FilledButton.tonal(
-                  onPressed: () => _showOverrideDialog('Light', (minutes) {
-                    setState(() => _lightBoostMinutes = minutes);
-                  }),
+                  onPressed: overrides.light.active || _busy.contains(BoxOverrideKind.light)
+                      ? null
+                      : () => _showOverrideDialog(context, box, BoxOverrideKind.light, 'Light'),
                   child: const Text('Light +'),
                 ),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: FilledButton.tonal(
-                  onPressed: () => _showOverrideDialog('Blower', (minutes) {
-                    setState(() => _blowerBoostMinutes = minutes);
-                  }),
+                  onPressed: overrides.blower.active || _busy.contains(BoxOverrideKind.blower)
+                      ? null
+                      : () => _showOverrideDialog(context, box, BoxOverrideKind.blower, 'Blower'),
                   child: const Text('Blower +'),
                 ),
               ),
@@ -577,40 +611,87 @@ class _TemporaryOverridesCardState extends State<_TemporaryOverridesCard> {
     );
   }
 
-  void _showOverrideDialog(String label, Function(int) onDuration) {
-    showDialog(
+  Widget _buildActiveRow(BuildContext context, Box box, BoxOverrideKind kind, String label, TemporaryOverride override) {
+    final SglColors c = context.sgl;
+    final TextTheme t = Theme.of(context).textTheme;
+    final Duration left = override.remaining(_now) ?? Duration.zero;
+    final String mmss = '${left.inMinutes}:${(left.inSeconds % 60).toString().padLeft(2, '0')}';
+    final bool busy = _busy.contains(kind);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Row(
+        children: [
+          Expanded(child: Text('$label · $mmss left', style: t.labelMedium?.copyWith(color: c.accent))),
+          TextButton(
+            onPressed: busy ? null : () => _stop(context, box, kind),
+            child: Text(busy ? '…' : 'Stop now'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _stop(BuildContext context, Box box, BoxOverrideKind kind) async {
+    setState(() => _busy.add(kind));
+    try {
+      await BoxOverridesHelper.stop(widget.device, box, kind);
+    } catch (e, trace) {
+      Logger.logError(e, trace, data: {'device': widget.device.identifier, 'box': box.id});
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Could not reach the controller to stop the override.')));
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _busy.remove(kind));
+      }
+    }
+  }
+
+  Future<void> _start(BuildContext context, Box box, BoxOverrideKind kind, int minutes) async {
+    setState(() => _busy.add(kind));
+    try {
+      await BoxOverridesHelper.start(widget.device, box, kind, minutes);
+    } catch (e, trace) {
+      Logger.logError(e, trace, data: {'device': widget.device.identifier, 'box': box.id});
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Could not reach the controller to start the override.')));
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _busy.remove(kind));
+      }
+    }
+  }
+
+  void _showOverrideDialog(BuildContext context, Box box, BoxOverrideKind kind, String label) {
+    showDialog<int>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text('$label boost duration'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('How many minutes to boost $label?'),
+            Text('How many minutes to force $label to full?'),
             const SizedBox(height: 16),
-            SizedBox(
-              height: 150,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      for (final mins in [15, 30, 60])
-                        FilledButton(
-                          onPressed: () {
-                            onDuration(mins);
-                            Navigator.pop(context);
-                          },
-                          child: Text('$mins min'),
-                        ),
-                    ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                for (final mins in [15, 30, 60])
+                  FilledButton(
+                    onPressed: () => Navigator.pop(context, mins),
+                    child: Text('$mins min'),
                   ),
-                ],
-              ),
+              ],
             ),
           ],
         ),
       ),
-    );
+    ).then((minutes) {
+      if (minutes != null) {
+        _start(context, box, kind, minutes);
+      }
+    });
   }
 }

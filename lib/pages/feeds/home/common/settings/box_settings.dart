@@ -21,6 +21,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:super_green_app/data/api/backend/products/models.dart';
 import 'package:super_green_app/local_alerts/local_alert_settings.dart';
+import 'package:super_green_app/overrides/box_override.dart';
 
 const DEFAULT_SCHEDULES = {
   'VEG': {
@@ -86,6 +87,9 @@ class BoxSettings extends Equatable {
   /// Temperature / humidity limits checked on the phone (no cloud).
   final LocalAlertSettings alerts;
 
+  /// Light/blower boosts forced to full for a limited time.
+  final BoxOverrides overrides;
+
   BoxSettings({
     this.width,
     this.height,
@@ -96,12 +100,14 @@ class BoxSettings extends Equatable {
     this.products,
     this.lightSettings,
     this.alerts = const LocalAlertSettings(),
+    this.overrides = const BoxOverrides(),
   });
 
   factory BoxSettings.fromMap(Map<String, dynamic> map) {
     List<dynamic> products = map['products'] ?? [];
     List<dynamic> lightSettings = map['lightSettings'] ?? [];
     final dynamic alerts = map['alerts'];
+    final dynamic overrides = map['overrides'];
 
     return BoxSettings(
       width: map['width'],
@@ -113,6 +119,7 @@ class BoxSettings extends Equatable {
       products: products.map<Product>((p) => Product.fromMap(p)).toList(),
       lightSettings: lightSettings.map<LightSettings>((l) => LightSettings.fromMap(l)).toList(),
       alerts: LocalAlertSettings.fromMap(alerts is Map<String, dynamic> ? alerts : null),
+      overrides: BoxOverrides.fromMap(overrides is Map<String, dynamic> ? overrides : null),
     );
   }
 
@@ -127,6 +134,7 @@ class BoxSettings extends Equatable {
       'products': (products ?? []).map((p) => p.toMap()).toList(),
       'lightSettings': (lightSettings ?? []).map((l) => l.toMap()).toList(),
       'alerts': alerts.toMap(),
+      'overrides': overrides.toMap(),
     };
   }
 
@@ -140,7 +148,8 @@ class BoxSettings extends Equatable {
   }
 
   @override
-  List<Object?> get props => [schedule, schedules, width, height, depth, unit, products, alerts];
+  List<Object?> get props =>
+      [schedule, schedules, width, height, depth, unit, products, alerts, overrides];
 
   BoxSettings copyWith({
     String? schedule,
@@ -152,6 +161,7 @@ class BoxSettings extends Equatable {
     List<Product>? products,
     List<LightSettings>? lightSettings,
     LocalAlertSettings? alerts,
+    BoxOverrides? overrides,
   }) =>
       BoxSettings(
         width: width ?? this.width,
@@ -163,5 +173,6 @@ class BoxSettings extends Equatable {
         products: products ?? this.products,
         lightSettings: lightSettings ?? this.lightSettings,
         alerts: alerts ?? this.alerts,
+        overrides: overrides ?? this.overrides,
       );
 }
