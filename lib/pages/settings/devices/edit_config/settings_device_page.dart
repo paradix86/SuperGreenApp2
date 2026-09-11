@@ -324,28 +324,10 @@ class SettingsDevicePage extends StatelessWidget {
 
   Future<void> _rename(BuildContext context, String current) async {
     final SettingsDeviceBloc bloc = BlocProvider.of<SettingsDeviceBloc>(context);
-    final TextEditingController controller = TextEditingController(text: current);
     final String? name = await showDialog<String>(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(settingsDevicePageControllerNameSection),
-          content: TextField(
-            controller: controller,
-            autofocus: true,
-            maxLength: 24,
-            textCapitalization: TextCapitalization.words,
-            decoration: const InputDecoration(hintText: 'Ex: SuperGreenController'),
-            onSubmitted: (value) => Navigator.pop(context, value.trim()),
-          ),
-          actions: [
-            TextButton(onPressed: () => Navigator.pop(context), child: Text(CommonL10N.cancel)),
-            FilledButton(onPressed: () => Navigator.pop(context, controller.text.trim()), child: const Text('Rename')),
-          ],
-        );
-      },
+      builder: (BuildContext context) => _RenameDialog(current: current),
     );
-    controller.dispose();
     if (name == null || name.isEmpty || name == current) {
       return;
     }
@@ -392,5 +374,51 @@ class SettingsDevicePage extends StatelessWidget {
       content: Text(message),
       backgroundColor: error ? context.sgl.crit : null,
     ));
+  }
+}
+
+/// The rename dialog's own [TextEditingController], owned by this
+/// [StatefulWidget] and disposed in [State.dispose]. A controller created
+/// inline in `_rename` and disposed by hand right after `showDialog` resolves
+/// races with the dialog route's exit transition, which still rebuilds the
+/// `TextField` for a frame or more after `Navigator.pop`: disposing before
+/// that rebuild throws "A TextEditingController was used after being
+/// disposed", which then cascades into a framework assertion
+/// (`_dependents.isEmpty`) while unmounting the route.
+class _RenameDialog extends StatefulWidget {
+  final String current;
+
+  const _RenameDialog({required this.current});
+
+  @override
+  _RenameDialogState createState() => _RenameDialogState();
+}
+
+class _RenameDialogState extends State<_RenameDialog> {
+  late final TextEditingController _controller = TextEditingController(text: widget.current);
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(SettingsDevicePage.settingsDevicePageControllerNameSection),
+      content: TextField(
+        controller: _controller,
+        autofocus: true,
+        maxLength: 24,
+        textCapitalization: TextCapitalization.words,
+        decoration: const InputDecoration(hintText: 'Ex: SuperGreenController'),
+        onSubmitted: (value) => Navigator.pop(context, value.trim()),
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context), child: Text(CommonL10N.cancel)),
+        FilledButton(onPressed: () => Navigator.pop(context, _controller.text.trim()), child: const Text('Rename')),
+      ],
+    );
   }
 }
