@@ -36,6 +36,7 @@ enum NotificationDataType {
   LIVECAM_UNREACHABLE,
   NEW_TIMELAPSE,
   CHECKLIST_SEED_TRIGGERED,
+  LOCAL_ALERT,
 }
 
 abstract class NotificationData extends Equatable {
@@ -79,6 +80,8 @@ abstract class NotificationData extends Equatable {
         return NotificationDataNewTimelapse.fromMap(data);
       case NotificationDataType.CHECKLIST_SEED_TRIGGERED:
         return NotificationDataChecklistSeedTriggered.fromMap(data);
+      case NotificationDataType.LOCAL_ALERT:
+        return NotificationDataLocalAlert.fromMap(data);
       default:
         try {
           throw 'Unknown type ${data['type']}';
@@ -187,6 +190,25 @@ class NotificationDataAlert extends NotificationData {
   NotificationDataAlert.fromMap(Map<String, dynamic> data) : super(data: data);
 
   String get plantID => data['plantID'];
+}
+
+/// Raised by the phone's own background service (LocalAlertsService), so the
+/// ids are local database ids, not server ids.
+class NotificationDataLocalAlert extends NotificationData {
+  NotificationDataLocalAlert({int? id, String? title, String? body, int? plantID, required int boxID})
+      : super(
+            id: id,
+            data: {
+              'plantID': plantID,
+              'boxID': boxID,
+            },
+            type: NotificationDataType.LOCAL_ALERT,
+            title: title,
+            body: body);
+  NotificationDataLocalAlert.fromMap(Map<String, dynamic> data) : super(data: data);
+
+  int? get plantID => data['plantID'];
+  int get boxID => data['boxID'];
 }
 
 class NotificationDataLikePlantComment extends NotificationData {

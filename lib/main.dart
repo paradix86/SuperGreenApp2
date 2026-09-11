@@ -38,6 +38,8 @@ import 'package:super_green_app/data/kv/models/user_settings.dart';
 import 'package:super_green_app/data/logger/logger.dart';
 import 'package:super_green_app/deep_link/deep_link.dart';
 import 'package:super_green_app/device_daemon/device_daemon_bloc.dart';
+import 'package:super_green_app/local_alerts/local_alerts_service.dart';
+import 'package:super_green_app/local_alerts/local_alerts_sync.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/main/main_page.dart';
 import 'package:super_green_app/notifications/notifications.dart';
@@ -104,6 +106,15 @@ Future initApp() async {
   await Directory(dirPath).create(recursive: true);
 
   await AppDB().init();
+
+  // Local temperature/humidity alerts: the foreground service is registered
+  // here and started by LocalAlertsSync only when a lab has them switched on.
+  try {
+    await LocalAlertsService.configure(flutterLocalNotificationsPlugin);
+    LocalAlertsSync.start();
+  } catch (e, trace) {
+    Logger.logError(e, trace);
+  }
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

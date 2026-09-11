@@ -38,10 +38,20 @@ class LocalNotifications {
         InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
     await flutterLocalNotificationsPlugin.initialize(
         settings: initializationSettings, onDidReceiveNotificationResponse: _onSelectNotification);
+    // A tap that launched the app (it was not running) is not delivered to the
+    // callback above: pick it up here so a local alert still opens its plant.
+    final NotificationAppLaunchDetails? launch = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+    if (launch?.didNotificationLaunchApp == true && launch?.notificationResponse != null) {
+      await _onSelectNotification(launch!.notificationResponse);
+    }
   }
 
   Future _onSelectNotification(NotificationResponse? payload) async {
-    NotificationData notificationData = NotificationData.fromJSON(payload?.payload ?? '{}');
+    final String? json = payload?.payload;
+    if (json == null || json.isEmpty) {
+      return;
+    }
+    NotificationData notificationData = NotificationData.fromJSON(json);
     onNotificationData(notificationData);
   }
 

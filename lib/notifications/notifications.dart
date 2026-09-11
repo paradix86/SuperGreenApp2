@@ -177,6 +177,17 @@ class NotificationsBloc extends LegacyBloc<NotificationsBlocEvent, Notifications
           AppDB().setLastPlant(plant.id);
           yield NotificationsBlocStateMainNavigation(MainNavigateToHomeEvent(plant: plant));
         } catch (e) {}
+      } else if (notificationData is NotificationDataLocalAlert) {
+        yield NotificationsBlocStateNotification(event.notificationData);
+        final int? plantID = notificationData.plantID;
+        if (plantID == null) {
+          return;
+        }
+        try {
+          Plant plant = await RelDB.get().plantsDAO.getPlant(plantID);
+          AppDB().setLastPlant(plant.id);
+          yield NotificationsBlocStateMainNavigation(MainNavigateToHomeEvent(plant: plant));
+        } catch (e) {}
       } else if (notificationData is NotificationDataLikePlantFeedEntry) {
         try {
           Plant plant = await RelDB.get().plantsDAO.getPlantForServerID(notificationData.plantID);

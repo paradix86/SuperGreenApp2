@@ -191,14 +191,6 @@ class DeviceDaemonBloc extends LegacyBloc<DeviceDaemonBlocEvent, DeviceDaemonBlo
     }
   }
 
-  Future<void> _checkLocalAlerts(int deviceID, DeviceDash dash) async {
-    // TODO: Local alerts - notify when temp/humi out of range
-    // 1. Load user threshold preferences from DB
-    // 2. Compare dash values against thresholds
-    // 3. Show FlutterLocalNotifications if out of range
-    // 4. Prevent duplicate notifications with timestamp tracking
-  }
-
   void _deviceListChanged(List<Device> devices) {
     _devices = devices;
     _devices.forEach((d) {
@@ -235,8 +227,9 @@ class DeviceDaemonBloc extends LegacyBloc<DeviceDaemonBlocEvent, DeviceDaemonBlo
       rethrow;
     }
     await DeviceAPI.applyDash(device.id, dash);
-    // Check local alert thresholds (temp/humi out of range)
-    await _checkLocalAlerts(device.id, dash);
+    // Temperature/humidity limits are checked by LocalAlertsService (a
+    // foreground service polling /dash on its own), so they also fire with the
+    // app closed; nothing to do here.
     final int? deviceTime = dash.time;
     if (deviceTime == null) {
       await _updateDeviceTime(device, auth);

@@ -20,6 +20,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:super_green_app/data/api/backend/products/models.dart';
+import 'package:super_green_app/local_alerts/local_alert_settings.dart';
 
 const DEFAULT_SCHEDULES = {
   'VEG': {
@@ -82,6 +83,9 @@ class BoxSettings extends Equatable {
 
   final List<LightSettings>? lightSettings;
 
+  /// Temperature / humidity limits checked on the phone (no cloud).
+  final LocalAlertSettings alerts;
+
   BoxSettings({
     this.width,
     this.height,
@@ -91,11 +95,13 @@ class BoxSettings extends Equatable {
     this.schedules = DEFAULT_SCHEDULES,
     this.products,
     this.lightSettings,
+    this.alerts = const LocalAlertSettings(),
   });
 
   factory BoxSettings.fromMap(Map<String, dynamic> map) {
     List<dynamic> products = map['products'] ?? [];
     List<dynamic> lightSettings = map['lightSettings'] ?? [];
+    final dynamic alerts = map['alerts'];
 
     return BoxSettings(
       width: map['width'],
@@ -106,6 +112,7 @@ class BoxSettings extends Equatable {
       schedules: map['schedules'] ?? DEFAULT_SCHEDULES,
       products: products.map<Product>((p) => Product.fromMap(p)).toList(),
       lightSettings: lightSettings.map<LightSettings>((l) => LightSettings.fromMap(l)).toList(),
+      alerts: LocalAlertSettings.fromMap(alerts is Map<String, dynamic> ? alerts : null),
     );
   }
 
@@ -119,6 +126,7 @@ class BoxSettings extends Equatable {
       'unit': unit,
       'products': (products ?? []).map((p) => p.toMap()).toList(),
       'lightSettings': (lightSettings ?? []).map((l) => l.toMap()).toList(),
+      'alerts': alerts.toMap(),
     };
   }
 
@@ -132,7 +140,7 @@ class BoxSettings extends Equatable {
   }
 
   @override
-  List<Object?> get props => [schedule, schedules, width, height, depth, unit, products];
+  List<Object?> get props => [schedule, schedules, width, height, depth, unit, products, alerts];
 
   BoxSettings copyWith({
     String? schedule,
@@ -143,6 +151,7 @@ class BoxSettings extends Equatable {
     String? unit,
     List<Product>? products,
     List<LightSettings>? lightSettings,
+    LocalAlertSettings? alerts,
   }) =>
       BoxSettings(
         width: width ?? this.width,
@@ -153,5 +162,6 @@ class BoxSettings extends Equatable {
         schedules: schedules ?? this.schedules,
         products: products ?? this.products,
         lightSettings: lightSettings ?? this.lightSettings,
+        alerts: alerts ?? this.alerts,
       );
 }

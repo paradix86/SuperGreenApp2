@@ -23,7 +23,11 @@ import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/data/api/backend/services/models/alerts.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
+import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/l10n.dart';
+import 'package:super_green_app/local_alerts/local_alert_settings.dart';
+import 'package:super_green_app/pages/feeds/home/common/settings/box_settings.dart';
+import 'package:super_green_app/widgets/sgl/sgl_card.dart';
 import 'package:super_green_app/l10n/common.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
 import 'package:super_green_app/notifications/notifications.dart';
@@ -184,6 +188,10 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
   Widget _renderForm(BuildContext context, SettingsPlantAlertsBlocStateLoaded state) {
     String unit = AppDB().getUserSettings().freedomUnits == true ? '°F' : '°C';
     List<Widget> items = [
+      Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+        child: _LocalAlertsCard(plant: BlocProvider.of<SettingsPlantAlertsBloc>(context).args.plant),
+      ),
       Padding(
         padding: const EdgeInsets.all(16.0),
         child: MarkdownBody(
@@ -472,13 +480,15 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
       children: [
+        _LocalAlertsCard(plant: BlocProvider.of<SettingsPlantAlertsBloc>(context).args.plant),
+        const SizedBox(height: 20),
         Row(children: [
-          Expanded(child: Text('Alerts are not available yet', style: t.titleLarge?.copyWith(color: c.ink))),
+          Expanded(child: Text('Cloud alerts are not available yet', style: t.titleLarge?.copyWith(color: c.ink))),
           const SglInfoButton('alerts', size: 18),
         ]),
         const SizedBox(height: 8),
         Text(
-          'Alerts are push notifications sent by the SuperGreenLab cloud when a reading leaves the range you set. They need:',
+          'Cloud alerts are push notifications sent by the SuperGreenLab cloud when a reading leaves the range you set. They need:',
           style: t.bodyMedium?.copyWith(color: c.ink2, height: 1.4),
         ),
         const SizedBox(height: 16),
@@ -537,6 +547,59 @@ class _SettingsPlantAlertsPageState extends State<SettingsPlantAlertsPage> {
     }
     return temp;
   }
+}
+
+/// Entry to the alerts computed on the phone itself (no cloud needed), with
+/// the current state read live from the box settings.
+class _LocalAlertsCard extends StatelessWidget {
+  final Plant plant;
+
+  const _LocalAlertsCard({required this.plant});
+
+  @override
+  Widget build(BuildContext context) {
+    final SglColors c = context.sgl;
+    final TextTheme t = Theme.of(context).textTheme;
+    final bool imperial = AppDB().getUserSettings().freedomUnits == true;
+    return StreamBuilder<Box>(
+      stream: RelDB.get().plantsDAO.watchBox(plant.box),
+      builder: (BuildContext context, AsyncSnapshot<Box> snapshot) {
+        final Box? box = snapshot.data;
+        final LocalAlertSettings? alerts = box == null ? null : BoxSettings.fromJSON(box.settings).alerts;
+        final bool on = alerts?.enabled == true;
+        final String summary = alerts == null
+            ? 'Loading'
+            : on
+                ? 'On · ${_temp(alerts.tempMin, imperial)}–${_temp(alerts.tempMax, imperial)} · '
+                    '${alerts.humiMin.round()}–${alerts.humiMax.round()} %'
+                : 'Off · your phone checks the controller directly, no account needed';
+        return SglCard(
+          onTap: () => BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigateToSettingsPlantLocalAlerts(plant)),
+          child: Row(
+            children: [
+              Icon(on ? Icons.notifications_active_outlined : Icons.notifications_none_outlined,
+                  color: on ? c.accent : c.ink2),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Alerts from this phone', style: t.titleMedium?.copyWith(color: c.ink)),
+                    const SizedBox(height: 2),
+                    Text(summary, style: t.bodySmall?.copyWith(color: c.ink2)),
+                  ],
+                ),
+              ),
+              Icon(Icons.chevron_right, color: c.ink3),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  static String _temp(double celsius, bool imperial) =>
+      imperial ? '${(celsius * 9 / 5 + 32).round()} °F' : '${celsius.round()} °C';
 }
 
 class _RequirementRow extends StatelessWidget {

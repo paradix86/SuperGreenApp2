@@ -163,6 +163,7 @@ import 'package:super_green_app/pages/settings/devices/status/settings_device_st
 import 'package:super_green_app/pages/settings/devices/upgrade/settings_upgrade_device_bloc.dart';
 import 'package:super_green_app/pages/settings/devices/upgrade/settings_upgrade_device_page.dart';
 import 'package:super_green_app/pages/settings/plants/alerts/settings_plant_alerts_bloc.dart';
+import 'package:super_green_app/pages/settings/plants/alerts/local_alert_thresholds_page.dart';
 import 'package:super_green_app/pages/settings/plants/alerts/settings_plant_alerts_page.dart';
 import 'package:super_green_app/pages/settings/plants/edit_config/settings_plant_bloc.dart';
 import 'package:super_green_app/pages/settings/plants/edit_config/settings_plant_page.dart';
@@ -665,6 +666,11 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         return BlocProvider(
           create: (context) => SettingsPlantAlertsBloc(settings.arguments as MainNavigateToSettingsPlantAlerts),
           child: addOnPopCallBack(SettingsPlantAlertsPage(), onPop),
+        );
+      case '/settings/plant/alerts/local':
+        return addOnPopCallBack(
+          LocalAlertThresholdsPage(plant: (settings.arguments as MainNavigateToSettingsPlantLocalAlerts).plant),
+          onPop,
         );
       case '/settings/boxes':
         return BlocProvider(

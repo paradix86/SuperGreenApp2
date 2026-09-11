@@ -110,6 +110,7 @@ dependencies:
   shared_preferences:
   flutter_screen_lock: ^9.0.1
   crisp_chat: ^2.0.2
+  flutter_background_service: ^5.1.0
 
 dev_dependencies:
   hive_ce_generator: ^1.11.0
