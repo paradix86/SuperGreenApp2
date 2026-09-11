@@ -81,8 +81,11 @@ add the commit hash.
 
 **Scaffolding (stubs/TODOs added; implementation pending):**
 
-- [x] (dec3a553) Local alerts: LocalAlertThresholdsPage for threshold UI + polling hook
-      in DeviceDaemonBloc._checkLocalAlerts; notification triggering scaffolded.
+- [x] (59119d38) Local alerts DONE: foreground service (flutter_background_service,
+      connectedDevice) polls /dash every 60 s, app closed or not; limits per lab in
+      BoxSettings.alerts, page "Alerts from this phone", repeat 30 min, unreachable
+      after 5 min, battery exemption button. No SGL cloud; away from home via mesh VPN.
+      Verified on the emulator against the live controller. TODO: install on the phone.
 - [x] (dec3a553) Temporary overrides: Controls page card with Light/Blower boost timers
       (15/30/60 min, state-based UI, timer integration scaffolded).
 - [x] (dec3a553) Firmware OTA from phone: uploadFirmwareAndTriggerOTA method in DeviceAPI;
