@@ -86,8 +86,12 @@ add the commit hash.
       BoxSettings.alerts, page "Alerts from this phone", repeat 30 min, unreachable
       after 5 min, battery exemption button. No SGL cloud; away from home via mesh VPN.
       Verified on the emulator against the live controller. TODO: install on the phone.
-- [x] (dec3a553) Temporary overrides: Controls page card with Light/Blower boost timers
-      (15/30/60 min, state-based UI, timer integration scaffolded).
+- [x] (b18931e1) Temporary overrides DONE: Controls page card with Light/Blower boost timers
+      (15/30/60 min, live countdown, "Stop now", persisted in BoxSettings.overrides, ended
+      automatically by device_daemon_bloc). Light needed a matching firmware change
+      (BOX_N_TIMER_MANUAL_OUTPUT, SuperGreenOS commit 00c5bd2, live on the real controller
+      after OTA 1789132982) since TIMER_TYPE=manual alone left TIMER_OUTPUT stuck at 0 with
+      no settable key to raise it back. Verified end-to-end against the real controller.
 - [x] (dec3a553) Firmware OTA from phone: uploadFirmwareAndTriggerOTA method in DeviceAPI;
       firmware upload + OTA_START trigger scaffolded.
 - [x] (dec3a553) Local backup/restore DB: DbBackupManager with export/import JSON/ZIP;
