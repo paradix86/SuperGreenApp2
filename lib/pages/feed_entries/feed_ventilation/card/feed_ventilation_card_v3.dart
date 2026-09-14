@@ -126,7 +126,8 @@ class FeedVentilationCardV3 extends StatelessWidget {
 
 
   Widget renderCard(String title, String value, {String? detail}) {
-    return FeedValueTile(icon: FeedEntryIcons[FE_VENTILATION]!, label: title, value: value, detail: detail);
+    return FeedValueTile(
+        iconWidget: Icon(FeedEntryIcons[FE_VENTILATION]!, size: 14), label: title, value: value, detail: detail);
   }
 
   double _tempUnit(double temp) {

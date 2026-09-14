@@ -50,37 +50,37 @@ const FE_LIFE_EVENT_CURING='FE_LIFE_EVENT_CURING';
 
 const FE_TOWELIE_INFO='FE_TOWELIE_INFO';
 
-const Map<String, String> FeedEntryIcons = {
-  FE_MEDIA: 'assets/feed_card/icon_media.svg',
-  FE_MEASURE: 'assets/feed_card/icon_measure.svg',
+const Map<String, IconData> FeedEntryIcons = {
+  FE_MEDIA: Icons.photo_camera_outlined,
+  FE_MEASURE: Icons.straighten,
 
-  FE_CLONING: 'assets/feed_card/icon_cloning.svg',
-  FE_TRANSPLANT: 'assets/feed_card/icon_transplant.svg',
-  FE_BENDING: 'assets/feed_card/icon_bending.svg',
-  FE_FIMMING: 'assets/feed_card/icon_fimming.svg',
-  FE_TOPPING: 'assets/feed_card/icon_topping.svg',
-  FE_DEFOLIATION: 'assets/feed_card/icon_defoliation.svg',
+  FE_CLONING: Icons.content_cut,
+  FE_TRANSPLANT: Icons.yard_outlined,
+  FE_BENDING: Icons.turn_right_outlined,
+  FE_FIMMING: Icons.content_cut,
+  FE_TOPPING: Icons.vertical_align_top,
+  FE_DEFOLIATION: Icons.eco_outlined,
 
-  FE_TIMELAPSE: 'assets/feed_card/icon_timelapse.svg',
-  FE_NUTRIENT_MIX: 'assets/feed_card/icon_nutrient_mix.svg',
-  FE_WATER: 'assets/feed_card/icon_watering.svg',
-  FE_LIGHT: 'assets/feed_card/icon_light.svg',
-  FE_VENTILATION: 'assets/feed_card/icon_blower.svg',
-  
-  FE_SCHEDULE: 'assets/feed_card/icon_schedule.svg',
-  FE_SCHEDULE_VEG: 'assets/feed_card/icon_schedule.svg',
-  FE_SCHEDULE_BLOOM: 'assets/feed_card/icon_schedule.svg',
-  FE_SCHEDULE_AUTO: 'assets/feed_card/icon_schedule.svg',
+  FE_TIMELAPSE: Icons.timelapse,
+  FE_NUTRIENT_MIX: Icons.science_outlined,
+  FE_WATER: Icons.water_drop_outlined,
+  FE_LIGHT: Icons.wb_incandescent_outlined,
+  FE_VENTILATION: Icons.air,
 
-  FE_LIFE_EVENT: 'assets/plant_infos/icon_germination_date.svg',
-  FE_LIFE_EVENT_CLONING: 'assets/plant_infos/icon_germination_date.svg',
-  FE_LIFE_EVENT_GERMINATING: 'assets/plant_infos/icon_germination_date.svg',
-  FE_LIFE_EVENT_VEGGING: 'assets/plant_infos/icon_vegging_since.svg',
-  FE_LIFE_EVENT_BLOOMING: 'assets/plant_infos/icon_blooming_since.svg',
-  FE_LIFE_EVENT_DRYING: 'assets/plant_infos/icon_drying_since.svg',
-  FE_LIFE_EVENT_CURING: 'assets/plant_infos/icon_curing_since.svg',
+  FE_SCHEDULE: Icons.event_note_outlined,
+  FE_SCHEDULE_VEG: Icons.event_note_outlined,
+  FE_SCHEDULE_BLOOM: Icons.event_note_outlined,
+  FE_SCHEDULE_AUTO: Icons.event_note_outlined,
 
-  FE_TOWELIE_INFO: 'assets/feed_card/icon_towelie.png',
+  FE_LIFE_EVENT: Icons.timeline,
+  FE_LIFE_EVENT_CLONING: Icons.content_cut,
+  FE_LIFE_EVENT_GERMINATING: Icons.spa_outlined,
+  FE_LIFE_EVENT_VEGGING: Icons.eco_outlined,
+  FE_LIFE_EVENT_BLOOMING: Icons.local_florist_outlined,
+  FE_LIFE_EVENT_DRYING: Icons.air,
+  FE_LIFE_EVENT_CURING: Icons.inventory_2_outlined,
+
+  FE_TOWELIE_INFO: Icons.info_outline,
 };
 
 const Map<String, String> FeedEntryNames = {

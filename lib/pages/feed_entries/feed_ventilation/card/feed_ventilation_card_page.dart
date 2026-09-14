@@ -235,19 +235,19 @@ class FeedVentilationCardPage extends StatelessWidget {
     FeedVentilationParams params = state.params as FeedVentilationParams;
     Widget body;
     String title = FeedVentilationCardPage.feedVentilationCardPageTitle;
-    String icon = FeedEntryIcons[FE_VENTILATION]!;
+    IconData icon = FeedEntryIcons[FE_VENTILATION]!;
     if (params.values.blowerRefSource == null && params.values.fanRefSource == null) {
       body = FeedVentilationCardLegacy(params: state.params as FeedVentilationParams);
     } else {
       FeedVentilationCardV3Values values;
       if (params.values.fanRefSource != null) {
         title = FeedVentilationCardPage.feedVentilationFanCardPageTitle;
-        icon = 'assets/feed_card/icon_ventilation_fan.png';
+        icon = Icons.air;
         values = FeedVentilationCardV3Values('Fan', params.values.fanRefSource!, params.values.fanRefMin!,
             params.values.fanRefMax!, params.values.fanMin!, params.values.fanMax!);
       } else {
         title = FeedVentilationCardPage.feedVentilationBlowerCardPageTitle;
-        icon = 'assets/feed_card/icon_ventilation_blower.svg';
+        icon = Icons.air;
         values = FeedVentilationCardV3Values('Blower', params.values.blowerRefSource!, params.values.blowerRefMin!,
             params.values.blowerRefMax!, params.values.blowerMin!, params.values.blowerMax!);
       }

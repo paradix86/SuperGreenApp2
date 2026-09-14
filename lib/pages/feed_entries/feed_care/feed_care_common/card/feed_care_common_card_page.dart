@@ -49,7 +49,7 @@ abstract class FeedCareCommonCardPage extends StatefulWidget {
 
   String title();
 
-  String iconPath();
+  IconData iconPath();
 }
 
 class _FeedCareCommonCardPageState extends State<FeedCareCommonCardPage> {

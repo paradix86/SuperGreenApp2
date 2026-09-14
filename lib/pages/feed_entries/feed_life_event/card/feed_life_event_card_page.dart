@@ -120,7 +120,7 @@ class FeedLifeEventCardPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           FeedCardTitle(
-              'assets/feed_card/icon_life_events.svg', FeedLifeEventCardPage.feedLifeEventCardPageTitle, state.synced,
+              Icons.timeline, FeedLifeEventCardPage.feedLifeEventCardPageTitle, state.synced,
               showSyncStatus: !state.isRemoteState, showControls: !state.isRemoteState),
           Container(
             height: 130,
@@ -152,7 +152,7 @@ class FeedLifeEventCardPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           FeedCardTitle(
-              'assets/feed_card/icon_life_events.svg', FeedLifeEventCardPage.feedLifeEventCardPageTitle, state.synced,
+              Icons.timeline, FeedLifeEventCardPage.feedLifeEventCardPageTitle, state.synced,
               showSyncStatus: !state.isRemoteState, showControls: !state.isRemoteState, onDelete: () {
             BlocProvider.of<FeedBloc>(context).add(FeedBlocEventDeleteEntry(state));
           }, actions: cardActions != null ? cardActions!(context, state) : []),

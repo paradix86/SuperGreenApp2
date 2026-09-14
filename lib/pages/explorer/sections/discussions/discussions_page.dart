@@ -20,7 +20,6 @@ import 'package:flutter/material.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/data/api/backend/backend_api.dart';
 import 'package:super_green_app/data/api/backend/feeds/models/comments.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
@@ -129,7 +128,7 @@ class DiscussionsPage extends SectionPage<DiscussionsBloc, PublicFeedEntry> {
                               return child;
                             }
                             return ItemLoading();
-                          }) : SvgPicture.asset(FeedEntryIcons[feedEntry.type] ?? ""),
+                          }) : Icon(FeedEntryIcons[feedEntry.type] ?? Icons.help_outline),
                           Positioned(
                             child: avatar,
                             top: -4,

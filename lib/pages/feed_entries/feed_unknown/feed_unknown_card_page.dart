@@ -17,7 +17,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/l10n.dart';
 import 'package:super_green_app/pages/feeds/feed/bloc/state/feed_entry_state.dart';
@@ -59,7 +58,7 @@ class FeedUnknownCardPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          FeedCardTitle('assets/feed_card/icon_unknown.svg', FeedUnknownCardPage.feedUnknownCardPageTitle, state.synced,
+          FeedCardTitle(Icons.help_outline, FeedUnknownCardPage.feedUnknownCardPageTitle, state.synced,
               showSyncStatus: !state.isRemoteState, showControls: !state.isRemoteState),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -71,7 +70,7 @@ class FeedUnknownCardPage extends StatelessWidget {
             child: Fullscreen(
               title: FeedUnknownCardPage.feedUnknownCardPageTitle,
               subtitle: FeedUnknownCardPage.feedUnknownCardPageUpgradeApp,
-              child: SvgPicture.asset('assets/feed_card/icon_unknown.svg', height: 70),
+              child: Icon(Icons.help_outline, size: 70),
             ),
           ),
         ],

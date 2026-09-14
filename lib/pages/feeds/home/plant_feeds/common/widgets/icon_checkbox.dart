@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:super_green_app/theme.dart';
 
 class IconCheckbox extends StatelessWidget {
@@ -10,16 +9,12 @@ class IconCheckbox extends StatelessWidget {
     required this.size,
   }) : super(key: key);
 
-  final String icon;
+  final IconData icon;
   final bool checked;
   final double size;
 
   get asset {
-    final theAsset = icon.contains('.svg')
-        ? SvgPicture.asset(icon, height: size, width: size)
-        : Image.asset(icon, height: size, width: size);
-
-    return Opacity(opacity: checked ? 1.0 : 0.5, child: theAsset);
+    return Opacity(opacity: checked ? 1.0 : 0.5, child: Icon(icon, size: size));
   }
 
   double get finalContainerSize {

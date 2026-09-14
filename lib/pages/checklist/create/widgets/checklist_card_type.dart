@@ -17,7 +17,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/data/assets/feed_entry.dart';
 
 class ChecklistCardType extends StatelessWidget {
@@ -83,7 +82,7 @@ class ChecklistCardType extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 8.0),
-                child: SvgPicture.asset(FeedEntryIcons[c]!),
+                child: Icon(FeedEntryIcons[c]!, size: 20),
               ),
               Text(FeedEntryNames[c]!),
             ],

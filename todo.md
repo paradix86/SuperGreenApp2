@@ -35,7 +35,7 @@ add the commit hash.
       fall back to cloud (or show "stale") when the newest local sample is older than
       a few minutes.
 
-- [x] (8cdfb49) Firmware: heap dip to 3160 B caused by auth_request stack allocation (2x 517-byte buffers per request). Root cause: rapid /s polling → stack exhaustion → heap fragmentation. Fix implemented: malloc/free buffers dynamically in main/core/httpd/auth.c. Same pass: mqtt.c buffer pool (c149322/35c3f0f, template 5dfe013), /mqttdiag malloc (39bca73), cmd.c snprintf (8dd8c61). OTA 1789024847 flashed 2026-09-10 09:22: heap_min_free 23068 B after 60 s of rapid polling (was 3160 B), heap_low_events 0, n_restarts 155; 24 h check pending.
+- [x] (8cdfb49) Firmware: heap dip to 3160 B caused by auth_request stack allocation (2x 517-byte buffers per request). Root cause: rapid /s polling → stack exhaustion → heap fragmentation. Fix implemented: malloc/free buffers dynamically in main/core/httpd/auth.c. Same pass: mqtt.c buffer pool (c149322/35c3f0f, template 5dfe013), /mqttdiag malloc (39bca73), cmd.c snprintf (8dd8c61). OTA 1789024847 flashed 2026-09-10 09:22: heap_min_free 23068 B after 60 s of rapid polling (was 3160 B), heap_low_events 0, n_restarts 155. Superseded by the single-KV-mutex fix (d5df41a, OTA 1789111856): live check on 2026-09-14 shows 70.7 h uptime, heap_free 65996 B, heap_min_free 31788 B, heap_low_events 0 - 24 h verdict PASS, no further monitoring needed.
 
 ## 2. Graphics to improve
 
@@ -51,11 +51,18 @@ add the commit hash.
 
 **Minor refinements (backlog for next iteration):**
 
-- [ ] (PARTIAL d329a02f: banana emoji title on the Measure form replaced by "Measure".
-      BLOCKED for the rest: Towelie PNG and the feed_card/*.svg set are one cartoon
-      family rendered by FeedCardTitle/speed dial/filter; swapping one for a flat icon
-      breaks consistency, needs a designed icon set) Off-theme icons: Towelie feed entry
-      icon, dark tiles in Infos, cartoon speed-dial, cartoon toggles.
+- [x] Off-theme icons: the whole feed "action icon" family (feed_card/*.svg, the plant_infos
+      phase icons used as icons, the small Towelie card-header icon) now renders stock Material
+      `Icons.*`. FeedEntryIcons became Map<String, IconData>, and FeedCardTitle / IconCheckbox /
+      the two speed dials / discussions / checklist widgets render `Icon(...)` instead of
+      SvgPicture/Image.asset. The illustrated Towelie mascot artwork is untouched (brand identity,
+      not an icon). Verified on the emulator in light + dark: caught two things analyze could not —
+      the four hand-written speed-dial children on a light `surface` background rendered white-on-white
+      (the package defaults the icon to white), and their labels were white-on-white in dark mode;
+      both fixed with explicit `context.sgl.ink` / `labelBackgroundColor`.
+      Still String/SVG-based, deliberately out of scope: SectionTitle, FeedFormParamLayout and
+      PlantInfosWidget share a different SVG set across 27 files (settings, add_device, product forms).
+      Minor: Fimming and Cloning both map to Icons.content_cut; differentiate if it ever bothers.
 - [x] (886c588e) Speed dial: use lighter bg2 background + accent button color (chip-style labels).
 - [x] (886c588e) Controller status: truncate broker URL with ellipsis (no 3-line wrap).
 - [x] (d329a02f) Units row: it lives in Settings > Preferences (settings_page.dart); the

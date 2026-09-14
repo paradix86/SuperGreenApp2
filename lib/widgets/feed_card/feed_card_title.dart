@@ -19,12 +19,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:super_green_app/theme/sgl_typography.dart';
 
 class FeedCardTitle extends StatelessWidget {
-  final String icon;
+  final IconData icon;
   final String title;
   final String? title2;
   final bool synced;
@@ -56,7 +55,7 @@ class FeedCardTitle extends StatelessWidget {
           height: 36,
           padding: const EdgeInsets.all(6),
           decoration: BoxDecoration(color: c.surface2, borderRadius: BorderRadius.circular(10)),
-          child: icon.endsWith('svg') ? SvgPicture.asset(icon) : Image.asset(icon),
+          child: Icon(icon, size: 20, color: c.ink2),
         ),
       ),
       Expanded(

@@ -24,7 +24,6 @@ import 'package:intl/intl.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
 import 'package:super_green_app/l10n.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
-import 'package:super_green_app/data/assets/feed_entry.dart';
 import 'package:super_green_app/pages/feed_entries/feed_life_event/form/feed_life_event_form_bloc.dart';
 import 'package:super_green_app/widgets/feed_form/feed_form_layout.dart';
 import 'package:super_green_app/widgets/feed_form/feed_form_param_layout.dart';
@@ -32,8 +31,9 @@ import 'package:super_green_app/widgets/fullscreen_loading.dart';
 import 'package:tuple/tuple.dart';
 
 List<Tuple2<String, String>> phasesTitles = [
-  Tuple2(FeedLifeEventFormPage.feedLifeEventFormPagePhaseLabelCloning, FeedEntryIcons[FE_LIFE_EVENT]!),
-  Tuple2(FeedLifeEventFormPage.feedLifeEventFormPagePhaseLabelGermination, FeedEntryIcons[FE_LIFE_EVENT]!),
+  Tuple2(FeedLifeEventFormPage.feedLifeEventFormPagePhaseLabelCloning, 'assets/plant_infos/icon_germination_date.svg'),
+  Tuple2(
+      FeedLifeEventFormPage.feedLifeEventFormPagePhaseLabelGermination, 'assets/plant_infos/icon_germination_date.svg'),
   Tuple2(FeedLifeEventFormPage.feedLifeEventFormPagePhaseLabelVegging, 'assets/plant_infos/icon_vegging_since.svg'),
   Tuple2(FeedLifeEventFormPage.feedLifeEventFormPagePhaseLabelBlooming, 'assets/plant_infos/icon_blooming_since.svg'),
   Tuple2(FeedLifeEventFormPage.feedLifeEventFormPagePhaseLabelDrying, 'assets/plant_infos/icon_drying_since.svg'),
@@ -156,8 +156,8 @@ class _FeedLifeEventFormPageState extends State<FeedLifeEventFormPage> {
             Widget body = FullscreenLoading(
               title: 'Loading..',
             );
-            Tuple2<String, String> phaseTitle =
-                Tuple2(FeedLifeEventFormPage.feedLifeEventFormPagePhaseLabel, FeedEntryIcons[FE_LIFE_EVENT]!);
+            Tuple2<String, String> phaseTitle = Tuple2(
+                FeedLifeEventFormPage.feedLifeEventFormPagePhaseLabel, 'assets/plant_infos/icon_germination_date.svg');
             if (state is FeedLifeEventFormBlocStateInit || state is FeedLifeEventFormBlocStateDone) {
               body = Expanded(child: FullscreenLoading());
             } else if (state is FeedLifeEventFormBlocStateLoaded) {

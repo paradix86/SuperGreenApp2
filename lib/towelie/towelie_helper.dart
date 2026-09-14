@@ -17,7 +17,6 @@
  */
 
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -162,10 +161,8 @@ class _TowelieHelperState extends State<TowelieHelper> {
                           height: 36,
                           decoration: BoxDecoration(shape: BoxShape.circle, color: c.accentSoft),
                           clipBehavior: Clip.antiAlias,
-                          child: Transform(
-                            alignment: Alignment.center,
-                            transform: Matrix4.rotationY(pi),
-                            child: Image.asset(FeedEntryIcons[FE_TOWELIE_INFO]!),
+                          child: Center(
+                            child: Icon(FeedEntryIcons[FE_TOWELIE_INFO]!, size: 20, color: c.accentDeep),
                           ),
                         ),
                         const SizedBox(width: 12),

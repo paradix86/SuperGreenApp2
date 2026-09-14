@@ -22,7 +22,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:super_green_app/l10n.dart';
 import 'package:super_green_app/l10n/common.dart';
@@ -162,7 +161,7 @@ class _DeviceTestPageState extends State<DeviceTestPage> {
                     children: <Widget>[
                       SectionTitle(
                         title: DeviceTestPage.ledTestingInstructions,
-                        icon: FeedEntryIcons[FE_LIGHT]!,
+                        icon: 'assets/feed_card/icon_light.svg',
                       ),
                       Expanded(
                         child: _renderChannels(context, state.nLedChannels, DeviceTestPage.ledTestingChannelTitle,
@@ -195,7 +194,7 @@ class _DeviceTestPageState extends State<DeviceTestPage> {
     );
   }
 
-  Widget _renderChannels(BuildContext context, int nChannels, String prefix, String icon) {
+  Widget _renderChannels(BuildContext context, int nChannels, String prefix, IconData icon) {
     int i = 0;
     return GridView.count(
       crossAxisCount: 3,
@@ -211,7 +210,7 @@ class _DeviceTestPageState extends State<DeviceTestPage> {
     );
   }
 
-  Widget _renderChannel(BuildContext context, String text, String icon, Function() onPressed) {
+  Widget _renderChannel(BuildContext context, String text, IconData icon, Function() onPressed) {
     return MaterialButton(
       onPressed: onPressed,
       child: Column(
@@ -219,7 +218,7 @@ class _DeviceTestPageState extends State<DeviceTestPage> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: SvgPicture.asset(icon),
+            child: Icon(icon),
           ),
           Text(text),
         ],

@@ -38,7 +38,7 @@ class FeedBendingCardPage extends FeedCareCommonCardPage {
       {Key? key, List<Widget> Function(BuildContext context, FeedEntryState feedEntryState)? cardActions})
       : super(animation, feedState, state, key: key, cardActions: cardActions);
 
-  String iconPath() {
+  IconData iconPath() {
     return FeedEntryIcons[FE_BENDING]!;
   }
 

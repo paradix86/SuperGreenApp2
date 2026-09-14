@@ -21,7 +21,6 @@ import 'package:flutter/material.dart';
 import 'package:super_green_app/theme/sgl_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:super_green_app/data/assets/feed_entry.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
 import 'package:super_green_app/data/rel/rel_db.dart';
@@ -57,7 +56,8 @@ class ChecklistActionCreateCardButton extends ChecklistActionButton {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: AppBarAction(
-        icon: FeedEntryIcons[(checklistAction as ChecklistActionCreateCard).entryType]!,
+        iconWidget: Icon(FeedEntryIcons[(checklistAction as ChecklistActionCreateCard).entryType]!,
+            size: 40, color: Colors.white),
         color: FeedEntryColors[(checklistAction as ChecklistActionCreateCard).entryType]!,
         title: checklistSeed.title,
         onCheck: onCheck,
@@ -73,7 +73,7 @@ class ChecklistActionCreateCardButton extends ChecklistActionButton {
           ),
         ),
         action: getAction(context),
-        actionIcon: SvgPicture.asset(FeedEntryIcons[(checklistAction as ChecklistActionCreateCard).entryType]!),
+        actionIcon: Icon(FeedEntryIcons[(checklistAction as ChecklistActionCreateCard).entryType]!),
       ),
     );
   }

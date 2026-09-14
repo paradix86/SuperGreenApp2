@@ -25,7 +25,6 @@ import 'package:super_green_app/data/api/backend/products/models.dart';
 import 'package:super_green_app/data/api/backend/products/specs/seed_specs.dart';
 import 'package:super_green_app/data/kv/app_db.dart';
 import 'package:super_green_app/main/main_navigator_bloc.dart';
-import 'package:super_green_app/data/assets/feed_entry.dart';
 import 'package:super_green_app/pages/feeds/home/common/app_bar/common/widgets/app_bar_tab.dart';
 import 'package:super_green_app/pages/feeds/home/common/app_bar/common/widgets/app_bar_title.dart';
 import 'package:super_green_app/pages/feeds/home/plant_feeds/common/app_bar/plant_infos/forms/plant_infos_dimensions.dart';
@@ -167,7 +166,7 @@ class _PlantInfosPageState extends State<PlantInfosPage> {
       ),
       PlantInfosWidget(
           color: Color(0xFF3FA51E),
-          icon: FeedEntryIcons[FE_LIFE_EVENT]!,
+          icon: 'assets/plant_infos/icon_germination_date.svg',
           title: 'Cloning',
           value: state.plantInfos.plantSettings!.cloningDate != null
               ? DateFormat(format).format(state.plantInfos.plantSettings!.cloningDate!)
@@ -175,7 +174,7 @@ class _PlantInfosPageState extends State<PlantInfosPage> {
           onEdit: state.plantInfos.editable == false ? null : () => _openForm('CLONING_DATE')),
       PlantInfosWidget(
           color: context.sgl.accentDeep,
-          icon: FeedEntryIcons[FE_LIFE_EVENT]!,
+          icon: 'assets/plant_infos/icon_germination_date.svg',
           title: 'Germination',
           value: state.plantInfos.plantSettings!.germinationDate != null
               ? DateFormat(format).format(state.plantInfos.plantSettings!.germinationDate!)

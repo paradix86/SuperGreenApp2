@@ -54,6 +54,7 @@ class FeedTileStrip extends StatelessWidget {
 class FeedValueTile extends StatelessWidget {
   final String label;
   final String? icon;
+  final Widget? iconWidget;
   final String value;
   final String? detail;
   final Color? valueColor;
@@ -64,6 +65,7 @@ class FeedValueTile extends StatelessWidget {
     required this.label,
     required this.value,
     this.icon,
+    this.iconWidget,
     this.detail,
     this.valueColor,
     this.width = 150,
@@ -86,7 +88,10 @@ class FeedValueTile extends StatelessWidget {
         children: [
           Row(
             children: [
-              if (icon != null) ...[
+              if (iconWidget != null) ...[
+                SizedBox(width: 14, height: 14, child: iconWidget),
+                const SizedBox(width: 6),
+              ] else if (icon != null) ...[
                 SizedBox(
                   width: 14,
                   height: 14,

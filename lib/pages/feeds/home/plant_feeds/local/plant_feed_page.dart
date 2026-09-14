@@ -446,7 +446,7 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
   List<SpeedDialChild> _renderTrimSpeedDials(BuildContext context, PlantFeedBlocStateLoaded state) {
     return [
       SpeedDialChild(
-          child: SvgPicture.asset('assets/feed_card/icon_none.svg'),
+          child: Icon(Icons.close, color: context.sgl.ink),
           labelStyle: TextStyle(fontWeight: FontWeight.bold),
           backgroundColor: context.sgl.surface,
           onTap: () {
@@ -522,7 +522,7 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
   List<SpeedDialChild> _renderLifeEvents(BuildContext context, PlantFeedBlocStateLoaded state) {
     return [
       SpeedDialChild(
-          child: SvgPicture.asset('assets/feed_card/icon_none.svg'),
+          child: Icon(Icons.close, color: context.sgl.ink),
           labelStyle: TextStyle(fontWeight: FontWeight.bold),
           backgroundColor: context.sgl.surface,
           onTap: () {
@@ -550,7 +550,7 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
               tipPaths: ['t/supergreenlab/SuperGreenTips/master/s/how_to_germinate_your_seed/l/en'])),
       _renderSpeedDialChild(
           PlantFeedPage.plantFeedPageMenuVegging,
-          'assets/plant_infos/icon_vegging_since.svg',
+          Icons.eco_outlined,
           _onSpeedDialSelected(
               context,
               ({pushAsReplacement = false}) => MainNavigateToFeedLifeEventFormEvent(state.plant, PlantPhases.VEGGING,
@@ -559,7 +559,7 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
               tipPaths: ['t/supergreenlab/SuperGreenTips/master/s/when_does_vegetative_state_start/l/en'])),
       _renderSpeedDialChild(
           PlantFeedPage.plantFeedPageMenuBlooming,
-          'assets/plant_infos/icon_blooming_since.svg',
+          Icons.local_florist_outlined,
           _onSpeedDialSelected(
               context,
               ({pushAsReplacement = false}) => MainNavigateToFeedLifeEventFormEvent(state.plant, PlantPhases.BLOOMING,
@@ -568,7 +568,7 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
               tipPaths: ['t/supergreenlab/SuperGreenTips/master/s/when_does_flowering_start/l/en'])),
       _renderSpeedDialChild(
           PlantFeedPage.plantFeedPageMenuDrying,
-          'assets/plant_infos/icon_drying_since.svg',
+          Icons.air,
           _onSpeedDialSelected(
               context,
               ({pushAsReplacement = false}) => MainNavigateToFeedLifeEventFormEvent(state.plant, PlantPhases.DRYING,
@@ -577,7 +577,7 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
               tipPaths: ['t/supergreenlab/SuperGreenTips/master/s/how_to_dry/l/en'])),
       _renderSpeedDialChild(
           PlantFeedPage.plantFeedPageMenuCuring,
-          'assets/plant_infos/icon_curing_since.svg',
+          Icons.inventory_2_outlined,
           _onSpeedDialSelected(
               context,
               ({pushAsReplacement = false}) => MainNavigateToFeedLifeEventFormEvent(state.plant, PlantPhases.CURING,
@@ -628,9 +628,10 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
                 't/supergreenlab/SuperGreenTips/master/s/how_to_water/l/en'
               ])),
       SpeedDialChild(
-          child: SvgPicture.asset('assets/feed_card/icon_training.svg'),
+          child: Icon(Icons.fitness_center, color: context.sgl.ink),
           label: PlantFeedPage.plantFeedPageMenuPlantTraining,
-          labelStyle: TextStyle(fontWeight: FontWeight.bold),
+          labelStyle: TextStyle(fontWeight: FontWeight.bold, color: context.sgl.ink),
+          labelBackgroundColor: context.sgl.bg2,
           backgroundColor: context.sgl.surface,
           onTap: () {
             setState(() {
@@ -638,9 +639,10 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
             });
           }),
       SpeedDialChild(
-          child: SvgPicture.asset('assets/feed_card/icon_life_events.svg'),
+          child: Icon(Icons.timeline, color: context.sgl.ink),
           label: PlantFeedPage.plantFeedPageMenuLifeEvents,
-          labelStyle: TextStyle(fontWeight: FontWeight.bold),
+          labelStyle: TextStyle(fontWeight: FontWeight.bold, color: context.sgl.ink),
+          labelBackgroundColor: context.sgl.bg2,
           backgroundColor: context.sgl.surface,
           onTap: () {
             setState(() {
@@ -650,9 +652,9 @@ class _PlantFeedPageState extends State<PlantFeedPage> {
     ];
   }
 
-  SpeedDialChild _renderSpeedDialChild(String label, String icon, void Function() navigateTo) {
+  SpeedDialChild _renderSpeedDialChild(String label, IconData icon, void Function() navigateTo) {
     return SpeedDialChild(
-      child: SvgPicture.asset(icon),
+      child: Icon(icon),
       label: label,
       labelStyle: TextStyle(fontWeight: FontWeight.bold, color: context.sgl.ink),
       labelBackgroundColor: context.sgl.bg2,
