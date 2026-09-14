@@ -37,15 +37,22 @@ add the commit hash.
 
 - [x] (8cdfb49) Firmware: heap dip to 3160 B caused by auth_request stack allocation (2x 517-byte buffers per request). Root cause: rapid /s polling → stack exhaustion → heap fragmentation. Fix implemented: malloc/free buffers dynamically in main/core/httpd/auth.c. Same pass: mqtt.c buffer pool (c149322/35c3f0f, template 5dfe013), /mqttdiag malloc (39bca73), cmd.c snprintf (8dd8c61). OTA 1789024847 flashed 2026-09-10 09:22: heap_min_free 23068 B after 60 s of rapid polling (was 3160 B), heap_low_events 0, n_restarts 155. Superseded by the single-KV-mutex fix (d5df41a, OTA 1789111856): live check on 2026-09-14 shows 70.7 h uptime, heap_free 65996 B, heap_min_free 31788 B, heap_low_events 0 - 24 h verdict PASS, no further monitoring needed.
 
-- [ ] **CRITICAL, live on the controller right now** Light boost turns into "lights off
-      forever" after a reboot. `BOX_N_TIMER_TYPE` is `_NVS` (persisted) but the
-      `BOX_N_TIMER_MANUAL_OUTPUT` added for the boost is only `_HTTP_RW` and resets to 0
+- [x] (fw cf49064, app 64a950c9) **CRITICAL, was live on the controller** Light boost turned
+      into "lights off forever" after a reboot. `BOX_N_TIMER_TYPE` is `_NVS` (persisted) but the
+      `BOX_N_TIMER_MANUAL_OUTPUT` added for the boost was only `_HTTP_RW` and reset to 0
       (`config_gen/config/SuperGreenOS/Controllers/timer.cue`). Reboot mid-boost (and the
       2026-09-08 power incident proves reboots happen) = restart in `TIMER_TYPE=manual` with
-      output 0, schedule overridden, lights dark indefinitely. Worse, expiry is enforced only
+      output 0, schedule overridden, lights dark indefinitely. Worse, expiry was enforced only
       by the phone (`BoxOverridesHelper.checkExpired`), so a phone that is off or off-network
-      means a boost that never ends. Our own Block B defect. Fix belongs in the firmware:
-      an on-device TTL that ends the boost by itself and cannot survive a reboot.
+      meant a boost that never ends. Our own Block B defect.
+      Fixed in firmware: `BOX_N_TIMER_MANUAL_OUTPUT` removed, replaced by `BOX_N_TIMER_BOOST_S`
+      - a RAM-only (deliberately not `_NVS`) countdown that `timer_task` runs down against
+      `esp_timer_get_time()`. The boost only overrides `TIMER_OUTPUT`; `TIMER_TYPE` is never
+      touched, so there is no state to restore and no way to end up stuck, and a reboot simply
+      drops the boost. Values are clamped to 0..3600 s in `on_set_box_timer_boost_s`.
+      OTA 1789397410 flashed 2026-09-14 16:54 (restart #159). Live verification: 30 s boost
+      counted 30 -> 0 on its own with `TIMER_TYPE` unchanged at 1; writing 0 cancels
+      immediately; 5000 -> clamped to 3600; negative/overflowing values land on 0 (no boost).
 
 ## 2. Graphics to improve
 
