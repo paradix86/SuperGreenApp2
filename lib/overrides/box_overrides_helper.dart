@@ -24,9 +24,10 @@ import 'package:super_green_app/data/rel/rel_db.dart';
 import 'package:super_green_app/overrides/box_override.dart';
 import 'package:super_green_app/pages/feeds/home/common/settings/box_settings.dart';
 
-/// A boost forces a control to full output: the light's `TIMER_MANUAL_OUTPUT`
-/// is set to 100 and `TIMER_TYPE` switches to manual so it takes effect
-/// immediately, and the blower gets its whole 0-100 duty range pinned to
+/// A boost forces a control to full output for a while: the light gets a
+/// countdown in `TIMER_BOOST_S` that the firmware itself runs down (it keeps
+/// the box in its own timer type and just overrides the output while the
+/// countdown lasts), and the blower gets its whole 0-100 duty range pinned to
 /// 100 (`BLOWER_MIN` = `BLOWER_MAX` = 100).
 enum BoxOverrideKind { light, blower }
 
@@ -36,30 +37,28 @@ enum BoxOverrideKind { light, blower }
 /// the override survives an app restart and a second reader (the daemon,
 /// this page, the local-alerts service) can still end it correctly.
 class BoxOverridesHelper {
-  static const int _timerManual = 0; // enum timer { TIMER_MANUAL, ... } in timer.h
   static const int _fullOutput = 100;
 
   /// Reads the box's current values for [kind], saves them as the restore
   /// point, then pins the control to full for [minutes] (capped to
   /// [TemporaryOverride.maxMinutes]).
   ///
-  /// For light, [_keysFor] orders TIMER_MANUAL_OUTPUT before TIMER_TYPE on
-  /// purpose: TIMER_MANUAL_OUTPUT is inert until the box is actually in
-  /// TIMER_MANUAL, so writing it first means the value is already 100 the
-  /// instant TIMER_TYPE flips to manual (the firmware applies it as part of
-  /// that same write), instead of a moment at 0 while manual mode's own
-  /// no-schedule output catches up.
+  /// The light boost is a countdown rather than a value: the firmware runs
+  /// TIMER_BOOST_S down on its own and goes back to the schedule when it hits
+  /// zero, so the boost ends on time even with this phone off or off-network,
+  /// and a reboot drops it instead of leaving the box stuck (TIMER_BOOST_S is
+  /// deliberately not persisted on the controller).
   static Future<void> start(Device device, Box box, BoxOverrideKind kind, int minutes) async {
     final int capped = minutes.clamp(1, TemporaryOverride.maxMinutes);
     final Map<String, int> restore = {};
     for (final String key in _keysFor(kind)) {
       final Param current = await _loadBoxParamOrRefresh(device, box, key);
-      // Every key here (TIMER_TYPE, TIMER_MANUAL_OUTPUT, BLOWER_MIN,
-      // BLOWER_MAX) is always an int on the controller; null only means the
-      // param hasn't been fetched into the local db yet, which loadBoxParam
-      // already refreshes above, so 0 here would mean something else broke.
+      // Every key here (TIMER_BOOST_S, BLOWER_MIN, BLOWER_MAX) is always an int
+      // on the controller; null only means the param hasn't been fetched into
+      // the local db yet, which loadBoxParam already refreshes above, so 0 here
+      // would mean something else broke.
       restore[current.key] = current.ivalue ?? 0;
-      final int fullValue = key == 'TIMER_TYPE' ? _timerManual : _fullOutput;
+      final int fullValue = key == 'TIMER_BOOST_S' ? capped * 60 : _fullOutput;
       await DeviceHelper.updateIntParam(device, current, fullValue);
     }
     final DateTime expiresAt = DateTime.now().toUtc().add(Duration(minutes: capped));
@@ -74,11 +73,10 @@ class BoxOverridesHelper {
   /// Writes the saved restore values back to the controller and clears the
   /// override, whether it expired or the user tapped "Stop now".
   ///
-  /// Restores in the reverse of [start]'s write order: for light that means
-  /// TIMER_TYPE goes back first (the box leaves manual immediately, its new
-  /// mode's own task recomputes the real output right away), then
-  /// TIMER_MANUAL_OUTPUT last, purely for hygiene since it no longer drives
-  /// anything once TIMER_TYPE is off manual.
+  /// Restores in the reverse of [start]'s write order, which matters for the
+  /// blower's MIN/MAX pair. For light this writes TIMER_BOOST_S back to 0,
+  /// cancelling the countdown early; the firmware hands the box back to its
+  /// schedule on the next tick, so there is nothing else to put back.
   static Future<void> stop(Device device, Box box, BoxOverrideKind kind) async {
     final BoxSettings settings = BoxSettings.fromJSON(box.settings);
     final TemporaryOverride override =
@@ -104,19 +102,18 @@ class BoxOverridesHelper {
   }
 
   static List<String> _keysFor(BoxOverrideKind kind) => kind == BoxOverrideKind.light
-      ? const ['TIMER_MANUAL_OUTPUT', 'TIMER_TYPE']
+      ? const ['TIMER_BOOST_S']
       : const ['BLOWER_MIN', 'BLOWER_MAX'];
 
   /// A firmware update can introduce a KV key the local db has never seen
-  /// (e.g. TIMER_MANUAL_OUTPUT, added after the app last set this device
-  /// up) - DeviceHelper.loadBoxParam throws in that case (no local Params
-  /// row to read). DeviceAPI.fetchAllParams can't help here either: it
-  /// discovers keys from the controller's `/config`, which is served from
-  /// SPIFFS and only updated by a separate, rarely-run web-UI upload - a
-  /// firmware-only OTA (the common case) leaves it listing the old keys.
-  /// Since the key name and type are already known at compile time, fetch
-  /// and insert it directly instead, reusing the "timer" module row that
-  /// TIMER_TYPE's own earlier fetch already created for this device.
+  /// (e.g. TIMER_BOOST_S, added after the app last set this device up) -
+  /// DeviceHelper.loadBoxParam throws in that case (no local Params row to
+  /// read). DeviceAPI.fetchAllParams can't help here either: it discovers
+  /// keys from the controller's `/config`, which is served from SPIFFS and
+  /// only updated by a separate, rarely-run web-UI upload - a firmware-only
+  /// OTA (the common case) leaves it listing the old keys. Since the key name
+  /// and type are already known at compile time, fetch and insert it directly
+  /// instead, reusing this device's existing "timer" module row.
   static Future<Param> _loadBoxParamOrRefresh(Device device, Box box, String key) async {
     try {
       return await DeviceHelper.loadBoxParam(device, box, key);

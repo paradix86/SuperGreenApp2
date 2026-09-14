@@ -37,6 +37,16 @@ add the commit hash.
 
 - [x] (8cdfb49) Firmware: heap dip to 3160 B caused by auth_request stack allocation (2x 517-byte buffers per request). Root cause: rapid /s polling → stack exhaustion → heap fragmentation. Fix implemented: malloc/free buffers dynamically in main/core/httpd/auth.c. Same pass: mqtt.c buffer pool (c149322/35c3f0f, template 5dfe013), /mqttdiag malloc (39bca73), cmd.c snprintf (8dd8c61). OTA 1789024847 flashed 2026-09-10 09:22: heap_min_free 23068 B after 60 s of rapid polling (was 3160 B), heap_low_events 0, n_restarts 155. Superseded by the single-KV-mutex fix (d5df41a, OTA 1789111856): live check on 2026-09-14 shows 70.7 h uptime, heap_free 65996 B, heap_min_free 31788 B, heap_low_events 0 - 24 h verdict PASS, no further monitoring needed.
 
+- [ ] **CRITICAL, live on the controller right now** Light boost turns into "lights off
+      forever" after a reboot. `BOX_N_TIMER_TYPE` is `_NVS` (persisted) but the
+      `BOX_N_TIMER_MANUAL_OUTPUT` added for the boost is only `_HTTP_RW` and resets to 0
+      (`config_gen/config/SuperGreenOS/Controllers/timer.cue`). Reboot mid-boost (and the
+      2026-09-08 power incident proves reboots happen) = restart in `TIMER_TYPE=manual` with
+      output 0, schedule overridden, lights dark indefinitely. Worse, expiry is enforced only
+      by the phone (`BoxOverridesHelper.checkExpired`), so a phone that is off or off-network
+      means a boost that never ends. Our own Block B defect. Fix belongs in the firmware:
+      an on-device TTL that ends the boost by itself and cannot survive a reboot.
+
 ## 2. Graphics to improve
 
 **Major items (completed 2026-09-09):**
@@ -113,6 +123,67 @@ add the commit hash.
 - [x] (dec3a553) Local backup/restore DB: DbBackupManager with export/import JSON/ZIP;
       plant/diary/photo serialization scaffolded.
 - [x] (dec3a553) Local checklists: removed cloud login requirement from checklist creation page.
+
+## 4. Remote greenhouse management (code audit of firmware + app, 2026-09-14)
+
+What already exists, so nobody re-proposes it: light schedule (onoff/season/manual),
+**on-device temperature-driven blower/fan curve** (`BOX_N_BLOWER_REF_MIN/MAX`, linear
+21 °C→8 % .. 30 °C→30 %, with a sensor-absent failsafe that snaps fans to 100 %),
+`sensor_health` with `LAST_ALERT`, `/dash` + `/kv`, 24 h local + 72 h cloud graphs, phone
+foreground alerts, light/blower boosts, OTA from the app, TIME_TZ, CSV export, DB
+backup/restore, the web dashboard, PIN lock. Crucially the firmware **already has the whole
+remote channel**: `BROKER_URL`/`BROKER_CLIENTID` are writable + NVS (point them at your own
+broker), it subscribes to `<clientid>.cmd` and runs `seti`/`sets` on any KV key (SHA256-signed
+via `SIGN_KEY`), publishes Home Assistant MQTT discovery, state every 30 s, diag every 5 min.
+
+**Essential**
+
+- [ ] The app speaks no MQTT, so everything depends on the mesh VPN. No MQTT package in
+      `pubspec.yaml`; "mqtt" appears only as `/mqttdiag` diagnostics. VPN down, or a network
+      that blocks it, means losing both reading and control. The seam already exists:
+      `lib/data/api/device/device_helper.dart` already routes commands as `seti -k KEY -v N`
+      over a remote transport (the SGL websocket, which needs an SGL account) - add an MQTT
+      transport beside it, pointed at the home broker. App only, medium, no firmware change.
+- [ ] Controller address not editable by hand. When the saved IP stops answering the only
+      recovery is mDNS (`device_daemon_bloc.dart`, `resolveLocalName`), which does not work
+      through the mesh VPN. A DHCP lease change while away = unreachable until you get home.
+      Editable IP/hostname field in `settings_device_page.dart` (today the IP is copy-only),
+      plus normal DNS resolution before the mDNS fallback. App, low difficulty, high value.
+
+**Useful**
+
+- [ ] No sensor history on the device at all - no ring buffer, no flash log. `/dash` and `/kv`
+      are instantaneous and `DashHistory` only records while the app/service runs, so a phone
+      that is off for two days leaves a two-day hole. No code needed: the firmware already
+      publishes state + diag over MQTT with HA discovery, so Home Assistant (or
+      Telegraf+InfluxDB) on the broker closes this. Infrastructure, low.
+- [ ] Alerts too narrow and phone-bound. `LocalAlertSettings` covers only temp/humidity
+      min/max. Missing VPD, CO2, weight, and above all "light is not on when the schedule says
+      it should be" (`BOX_N_TIMER_OUTPUT` vs `ONOFF_*`) and "controller rebooted" (`n_restarts`)
+      - exactly the alarms that matter when away. App (low) for extra thresholds; broker-side
+      alerting (medium) is the variant that survives a dead phone.
+- [ ] HA discovery is read-only: sensors + reboot/ota buttons, but no `LED_DIM`,
+      `TIMER_OUTPUT`, `BLOWER_MIN/MAX` or on/off hours, in neither discovery nor the state
+      payload - from HA you can watch but not command. Firmware, medium.
+- [ ] Task watchdog missing on exactly the light-path tasks: `blower`, `fan`, `motor`, `valve`,
+      `watering` call `esp_task_wdt_add`; `timer`, `onoff`, `season`, `led`, `sht21` do not.
+      A hang there freezes the lights with nothing to reset it. Firmware, low.
+- [ ] MQTT `reboot` and `ota_start` topics are unsigned, unlike the `.cmd` channel: anyone who
+      can publish to the broker can reboot the device or start an OTA. Fine inside the VPN,
+      not fine the day anything is exposed. Same goes for HTTP: `HTTPD_AUTH` is deliberately
+      off and there is no TLS, so never expose `/i`, `/s`, `/kv` to the internet.
+
+**Nice to have**
+
+- [ ] OTA resolves no DNS - it dials `OTA_SERVER_IP` only, the hostname just fills the `Host:`
+      header - and if the server publishes no `.sha256` it flashes without integrity check.
+- [ ] Single Wi-Fi SSID, no backup; after 5 failures it falls back to AP mode but does retry
+      STA every ~2 min, so it self-heals. NTP server hard-coded to `pool.ntp.org` (the clock is
+      persisted to NVS every 5 min, so the schedule survives an outage with slight drift).
+- [ ] `DeviceAPI.uploadFirmwareAndTriggerOTA` is an empty stub while the real OTA path is
+      elsewhere - remove it or finish it, it is just confusing.
+- [ ] The `watering` module is fully exposed in KV (`WATERING_PERIOD/DURATION/POWER/LEFT`) but
+      has no UI in the app. Only worth doing if the pump is actually installed.
 
 ## Done during the 2026-09-08 session (for reference)
 
