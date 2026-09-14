@@ -159,7 +159,15 @@ class DeviceDaemonBloc extends LegacyBloc<DeviceDaemonBlocEvent, DeviceDaemonBlo
 
         await RelDB.get().devicesDAO.updateDevice(DevicesCompanion(id: Value(device.id), isReachable: Value(false)));
         await new Future.delayed(const Duration(seconds: 2));
-        String? ip = await DeviceAPI.resolveLocalName(device.mdns);
+        // An address the user set by hand wins over discovery: resolving it is
+        // the recovery (a DHCP hostname that moved comes back with the new IP),
+        // and resolving *it* rather than the mDNS name is what keeps the device
+        // from being silently pointed somewhere the user did not choose. What
+        // comes back is still retried below even when it is the same address
+        // that just failed - that retry, after the 2 s backoff, is what rides
+        // out a dropped packet or a brief Wi-Fi hiccup.
+        String? manualAddress = AppDB().getDeviceManualAddress(device.identifier);
+        String? ip = await DeviceAPI.resolveHost(manualAddress ?? device.mdns);
         if (ip != null && ip != "") {
           try {
             String identifier = await DeviceAPI.fetchStringParam(ip, 'BROKER_CLIENTID', auth: auth);

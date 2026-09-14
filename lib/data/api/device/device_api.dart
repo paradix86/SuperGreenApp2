@@ -80,6 +80,48 @@ class DeviceAPI {
     return name.toLowerCase().replaceAllMapped(RegExp(r'[\W_]+'), (match) => "");
   }
 
+  /// How long to wait on the ordinary resolver before falling back to mDNS.
+  /// Short on purpose: this runs on the daemon's recovery path, where mDNS is
+  /// the answer that usually works on a LAN, and a DNS server that is slow or
+  /// absent must not hold the recovery up.
+  static const Duration dnsLookupTimeout = Duration(seconds: 3);
+
+  /// Turns [name] into something usable in a controller URL, trying the
+  /// ordinary resolver before mDNS.
+  ///
+  /// mDNS alone is what leaves a controller unreachable from outside the LAN:
+  /// it does not cross the mesh VPN, so a DHCP lease that changes while nobody
+  /// is home means no way back in. A real DNS name (a router's DHCP hostname, a
+  /// static entry) does cross it, so try that first and keep mDNS as the
+  /// fallback for the plain local case.
+  static Future<String?> resolveHost(String name) async {
+    if (name.isEmpty) {
+      return null;
+    }
+    // Already an address: nothing to resolve, and handing a literal to the
+    // resolver would only cost a round trip. IPv6 literals are refused rather
+    // than passed through for the same reason IPv6 answers are skipped below.
+    InternetAddress? literal = InternetAddress.tryParse(name);
+    if (literal != null) {
+      return literal.type == InternetAddressType.IPv4 ? name : null;
+    }
+    try {
+      List<InternetAddress> addresses = await InternetAddress.lookup(name).timeout(dnsLookupTimeout);
+      for (InternetAddress address in addresses) {
+        // The controller's HTTP API is IPv4 only, and the rest of the app
+        // interpolates this straight into a URL with no bracketing, so an IPv6
+        // answer would build a broken one.
+        if (address.type == InternetAddressType.IPv4) {
+          return address.address;
+        }
+      }
+    } catch (e) {
+      // No DNS server, no such name, or slower than dnsLookupTimeout - all of
+      // them just mean "try mDNS", which is what this function did before.
+    }
+    return resolveLocalName(name);
+  }
+
   static Future<String?> resolveLocalName(String name) async {
     if (name.endsWith('.local')) {
       name = name.substring(0, name.length - '.local'.length);

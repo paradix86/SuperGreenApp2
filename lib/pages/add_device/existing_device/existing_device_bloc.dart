@@ -73,7 +73,7 @@ class ExistingDeviceBloc extends LegacyBloc<ExistingDeviceBlocEvent, ExistingDev
         ip = event.query;
       } else {
         try {
-          ip = await DeviceAPI.resolveLocalName(event.query);
+          ip = await DeviceAPI.resolveHost(event.query);
         } catch (e) {
           yield ExistingDeviceBlocStateNotFound();
           return;

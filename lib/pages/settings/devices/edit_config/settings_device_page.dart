@@ -131,8 +131,14 @@ class SettingsDevicePage extends StatelessWidget {
       listener: (BuildContext context, SettingsDeviceBlocState state) {
         if (state is SettingsDeviceBlocStateLoaded && state.renamedTo != null) {
           _snack(context, settingsDevicePageControllerDone(state.renamedTo!));
+        } else if (state is SettingsDeviceBlocStateLoaded && state.addressUpdated) {
+          _snack(
+              context,
+              state.manualAddress == null
+                  ? 'Back to automatic discovery'
+                  : 'Now using ${state.manualAddress} · ${state.device.ip}');
         } else if (state is SettingsDeviceBlocStateUpdateFailed) {
-          _snack(context, 'Rename failed, is the controller reachable?', error: true);
+          _snack(context, state.message, error: true);
         } else if (state is SettingsDeviceBlocStateForgotten) {
           BlocProvider.of<MainNavigatorBloc>(context).add(MainNavigatorActionPop(mustPop: true));
         }
@@ -223,10 +229,10 @@ class SettingsDevicePage extends StatelessWidget {
             SettingsRow(
               icon: Icons.lan_outlined,
               title: 'Local address',
-              subtitle: device.isReachable ? '${device.ip} · reachable' : '${device.ip} · not reachable right now',
+              subtitle: _addressSubtitle(state),
               subtitleColor: device.isReachable ? null : c.warn,
-              trailing: const SettingsRowAction('copy'),
-              onTap: () => _copy(context, device.ip, 'Address copied'),
+              trailing: const SettingsRowAction('edit'),
+              onTap: () => _editAddress(context, state),
             ),
             if (!state.isScreenOnly)
               SettingsRow(
@@ -334,6 +340,36 @@ class SettingsDevicePage extends StatelessWidget {
     bloc.add(SettingsDeviceBlocEventUpdate(name));
   }
 
+  /// Says both where the app is talking to the controller and how it got there,
+  /// because that is what tells you whether to expect it to recover on its own.
+  String _addressSubtitle(SettingsDeviceBlocStateLoaded state) {
+    final Device device = state.device;
+    final String reach = device.isReachable ? 'reachable' : 'not reachable right now';
+    final String? manual = state.manualAddress;
+    if (manual == null) {
+      return '${device.ip} · found automatically · $reach';
+    }
+    if (manual == device.ip) {
+      return '$manual · set by you · $reach';
+    }
+    return '$manual → ${device.ip} · set by you · $reach';
+  }
+
+  Future<void> _editAddress(BuildContext context, SettingsDeviceBlocStateLoaded state) async {
+    final SettingsDeviceBloc bloc = BlocProvider.of<SettingsDeviceBloc>(context);
+    final String? result = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) =>
+          _AddressDialog(current: state.manualAddress ?? state.device.ip, isManual: state.manualAddress != null),
+    );
+    if (result == null) {
+      return;
+    }
+    // The dialog returns the empty string for "back to automatic discovery",
+    // which the bloc takes as null.
+    bloc.add(SettingsDeviceBlocEventUpdateAddress(result.isEmpty ? null : result));
+  }
+
   Future<void> _forget(BuildContext context, Device device) async {
     final SettingsDeviceBloc bloc = BlocProvider.of<SettingsDeviceBloc>(context);
     final SglColors c = context.sgl;
@@ -418,6 +454,89 @@ class _RenameDialogState extends State<_RenameDialog> {
       actions: [
         TextButton(onPressed: () => Navigator.pop(context), child: Text(CommonL10N.cancel)),
         FilledButton(onPressed: () => Navigator.pop(context, _controller.text.trim()), child: const Text('Rename')),
+      ],
+    );
+  }
+}
+
+/// Lets the controller's address be typed in by hand. Pops the new address, the
+/// empty string to go back to automatic discovery, or null when cancelled.
+///
+/// Stateful for the same reason as [_RenameDialog] - see the comment there.
+class _AddressDialog extends StatefulWidget {
+  final String current;
+
+  /// Whether the address is currently pinned by hand, which decides if there is
+  /// anything to hand back to automatic discovery.
+  final bool isManual;
+
+  const _AddressDialog({required this.current, required this.isManual});
+
+  @override
+  _AddressDialogState createState() => _AddressDialogState();
+}
+
+class _AddressDialogState extends State<_AddressDialog> {
+  /// An IPv4 address or a host name. Deliberately permissive: the address is
+  /// checked for real by asking it for BROKER_CLIENTID, and a regex that is too
+  /// strict would only reject addresses that work.
+  static final RegExp _address = RegExp(r'^[A-Za-z0-9]([A-Za-z0-9\-._]*[A-Za-z0-9])?$');
+
+  late final TextEditingController _controller = TextEditingController(text: widget.current);
+  String? _error;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _submit() {
+    final String value = _controller.text.trim();
+    if (!_address.hasMatch(value)) {
+      setState(() => _error = 'Enter an IP address or a host name');
+      return;
+    }
+    Navigator.pop(context, value);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Controller address'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+              'Set this when the controller stops answering - after a DHCP lease change, for instance. The app checks the address answers for this controller before saving it, and stops rediscovering it on its own.'),
+          const SizedBox(height: 12),
+          TextField(
+            controller: _controller,
+            autofocus: true,
+            maxLength: 253,
+            keyboardType: TextInputType.url,
+            autocorrect: false,
+            textCapitalization: TextCapitalization.none,
+            decoration: InputDecoration(
+              hintText: 'Ex: 192.168.1.104',
+              errorText: _error,
+              counterText: '',
+            ),
+            onChanged: (_) {
+              if (_error != null) {
+                setState(() => _error = null);
+              }
+            },
+            onSubmitted: (_) => _submit(),
+          ),
+        ],
+      ),
+      actions: [
+        if (widget.isManual)
+          TextButton(onPressed: () => Navigator.pop(context, ''), child: const Text('Use automatic')),
+        TextButton(onPressed: () => Navigator.pop(context), child: Text(CommonL10N.cancel)),
+        FilledButton(onPressed: _submit, child: const Text('Save')),
       ],
     );
   }

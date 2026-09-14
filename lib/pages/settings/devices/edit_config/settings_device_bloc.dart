@@ -51,6 +51,17 @@ class SettingsDeviceBlocEventUpdate extends SettingsDeviceBlocEvent {
   List<Object> get props => [name];
 }
 
+/// Pin the controller to [address], or hand it back to auto-discovery when
+/// [address] is null.
+class SettingsDeviceBlocEventUpdateAddress extends SettingsDeviceBlocEvent {
+  final String? address;
+
+  SettingsDeviceBlocEventUpdateAddress(this.address);
+
+  @override
+  List<Object?> get props => [address];
+}
+
 /// Remove the device from the app only (the controller keeps running).
 class SettingsDeviceBlocEventForget extends SettingsDeviceBlocEvent {
   @override
@@ -80,6 +91,14 @@ class SettingsDeviceBlocStateLoaded extends SettingsDeviceBlocState {
   /// Set once after a successful rename, cleared on the next reload.
   final String? renamedTo;
 
+  /// The address the user pinned by hand, null while the app is free to
+  /// rediscover the controller on its own.
+  final String? manualAddress;
+
+  /// Set once after the address was changed either way, so the screen can
+  /// confirm it; [manualAddress] then says which of the two happened.
+  final bool addressUpdated;
+
   SettingsDeviceBlocStateLoaded(
     this.device, {
     this.wifiSsid,
@@ -89,18 +108,35 @@ class SettingsDeviceBlocStateLoaded extends SettingsDeviceBlocState {
     this.isPaired = false,
     this.hasPassword = false,
     this.renamedTo,
+    this.manualAddress,
+    this.addressUpdated = false,
   });
 
   bool get isScreenOnly => device.isScreen && device.isController == false;
 
   @override
-  List<Object?> get props => [device, wifiSsid, mdnsDomain, firmwareBuiltAt, nParams, isPaired, hasPassword, renamedTo];
+  List<Object?> get props => [
+        device,
+        wifiSsid,
+        mdnsDomain,
+        firmwareBuiltAt,
+        nParams,
+        isPaired,
+        hasPassword,
+        renamedTo,
+        manualAddress,
+        addressUpdated,
+      ];
 }
 
-/// Rename failed (controller unreachable, ...). The screen shows a snackbar
-/// and stays on the loaded state that follows.
+/// A rename or an address change failed (controller unreachable, wrong
+/// controller answering, ...). The screen shows [message] in a snackbar and
+/// stays on the loaded state that follows.
 class SettingsDeviceBlocStateUpdateFailed extends SettingsDeviceBlocState {
   final int rand = DateTime.now().microsecondsSinceEpoch;
+  final String message;
+
+  SettingsDeviceBlocStateUpdateFailed(this.message);
 
   @override
   List<Object> get props => [rand];
@@ -133,7 +169,22 @@ class SettingsDeviceBloc extends LegacyBloc<SettingsDeviceBlocEvent, SettingsDev
         yield await _load(renamedTo: event.name);
       } catch (e, trace) {
         Logger.logError(e, trace, data: {'deviceID': args.device.identifier});
-        yield SettingsDeviceBlocStateUpdateFailed();
+        yield SettingsDeviceBlocStateUpdateFailed('Rename failed, is the controller reachable?');
+        yield await _load();
+      }
+    } else if (event is SettingsDeviceBlocEventUpdateAddress) {
+      yield SettingsDeviceBlocStateLoading();
+      try {
+        // Re-read the device: args.device is the row as it was when this page
+        // opened, and the daemon may have moved the address since.
+        final Device device = await RelDB.get().devicesDAO.getDevice(args.device.id);
+        await DeviceHelper.updateDeviceAddress(device, event.address);
+        yield await _load(addressUpdated: true);
+      } catch (e, trace) {
+        Logger.logError(e, trace, data: {'deviceID': args.device.identifier});
+        // The controller says what went wrong (unresolvable, or a different
+        // controller answering); that is more useful than a generic failure.
+        yield SettingsDeviceBlocStateUpdateFailed('Could not use that address: ${_reason(e)}');
         yield await _load();
       }
     } else if (event is SettingsDeviceBlocEventForget) {
@@ -144,7 +195,14 @@ class SettingsDeviceBloc extends LegacyBloc<SettingsDeviceBlocEvent, SettingsDev
     }
   }
 
-  Future<SettingsDeviceBlocStateLoaded> _load({String? renamedTo}) async {
+  /// Strips the `Exception: ` prefix Dart puts in front of `toString()`, so the
+  /// snackbar reads as a sentence.
+  static String _reason(Object e) {
+    final String text = e.toString();
+    return text.startsWith('Exception: ') ? text.substring('Exception: '.length) : text;
+  }
+
+  Future<SettingsDeviceBlocStateLoaded> _load({String? renamedTo, bool addressUpdated = false}) async {
     final RelDB db = RelDB.get();
     final Device device = await db.devicesDAO.getDevice(args.device.id);
     final DeviceData deviceData = AppDB().getDeviceData(device.identifier);
@@ -161,6 +219,8 @@ class SettingsDeviceBloc extends LegacyBloc<SettingsDeviceBlocEvent, SettingsDev
       isPaired: deviceData.signing != null && deviceData.signing!.isNotEmpty,
       hasPassword: deviceData.auth != null && deviceData.auth!.isNotEmpty,
       renamedTo: renamedTo,
+      manualAddress: AppDB().getDeviceManualAddress(device.identifier),
+      addressUpdated: addressUpdated,
     );
   }
 

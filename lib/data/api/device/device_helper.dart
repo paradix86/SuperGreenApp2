@@ -61,6 +61,39 @@ class DeviceHelper {
         DevicesCompanion(id: Value(device.id), name: Value(name), mdns: Value(mdnsDomain), synced: Value(false)));
   }
 
+  /// Points [device] at [address], or hands it back to auto-discovery when
+  /// [address] is null or empty.
+  ///
+  /// The address is checked before it is saved: it must answer with this
+  /// device's own BROKER_CLIENTID. Saving an address blindly would be worse
+  /// than the problem it solves - a typo, or the neighbour's controller, and
+  /// the app would happily drive the wrong box.
+  ///
+  /// `synced: false` is required: syncer_bloc overwrites the local row with the
+  /// server's copy, which would put the stale address straight back.
+  static Future updateDeviceAddress(Device device, String? address) async {
+    final ddb = RelDB.get().devicesDAO;
+    if (address == null || address.trim().isEmpty) {
+      AppDB().setDeviceManualAddress(device.identifier, null);
+      return;
+    }
+    address = address.trim();
+    String? auth = AppDB().getDeviceAuth(device.identifier);
+    String? resolved = await DeviceAPI.resolveHost(address);
+    if (resolved == null || resolved.isEmpty) {
+      throw Exception('Could not resolve $address');
+    }
+    String identifier = await DeviceAPI.fetchStringParam(resolved, 'BROKER_CLIENTID', auth: auth);
+    if (identifier != device.identifier) {
+      throw Exception('$address answers for a different controller ($identifier)');
+    }
+    // Remember what the user typed, not what it resolved to: a name that moves
+    // with DHCP is exactly the thing worth keeping.
+    AppDB().setDeviceManualAddress(device.identifier, address);
+    await ddb.updateDevice(DevicesCompanion(
+        id: Value(device.id), ip: Value(resolved), isReachable: Value(true), synced: Value(false)));
+  }
+
   static Future<Param> loadParam(Device device, String key, {bool asyncRefresh = false}) async {
     Param p = await RelDB.get().devicesDAO.getParam(device.id, key);
     try {

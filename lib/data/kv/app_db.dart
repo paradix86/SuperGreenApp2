@@ -181,6 +181,27 @@ class AppDB {
 
   void deleteDeviceData(String identifier) {
     _settingsDB.delete('device$identifier');
+    setDeviceManualAddress(identifier, null);
+  }
+
+  /// The address the user typed in by hand for this controller, or null when it
+  /// is left to auto-discovery.
+  ///
+  /// Kept here rather than on the Devices table on purpose: it is a local
+  /// preference, not part of the device, so it must not ride along with the
+  /// sync (which overwrites the local row from the server's copy), and it needs
+  /// no schema migration. The daemon reads it to know it must not replace a
+  /// hand-picked address with whatever mDNS happens to answer.
+  String? getDeviceManualAddress(String identifier) {
+    return _miscDB.get('device$identifier.manualAddress');
+  }
+
+  void setDeviceManualAddress(String identifier, String? address) {
+    if (address == null || address.isEmpty) {
+      _miscDB.delete('device$identifier.manualAddress');
+      return;
+    }
+    _miscDB.put('device$identifier.manualAddress', address);
   }
 
   void setTipDone(String tipID) {
