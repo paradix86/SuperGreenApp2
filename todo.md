@@ -198,14 +198,17 @@ via `SIGN_KEY`), publishes Home Assistant MQTT discovery, state every 30 s, diag
         `/dash`), just not requested this round. CO2/weight need the matching sensor to be useful.
       - Broker-side alerting (survives a dead phone) is the bigger, separate medium item.
 - [~] (fw 44a6bea, not yet OTA'd) HA discovery was observe-only beyond sensor health.
-      **Done for the light schedule:** each box's on hour and off hour are now HA `number`
-      entities (0-23), settable from Home Assistant over the broker with no app/VPN. One
-      file-scope table `HA_BOX_HOURS` in `mqtt.c.template` drives discovery + subscribe +
-      command + state echo-back. Hours take effect only in the on/off timer type (stored but
-      unused in manual/season, as from the app). Built for v2.1, bundled for the next OTA.
-      **Left for later (deliberately not done):** LED brightness and blower min/max.
-      - Blower `BOX_N_BLOWER_MIN/MAX` map cleanly to per-box keys - same table pattern, easy
-        follow-up if wanted.
+      **Done for the light schedule (fw 44a6bea) and the blower bounds (fw 5bfb810):** each
+      box's on/off hour (0-23) and blower min/max (0-100 %) are now HA `number` entities,
+      settable from Home Assistant over the broker with no app/VPN. One file-scope table
+      `HA_BOX_NUMBERS` in `mqtt.c.template` (min/max/unit per entry) drives discovery +
+      subscribe + command + state echo-back for both. Hours take effect only in the on/off
+      timer type (stored but unused in manual/season, as from the app). The blower path calls
+      the plain KV setter, not the write_cb, to keep mqtt.c free of a blower-module dependency
+      (screen builds compile this template too); the bound reaches the motor within ~20 s via
+      the tasks' own polling instead of the callback's immediate refresh. Built for v2.1,
+      bundled for the next OTA.
+      **Left for later (deliberately not done):** LED brightness and timer-type mode.
       - LED brightness has no clean per-box key: `BOX_N_LED_DIM` is NOT a dimmer, it holds the
         epoch of the last "sunglasses" (temporary dim) request (`led.c` update_led). The real
         dimmer is `LED_N_DIM`, per channel (6), so a per-box brightness in HA would need a new
