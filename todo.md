@@ -188,13 +188,29 @@ via `SIGN_KEY`), publishes Home Assistant MQTT discovery, state every 30 s, diag
 - [ ] HA discovery is read-only: sensors + reboot/ota buttons, but no `LED_DIM`,
       `TIMER_OUTPUT`, `BLOWER_MIN/MAX` or on/off hours, in neither discovery nor the state
       payload - from HA you can watch but not command. Firmware, medium.
-- [ ] Task watchdog missing on exactly the light-path tasks: `blower`, `fan`, `motor`, `valve`,
-      `watering` call `esp_task_wdt_add`; `timer`, `onoff`, `season`, `led`, `sht21` do not.
-      A hang there freezes the lights with nothing to reset it. Firmware, low.
-- [ ] MQTT `reboot` and `ota_start` topics are unsigned, unlike the `.cmd` channel: anyone who
-      can publish to the broker can reboot the device or start an OTA. Fine inside the VPN,
-      not fine the day anything is exposed. Same goes for HTTP: `HTTPD_AUTH` is deliberately
-      off and there is no TLS, so never expose `/i`, `/s`, `/kv` to the internet.
+- [x] (fw f7d5d4a, not yet OTA'd) Task watchdog missing on the light-path tasks: `blower`,
+      `fan`, `motor`, `valve`, `watering` called `esp_task_wdt_add`; `timer`, `led` and `i2c`
+      did not. A hang there freezes the lights with nothing to reset it, which is the case
+      `CONFIG_TASK_WDT_PANIC` exists for. Added the add/reset to `timer_task`, `led_task` and
+      `i2c_task` (the last in `i2c.c.template`, and feeding the wdt per sensor module because
+      one pass can be ~9 s on three buses). `onoff`/`season` need nothing: they are called
+      from inside `timer_task`, which now feeds the wdt. `sht21` likewise runs under the i2c
+      task. Built for v2.1, not yet flashed - it is bundled for the next firmware OTA.
+- [ ] HTTP has no TLS and `HTTPD_AUTH` is deliberately off, so never expose `/i`, `/s`, `/kv`
+      to the internet. (Alan's call: no auth on the HTTP API/fs.)
+- [x] (verified 2026-09-15, no code change) MQTT `reboot`/`ota_start`/`sensor_health_*` command
+      topics are unsigned, unlike the SHA256-signed `.cmd` channel - the firmware's
+      `parse_ha_command` acts on them with no `SIGN_KEY` check. **Downgraded from CRITICAL:**
+      probed `sink2.supergreenlab.com:1883` as an anonymous client against the live controller.
+      Anonymous CONNECT is accepted, but the broker delivers **no** messages to an anonymous
+      subscriber (reading a controller is blocked) and, though it PUBACKs an anonymous publish,
+      it does **not** route it to the device - a benign reversible write to
+      `sensor_health_period_s` (60→120/180/240) never reached the controller. So sink2 is a
+      per-device relay to the SGL backend, not an open broker; broker isolation is what
+      protects live controllers, not the firmware. The firmware defect is real defense-in-depth
+      (it would bite on an open broker, or if sink2's isolation weakened) but not a live
+      exposure. Signing those topics would break the Home Assistant buttons (they publish plain
+      `PRESS`), so left as-is by choice. See memory `sink2-broker-isolation`.
 
 **Nice to have**
 
