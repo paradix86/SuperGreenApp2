@@ -194,8 +194,9 @@ via `SIGN_KEY`), publishes Home Assistant MQTT discovery, state every 30 s, diag
         local==UTC, but that is not general). Plus `led_dim==0` is ambiguous (intentional empty
         box vs fault), and the main failure it targets (timer task stuck) is now covered by the
         light-path watchdog (fw f7d5d4a). High false-positive risk for low marginal value.
-      - VPD / CO2 / weight thresholds: trivial follow-up (same `_evaluateMetric`, data already in
-        `/dash`), just not requested this round. CO2/weight need the matching sensor to be useful.
+      - **VPD / CO2 thresholds: done (app 96d86893).** Opt-in range alarms (off by default),
+        reading values already in `/dash`. A 0 reading = no sensor, mapped to null and skipped.
+        Six new evaluator tests, verified on the emulator. Weight not done (needs a scale).
       - Broker-side alerting (survives a dead phone) is the bigger, separate medium item.
 - [~] (fw 44a6bea, not yet OTA'd) HA discovery was observe-only beyond sensor health.
       **Done for the light schedule (fw 44a6bea) and the blower bounds (fw 5bfb810):** each
