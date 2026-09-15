@@ -54,6 +54,14 @@ add the commit hash.
       counted 30 -> 0 on its own with `TIMER_TYPE` unchanged at 1; writing 0 cancels
       immediately; 5000 -> clamped to 3600; negative/overflowing values land on 0 (no boost).
 
+- [ ] Add controller → "Already running": the SEARCH CONTROLLER button does not react to what
+      you type. `existing_device_page.dart:176` gates `onPressed` on
+      `_nameController.value.text != ''`, but nothing listens to that controller, so the button
+      keeps whatever enabled state the last rebuild gave it - type an address and the search
+      never starts. Found 2026-09-15 while testing on the emulator: had to insert the device
+      row into the app db by hand to get past it. Fix: a listener on the text controller (or
+      `ValueListenableBuilder`) so the button rebuilds on every keystroke.
+
 ## 2. Graphics to improve
 
 **Major items (completed 2026-09-09):**
@@ -151,11 +159,19 @@ via `SIGN_KEY`), publishes Home Assistant MQTT discovery, state every 30 s, diag
       `lib/data/api/device/device_helper.dart` already routes commands as `seti -k KEY -v N`
       over a remote transport (the SGL websocket, which needs an SGL account) - add an MQTT
       transport beside it, pointed at the home broker. App only, medium, no firmware change.
-- [ ] Controller address not editable by hand. When the saved IP stops answering the only
-      recovery is mDNS (`device_daemon_bloc.dart`, `resolveLocalName`), which does not work
-      through the mesh VPN. A DHCP lease change while away = unreachable until you get home.
-      Editable IP/hostname field in `settings_device_page.dart` (today the IP is copy-only),
-      plus normal DNS resolution before the mDNS fallback. App, low difficulty, high value.
+- [x] (58897467) Controller address not editable by hand. When the saved IP stopped answering
+      the only recovery was mDNS (`device_daemon_bloc.dart`, `resolveLocalName`), which does
+      not work through the mesh VPN. A DHCP lease change while away = unreachable until you
+      get home. Done: `DeviceAPI.resolveHost` tries the ordinary resolver before mDNS (IPv4
+      only in both the literal and the resolved case - the app interpolates the result into a
+      URL with no bracketing), and the address is editable from `settings_device_page.dart`,
+      checked against the controller's own BROKER_CLIENTID before being saved. A hand-set
+      address lives in the Hive misc box, not on the Devices row: it is a local preference, so
+      the sync must not carry it, and it needs no schema migration (the `ip` column is still
+      capped at 15 chars, so only the resolved IPv4 is stored there). The daemon resolves that
+      address instead of the mDNS name, which is what stops a hand-picked controller from
+      being repointed, while still retrying what comes back so a dropped packet recovers as
+      before. Verified on the emulator against the live controller.
 
 **Useful**
 
@@ -191,6 +207,18 @@ via `SIGN_KEY`), publishes Home Assistant MQTT discovery, state every 30 s, diag
       elsewhere - remove it or finish it, it is just confusing.
 - [ ] The `watering` module is fully exposed in KV (`WATERING_PERIOD/DURATION/POWER/LEFT`) but
       has no UI in the app. Only worth doing if the pump is actually installed.
+- [ ] Two knowingly-accepted trade-offs from the editable-address work (58897467), both from
+      the code review, neither worth blocking on: (a) in the "add controller" flow in AP mode,
+      where there is no reachable DNS server, the new lookup can burn the full
+      `DeviceAPI.dnsLookupTimeout` (3 s) before falling back to mDNS - the user watches a
+      spinner for it; a shorter timeout at that one call site would pay for itself.
+      (b) clearing a hand-set address leaves `device.ip` at whatever was typed while the
+      settings row already reads "found automatically" - cosmetic, until the next rediscovery
+      makes it true.
+- [ ] `DeviceAPI.resolveLocalNameMDNS` has no timeout on its `client.lookup` stream, so an
+      mDNS query nobody answers can hang indefinitely and the guarded `_deviceWorker` flag
+      then keeps that device from being polled again. Pre-existing, but `resolveHost`
+      (58897467) reaches it in more situations than before.
 
 ## Done during the 2026-09-08 session (for reference)
 
