@@ -34,12 +34,18 @@ class LocalAlertSettings extends Equatable {
   final double humiMin;
   final double humiMax;
 
+  /// Opt-in: notify when the controller's restart counter goes up between polls
+  /// (a reboot while you are away). Off by default so existing users are not
+  /// surprised by a new alarm; only checked while [enabled] is also true.
+  final bool rebootAlertEnabled;
+
   const LocalAlertSettings({
     this.enabled = false,
     this.tempMin = defaultTempMin,
     this.tempMax = defaultTempMax,
     this.humiMin = defaultHumiMin,
     this.humiMax = defaultHumiMax,
+    this.rebootAlertEnabled = false,
   });
 
   factory LocalAlertSettings.fromMap(Map<String, dynamic>? map) {
@@ -52,6 +58,7 @@ class LocalAlertSettings extends Equatable {
       tempMax: _number(map['tempMax'], defaultTempMax),
       humiMin: _number(map['humiMin'], defaultHumiMin),
       humiMax: _number(map['humiMax'], defaultHumiMax),
+      rebootAlertEnabled: map['rebootAlertEnabled'] == true,
     );
   }
 
@@ -68,6 +75,7 @@ class LocalAlertSettings extends Equatable {
         'tempMax': tempMax,
         'humiMin': humiMin,
         'humiMax': humiMax,
+        'rebootAlertEnabled': rebootAlertEnabled,
       };
 
   LocalAlertSettings copyWith({
@@ -76,6 +84,7 @@ class LocalAlertSettings extends Equatable {
     double? tempMax,
     double? humiMin,
     double? humiMax,
+    bool? rebootAlertEnabled,
   }) =>
       LocalAlertSettings(
         enabled: enabled ?? this.enabled,
@@ -83,8 +92,9 @@ class LocalAlertSettings extends Equatable {
         tempMax: tempMax ?? this.tempMax,
         humiMin: humiMin ?? this.humiMin,
         humiMax: humiMax ?? this.humiMax,
+        rebootAlertEnabled: rebootAlertEnabled ?? this.rebootAlertEnabled,
       );
 
   @override
-  List<Object?> get props => [enabled, tempMin, tempMax, humiMin, humiMax];
+  List<Object?> get props => [enabled, tempMin, tempMax, humiMin, humiMax, rebootAlertEnabled];
 }

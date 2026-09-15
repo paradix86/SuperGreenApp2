@@ -118,14 +118,120 @@ void main() {
     });
   });
 
+  group('LocalAlertsEvaluator reboot alarm', () {
+    const LocalAlertSettings rebootLimits = LocalAlertSettings(
+        enabled: true, tempMin: 18, tempMax: 28, humiMin: 40, humiMax: 75, rebootAlertEnabled: true);
+
+    test('only seeds the counter on the first reading, no alert', () {
+      final LocalAlertOutcome out =
+          LocalAlertsEvaluator.onReading(rebootLimits, const LocalAlertState(), temp: 25, humi: 60, nRestarts: 42, now: t0);
+
+      expect(out.events, isEmpty);
+      expect(out.state.lastRestarts, 42);
+    });
+
+    test('fires once when the restart counter goes up', () {
+      final LocalAlertState seeded = LocalAlertsEvaluator.onReading(rebootLimits, const LocalAlertState(),
+              temp: 25, humi: 60, nRestarts: 42, now: t0)
+          .state;
+
+      final LocalAlertOutcome out = LocalAlertsEvaluator.onReading(rebootLimits, seeded,
+          temp: 25, humi: 60, nRestarts: 43, now: t0.add(const Duration(minutes: 1)));
+
+      expect(out.events, [const LocalAlertEvent(LocalAlertMetric.reboot, active: true, value: 43)]);
+      expect(out.state.lastRestarts, 43);
+    });
+
+    test('does not re-fire while the counter holds steady', () {
+      LocalAlertState state =
+          LocalAlertsEvaluator.onReading(rebootLimits, const LocalAlertState(), temp: 25, humi: 60, nRestarts: 42, now: t0)
+              .state;
+      state = LocalAlertsEvaluator.onReading(rebootLimits, state, temp: 25, humi: 60, nRestarts: 43, now: t0).state;
+
+      final LocalAlertOutcome out =
+          LocalAlertsEvaluator.onReading(rebootLimits, state, temp: 25, humi: 60, nRestarts: 43, now: t0);
+
+      expect(out.events, isEmpty);
+      expect(out.state.lastRestarts, 43);
+    });
+
+    test('follows a counter that reset lower without firing', () {
+      final LocalAlertState seeded =
+          LocalAlertsEvaluator.onReading(rebootLimits, const LocalAlertState(), temp: 25, humi: 60, nRestarts: 43, now: t0)
+              .state;
+
+      final LocalAlertOutcome out =
+          LocalAlertsEvaluator.onReading(rebootLimits, seeded, temp: 25, humi: 60, nRestarts: 1, now: t0);
+
+      expect(out.events, isEmpty);
+      expect(out.state.lastRestarts, 1);
+    });
+
+    test('keeps the last count when a poll cannot read it (null)', () {
+      final LocalAlertState seeded =
+          LocalAlertsEvaluator.onReading(rebootLimits, const LocalAlertState(), temp: 25, humi: 60, nRestarts: 42, now: t0)
+              .state;
+
+      final LocalAlertOutcome out =
+          LocalAlertsEvaluator.onReading(rebootLimits, seeded, temp: 25, humi: 60, nRestarts: null, now: t0);
+
+      expect(out.events, isEmpty);
+      expect(out.state.lastRestarts, 42);
+    });
+
+    test('preserves the count across an outage and fires when it returns higher', () {
+      LocalAlertState state =
+          LocalAlertsEvaluator.onReading(rebootLimits, const LocalAlertState(), temp: 25, humi: 60, nRestarts: 42, now: t0)
+              .state;
+      state = LocalAlertsEvaluator.onUnreachable(state, now: t0.add(const Duration(minutes: 1))).state;
+      expect(state.lastRestarts, 42);
+
+      final LocalAlertOutcome out = LocalAlertsEvaluator.onReading(rebootLimits, state,
+          temp: 25, humi: 60, nRestarts: 43, now: t0.add(const Duration(minutes: 2)));
+
+      expect(out.events, [const LocalAlertEvent(LocalAlertMetric.reboot, active: true, value: 43)]);
+    });
+
+    test('does nothing when the reboot alarm is off', () {
+      final LocalAlertState seeded =
+          LocalAlertsEvaluator.onReading(limits, const LocalAlertState(), temp: 25, humi: 60, nRestarts: 42, now: t0)
+              .state;
+      expect(seeded.lastRestarts, isNull);
+
+      final LocalAlertOutcome out =
+          LocalAlertsEvaluator.onReading(limits, seeded, temp: 25, humi: 60, nRestarts: 43, now: t0);
+
+      expect(out.events, isEmpty);
+    });
+
+    test('forgets the counter while off, so re-enabling seeds fresh without firing', () {
+      // Watched and seeded at 42.
+      LocalAlertState state =
+          LocalAlertsEvaluator.onReading(rebootLimits, const LocalAlertState(), temp: 25, humi: 60, nRestarts: 42, now: t0)
+              .state;
+      // Turned off: history is cleared even though a reading came in.
+      state = LocalAlertsEvaluator.onReading(limits, state, temp: 25, humi: 60, nRestarts: 42, now: t0).state;
+      expect(state.lastRestarts, isNull);
+
+      // Re-enabled after reboots happened while off: the first read re-seeds and
+      // does not fire for the now-stale increase.
+      final LocalAlertOutcome out =
+          LocalAlertsEvaluator.onReading(rebootLimits, state, temp: 25, humi: 60, nRestarts: 45, now: t0);
+
+      expect(out.events, isEmpty);
+      expect(out.state.lastRestarts, 45);
+    });
+  });
+
   group('LocalAlertSettings', () {
     test('round-trips through a map and falls back to defaults', () {
-      const LocalAlertSettings s =
-          LocalAlertSettings(enabled: true, tempMin: 20, tempMax: 27, humiMin: 45, humiMax: 70);
+      const LocalAlertSettings s = LocalAlertSettings(
+          enabled: true, tempMin: 20, tempMax: 27, humiMin: 45, humiMax: 70, rebootAlertEnabled: true);
 
       expect(LocalAlertSettings.fromMap(s.toMap()), s);
       expect(LocalAlertSettings.fromMap(null), const LocalAlertSettings());
       expect(LocalAlertSettings.fromMap({'tempMin': 'x'}).tempMin, LocalAlertSettings.defaultTempMin);
+      expect(LocalAlertSettings.fromMap({}).rebootAlertEnabled, isFalse);
     });
   });
 }

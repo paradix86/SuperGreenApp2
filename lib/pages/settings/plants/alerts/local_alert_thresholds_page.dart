@@ -93,6 +93,8 @@ class _LocalAlertThresholdsPageState extends State<LocalAlertThresholdsPage> {
                 const SizedBox(height: 12),
                 _buildHumidityCard(context),
                 const SizedBox(height: 12),
+                _buildRebootCard(context, box),
+                const SizedBox(height: 12),
                 _buildBatteryCard(context),
                 const SizedBox(height: 24),
                 SglFilledGreenButton(
@@ -173,6 +175,37 @@ class _LocalAlertThresholdsPageState extends State<LocalAlertThresholdsPage> {
       high: _settings.humiMax,
       format: (double v) => v.toStringAsFixed(0),
       onChanged: (RangeValues v) => setState(() => _settings = _settings.copyWith(humiMin: v.start, humiMax: v.end)),
+    );
+  }
+
+  Widget _buildRebootCard(BuildContext context, Box box) {
+    final SglColors c = context.sgl;
+    final TextTheme t = Theme.of(context).textTheme;
+    final bool hasController = box.device != null;
+    return SglCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.restart_alt, color: _settings.rebootAlertEnabled && hasController ? c.accent : c.ink3),
+              const SizedBox(width: 10),
+              Expanded(child: Text('Reboot alert', style: t.titleMedium?.copyWith(color: c.ink))),
+              Switch(
+                value: _settings.rebootAlertEnabled && hasController,
+                onChanged:
+                    hasController ? (v) => setState(() => _settings = _settings.copyWith(rebootAlertEnabled: v)) : null,
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Notify me when the controller restarts unexpectedly - a crash, a brownout or a power blip while I am away. '
+            'The phone reads the controller\'s restart counter each poll and warns when it goes up.',
+            style: t.bodyMedium?.copyWith(color: c.ink2, height: 1.4),
+          ),
+        ],
+      ),
     );
   }
 

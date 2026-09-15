@@ -24,6 +24,7 @@ import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:super_green_app/data/api/device/device_dash.dart';
+import 'package:super_green_app/data/api/device/device_status.dart';
 import 'package:super_green_app/local_alerts/local_alerts_config.dart';
 import 'package:super_green_app/local_alerts/local_alerts_evaluator.dart';
 import 'package:super_green_app/notifications/model.dart';
@@ -201,14 +202,21 @@ class _Watcher {
       final DeviceDash dash = await _fetchDash(target.deviceIp);
       final int prefixIndex = target.boxIndex;
       if (dash.intValues['BOX_${prefixIndex}_ENABLED'] == 0) {
-        // A box switched off is not growing: nothing to alert about.
-        _states[target.boxId] = const LocalAlertState();
+        // A box switched off is not growing: nothing to alert about. Keep the
+        // restart counter though - a reboot is controller-wide, and a controller
+        // can briefly report a box disabled around its own boot, which must not
+        // reset the counter and swallow the reboot on the next enabled poll.
+        _states[target.boxId] = LocalAlertState(lastRestarts: previous.lastRestarts);
         return;
       }
       final double? temp = dash.intValues['BOX_${prefixIndex}_TEMP']?.toDouble();
       final double? humi = dash.intValues['BOX_${prefixIndex}_HUMI']?.toDouble();
-      _log('${target.label}: temp=$temp humi=$humi limits ${target.alerts.tempMin}-${target.alerts.tempMax}');
-      outcome = LocalAlertsEvaluator.onReading(target.alerts, previous, temp: temp, humi: humi, now: now);
+      // Only pay for the second request when the reboot alarm is on: n_restarts
+      // lives on /mqttdiag, not /dash. A failed or absent /mqttdiag leaves it
+      // null, which the evaluator treats as "no reading this poll".
+      final int? nRestarts = target.alerts.rebootAlertEnabled ? await _fetchRestarts(target.deviceIp) : null;
+      _log('${target.label}: temp=$temp humi=$humi restarts=$nRestarts limits ${target.alerts.tempMin}-${target.alerts.tempMax}');
+      outcome = LocalAlertsEvaluator.onReading(target.alerts, previous, temp: temp, humi: humi, nRestarts: nRestarts, now: now);
     } catch (e) {
       _log('${target.label}: poll failed: $e');
       outcome = LocalAlertsEvaluator.onUnreachable(previous, now: now);
@@ -217,6 +225,32 @@ class _Watcher {
     _log('${target.label}: active=${outcome.state.active} events=${outcome.events.length}');
     for (final LocalAlertEvent event in outcome.events) {
       await _notify(target, event);
+    }
+  }
+
+  /// Best-effort read of the controller's restart counter from `/mqttdiag`.
+  /// Returns null on any failure or on a firmware that does not report it, so a
+  /// missing diag endpoint never turns into a false "unreachable" for the box.
+  Future<int?> _fetchRestarts(String ip) async {
+    final HttpClient client = HttpClient()..connectionTimeout = LocalAlertsService.requestTimeout;
+    try {
+      final HttpClientRequest request =
+          await client.getUrl(Uri.parse('http://$ip/mqttdiag')).timeout(LocalAlertsService.requestTimeout);
+      final HttpClientResponse response = await request.close().timeout(LocalAlertsService.requestTimeout);
+      if (response.statusCode != 200) {
+        return null;
+      }
+      final String body = await response.transform(utf8.decoder).join().timeout(LocalAlertsService.requestTimeout);
+      final dynamic decoded = json.decode(body);
+      if (decoded is! Map<String, dynamic>) {
+        return null;
+      }
+      return DeviceStatus.fromJson(decoded).nRestarts;
+    } catch (e) {
+      _log('mqttdiag fetch failed for $ip: $e');
+      return null;
+    } finally {
+      client.close(force: true);
     }
   }
 
@@ -277,6 +311,8 @@ class _Watcher {
         return event.active ? '${target.label}: humidity out of range' : '${target.label}: humidity back to normal';
       case LocalAlertMetric.reachability:
         return event.active ? '${target.label}: controller unreachable' : '${target.label}: controller back online';
+      case LocalAlertMetric.reboot:
+        return '${target.label}: controller rebooted';
     }
   }
 
@@ -296,6 +332,8 @@ class _Watcher {
         return event.active
             ? 'No answer from ${target.deviceName} (${target.deviceIp}) for $minutes min. Power, Wi-Fi or VPN?'
             : '${target.deviceName} answers again.';
+      case LocalAlertMetric.reboot:
+        return '${target.deviceName} restarted (now ${event.value!.round()} restarts). Check its power and stability.';
     }
   }
 
