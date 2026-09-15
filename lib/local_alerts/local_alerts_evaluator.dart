@@ -20,7 +20,7 @@ import 'package:super_green_app/local_alerts/local_alert_settings.dart';
 
 /// Which reading an alert is about. New values are appended so the notification
 /// id scheme (`metric.index`) stays stable for the existing metrics.
-enum LocalAlertMetric { temperature, humidity, reachability, reboot }
+enum LocalAlertMetric { temperature, humidity, reachability, reboot, vpd, co2 }
 
 /// One notification the service should show.
 class LocalAlertEvent extends Equatable {
@@ -94,6 +94,8 @@ class LocalAlertsEvaluator {
     LocalAlertState previous, {
     double? temp,
     double? humi,
+    double? vpd,
+    double? co2,
     int? nRestarts,
     required DateTime now,
   }) {
@@ -109,6 +111,21 @@ class LocalAlertsEvaluator {
 
     _evaluateMetric(LocalAlertMetric.temperature, temp, limits.tempMin, limits.tempMax, now, notified, active, events);
     _evaluateMetric(LocalAlertMetric.humidity, humi, limits.humiMin, limits.humiMax, now, notified, active, events);
+    // VPD and CO2 are opt-in. When on, evaluate like any range (a null reading -
+    // no sensor - is skipped inside _evaluateMetric); when off, forget the metric
+    // silently so it neither lingers "active" nor fires a spurious back-to-normal.
+    if (limits.vpdAlertEnabled) {
+      _evaluateMetric(LocalAlertMetric.vpd, vpd, limits.vpdMin, limits.vpdMax, now, notified, active, events);
+    } else {
+      active.remove(LocalAlertMetric.vpd);
+      notified.remove(LocalAlertMetric.vpd);
+    }
+    if (limits.co2AlertEnabled) {
+      _evaluateMetric(LocalAlertMetric.co2, co2, limits.co2Min, limits.co2Max, now, notified, active, events);
+    } else {
+      active.remove(LocalAlertMetric.co2);
+      notified.remove(LocalAlertMetric.co2);
+    }
     final int? lastRestarts = _evaluateReboot(limits, previous.lastRestarts, nRestarts, events);
 
     return LocalAlertOutcome(

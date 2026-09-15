@@ -50,6 +50,12 @@ class _LocalAlertThresholdsPageState extends State<LocalAlertThresholdsPage> {
   static const double _tempStep = 0.5;
   static const double _humiFloor = 0;
   static const double _humiCeil = 100;
+  static const double _vpdFloor = 0;
+  static const double _vpdCeil = 3;
+  static const double _vpdStep = 0.1;
+  static const double _co2Floor = 0;
+  static const double _co2Ceil = 2000;
+  static const double _co2Step = 50;
 
   Box? _box;
   LocalAlertSettings _settings = const LocalAlertSettings();
@@ -92,6 +98,10 @@ class _LocalAlertThresholdsPageState extends State<LocalAlertThresholdsPage> {
                 _buildTemperatureCard(context),
                 const SizedBox(height: 12),
                 _buildHumidityCard(context),
+                const SizedBox(height: 12),
+                _buildVpdCard(context),
+                const SizedBox(height: 12),
+                _buildCo2Card(context),
                 const SizedBox(height: 12),
                 _buildRebootCard(context, box),
                 const SizedBox(height: 12),
@@ -175,6 +185,38 @@ class _LocalAlertThresholdsPageState extends State<LocalAlertThresholdsPage> {
       high: _settings.humiMax,
       format: (double v) => v.toStringAsFixed(0),
       onChanged: (RangeValues v) => setState(() => _settings = _settings.copyWith(humiMin: v.start, humiMax: v.end)),
+    );
+  }
+
+  Widget _buildVpdCard(BuildContext context) {
+    return _RangeCard(
+      title: 'VPD',
+      unit: 'kPa',
+      floor: _vpdFloor,
+      ceil: _vpdCeil,
+      divisions: ((_vpdCeil - _vpdFloor) / _vpdStep).round(),
+      low: _settings.vpdMin,
+      high: _settings.vpdMax,
+      format: (double v) => v.toStringAsFixed(1),
+      enabled: _settings.vpdAlertEnabled,
+      onEnabledChanged: (bool v) => setState(() => _settings = _settings.copyWith(vpdAlertEnabled: v)),
+      onChanged: (RangeValues v) => setState(() => _settings = _settings.copyWith(vpdMin: v.start, vpdMax: v.end)),
+    );
+  }
+
+  Widget _buildCo2Card(BuildContext context) {
+    return _RangeCard(
+      title: 'CO2',
+      unit: 'ppm',
+      floor: _co2Floor,
+      ceil: _co2Ceil,
+      divisions: ((_co2Ceil - _co2Floor) / _co2Step).round(),
+      low: _settings.co2Min,
+      high: _settings.co2Max,
+      format: (double v) => v.round().toString(),
+      enabled: _settings.co2AlertEnabled,
+      onEnabledChanged: (bool v) => setState(() => _settings = _settings.copyWith(co2AlertEnabled: v)),
+      onChanged: (RangeValues v) => setState(() => _settings = _settings.copyWith(co2Min: v.start, co2Max: v.end)),
     );
   }
 
@@ -294,6 +336,12 @@ class _RangeCard extends StatelessWidget {
   final String Function(double) format;
   final ValueChanged<RangeValues> onChanged;
 
+  /// When null the card is always active (temperature, humidity). When non-null
+  /// the card is opt-in: a switch in the header toggles it and the range is only
+  /// shown while on.
+  final bool? enabled;
+  final ValueChanged<bool>? onEnabledChanged;
+
   const _RangeCard({
     required this.title,
     required this.unit,
@@ -304,12 +352,16 @@ class _RangeCard extends StatelessWidget {
     required this.high,
     required this.format,
     required this.onChanged,
+    this.enabled,
+    this.onEnabledChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     final SglColors c = context.sgl;
     final TextTheme t = Theme.of(context).textTheme;
+    final bool optIn = enabled != null;
+    final bool on = enabled ?? true;
     return SglCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -317,27 +369,32 @@ class _RangeCard extends StatelessWidget {
           Row(
             children: [
               Expanded(child: Text(title, style: t.titleMedium?.copyWith(color: c.ink))),
-              Text(
-                '${format(low)} – ${format(high)} $unit',
-                style: SglTextStyles.reading.copyWith(color: c.accent, fontSize: 18),
-              ),
+              if (on)
+                Text(
+                  '${format(low)} – ${format(high)} $unit',
+                  style: SglTextStyles.reading.copyWith(color: c.accent, fontSize: 18),
+                ),
+              if (optIn)
+                Switch(value: on, onChanged: onEnabledChanged),
             ],
           ),
-          const SizedBox(height: 4),
-          Text('Alert below the first value or above the second.', style: t.bodySmall?.copyWith(color: c.ink3)),
-          RangeSlider(
-            values: RangeValues(low.clamp(floor, ceil), high.clamp(floor, ceil)),
-            min: floor,
-            max: ceil,
-            divisions: divisions,
-            labels: RangeLabels(format(low), format(high)),
-            onChanged: (RangeValues v) {
-              if (v.end - v.start < (ceil - floor) / divisions) {
-                return;
-              }
-              onChanged(v);
-            },
-          ),
+          if (on) ...[
+            const SizedBox(height: 4),
+            Text('Alert below the first value or above the second.', style: t.bodySmall?.copyWith(color: c.ink3)),
+            RangeSlider(
+              values: RangeValues(low.clamp(floor, ceil), high.clamp(floor, ceil)),
+              min: floor,
+              max: ceil,
+              divisions: divisions,
+              labels: RangeLabels(format(low), format(high)),
+              onChanged: (RangeValues v) {
+                if (v.end - v.start < (ceil - floor) / divisions) {
+                  return;
+                }
+                onChanged(v);
+              },
+            ),
+          ],
         ],
       ),
     );

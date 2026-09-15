@@ -28,6 +28,13 @@ class LocalAlertSettings extends Equatable {
   static const double defaultHumiMin = 40;
   static const double defaultHumiMax = 75;
 
+  /// VPD in kPa, CO2 in ppm. Sensible ranges for a grow, but both alarms are
+  /// off by default (see below).
+  static const double defaultVpdMin = 0.8;
+  static const double defaultVpdMax = 1.6;
+  static const double defaultCo2Min = 400;
+  static const double defaultCo2Max = 1500;
+
   final bool enabled;
   final double tempMin;
   final double tempMax;
@@ -39,6 +46,16 @@ class LocalAlertSettings extends Equatable {
   /// surprised by a new alarm; only checked while [enabled] is also true.
   final bool rebootAlertEnabled;
 
+  /// Opt-in VPD (kPa) and CO2 (ppm) range alarms. Off by default: VPD suits a
+  /// range only some growers watch, and CO2 needs a sensor the box may not have
+  /// (an absent CO2 sensor reads 0, which a min would fire on endlessly).
+  final bool vpdAlertEnabled;
+  final double vpdMin;
+  final double vpdMax;
+  final bool co2AlertEnabled;
+  final double co2Min;
+  final double co2Max;
+
   const LocalAlertSettings({
     this.enabled = false,
     this.tempMin = defaultTempMin,
@@ -46,6 +63,12 @@ class LocalAlertSettings extends Equatable {
     this.humiMin = defaultHumiMin,
     this.humiMax = defaultHumiMax,
     this.rebootAlertEnabled = false,
+    this.vpdAlertEnabled = false,
+    this.vpdMin = defaultVpdMin,
+    this.vpdMax = defaultVpdMax,
+    this.co2AlertEnabled = false,
+    this.co2Min = defaultCo2Min,
+    this.co2Max = defaultCo2Max,
   });
 
   factory LocalAlertSettings.fromMap(Map<String, dynamic>? map) {
@@ -59,6 +82,12 @@ class LocalAlertSettings extends Equatable {
       humiMin: _number(map['humiMin'], defaultHumiMin),
       humiMax: _number(map['humiMax'], defaultHumiMax),
       rebootAlertEnabled: map['rebootAlertEnabled'] == true,
+      vpdAlertEnabled: map['vpdAlertEnabled'] == true,
+      vpdMin: _number(map['vpdMin'], defaultVpdMin),
+      vpdMax: _number(map['vpdMax'], defaultVpdMax),
+      co2AlertEnabled: map['co2AlertEnabled'] == true,
+      co2Min: _number(map['co2Min'], defaultCo2Min),
+      co2Max: _number(map['co2Max'], defaultCo2Max),
     );
   }
 
@@ -76,6 +105,12 @@ class LocalAlertSettings extends Equatable {
         'humiMin': humiMin,
         'humiMax': humiMax,
         'rebootAlertEnabled': rebootAlertEnabled,
+        'vpdAlertEnabled': vpdAlertEnabled,
+        'vpdMin': vpdMin,
+        'vpdMax': vpdMax,
+        'co2AlertEnabled': co2AlertEnabled,
+        'co2Min': co2Min,
+        'co2Max': co2Max,
       };
 
   LocalAlertSettings copyWith({
@@ -85,6 +120,12 @@ class LocalAlertSettings extends Equatable {
     double? humiMin,
     double? humiMax,
     bool? rebootAlertEnabled,
+    bool? vpdAlertEnabled,
+    double? vpdMin,
+    double? vpdMax,
+    bool? co2AlertEnabled,
+    double? co2Min,
+    double? co2Max,
   }) =>
       LocalAlertSettings(
         enabled: enabled ?? this.enabled,
@@ -93,8 +134,27 @@ class LocalAlertSettings extends Equatable {
         humiMin: humiMin ?? this.humiMin,
         humiMax: humiMax ?? this.humiMax,
         rebootAlertEnabled: rebootAlertEnabled ?? this.rebootAlertEnabled,
+        vpdAlertEnabled: vpdAlertEnabled ?? this.vpdAlertEnabled,
+        vpdMin: vpdMin ?? this.vpdMin,
+        vpdMax: vpdMax ?? this.vpdMax,
+        co2AlertEnabled: co2AlertEnabled ?? this.co2AlertEnabled,
+        co2Min: co2Min ?? this.co2Min,
+        co2Max: co2Max ?? this.co2Max,
       );
 
   @override
-  List<Object?> get props => [enabled, tempMin, tempMax, humiMin, humiMax, rebootAlertEnabled];
+  List<Object?> get props => [
+        enabled,
+        tempMin,
+        tempMax,
+        humiMin,
+        humiMax,
+        rebootAlertEnabled,
+        vpdAlertEnabled,
+        vpdMin,
+        vpdMax,
+        co2AlertEnabled,
+        co2Min,
+        co2Max,
+      ];
 }

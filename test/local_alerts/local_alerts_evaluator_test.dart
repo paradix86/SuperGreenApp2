@@ -223,6 +223,55 @@ void main() {
     });
   });
 
+  group('LocalAlertsEvaluator VPD/CO2 opt-in alarms', () {
+    const LocalAlertSettings vpdOn = LocalAlertSettings(
+        enabled: true, vpdAlertEnabled: true, vpdMin: 0.8, vpdMax: 1.6);
+    const LocalAlertSettings co2On = LocalAlertSettings(
+        enabled: true, co2AlertEnabled: true, co2Min: 400, co2Max: 1500);
+
+    test('ignores VPD and CO2 while their alarms are off', () {
+      final LocalAlertOutcome out = LocalAlertsEvaluator.onReading(limits, const LocalAlertState(),
+          temp: 25, humi: 60, vpd: 3.0, co2: 5000, now: t0);
+
+      expect(out.events, isEmpty);
+    });
+
+    test('fires VPD only when its alarm is on and it leaves the range', () {
+      final LocalAlertOutcome out =
+          LocalAlertsEvaluator.onReading(vpdOn, const LocalAlertState(), temp: 25, humi: 60, vpd: 2.1, now: t0);
+
+      expect(out.events, [const LocalAlertEvent(LocalAlertMetric.vpd, active: true, value: 2.1)]);
+    });
+
+    test('fires CO2 when it leaves the range', () {
+      final LocalAlertOutcome out =
+          LocalAlertsEvaluator.onReading(co2On, const LocalAlertState(), temp: 25, humi: 60, co2: 300, now: t0);
+
+      expect(out.events, [const LocalAlertEvent(LocalAlertMetric.co2, active: true, value: 300)]);
+    });
+
+    test('skips a null reading (no sensor) even with the alarm on', () {
+      final LocalAlertOutcome out =
+          LocalAlertsEvaluator.onReading(co2On, const LocalAlertState(), temp: 25, humi: 60, co2: null, now: t0);
+
+      expect(out.events, isEmpty);
+      expect(out.state.isActive(LocalAlertMetric.co2), isFalse);
+    });
+
+    test('forgets an active VPD alert silently when the alarm is turned off', () {
+      final LocalAlertState active =
+          LocalAlertsEvaluator.onReading(vpdOn, const LocalAlertState(), temp: 25, humi: 60, vpd: 2.1, now: t0).state;
+      expect(active.isActive(LocalAlertMetric.vpd), isTrue);
+
+      // Same box, VPD alarm now off: no back-to-normal notification, state cleared.
+      final LocalAlertOutcome out =
+          LocalAlertsEvaluator.onReading(limits, active, temp: 25, humi: 60, vpd: 2.1, now: t0);
+
+      expect(out.events, isEmpty);
+      expect(out.state.isActive(LocalAlertMetric.vpd), isFalse);
+    });
+  });
+
   group('LocalAlertSettings', () {
     test('round-trips through a map and falls back to defaults', () {
       const LocalAlertSettings s = LocalAlertSettings(

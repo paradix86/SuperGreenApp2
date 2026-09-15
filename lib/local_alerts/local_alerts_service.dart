@@ -211,12 +211,20 @@ class _Watcher {
       }
       final double? temp = dash.intValues['BOX_${prefixIndex}_TEMP']?.toDouble();
       final double? humi = dash.intValues['BOX_${prefixIndex}_HUMI']?.toDouble();
+      // VPD is reported ×100 (an integer kPa·100). CO2 is ppm. A zero for either
+      // means the sensor is absent, not a real reading, so treat it as null and
+      // let the evaluator skip it - a box with the CO2 alarm on but no sensor
+      // must not alarm on a constant 0.
+      final int? vpdRaw = _nonZero(dash.intValues['BOX_${prefixIndex}_VPD']);
+      final double? vpd = vpdRaw == null ? null : vpdRaw / 100.0;
+      final double? co2 = _nonZero(dash.intValues['BOX_${prefixIndex}_CO2'])?.toDouble();
       // Only pay for the second request when the reboot alarm is on: n_restarts
       // lives on /mqttdiag, not /dash. A failed or absent /mqttdiag leaves it
       // null, which the evaluator treats as "no reading this poll".
       final int? nRestarts = target.alerts.rebootAlertEnabled ? await _fetchRestarts(target.deviceIp) : null;
-      _log('${target.label}: temp=$temp humi=$humi restarts=$nRestarts limits ${target.alerts.tempMin}-${target.alerts.tempMax}');
-      outcome = LocalAlertsEvaluator.onReading(target.alerts, previous, temp: temp, humi: humi, nRestarts: nRestarts, now: now);
+      _log('${target.label}: temp=$temp humi=$humi vpd=$vpd co2=$co2 restarts=$nRestarts limits ${target.alerts.tempMin}-${target.alerts.tempMax}');
+      outcome = LocalAlertsEvaluator.onReading(target.alerts, previous,
+          temp: temp, humi: humi, vpd: vpd, co2: co2, nRestarts: nRestarts, now: now);
     } catch (e) {
       _log('${target.label}: poll failed: $e');
       outcome = LocalAlertsEvaluator.onUnreachable(previous, now: now);
@@ -227,6 +235,10 @@ class _Watcher {
       await _notify(target, event);
     }
   }
+
+  /// A zero reading from a computed/optional sensor (VPD, CO2) means the sensor
+  /// is absent, not a real value: map it to null so the alarm skips it.
+  static int? _nonZero(int? value) => (value == null || value == 0) ? null : value;
 
   /// Best-effort read of the controller's restart counter from `/mqttdiag`.
   /// Returns null on any failure or on a firmware that does not report it, so a
@@ -309,6 +321,10 @@ class _Watcher {
             : '${target.label}: temperature back to normal';
       case LocalAlertMetric.humidity:
         return event.active ? '${target.label}: humidity out of range' : '${target.label}: humidity back to normal';
+      case LocalAlertMetric.vpd:
+        return event.active ? '${target.label}: VPD out of range' : '${target.label}: VPD back to normal';
+      case LocalAlertMetric.co2:
+        return event.active ? '${target.label}: CO2 out of range' : '${target.label}: CO2 back to normal';
       case LocalAlertMetric.reachability:
         return event.active ? '${target.label}: controller unreachable' : '${target.label}: controller back online';
       case LocalAlertMetric.reboot:
@@ -327,6 +343,13 @@ class _Watcher {
       case LocalAlertMetric.humidity:
         final String range = '${target.alerts.humiMin.round()} – ${target.alerts.humiMax.round()} %';
         return 'Now ${event.value!.round()} %, limits $range.';
+      case LocalAlertMetric.vpd:
+        final String range =
+            '${target.alerts.vpdMin.toStringAsFixed(1)} – ${target.alerts.vpdMax.toStringAsFixed(1)} kPa';
+        return 'Now ${event.value!.toStringAsFixed(2)} kPa, limits $range.';
+      case LocalAlertMetric.co2:
+        final String range = '${target.alerts.co2Min.round()} – ${target.alerts.co2Max.round()} ppm';
+        return 'Now ${event.value!.round()} ppm, limits $range.';
       case LocalAlertMetric.reachability:
         final int minutes = LocalAlertsEvaluator.unreachableAfter.inMinutes;
         return event.active
