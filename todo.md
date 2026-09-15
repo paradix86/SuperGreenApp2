@@ -180,11 +180,23 @@ via `SIGN_KEY`), publishes Home Assistant MQTT discovery, state every 30 s, diag
       that is off for two days leaves a two-day hole. No code needed: the firmware already
       publishes state + diag over MQTT with HA discovery, so Home Assistant (or
       Telegraf+InfluxDB) on the broker closes this. Infrastructure, low.
-- [ ] Alerts too narrow and phone-bound. `LocalAlertSettings` covers only temp/humidity
-      min/max. Missing VPD, CO2, weight, and above all "light is not on when the schedule says
-      it should be" (`BOX_N_TIMER_OUTPUT` vs `ONOFF_*`) and "controller rebooted" (`n_restarts`)
-      - exactly the alarms that matter when away. App (low) for extra thresholds; broker-side
-      alerting (medium) is the variant that survives a dead phone.
+- [~] Alerts too narrow and phone-bound. `LocalAlertSettings` covered only temp/humidity min/max.
+      **Done: "controller rebooted" (app e3d2ad14).** Opt-in `rebootAlertEnabled`; the watcher
+      also reads `/mqttdiag` each poll and fires once when `n_restarts` goes up. Edge event in
+      the pure evaluator (fires on increase, no back-to-normal, seeds silently, follows a
+      counter reset, survives an outage, forgets while off). Extra fetch only when enabled;
+      7 new unit tests. Known limit: n_restarts is controller-wide but state per-box, so two
+      boxes on one controller both watching get two notifications - no per-ip fetch cache yet.
+      **Not done, and why:**
+      - "Light not on when scheduled" was investigated and deliberately skipped: the precise
+        "inside the on-window" check needs the controller's local time, which the phone cannot
+        get cleanly (`/dash` gives UTC epoch, no TZ; TIME_TZ is empty on this controller so
+        local==UTC, but that is not general). Plus `led_dim==0` is ambiguous (intentional empty
+        box vs fault), and the main failure it targets (timer task stuck) is now covered by the
+        light-path watchdog (fw f7d5d4a). High false-positive risk for low marginal value.
+      - VPD / CO2 / weight thresholds: trivial follow-up (same `_evaluateMetric`, data already in
+        `/dash`), just not requested this round. CO2/weight need the matching sensor to be useful.
+      - Broker-side alerting (survives a dead phone) is the bigger, separate medium item.
 - [~] (fw 44a6bea, not yet OTA'd) HA discovery was observe-only beyond sensor health.
       **Done for the light schedule:** each box's on hour and off hour are now HA `number`
       entities (0-23), settable from Home Assistant over the broker with no app/VPN. One
